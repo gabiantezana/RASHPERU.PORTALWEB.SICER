@@ -1,0 +1,263 @@
+﻿/* DEFAULTS
+----------------------------------------------------------*/
+
+body{
+	margin:0;
+	padding:10px 0 0 0;
+	font-size:12px;
+	font-family:verdana, Arial, Helvetica, sans-serif;
+	color:black;
+	background-color:white;
+    }
+
+h1, h2, h3, h4, h5, h6, p{
+	margin:0 0 20px 0;
+	padding:0 0 8px 0;
+	font-size:20px;
+	font-weight:normal;
+	font-family:Georgia, "Times New Roman", Times, serif;
+	border-bottom:1px dotted #DDDDDD;
+	}
+
+.pie
+{
+    font-family:Verdana, Arial, Helvetica, sans-serif;
+	display:block;
+	font-weight:bold;
+    font-size:10px;
+	color:gray;
+}
+
+label
+{
+    font-family:Verdana, Arial, Helvetica, sans-serif;
+	
+	font-weight:bold;
+    font-size:12px;
+}
+
+.bienvenido
+{
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	display:block;
+	font-weight:bold;
+    height: 8px;
+}
+	
+.header
+{    
+	width: 80%;
+	margin: 0 auto;
+}
+
+.header h1{
+	margin:0;
+	font-size:36px;
+	color:#059BD8;
+	border:none;
+	}
+	
+.header p{
+    display:block;
+	width:100%;
+	text-align:left;
+	line-height:normal;
+	margin:0;
+	padding:0;
+	font-size:10px;
+	color:gray;
+	}
+
+/*	
+img {
+	border: 1px solid #DADADA;
+	padding: 8px;
+	background: #FAFAFA;
+}
+*/
+
+/*grid*/
+table {
+	border-collapse: collapse;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+    margin-top: 0px;
+}
+th strong {
+	color: #fff;	
+}
+th {
+}
+tr {
+	height: 30px;
+}
+td {
+}
+td.first,th.first {
+}
+tr.row-a {
+}
+tr.row-b {
+}
+/*grid*/
+
+.topnav{
+	display:block;
+	float:left;
+	width:100%;
+	margin:0;
+	padding:0;
+	list-style:none;
+	font-size:13px;
+	font-weight:normal;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	color:#FFFFFF;
+	background-color:#000000;
+	}
+
+.topnav ul, .topnav li{
+	float:left;
+	list-style:none;
+	margin:0;
+	padding:0;
+	}
+
+.topnav li a:link, .topnav li a:visited, .topnav li a:hover{
+	display:block;
+	margin:0;
+	padding:15px 20px;
+	color:#FFFFFF;
+	background-color:#000000;
+	text-decoration: none;
+	}
+
+.topnav ul ul li a:link, .topnav ul ul li a:visited{
+	border:none;
+	}
+
+.topnav li.last a{
+	margin-right:0;
+	}
+
+.topnav li a:hover, .topnav ul li.active a{
+	color:#FFFFFF;
+	background-color:#059BD8;
+	}
+	
+.topnav li li a:link, #topnav li li a:visited{
+	width:150px;
+	float:none;
+	margin:0;
+	padding:7px 10px;
+	font-size:12px;
+	font-weight:normal;
+	color:#FFFFFF;
+	background-color:#000000;
+	}
+	
+.topnav li li a:hover{
+	color:#FFFFFF;
+	background-color:#059BD8;
+	}
+
+.topnav li ul{
+	background:#FFFFFF;
+	z-index:9999;
+	position:absolute;
+	left:-999em;
+	height:auto;
+	width:170px;
+	border-left:1px solid #FFFFFF;
+	border-bottom:1px solid #FFFFFF;
+	}
+
+.topnav li ul a{width:140px;}
+
+.topnav li ul ul{margin:-32px 0 0 0;}
+
+.topnav li:hover ul ul{left:-999em;}
+
+.topnav li:hover ul, .topnav li li:hover ul{left:auto;}
+
+.topnav li:hover{position:static;}
+
+.topnav li.last a{margin-right:0;}
+
+/* ---------- INCIO LOGIN-FORM ---------- */
+.login-form {
+	margin: 25px auto;
+	width: 300px;
+    height: 288px;
+}
+.login-form h3 {
+	background-color: #000000;
+	border-radius: 5px 5px 0 0;
+	color: #fff;
+	font-size: 14px;
+	padding: 15px;
+	text-align: center;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+}
+.login-form label { 
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	display:block;
+	font-weight:bold;
+    height: 19px;
+    width: 141px;
+}
+/* ---------- FINAL LOGIN-FORM ---------- */
+input.button { 
+	margin: 0; 
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	background: #059BD8; 
+	border-radius: 5px 5px 5px 5px;
+	padding: 5px 10px 5px 10px; 
+	color: #FFFFFF;	
+	border: 1px solid #DADADA;	
+    cursor: pointer;
+    }
+input.post  
+{
+    
+}
+.text { 
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+}
+.label { 
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+}
+
+/* ---------- INICIO AJAX ---------- */
+.MyCalendar .ajax__calendar_container {
+    border:1px solid #059BD8;
+    background-color: White;
+    color: Black;
+}
+.MyCalendar .ajax__calendar_header  {  
+    background-color: #059BD8;   
+    margin-bottom: 4px;  
+    color:White;
+} 
+.MyCalendar .ajax__calendar_footer   {  
+    background-color: #059BD8;   
+    margin-bottom: 4px;  
+    color:White;
+}  
+.MyCalendar .ajax__calendar_body 
+{
+    width:22em;
+    height:20em;
+}
+.MyCalendar .ajax__calendar_day
+{
+    color: Black;
+    font-weight: bold;
+}
+.MyCalendar .ajax__calendar_other .ajax__calendar_day
+{
+    color: Gray;
+    font-weight: bold;
+}
+/* ---------- FINAL AJAX ---------- */
+
+
+

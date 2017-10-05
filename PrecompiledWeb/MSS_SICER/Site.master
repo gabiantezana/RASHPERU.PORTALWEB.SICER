@@ -1,0 +1,134 @@
+﻿<%@ master language="C#" autoeventwireup="true" inherits="SiteMaster, App_Web_xeqlf2nl" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head runat="server">
+    <title></title>
+    <link href="~/Styles/Site.css" rel="stylesheet" type="text/css" />
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+    </asp:ContentPlaceHolder>
+    <style type="text/css">
+        .style1
+        {
+            width: 180px;
+            height: 70px;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        function ConfirmacionLiquidarCC() {
+
+            var seleccion = confirm("Esta seguro que desea liquidar esta Caja Chica ? esto es irreversible");
+
+            if (seleccion) {
+                alert("Se procederá con la contabilización y liquidación de la Caja Chica");
+               
+            }
+            else
+                alert("No se ha realizado la Contabilización ni la Liquidación de la Caja Chica");
+
+            //usado para que no haga postback el boton de asp.net cuando 
+            //no se acepte el confirm
+            return seleccion;
+
+        }
+
+        function ConfirmacionContabilizacion() {
+
+            var seleccion = confirm("¿Esta seguro que desea aprobar este documento ?");
+
+            if (seleccion) {
+                alert("Se procederá con la contabilización del documento");
+
+            }
+            else
+                alert("No se ha realizado la aprobacion del documento");
+
+            return seleccion;
+
+        }
+     
+    </script>
+</head>
+<body>
+
+ <form runat="server">
+  <div class="header">
+   <table width="100%">
+    <tr>
+     <td width="80%">
+      <h1>SICER</h1>
+      <p>Sistema de Integracion de Cajas Chicas, Entregas a Rendir y Reembolso</p></td>
+     <td width="80%" align="left"><img src="img/logo.png" /></td>
+    </tr>
+   </table>
+        
+   <div class="topbar">
+    <div class="wrapper">
+     <div class="topnav">
+      <ul>
+        <li><asp:LinkButton ID="lnkBienvenido" runat="server" Text="Bienvenido" OnClick="lnkBienvenido_Click"/></li>
+        <li><asp:LinkButton ID="lnkPerfil" runat="server" Text="Perfil"/></li>
+        <li>
+         <asp:LinkButton ID="lnkAdministrador" runat="server" Text="Administrador"/>
+         <ul>
+          <li><asp:LinkButton ID="lnkUsuario" runat="server" Text="Usuario" OnClick="lnkUsuario_Click"/></li>
+          <li><asp:LinkButton ID="lnkPerfilUsuario" runat="server" Text="Perfil Usuario" OnClick="lnkPerfilUsuario_Click"/></li>
+          <li><asp:LinkButton ID="lnkNivelAprobacion" runat="server" Text="Nivel Aprobacion" OnClick="lnkNivelAprobacion_Click"/></li>
+          <li><asp:LinkButton ID="lnkNivelSeguridad" runat="server" Text="Nivel Seguridad" OnClick="lnkNivelSeguridad_Click"/></li>
+         </ul>
+        </li>
+        <li><asp:LinkButton ID="lnkCajaChica" runat="server" Text="Caja Chica" OnClick="lnkCajaChica_Click" /></li>
+        <li><asp:LinkButton ID="lnkEntregaRendir" runat="server" Text="Entrega a Rendir" OnClick="lnkEntregaRendir_Click" /></li>
+        <li><asp:LinkButton ID="lnkReembolso" runat="server" Text="Reembolso" OnClick="lnkReembolso_Click" /></li>
+        <li><asp:LinkButton ID="lnkReporte" runat="server" Text="Reporte" OnClick="lnkReporte_Click"/></li>
+      </ul>
+     </div>            
+    </div>
+   </div>   
+
+   <table width="100%">
+    <tr>
+     <td width="100%" class="bienvenido" align="left">
+      <asp:Label ID="lbBienvenido" runat="server"></asp:Label>
+      <asp:LinkButton ID="lnkLogout" runat="server" Font-Overline="false" OnClick="lnkLogout_Click"></asp:LinkButton>
+     </td>
+     <td width="100%" class="bienvenido" align="left">      
+      <asp:LinkButton ID="lnkCambiar" runat="server" Font-Overline="false" OnClick="lnkCambiar_Click" Text=""></asp:LinkButton>  
+      <asp:TextBox ID="txtPassword" runat="server" Visible="false" ></asp:TextBox>    
+     </td>
+    </tr>
+   </table>
+        
+   <table width="100%">
+   <tr>
+   <td>
+    <%--<asp:UpdatePanel ID="upGrilla" runat="server">
+     <ContentTemplate>--%>
+      <asp:ContentPlaceHolder ID="MainContent" runat="server"/>
+     <%--</ContentTemplate>
+    </asp:UpdatePanel>--%>
+   </td>
+   </tr>
+   </table>
+   
+   <div class="pie">
+    <center>
+    <table width="100%" ><%--style=" border-top-color: Black; border-top-style: solid;"--%>
+     <tr>
+      <%--<td align="center">
+        Avenida Del Pinar 180 405 URB. Chacarilla Del Estanque
+      </td>--%>
+     </tr>
+    </table> 
+    </center>   
+   </div>
+  </div>
+    
+    
+  <div class="footer">
+  </div>
+ </form>
+</body>
+</html>

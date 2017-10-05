@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSS.TAWA.BC", "MSS.TAWA.BC\MSS.TAWA.BC.csproj", "{3FC8535E-C4E6-49D7-B68C-62F1BCE977EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSS.TAWA.DA", "MSS.TAWA.DA\MSS.TAWA.DA.csproj", "{A607D606-F8B7-4100-81DD-2D7656571BFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSS.TAWA.BE", "MSS.TAWA.BE\MSS.TAWA.BE.csproj", "{91059CA6-2597-4D91-AEBB-7F458A803388}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "MSSTawaCERWebSite", "MSSTawaCERWebSite\", "{47CF347B-E87E-4192-AE64-696160942C38}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		ProjectReferences = "{3FC8535E-C4E6-49D7-B68C-62F1BCE977EF}|MSS.TAWA.BC.dll;{91059CA6-2597-4D91-AEBB-7F458A803388}|MSS.TAWA.BE.dll;{A607D606-F8B7-4100-81DD-2D7656571BFD}|MSS.TAWA.DA.dll;"
+		Debug.AspNetCompiler.VirtualPath = "/MSSTawaCERWebSite"
+		Debug.AspNetCompiler.PhysicalPath = "MSSTawaCERWebSite\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\MSSTawaCERWebSite\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/MSSTawaCERWebSite"
+		Release.AspNetCompiler.PhysicalPath = "MSSTawaCERWebSite\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\MSSTawaCERWebSite\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "22101"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3FC8535E-C4E6-49D7-B68C-62F1BCE977EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FC8535E-C4E6-49D7-B68C-62F1BCE977EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FC8535E-C4E6-49D7-B68C-62F1BCE977EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FC8535E-C4E6-49D7-B68C-62F1BCE977EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A607D606-F8B7-4100-81DD-2D7656571BFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A607D606-F8B7-4100-81DD-2D7656571BFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A607D606-F8B7-4100-81DD-2D7656571BFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A607D606-F8B7-4100-81DD-2D7656571BFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91059CA6-2597-4D91-AEBB-7F458A803388}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91059CA6-2597-4D91-AEBB-7F458A803388}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91059CA6-2597-4D91-AEBB-7F458A803388}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91059CA6-2597-4D91-AEBB-7F458A803388}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47CF347B-E87E-4192-AE64-696160942C38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47CF347B-E87E-4192-AE64-696160942C38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47CF347B-E87E-4192-AE64-696160942C38}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{47CF347B-E87E-4192-AE64-696160942C38}.Release|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
