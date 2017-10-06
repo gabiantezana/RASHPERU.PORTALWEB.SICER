@@ -757,13 +757,18 @@ public partial class RendirCajaChica : System.Web.UI.Page
                 {
                     if (objDocumentoBE.CodigoSunat != "99")
                     {
-                        if (ddlTipo.SelectedItem.Value == "0" || txtSerie.Text.Trim() == "" || txtNumero.Text.Trim() == "" || txtFecha.Text.Trim() == "" ||
-                            ddlConcepto.SelectedItem.Value == "0" || 
-                            //ddlCentroCostos3.SelectedItem.Value == "0" ||
-                            //ddlCentroCostos4.SelectedItem.Value == "0" || 
-                            //ddlCentroCostos5.SelectedItem.Value == "0" || 
-                            ddlIdMonedaDoc.SelectedItem.Value == "0" ||
-                            ddlIdMonedaOriginal.SelectedItem.Value == "0" || txtMontoDoc.Text.Trim() == "" || txtTasaCambio.Text.Trim() == "")
+                        if (ddlTipo.SelectedItem.Value == "0"
+                            || txtSerie.Text.Trim() == ""
+                            || txtNumero.Text.Trim() == ""
+                            || txtFecha.Text.Trim() == ""
+                            || ddlConcepto.SelectedItem.Value == "0"
+                            //|| ddlCentroCostos3.SelectedItem.Value == "0"
+                            //|| ddlCentroCostos4.SelectedItem.Value == "0" 
+                            //|| ddlCentroCostos5.SelectedItem.Value == "0"
+                            || ddlIdMonedaDoc.SelectedItem.Value == "0"
+                            || ddlIdMonedaOriginal.SelectedItem.Value == "0"
+                            || txtMontoDoc.Text.Trim() == ""
+                            || txtTasaCambio.Text.Trim() == "")
                         {
                             validacion = false;
                             mensajeError = "Usted no ha ingresado toda la informacion necesaria";
@@ -771,13 +776,16 @@ public partial class RendirCajaChica : System.Web.UI.Page
                     }
                     else
                     {
-                        if (ddlTipo.SelectedItem.Value == "0" || txtFecha.Text.Trim() == "" ||
-                            ddlConcepto.SelectedItem.Value == "0" ||
-                            //ddlCentroCostos3.SelectedItem.Value == "0" ||
-                            //ddlCentroCostos4.SelectedItem.Value == "0" ||
-                            //ddlCentroCostos5.SelectedItem.Value == "0" || 
-                            ddlIdMonedaDoc.SelectedItem.Value == "0" ||
-                            ddlIdMonedaOriginal.SelectedItem.Value == "0" || txtMontoDoc.Text.Trim() == "" || txtTasaCambio.Text.Trim() == "")
+                        if (ddlTipo.SelectedItem.Value == "0"
+                            || txtFecha.Text.Trim() == ""
+                            || ddlConcepto.SelectedItem.Value == "0"
+                            //||ddlCentroCostos3.SelectedItem.Value == "0"
+                            //||ddlCentroCostos4.SelectedItem.Value == "0"
+                            //||ddlCentroCostos5.SelectedItem.Value == "0" 
+                            || ddlIdMonedaDoc.SelectedItem.Value == "0"
+                            || ddlIdMonedaOriginal.SelectedItem.Value == "0"
+                            || txtMontoDoc.Text.Trim() == ""
+                            || txtTasaCambio.Text.Trim() == "")
                         {
                             validacion = false;
                             mensajeError = "Usted no ha ingresado toda la informacion necesaria";
@@ -913,10 +921,18 @@ public partial class RendirCajaChica : System.Web.UI.Page
                 {
                     if (objDocumentoBE.CodigoSunat != "99")
                     {
-                        if (ddlTipo.SelectedItem.Value == "0" || txtSerie.Text.Trim() == "" || txtNumero.Text.Trim() == "" || txtFecha.Text.Trim() == "" ||
-                            ddlConcepto.SelectedItem.Value == "0" || ddlCentroCostos3.SelectedItem.Value == "0" ||
-                            ddlCentroCostos4.SelectedItem.Value == "0" || ddlCentroCostos5.SelectedItem.Value == "0" || ddlIdMonedaDoc.SelectedItem.Value == "0" ||
-                            ddlIdMonedaOriginal.SelectedItem.Value == "0" || txtMontoDoc.Text.Trim() == "" || txtTasaCambio.Text.Trim() == "")
+                        if (ddlTipo.SelectedItem.Value == "0"
+                            || txtSerie.Text.Trim() == ""
+                            || txtNumero.Text.Trim() == ""
+                            || txtFecha.Text.Trim() == ""
+                            || ddlConcepto.SelectedItem.Value == "0"
+                            //|| ddlCentroCostos3.SelectedItem.Value == "0"
+                            //|| ddlCentroCostos4.SelectedItem.Value == "0"
+                            //|| ddlCentroCostos5.SelectedItem.Value == "0"
+                            || ddlIdMonedaDoc.SelectedItem.Value == "0"
+                            || ddlIdMonedaOriginal.SelectedItem.Value == "0"
+                            || txtMontoDoc.Text.Trim() == ""
+                            || txtTasaCambio.Text.Trim() == "")
                         {
                             validacion = false;
                             mensajeError = "Usted no ha ingresado toda la informacion necesaria";
@@ -924,10 +940,16 @@ public partial class RendirCajaChica : System.Web.UI.Page
                     }
                     else
                     {
-                        if (ddlTipo.SelectedItem.Value == "0" || txtFecha.Text.Trim() == "" ||
-                            ddlConcepto.SelectedItem.Value == "0" || ddlCentroCostos3.SelectedItem.Value == "0" ||
-                            ddlCentroCostos4.SelectedItem.Value == "0" || ddlCentroCostos5.SelectedItem.Value == "0" || ddlIdMonedaDoc.SelectedItem.Value == "0" ||
-                            ddlIdMonedaOriginal.SelectedItem.Value == "0" || txtMontoDoc.Text.Trim() == "" || txtTasaCambio.Text.Trim() == "")
+                        if (ddlTipo.SelectedItem.Value == "0"
+                            || txtFecha.Text.Trim() == ""
+                            || ddlConcepto.SelectedItem.Value == "0"
+                            //|| ddlCentroCostos3.SelectedItem.Value == "0"
+                            //|| ddlCentroCostos4.SelectedItem.Value == "0"
+                            //|| ddlCentroCostos5.SelectedItem.Value == "0"
+                            || ddlIdMonedaDoc.SelectedItem.Value == "0"
+                            || ddlIdMonedaOriginal.SelectedItem.Value == "0"
+                            || txtMontoDoc.Text.Trim() == ""
+                            || txtTasaCambio.Text.Trim() == "")
                         {
                             validacion = false;
                             mensajeError = "Usted no ha ingresado toda la informacion necesaria";
@@ -1301,7 +1323,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
                 {
                     lstCorreosBE = objCorreosBC.ObtenerCorreos(1);
                     MensajeMail(lstCorreosBE[0].TextoCorreo.ToString() + ": La " + Documento + " con Codigo: " + CodigoCajaChica + "<br/>" + "<br/>"
-                        // + "Empresa: " + objEmpresaBE.Descripcion + "<br/>"
+                    // + "Empresa: " + objEmpresaBE.Descripcion + "<br/>"
                     + "Beneficiario :" + objUsuarioBE.CardCode + " - " + objUsuarioBE.CardName + "<br/>"
                     + "Importe a Pagar :" + moneda + objCajaChicaBE.MontoGastado + "<br/>"
                     + lstCorreosBE[0].TextoCorreo.ToString() + "<br/>"
@@ -1442,14 +1464,14 @@ public partial class RendirCajaChica : System.Web.UI.Page
             if (lstCajaChicaDocumentoBE[i].TipoDoc.Trim() == "" ||
                lstCajaChicaDocumentoBE[i].SerieDoc.Trim() == "" ||
                lstCajaChicaDocumentoBE[i].CorrelativoDoc.Trim() == "" ||
-                //lstCajaChicaDocumentoBE[i].FechaDoc.Trim() == "" ||
-                //lstCajaChicaDocumentoBE[i].IdProveedor.Trim() == "" ||
-                //lstCajaChicaDocumentoBE[i].IdConcepto.Trim() == "" ||
-                //lstCajaChicaDocumentoBE[i].IdCentroCostos3.Trim() == "" ||
-                //lstCajaChicaDocumentoBE[i].IdCentroCostos4.Trim() == "" ||
-                //lstCajaChicaDocumentoBE[i].IdCentroCostos5.Trim() == "" ||
-                //lstCajaChicaDocumentoBE[i].IdMonedaOriginal.Trim() == "" ||
-                //lstCajaChicaDocumentoBE[i].IdMonedaDoc.Trim() == "" ||
+               //lstCajaChicaDocumentoBE[i].FechaDoc.Trim() == "" ||
+               //lstCajaChicaDocumentoBE[i].IdProveedor.Trim() == "" ||
+               //lstCajaChicaDocumentoBE[i].IdConcepto.Trim() == "" ||
+               //lstCajaChicaDocumentoBE[i].IdCentroCostos3.Trim() == "" ||
+               //lstCajaChicaDocumentoBE[i].IdCentroCostos4.Trim() == "" ||
+               //lstCajaChicaDocumentoBE[i].IdCentroCostos5.Trim() == "" ||
+               //lstCajaChicaDocumentoBE[i].IdMonedaOriginal.Trim() == "" ||
+               //lstCajaChicaDocumentoBE[i].IdMonedaDoc.Trim() == "" ||
                lstCajaChicaDocumentoBE[i].TasaCambio.Trim() == "" ||
                lstCajaChicaDocumentoBE[i].MontoDoc.Trim() == "" ||
                lstCajaChicaDocumentoBE[i].MontoIGV.Trim() == "" ||
@@ -1871,7 +1893,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
         try
         {
             DataTable dt = new DataTable();
-            dt.Columns.AddRange(new DataColumn[14] { 
+            dt.Columns.AddRange(new DataColumn[14] {
                     new DataColumn("Tipo_Documento", typeof(int)),
                     new DataColumn("Serie", typeof(string)),
                     new DataColumn("Numero",typeof(Int32)),

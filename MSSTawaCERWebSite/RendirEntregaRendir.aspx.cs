@@ -778,7 +778,7 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
                     if (objDocumentoBE.CodigoSunat != "99")
                     {
                         if (ddlTipo.SelectedItem.Value == "0" || txtSerie.Text.Trim() == "" || txtNumero.Text.Trim() == "" || txtFecha.Text.Trim() == "" ||
-                            ddlConcepto.SelectedItem.Value == "0" || 
+                            ddlConcepto.SelectedItem.Value == "0" ||
                             //ddlCentroCostos3.SelectedItem.Value == "0" ||
                             //ddlCentroCostos4.SelectedItem.Value == "0" || 
                             //ddlCentroCostos5.SelectedItem.Value == "0" || 
@@ -792,7 +792,7 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
                     else
                     {
                         if (ddlTipo.SelectedItem.Value == "0" || txtFecha.Text.Trim() == "" ||
-                            ddlConcepto.SelectedItem.Value == "0" || 
+                            ddlConcepto.SelectedItem.Value == "0" ||
                             //ddlCentroCostos3.SelectedItem.Value == "0" ||
                             //ddlCentroCostos4.SelectedItem.Value == "0" || 
                             //ddlCentroCostos5.SelectedItem.Value == "0" || 
@@ -932,10 +932,18 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
                 {
                     if (objDocumentoBE.CodigoSunat != "99")
                     {
-                        if (ddlTipo.SelectedItem.Value == "0" || txtSerie.Text.Trim() == "" || txtNumero.Text.Trim() == "" || txtFecha.Text.Trim() == "" ||
-                            ddlConcepto.SelectedItem.Value == "0" || ddlCentroCostos3.SelectedItem.Value == "0" ||
-                            ddlCentroCostos4.SelectedItem.Value == "0" || ddlCentroCostos5.SelectedItem.Value == "0" || ddlIdMonedaDoc.SelectedItem.Value == "0" ||
-                            ddlIdMonedaOriginal.SelectedItem.Value == "0" || txtMontoDoc.Text.Trim() == "" || txtTasaCambio.Text.Trim() == "")
+                        if (ddlTipo.SelectedItem.Value == "0"
+                            || txtSerie.Text.Trim() == ""
+                            || txtNumero.Text.Trim() == ""
+                            || txtFecha.Text.Trim() == ""
+                            || ddlConcepto.SelectedItem.Value == "0"
+                            //|| ddlCentroCostos3.SelectedItem.Value == "0"
+                            //|| ddlCentroCostos4.SelectedItem.Value == "0"
+                            //|| ddlCentroCostos5.SelectedItem.Value == "0"
+                            || ddlIdMonedaDoc.SelectedItem.Value == "0"
+                            || ddlIdMonedaOriginal.SelectedItem.Value == "0"
+                            || txtMontoDoc.Text.Trim() == ""
+                            || txtTasaCambio.Text.Trim() == "")
                         {
                             validacion = false;
                             mensajeError = "Usted no ha ingresado toda la informacion necesaria";
@@ -943,10 +951,16 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
                     }
                     else
                     {
-                        if (ddlTipo.SelectedItem.Value == "0" || txtFecha.Text.Trim() == "" ||
-                            ddlConcepto.SelectedItem.Value == "0" || ddlCentroCostos3.SelectedItem.Value == "0" ||
-                            ddlCentroCostos4.SelectedItem.Value == "0" || ddlCentroCostos5.SelectedItem.Value == "0" || ddlIdMonedaDoc.SelectedItem.Value == "0" ||
-                            ddlIdMonedaOriginal.SelectedItem.Value == "0" || txtMontoDoc.Text.Trim() == "" || txtTasaCambio.Text.Trim() == "")
+                        if (ddlTipo.SelectedItem.Value == "0"
+                            || txtFecha.Text.Trim() == ""
+                            || ddlConcepto.SelectedItem.Value == "0"
+                            //|| ddlCentroCostos3.SelectedItem.Value == "0"
+                            //|| ddlCentroCostos4.SelectedItem.Value == "0"
+                            //|| ddlCentroCostos5.SelectedItem.Value == "0"
+                            || ddlIdMonedaDoc.SelectedItem.Value == "0"
+                            || ddlIdMonedaOriginal.SelectedItem.Value == "0"
+                            || txtMontoDoc.Text.Trim() == ""
+                            || txtTasaCambio.Text.Trim() == "")
                         {
                             validacion = false;
                             mensajeError = "Usted no ha ingresado toda la informacion necesaria";
@@ -1213,7 +1227,7 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
 
     protected void Aprobar_Click(object sender, EventArgs e)
     {
-            try
+        try
         {
 
             bAprobar.Enabled = false;
@@ -1254,7 +1268,7 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
             }
             if (estado == "17")
             {
-               
+
                 if (txtFechaContabilizacion.Text.Trim() != "")
                 {
                     objEntregaRendirBE.FechaContabilizacion = Convert.ToDateTime(txtFechaContabilizacion.Text);
@@ -1266,8 +1280,8 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
                     objEntregaRendirBE.MontoGastado = objEntregaRendirDocumentoBE.MontoTotal;
                     objEntregaRendirBE.MontoReembolsado = (Convert.ToDouble(objEntregaRendirDocumentoBE.MontoTotal) - Convert.ToDouble(objEntregaRendirBE.MontoInicial)).ToString("0.00");
                     objEntregaRendirBE.MontoActual = "0.00";//(Convert.ToDouble(objEntregaRendirBE.MontoInicial) - Convert.ToDouble(objEntregaRendirDocumentoBE.MontoTotal)).ToString("0.00");
-                    
-               
+
+
                     //Recupero el usuario conectado
                     UsuarioBE objUsuarioBE1 = new UsuarioBE();
                     objUsuarioBE1 = (UsuarioBE)Session["Usuario"];
@@ -1315,7 +1329,7 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
                 objUsuarioBE = objUsuarioBC.ObtenerUsuario(objEntregaRendirBE.IdUsuarioSolicitante, 0);
                 EnviarMensajeAprobado(objEntregaRendirBE.IdEntregaRendir, "Entrega Rendir", "Rendicion Entrega Rendir: " + objEntregaRendirBE.CodigoEntregaRendir, objEntregaRendirBE.CodigoEntregaRendir, objUsuarioBE.CardName, objEntregaRendirBE.Estado, objEntregaRendirBE.IdUsuarioSolicitante);
 
-                
+
             }
             else
             {
@@ -1400,12 +1414,12 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
                 if (lstUsuarioTesoreriaBE[x].Mail.ToString() != "")
                 {
                     lstCorreosBE = objCorreosBC.ObtenerCorreos(1);
-                    MensajeMail(lstCorreosBE[0].TextoCorreo.ToString() + ": La " + Documento + " con Codigo: " + CodigoEntregaRendir  + "<br/>" + "<br/>"
-                        // + "Empresa: " + objEmpresaBE.Descripcion + "<br/>"
+                    MensajeMail(lstCorreosBE[0].TextoCorreo.ToString() + ": La " + Documento + " con Codigo: " + CodigoEntregaRendir + "<br/>" + "<br/>"
+                    // + "Empresa: " + objEmpresaBE.Descripcion + "<br/>"
                     + "Beneficiario :" + objUsuarioBE.CardCode + " - " + objUsuarioBE.CardName + "<br/>"
-                    + "Importe a Pagar :" + moneda + objEntregaRendirBE.MontoInicial  + "<br/>"
+                    + "Importe a Pagar :" + moneda + objEntregaRendirBE.MontoInicial + "<br/>"
                     + lstCorreosBE[0].TextoCorreo.ToString() + "<br/>"
-                    , "Entrega a Rendir" + CodigoEntregaRendir , lstUsuarioTesoreriaBE[x].Mail.ToString());
+                    , "Entrega a Rendir" + CodigoEntregaRendir, lstUsuarioTesoreriaBE[x].Mail.ToString());
                 }
 
             }
@@ -1555,14 +1569,14 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
             if (lstEntregaRendirDocumentoBE[i].TipoDoc.Trim() == "" ||
                lstEntregaRendirDocumentoBE[i].SerieDoc.Trim() == "" ||
                lstEntregaRendirDocumentoBE[i].CorrelativoDoc.Trim() == "" ||
-                //lstEntregaRendirDocumentoBE[i].FechaDoc.Trim() == "" ||
-                //lstEntregaRendirDocumentoBE[i].IdProveedor.Trim() == "" ||
-                //lstEntregaRendirDocumentoBE[i].IdConcepto.Trim() == "" ||
-                //lstEntregaRendirDocumentoBE[i].IdCentroCostos3.Trim() == "" ||
-                //lstEntregaRendirDocumentoBE[i].IdCentroCostos4.Trim() == "" ||
-                //lstEntregaRendirDocumentoBE[i].IdCentroCostos5.Trim() == "" ||
-                //lstEntregaRendirDocumentoBE[i].IdMonedaOriginal.Trim() == "" ||
-                //lstEntregaRendirDocumentoBE[i].IdMonedaDoc.Trim() == "" ||
+               //lstEntregaRendirDocumentoBE[i].FechaDoc.Trim() == "" ||
+               //lstEntregaRendirDocumentoBE[i].IdProveedor.Trim() == "" ||
+               //lstEntregaRendirDocumentoBE[i].IdConcepto.Trim() == "" ||
+               //lstEntregaRendirDocumentoBE[i].IdCentroCostos3.Trim() == "" ||
+               //lstEntregaRendirDocumentoBE[i].IdCentroCostos4.Trim() == "" ||
+               //lstEntregaRendirDocumentoBE[i].IdCentroCostos5.Trim() == "" ||
+               //lstEntregaRendirDocumentoBE[i].IdMonedaOriginal.Trim() == "" ||
+               //lstEntregaRendirDocumentoBE[i].IdMonedaDoc.Trim() == "" ||
                lstEntregaRendirDocumentoBE[i].TasaCambio.Trim() == "" ||
                lstEntregaRendirDocumentoBE[i].MontoDoc.Trim() == "" ||
                lstEntregaRendirDocumentoBE[i].MontoIGV.Trim() == "" ||
@@ -2255,7 +2269,7 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
         try
         {
             DataTable dt = new DataTable();
-            dt.Columns.AddRange(new DataColumn[14] { 
+            dt.Columns.AddRange(new DataColumn[14] {
                     new DataColumn("Tipo_Documento", typeof(int)),
                     new DataColumn("Serie", typeof(string)),
                     new DataColumn("Numero",typeof(Int32)),

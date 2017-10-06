@@ -674,7 +674,7 @@ public partial class RendirReembolso : System.Web.UI.Page
                     if (objDocumentoBE.CodigoSunat != "99")
                     {
                         if (ddlTipo.SelectedItem.Value == "0" || txtSerie.Text.Trim() == "" || txtNumero.Text.Trim() == "" || txtFecha.Text.Trim() == "" ||
-                            ddlConcepto.SelectedItem.Value == "0" || 
+                            ddlConcepto.SelectedItem.Value == "0" ||
                             //ddlCentroCostos3.SelectedItem.Value == "0" ||
                             //ddlCentroCostos4.SelectedItem.Value == "0" || 
                             //ddlCentroCostos5.SelectedItem.Value == "0" || 
@@ -688,7 +688,7 @@ public partial class RendirReembolso : System.Web.UI.Page
                     else
                     {
                         if (ddlTipo.SelectedItem.Value == "0" || txtFecha.Text.Trim() == "" ||
-                            ddlConcepto.SelectedItem.Value == "0" || 
+                            ddlConcepto.SelectedItem.Value == "0" ||
                             //ddlCentroCostos3.SelectedItem.Value == "0" ||
                             //ddlCentroCostos4.SelectedItem.Value == "0" || 
                             //ddlCentroCostos5.SelectedItem.Value == "0" || 
@@ -829,10 +829,18 @@ public partial class RendirReembolso : System.Web.UI.Page
                 {
                     if (objDocumentoBE.CodigoSunat != "99")
                     {
-                        if (ddlTipo.SelectedItem.Value == "0" || txtSerie.Text.Trim() == "" || txtNumero.Text.Trim() == "" || txtFecha.Text.Trim() == "" ||
-                            ddlConcepto.SelectedItem.Value == "0" || ddlCentroCostos3.SelectedItem.Value == "0" ||
-                            ddlCentroCostos4.SelectedItem.Value == "0" || ddlCentroCostos5.SelectedItem.Value == "0" || ddlIdMonedaDoc.SelectedItem.Value == "0" ||
-                            ddlIdMonedaOriginal.SelectedItem.Value == "0" || txtMontoDoc.Text.Trim() == "" || txtTasaCambio.Text.Trim() == "")
+                        if (ddlTipo.SelectedItem.Value == "0"
+                            || txtSerie.Text.Trim() == ""
+                            || txtNumero.Text.Trim() == ""
+                            || txtFecha.Text.Trim() == ""
+                            || ddlConcepto.SelectedItem.Value == "0"
+                            //|| ddlCentroCostos3.SelectedItem.Value == "0"
+                            //|| ddlCentroCostos4.SelectedItem.Value == "0"
+                            //|| ddlCentroCostos5.SelectedItem.Value == "0"
+                            || ddlIdMonedaDoc.SelectedItem.Value == "0"
+                            || ddlIdMonedaOriginal.SelectedItem.Value == "0"
+                            || txtMontoDoc.Text.Trim() == ""
+                            || txtTasaCambio.Text.Trim() == "")
                         {
                             validacion = false;
                             mensajeError = "Usted no ha ingresado toda la informacion necesaria";
@@ -840,10 +848,16 @@ public partial class RendirReembolso : System.Web.UI.Page
                     }
                     else
                     {
-                        if (ddlTipo.SelectedItem.Value == "0" || txtFecha.Text.Trim() == "" ||
-                            ddlConcepto.SelectedItem.Value == "0" || ddlCentroCostos3.SelectedItem.Value == "0" ||
-                            ddlCentroCostos4.SelectedItem.Value == "0" || ddlCentroCostos5.SelectedItem.Value == "0" || ddlIdMonedaDoc.SelectedItem.Value == "0" ||
-                            ddlIdMonedaOriginal.SelectedItem.Value == "0" || txtMontoDoc.Text.Trim() == "" || txtTasaCambio.Text.Trim() == "")
+                        if (ddlTipo.SelectedItem.Value == "0"
+                            || txtFecha.Text.Trim() == ""
+                            || ddlConcepto.SelectedItem.Value == "0"
+                            //|| ddlCentroCostos3.SelectedItem.Value == "0"
+                            //|| ddlCentroCostos4.SelectedItem.Value == "0"
+                            //|| ddlCentroCostos5.SelectedItem.Value == "0"
+                            || ddlIdMonedaDoc.SelectedItem.Value == "0"
+                            || ddlIdMonedaOriginal.SelectedItem.Value == "0"
+                            || txtMontoDoc.Text.Trim() == ""
+                            || txtTasaCambio.Text.Trim() == "")
                         {
                             validacion = false;
                             mensajeError = "Usted no ha ingresado toda la informacion necesaria";
@@ -1102,7 +1116,7 @@ public partial class RendirReembolso : System.Web.UI.Page
             PerfilUsuarioBC objPerfilUsuarioBC = new PerfilUsuarioBC();
             PerfilUsuarioBE objPerfilUsuarioBE = new PerfilUsuarioBE();
             objPerfilUsuarioBE = objPerfilUsuarioBC.ObtenerPerfilUsuario(objUsuarioSesionBE.IdPerfilUsuario);
-            
+
             bAprobar.Enabled = false;
             bool validar = true;
             String mensaje = "";
@@ -1195,7 +1209,7 @@ public partial class RendirReembolso : System.Web.UI.Page
 
             if (validar)
             {
-              
+
                 objReembolsoBE.Comentario = "";
                 objReembolsoBC.ModificarReembolso(objReembolsoBE);
 
@@ -1204,7 +1218,7 @@ public partial class RendirReembolso : System.Web.UI.Page
                 objUsuarioBE = objUserBC.ObtenerUsuario(objReembolsoBE.IdUsuarioSolicitante, 0);
                 EnviarMensajeAprobado(objReembolsoBE.IdReembolso, "Reembolso", "Rendicion Reembolso: " + objReembolsoBE.CodigoReembolso, objReembolsoBE.CodigoReembolso, objUsuarioBE.CardName, objReembolsoBE.Estado, objReembolsoBE.IdUsuarioSolicitante);
 
-               
+
             }
             else
             {
@@ -1290,11 +1304,11 @@ public partial class RendirReembolso : System.Web.UI.Page
                 {
                     lstCorreosBE = objCorreosBC.ObtenerCorreos(1);
                     MensajeMail(lstCorreosBE[0].TextoCorreo.ToString() + ": eL " + Documento + " con Codigo: " + CodigoReembolso + "<br/>" + "<br/>"
-                        // + "Empresa: " + objEmpresaBE.Descripcion + "<br/>"
+                    // + "Empresa: " + objEmpresaBE.Descripcion + "<br/>"
                     + "Beneficiario :" + objUsuarioBE.CardCode + " - " + objUsuarioBE.CardName + "<br/>"
                     + "Importe a Pagar :" + moneda + objReembolsoBE.MontoInicial + "<br/>"
                     + lstCorreosBE[0].TextoCorreo.ToString() + "<br/>"
-                    , "Reembolso " + CodigoReembolso , lstUsuarioTesoreriaBE[x].Mail.ToString());
+                    , "Reembolso " + CodigoReembolso, lstUsuarioTesoreriaBE[x].Mail.ToString());
                 }
 
             }
@@ -1341,7 +1355,7 @@ public partial class RendirReembolso : System.Web.UI.Page
                 objUsuarioBE = objUsuarioBC.ObtenerUsuario(objUsuarioBE.IdUsuario, 0);
                 EnviarMensajeObservacion(objReembolsoBE.IdReembolso, "Reembolso", "Rendicion Reembolso: " + objReembolsoBE.CodigoReembolso, objReembolsoBE.CodigoReembolso, objUsuarioBE.CardName, estado, objReembolsoBE.IdUsuarioSolicitante);
 
-                
+
             }
             else
                 Mensaje("No a colocado ninguna observacion");
@@ -1444,14 +1458,14 @@ public partial class RendirReembolso : System.Web.UI.Page
             if (lstReembolsoDocumentoBE[i].TipoDoc.Trim() == "" ||
                lstReembolsoDocumentoBE[i].SerieDoc.Trim() == "" ||
                lstReembolsoDocumentoBE[i].CorrelativoDoc.Trim() == "" ||
-                //lstReembolsoDocumentoBE[i].FechaDoc.Trim() == "" ||
-                //lstReembolsoDocumentoBE[i].IdProveedor.Trim() == "" ||
-                //lstReembolsoDocumentoBE[i].IdConcepto.Trim() == "" ||
-                //lstReembolsoDocumentoBE[i].IdCentroCostos3.Trim() == "" ||
-                //lstReembolsoDocumentoBE[i].IdCentroCostos4.Trim() == "" ||
-                //lstReembolsoDocumentoBE[i].IdCentroCostos5.Trim() == "" ||
-                //lstReembolsoDocumentoBE[i].IdMonedaOriginal.Trim() == "" ||
-                //lstReembolsoDocumentoBE[i].IdMonedaDoc.Trim() == "" ||
+               //lstReembolsoDocumentoBE[i].FechaDoc.Trim() == "" ||
+               //lstReembolsoDocumentoBE[i].IdProveedor.Trim() == "" ||
+               //lstReembolsoDocumentoBE[i].IdConcepto.Trim() == "" ||
+               //lstReembolsoDocumentoBE[i].IdCentroCostos3.Trim() == "" ||
+               //lstReembolsoDocumentoBE[i].IdCentroCostos4.Trim() == "" ||
+               //lstReembolsoDocumentoBE[i].IdCentroCostos5.Trim() == "" ||
+               //lstReembolsoDocumentoBE[i].IdMonedaOriginal.Trim() == "" ||
+               //lstReembolsoDocumentoBE[i].IdMonedaDoc.Trim() == "" ||
                lstReembolsoDocumentoBE[i].TasaCambio.Trim() == "" ||
                lstReembolsoDocumentoBE[i].MontoDoc.Trim() == "" ||
                lstReembolsoDocumentoBE[i].MontoIGV.Trim() == "" ||
@@ -1868,7 +1882,7 @@ public partial class RendirReembolso : System.Web.UI.Page
         try
         {
             DataTable dt = new DataTable();
-            dt.Columns.AddRange(new DataColumn[14] { 
+            dt.Columns.AddRange(new DataColumn[14] {
                     new DataColumn("Tipo_Documento", typeof(int)),
                     new DataColumn("Serie", typeof(string)),
                     new DataColumn("Numero",typeof(Int32)),
