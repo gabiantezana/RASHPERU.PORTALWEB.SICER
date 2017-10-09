@@ -22,14 +22,11 @@ public partial class Reembolsos : System.Web.UI.Page
             ListarFiltro();
             ListarEstado();
             ListarUsuario();
-            ListarEsFacturable();
             
             
             txtCodigo.Enabled = false;
             txtDni.Enabled = false;
-            ddlEsFacturable.Enabled = false;
             ddlNombre_Solicitante.Enabled = false;
-            ddlEstado.Enabled = false;
             bBuscar.Enabled = false;
             ValidarMenu();
 
@@ -61,12 +58,9 @@ public partial class Reembolsos : System.Web.UI.Page
             txtDni.Text = "";
             txtCodigo.Text = "";
             ddlNombre_Solicitante.SelectedIndex = 0;
-            ddlEsFacturable.SelectedIndex = 0;
-            ddlEstado.SelectedIndex = 6;
 
             txtCodigo.Enabled = false;
             txtDni.Enabled = false;
-            ddlEsFacturable.Enabled = false;
             ddlNombre_Solicitante.Enabled = false;
             ddlEstado.Enabled = true;
             bBuscar.Enabled = true;
@@ -98,24 +92,6 @@ public partial class Reembolsos : System.Web.UI.Page
         ddlFiltro.Items.Add(oItem);
         oItem = new ListItem("Rendicion Aprobadas", "19");
         ddlFiltro.Items.Add(oItem);
-    }
-
-    private void ListarEsFacturable()
-    {
-        try
-        {
-            ddlEsFacturable.Items.Clear();
-            ListItem oItem = new ListItem("Seleccionar", "0");
-            ddlEsFacturable.Items.Add(oItem);
-            oItem = new ListItem("Si", "1");
-            ddlEsFacturable.Items.Add(oItem);
-            oItem = new ListItem("No", "2");
-            ddlEsFacturable.Items.Add(oItem);
-        }
-        catch (Exception ex)
-        {
-            Mensaje("Ocurrió un error (CajaChica): " + ex.Message);
-        }
     }
 
     private void ListarFiltro()
@@ -405,11 +381,6 @@ public partial class Reembolsos : System.Web.UI.Page
             gvReembolso.DataSource = objReembolsoBC.ListarReembolso(objUsuarioBE.IdUsuario, 1, 0, "", "", ddlNombre_Solicitante.SelectedValue, "", "");
             gvReembolso.DataBind();
         }
-        else if (ddlFiltro.SelectedItem.Value == "4")
-        {
-            gvReembolso.DataSource = objReembolsoBC.ListarReembolso(objUsuarioBE.IdUsuario, 1, 0, "", "", "", ddlEsFacturable.SelectedValue, "");
-            gvReembolso.DataBind();
-        }
 
         else if (ddlFiltro.SelectedItem.Value == "5")
         {
@@ -432,12 +403,10 @@ public partial class Reembolsos : System.Web.UI.Page
             txtDni.Text = "";
             txtCodigo.Text = "";
             ddlNombre_Solicitante.SelectedIndex = 0;
-            ddlEsFacturable.SelectedIndex = 0;
 
             ddlEstado.SelectedIndex = 0;
             txtCodigo.Enabled = false;
             txtDni.Enabled = false;
-            ddlEsFacturable.Enabled = false;
             ddlNombre_Solicitante.Enabled = false;
             ddlEstado.Enabled = false;
             bBuscar.Enabled = false;
@@ -455,7 +424,6 @@ public partial class Reembolsos : System.Web.UI.Page
             ddlEstado.SelectedIndex = 0;
             txtCodigo.Enabled = true;
             txtDni.Enabled = false;
-            ddlEsFacturable.Enabled = false;
             ddlNombre_Solicitante.Enabled = false;
             ddlEstado.Enabled = false;
             bBuscar.Enabled = true;
@@ -466,12 +434,10 @@ public partial class Reembolsos : System.Web.UI.Page
             txtDni.Text = "";
             txtCodigo.Text = "";
             ddlNombre_Solicitante.SelectedIndex = 0;
-            ddlEsFacturable.SelectedIndex = 0;
 
             ddlEstado.SelectedIndex = 0;
             txtCodigo.Enabled = false;
             txtDni.Enabled = true;
-            ddlEsFacturable.Enabled = false;
             ddlNombre_Solicitante.Enabled = false;
             ddlEstado.Enabled = false;
             bBuscar.Enabled = true;
@@ -482,12 +448,10 @@ public partial class Reembolsos : System.Web.UI.Page
             txtDni.Text = "";
             txtCodigo.Text = "";
             ddlNombre_Solicitante.SelectedIndex = 0;
-            ddlEsFacturable.SelectedIndex = 0;
 
             ddlEstado.SelectedIndex = 0;
             txtCodigo.Enabled = false;
             txtDni.Enabled = false;
-            ddlEsFacturable.Enabled = false;
             ddlNombre_Solicitante.Enabled = true;
             ddlEstado.Enabled = false;
             bBuscar.Enabled = true;
@@ -498,12 +462,10 @@ public partial class Reembolsos : System.Web.UI.Page
             txtDni.Text = "";
             txtCodigo.Text = "";
             ddlNombre_Solicitante.SelectedIndex = 0;
-            ddlEsFacturable.SelectedIndex = 0;
 
             ddlEstado.SelectedIndex = 0;
             txtCodigo.Enabled = false;
             txtDni.Enabled = false;
-            ddlEsFacturable.Enabled = true;
             ddlNombre_Solicitante.Enabled = false;
             ddlEstado.Enabled = false;
             bBuscar.Enabled = true;
@@ -514,12 +476,10 @@ public partial class Reembolsos : System.Web.UI.Page
             txtDni.Text = "";
             txtCodigo.Text = "";
             ddlNombre_Solicitante.SelectedIndex = 0;
-            ddlEsFacturable.SelectedIndex = 0;
 
             ddlEstado.SelectedIndex = 0;
             txtCodigo.Enabled = false;
             txtDni.Enabled = false;
-            ddlEsFacturable.Enabled = false;
             ddlNombre_Solicitante.Enabled = false;
             ddlEstado.Enabled = true;
             bBuscar.Enabled = true;
@@ -530,12 +490,10 @@ public partial class Reembolsos : System.Web.UI.Page
             txtDni.Text = "";
             txtCodigo.Text = "";
             ddlNombre_Solicitante.SelectedIndex = 0;
-            ddlEsFacturable.SelectedIndex = 0;
 
             ddlEstado.SelectedIndex = 0;
             txtCodigo.Enabled = false;
             txtDni.Enabled = false;
-            ddlEsFacturable.Enabled = false;
             ddlNombre_Solicitante.Enabled = false;
             ddlEstado.Enabled = false;
             bBuscar.Enabled = false;

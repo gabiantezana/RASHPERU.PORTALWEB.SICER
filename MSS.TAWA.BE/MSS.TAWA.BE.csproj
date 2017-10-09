@@ -47,6 +47,7 @@
     <Compile Include="CajaChicaDocumentoBE.cs" />
     <Compile Include="CentroCostosBE.cs" />
     <Compile Include="ConceptoBE.cs" />
+    <Compile Include="Helper\ExceptionHelper.cs" />
     <Compile Include="NivelSeguridadBE.cs" />
     <Compile Include="ControlContabilidadBE.cs" />
     <Compile Include="CorreosBE.cs" />

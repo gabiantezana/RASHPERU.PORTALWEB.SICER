@@ -29,7 +29,6 @@ public partial class Reporte1 : System.Web.UI.Page
             {
                 ListarEmpresa();
                 ListarUsuario();
-                ListarEsFacturable();
                 ListarEstado();
                 ListarDocumento();
                 //ListarRendicion();
@@ -71,23 +70,6 @@ public partial class Reporte1 : System.Web.UI.Page
         ddlNombre_Solicitante.DataBind();
     }
 
-    private void ListarEsFacturable()
-    {
-        try
-        {
-            ddlEsFacturable.Items.Clear();
-            ListItem oItem = new ListItem("Seleccionar", "0");
-            ddlEsFacturable.Items.Add(oItem);
-            oItem = new ListItem("Si", "1");
-            ddlEsFacturable.Items.Add(oItem);
-            oItem = new ListItem("No", "2");
-            ddlEsFacturable.Items.Add(oItem);
-        }
-        catch (Exception ex)
-        {
-            Mensaje("Ocurrió un error (CajaChica): " + ex.Message);
-        }
-    }
 
     private void ListarEstado()
     {
@@ -207,7 +189,7 @@ public partial class Reporte1 : System.Web.UI.Page
     protected void Buscar_Click(object sender, EventArgs e)
     {
         ReporteBC objReporteBC = new ReporteBC();
-        gvReporte1.DataSource = objReporteBC.ListarReporte(ddlNombre_Solicitante.SelectedValue, ddlCentroCostos3.SelectedValue, ddlCentroCostos4.SelectedValue, ddlCentroCostos5.SelectedValue, ddlEsFacturable.SelectedValue, txtFechaSolicitudIni.Text, txtFechaSolicitudFin.Text, ddlEstado.SelectedValue, ddlDocumento.SelectedValue, ddlIdEmpresa.SelectedValue, "", "", "");
+        gvReporte1.DataSource = objReporteBC.ListarReporte(ddlNombre_Solicitante.SelectedValue, ddlCentroCostos3.SelectedValue, ddlCentroCostos4.SelectedValue, ddlCentroCostos5.SelectedValue,"", txtFechaSolicitudIni.Text, txtFechaSolicitudFin.Text, ddlEstado.SelectedValue, ddlDocumento.SelectedValue, ddlIdEmpresa.SelectedValue, "", "", "");
         gvReporte1.DataBind();
     }
 
@@ -216,7 +198,7 @@ public partial class Reporte1 : System.Web.UI.Page
         gvReporte1.PageIndex = e.NewPageIndex;
 
         ReporteBC objReporteBC = new ReporteBC();
-        gvReporte1.DataSource = objReporteBC.ListarReporte(ddlNombre_Solicitante.SelectedValue, ddlCentroCostos3.SelectedValue, ddlCentroCostos4.SelectedValue, ddlCentroCostos5.SelectedValue, ddlEsFacturable.SelectedValue, txtFechaSolicitudIni.Text, txtFechaSolicitudFin.Text, ddlEstado.SelectedValue, ddlDocumento.SelectedValue, ddlIdEmpresa.SelectedValue, "", "", "");
+        gvReporte1.DataSource = objReporteBC.ListarReporte(ddlNombre_Solicitante.SelectedValue, ddlCentroCostos3.SelectedValue, ddlCentroCostos4.SelectedValue, ddlCentroCostos5.SelectedValue, "", txtFechaSolicitudIni.Text, txtFechaSolicitudFin.Text, ddlEstado.SelectedValue, ddlDocumento.SelectedValue, ddlIdEmpresa.SelectedValue, "", "", "");
         gvReporte1.DataBind();
     }
 
@@ -258,7 +240,7 @@ public partial class Reporte1 : System.Web.UI.Page
     private void ListarReporte()
     {
         ReporteBC objReporteBC = new ReporteBC();
-        gvReporte.DataSource = objReporteBC.ListarReporte(ddlNombre_Solicitante.SelectedValue, ddlCentroCostos3.SelectedValue, ddlCentroCostos4.SelectedValue, ddlCentroCostos5.SelectedValue, ddlEsFacturable.SelectedValue, txtFechaSolicitudIni.Text, txtFechaSolicitudFin.Text, ddlEstado.SelectedValue, ddlDocumento.SelectedValue, ddlIdEmpresa.SelectedValue, "", "", "");
+        gvReporte.DataSource = objReporteBC.ListarReporte(ddlNombre_Solicitante.SelectedValue, ddlCentroCostos3.SelectedValue, ddlCentroCostos4.SelectedValue, ddlCentroCostos5.SelectedValue, "", txtFechaSolicitudIni.Text, txtFechaSolicitudFin.Text, ddlEstado.SelectedValue, ddlDocumento.SelectedValue, ddlIdEmpresa.SelectedValue, "", "", "");
         gvReporte.DataBind();
     }
 

@@ -15,8 +15,6 @@
    <td width="12.5%"><asp:DropDownList ID="ddlIdEmpresa" runat="server" OnSelectedIndexChanged="ddlIdEmpresa_SelectedIndexChanged" AutoPostBack="true" Width="95%" ></asp:DropDownList></td>
    <td width="12.5%"><label>Nombre Solicitante:</label></td>
    <td width="12.5%"><asp:DropDownList ID="ddlNombre_Solicitante" runat="server" Width="95%" ></asp:DropDownList></td>
-   <td width="12.5%"><label>Es Facturable:</label></td>
-   <td width="12.5%"><asp:DropDownList ID="ddlEsFacturable" runat="server" Width="95%" ></asp:DropDownList></td>
    <td width="12.5%"><label>Estado:</label></td>
    <td width="12.5%"><asp:DropDownList ID="ddlEstado" runat="server" Width="95%" ></asp:DropDownList></td>
   </tr>

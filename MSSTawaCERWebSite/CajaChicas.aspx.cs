@@ -22,11 +22,9 @@ public partial class CajaChicas : System.Web.UI.Page
             ListarFiltro();
             ListarEstado();
             ListarUsuario();
-            ListarEsFacturable();
             
             txtCodigo.Enabled = false;
             txtDni.Enabled = false;
-            ddlEsFacturable.Enabled = false;
             ddlNombre_Solicitante.Enabled = false;
             ddlEstado.Enabled = false;
             bBuscar.Enabled = false;
@@ -58,12 +56,10 @@ public partial class CajaChicas : System.Web.UI.Page
             txtDni.Text = "";
             txtCodigo.Text = "";
             ddlNombre_Solicitante.SelectedIndex = 0;
-            ddlEsFacturable.SelectedIndex = 0;
             ddlEstado.SelectedIndex = 8;
 
             txtCodigo.Enabled = false;
             txtDni.Enabled = false;
-            ddlEsFacturable.Enabled = false;
             ddlNombre_Solicitante.Enabled = false;
             ddlEstado.Enabled = true;
             bBuscar.Enabled = true;
@@ -82,27 +78,6 @@ public partial class CajaChicas : System.Web.UI.Page
         gvCajaChicas.DataBind();
     }
 
-
-
-
-
-    private void ListarEsFacturable()
-    {
-        try
-        {
-            ddlEsFacturable.Items.Clear();
-            ListItem oItem = new ListItem("Seleccionar", "0");
-            ddlEsFacturable.Items.Add(oItem);
-            oItem = new ListItem("Si", "1");
-            ddlEsFacturable.Items.Add(oItem);
-            oItem = new ListItem("No", "2");
-            ddlEsFacturable.Items.Add(oItem);
-        }
-        catch (Exception ex)
-        {
-            Mensaje("Ocurrió un error (CajaChica): " + ex.Message);
-        }
-    }
 
     private void ListarFiltro()
     {
@@ -419,12 +394,7 @@ public partial class CajaChicas : System.Web.UI.Page
             gvCajaChicas.DataSource = objCajaChicaBC.ListarCajaChica(objUsuarioBE.IdUsuario, 1, 0, "", "", ddlNombre_Solicitante.SelectedValue, "", "");
             gvCajaChicas.DataBind();
         }
-        else if (ddlFiltro.SelectedItem.Value == "4")
-        {
-            gvCajaChicas.DataSource = objCajaChicaBC.ListarCajaChica(objUsuarioBE.IdUsuario, 1, 0, "", "", "", ddlEsFacturable.SelectedValue, "");
-            gvCajaChicas.DataBind();
-        }
-
+   
         else if (ddlFiltro.SelectedItem.Value == "5")
         {
             gvCajaChicas.DataSource = objCajaChicaBC.ListarCajaChica(objUsuarioBE.IdUsuario, 3, 0, "", "", "", "", ddlEstado.SelectedValue);
@@ -456,7 +426,6 @@ public partial class CajaChicas : System.Web.UI.Page
 
             txtCodigo.Enabled = false;
             txtDni.Enabled = false;
-            ddlEsFacturable.Enabled = false;
             ddlNombre_Solicitante.Enabled = false;
             ddlEstado.Enabled = false;
             bBuscar.Enabled = false;
@@ -471,12 +440,10 @@ public partial class CajaChicas : System.Web.UI.Page
             txtDni.Text = "";
             txtCodigo.Text = "";
             ddlNombre_Solicitante.SelectedIndex = 0;
-            ddlEsFacturable.SelectedIndex = 0;
             ddlEstado.SelectedIndex = 0;
 
             txtCodigo.Enabled = true;
             txtDni.Enabled = false;
-            ddlEsFacturable.Enabled = false;
             ddlNombre_Solicitante.Enabled = false;
             ddlEstado.Enabled = false;
             bBuscar.Enabled = true;
@@ -487,12 +454,10 @@ public partial class CajaChicas : System.Web.UI.Page
             txtDni.Text = "";
             txtCodigo.Text = "";
             ddlNombre_Solicitante.SelectedIndex = 0;
-            ddlEsFacturable.SelectedIndex = 0;
             ddlEstado.SelectedIndex = 0;
 
             txtCodigo.Enabled = false;
             txtDni.Enabled = true;
-            ddlEsFacturable.Enabled = false;
             ddlNombre_Solicitante.Enabled = false;
             ddlEstado.Enabled = false;
             bBuscar.Enabled = true;
@@ -503,12 +468,10 @@ public partial class CajaChicas : System.Web.UI.Page
             txtDni.Text = "";
             txtCodigo.Text = "";
             ddlNombre_Solicitante.SelectedIndex = 0;
-            ddlEsFacturable.SelectedIndex = 0;
             ddlEstado.SelectedIndex = 0;
 
             txtCodigo.Enabled = false;
             txtDni.Enabled = false;
-            ddlEsFacturable.Enabled = false;
             ddlNombre_Solicitante.Enabled = true;
             ddlEstado.Enabled = false;
             bBuscar.Enabled = true;
@@ -519,12 +482,10 @@ public partial class CajaChicas : System.Web.UI.Page
             txtDni.Text = "";
             txtCodigo.Text = "";
             ddlNombre_Solicitante.SelectedIndex = 0;
-            ddlEsFacturable.SelectedIndex = 0;
             ddlEstado.SelectedIndex = 0;
 
             txtCodigo.Enabled = false;
             txtDni.Enabled = false;
-            ddlEsFacturable.Enabled = true;
             ddlNombre_Solicitante.Enabled = false;
             ddlEstado.Enabled = false;
             bBuscar.Enabled = true;
@@ -535,12 +496,10 @@ public partial class CajaChicas : System.Web.UI.Page
             txtDni.Text = "";
             txtCodigo.Text = "";
             ddlNombre_Solicitante.SelectedIndex = 0;
-            ddlEsFacturable.SelectedIndex = 0;
             ddlEstado.SelectedIndex = 0;
 
             txtCodigo.Enabled = false;
             txtDni.Enabled = false;
-            ddlEsFacturable.Enabled = false;
             ddlNombre_Solicitante.Enabled = false;
             ddlEstado.Enabled = true;
             bBuscar.Enabled = true;
@@ -551,12 +510,10 @@ public partial class CajaChicas : System.Web.UI.Page
             txtDni.Text = "";
             txtCodigo.Text = "";
             ddlNombre_Solicitante.SelectedIndex = 0;
-            ddlEsFacturable.SelectedIndex = 0;
 
             ddlEstado.SelectedIndex = 0;
             txtCodigo.Enabled = false;
             txtDni.Enabled = false;
-            ddlEsFacturable.Enabled = false;
             ddlNombre_Solicitante.Enabled = false;
             ddlEstado.Enabled = false;
             bBuscar.Enabled = false;

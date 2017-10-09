@@ -33,8 +33,6 @@ public partial class CajaChica : System.Web.UI.Page
 
                 ListarUsuarioSolicitante(Convert.ToInt32(strModo), Convert.ToInt32(strIdCajaChica));
                 ListarMoneda();
-                ListarEsFacturable();
-                ListarMomentoFacturable();
                 ListarEmpresa();
                 ListarAreaSolicitante();
                 ListarCentroCostos();
@@ -97,41 +95,7 @@ public partial class CajaChica : System.Web.UI.Page
         }
     }
 
-    private void ListarEsFacturable()
-    {
-        try
-        {
-            ddlEsFacturable.Items.Clear();
-            ListItem oItem = new ListItem("Seleccionar", "0");
-            ddlEsFacturable.Items.Add(oItem);
-            oItem = new ListItem("Si", "1");
-            ddlEsFacturable.Items.Add(oItem);
-            oItem = new ListItem("No", "2");
-            ddlEsFacturable.Items.Add(oItem);
-        }
-        catch (Exception ex)
-        {
-            Mensaje("Ocurrió un error (CajaChica): " + ex.Message);
-        }
-    }
 
-    private void ListarMomentoFacturable()
-    {
-        try
-        {
-            ddlMomentoFacturable.Items.Clear();
-            ListItem oItem = new ListItem("Seleccionar", "0");
-            ddlMomentoFacturable.Items.Add(oItem);
-            oItem = new ListItem("En la apertura y la rendicion.", "1");
-            ddlMomentoFacturable.Items.Add(oItem);
-            oItem = new ListItem("En la rendicion.", "2");
-            ddlMomentoFacturable.Items.Add(oItem);
-        }
-        catch (Exception ex)
-        {
-            Mensaje("Ocurrió un error (CajaChica): " + ex.Message);
-        }
-    }
 
     private void ListarEmpresa()
     {
@@ -238,8 +202,6 @@ public partial class CajaChica : System.Web.UI.Page
                 bRechazar.Visible = false;
                 bCancelar2.Visible = false;
 
-                ddlEsFacturable.Enabled = true;
-                ddlMomentoFacturable.Enabled = false;
                 ddlCentroCostos3.Enabled = false;
                 ddlCentroCostos4.Enabled = false;
                 ddlCentroCostos5.Enabled = false;
@@ -427,13 +389,9 @@ public partial class CajaChica : System.Web.UI.Page
         txtAsunto.Text = objCajaChicaBE.Asunto;
         ddlMoneda.SelectedValue = objCajaChicaBE.Moneda.ToString();
         txtMontoInicial.Text = objCajaChicaBE.MontoInicial;
-        ddlEsFacturable.SelectedValue = objCajaChicaBE.EsFacturable.ToString();
-        ddlMomentoFacturable.SelectedValue = objCajaChicaBE.MomentoFacturable.ToString();
         txtComentario.Text = objCajaChicaBE.Comentario;
         txtMotivoDetalle.Text = objCajaChicaBE.MotivoDetalle;
 
-        if (objCajaChicaBE.EsFacturable.Trim() == "2") ddlMomentoFacturable.Enabled = false;
-        else ddlMomentoFacturable.Enabled = true;
     }
 
     protected void Crear_Click(object sender, EventArgs e)
@@ -444,43 +402,15 @@ public partial class CajaChica : System.Web.UI.Page
             bool validacion = true;
             string mensajeAlerta = "";
 
-            if (ddlEsFacturable.SelectedItem.Value == "0")
-            {
-                validacion = false;
-                mensajeAlerta = "No ah seleccionado si es o no refacturable";
-            }
-
-            if (ddlEsFacturable.SelectedItem.Value == "1")//Si
-            {
-                if (ddlIdUsuarioSolicitante.SelectedItem.Value == "0" || ddlIdEmpresa.SelectedItem.Value == "0" || //ddlIdArea.SelectedItem.Value == "0" ||
-                    //ddlCentroCostos3.SelectedItem.Value == "0" || ddlCentroCostos4.SelectedItem.Value == "0" || ddlCentroCostos5.SelectedItem.Value == "0" ||
-                    ddlCentroCostos1.SelectedItem.Value == "0" ||// ddlCentroCostos2.SelectedItem.Value == "0" || 
-                    ddlIdMetodoPago.SelectedItem.Value == "0" ||
-                    txtAsunto.Text.Trim() == "" || ddlMoneda.SelectedItem.Value == "0" || txtMontoInicial.Text.Trim() == "0" ||
-                    ddlEsFacturable.SelectedItem.Value == "0" || ddlMomentoFacturable.SelectedItem.Value == "0")
-                {
-                    validacion = false;
-                    mensajeAlerta = "Es necesario llenar toda la informacion";
-                }
-            }
-            if (ddlEsFacturable.SelectedItem.Value == "2")
-            {
-                if (ddlIdUsuarioSolicitante.SelectedItem.Value == "0" || ddlIdEmpresa.SelectedItem.Value == "0" || //ddlIdArea.SelectedItem.Value == "0" ||
-                    //ddlCentroCostos3.SelectedItem.Value == "0" || ddlCentroCostos4.SelectedItem.Value == "0" || ddlCentroCostos5.SelectedItem.Value == "0" ||
-                    ddlCentroCostos1.SelectedItem.Value == "0" //|| ddlCentroCostos2.SelectedItem.Value == "0" 
-                    || ddlIdMetodoPago.SelectedItem.Value == "0" ||
-                    txtAsunto.Text.Trim() == "" || ddlMoneda.SelectedItem.Value == "0" || txtMontoInicial.Text.Trim() == "0")
-                {
-                    validacion = false;
-                    mensajeAlerta = "Es necesario llenar toda la informacion";
-                }
-            }
-
             if (validacion)
             {
                 decimal n;
                 bool isNumeric = decimal.TryParse(txtMontoInicial.Text, out n);
-                if (isNumeric == false) { validacion = false; mensajeAlerta = " El monto inicial no es un numero"; }
+                if (isNumeric == false)
+                {
+                    validacion = false;
+                    mensajeAlerta = " El monto inicial no es un numero";
+                }
             }
 
             if (validacion)
@@ -515,20 +445,18 @@ public partial class CajaChica : System.Web.UI.Page
                 objCajaChicaBE.IdUsuarioSolicitante = Convert.ToInt32(ddlIdUsuarioSolicitante.SelectedItem.Value);
                 objCajaChicaBE.IdEmpresa = Convert.ToInt32(ddlIdEmpresa.SelectedItem.Value);
                 objCajaChicaBE.IdCentroCostos1 = Convert.ToInt32(ddlCentroCostos1.SelectedItem.Value);
-                objCajaChicaBE.IdCentroCostos2 = 0;//Convert.ToInt32(ddlCentroCostos2.SelectedItem.Value);
-                objCajaChicaBE.IdCentroCostos3 = 0;//Convert.ToInt32(ddlCentroCostos3.SelectedItem.Value);
-                objCajaChicaBE.IdCentroCostos4 = 0;//Convert.ToInt32(ddlCentroCostos4.SelectedItem.Value);
-                objCajaChicaBE.IdCentroCostos5 = 0;//Convert.ToInt32(ddlCentroCostos5.SelectedItem.Value);
+                objCajaChicaBE.IdCentroCostos2 = Convert.ToInt32(ddlCentroCostos2.SelectedItem.Value);
+                objCajaChicaBE.IdCentroCostos3 = Convert.ToInt32(ddlCentroCostos3.SelectedItem.Value);
+                objCajaChicaBE.IdCentroCostos4 = Convert.ToInt32(ddlCentroCostos4.SelectedItem.Value);
+                objCajaChicaBE.IdCentroCostos5 = Convert.ToInt32(ddlCentroCostos5.SelectedItem.Value);
                 objCajaChicaBE.IdMetodoPago = Convert.ToInt32(ddlIdMetodoPago.SelectedItem.Value);
-                objCajaChicaBE.IdArea = 0;//Convert.ToInt32(ddlIdArea.SelectedItem.Value);
+                objCajaChicaBE.IdArea = 0; //Convert.ToInt32(ddlIdArea.SelectedItem.Value);
                 objCajaChicaBE.Asunto = txtAsunto.Text;
                 objCajaChicaBE.MontoInicial = Convert.ToDouble(txtMontoInicial.Text).ToString("0.00");
                 objCajaChicaBE.MontoGastado = "0.00";
                 //objCajaChicaBE.MontoReembolsado = "0.000000";
                 objCajaChicaBE.MontoActual = Convert.ToDouble(txtMontoInicial.Text).ToString("0.00");
                 objCajaChicaBE.Moneda = ddlMoneda.SelectedItem.Value;
-                objCajaChicaBE.EsFacturable = ddlEsFacturable.SelectedItem.Value;
-                objCajaChicaBE.MomentoFacturable = ddlMomentoFacturable.SelectedItem.Value;
                 objCajaChicaBE.Comentario = "";
                 objCajaChicaBE.MotivoDetalle = txtMotivoDetalle.Text;
                 objCajaChicaBE.FechaSolicitud = DateTime.Now;
@@ -603,12 +531,6 @@ public partial class CajaChica : System.Web.UI.Page
             bAprobar.Enabled = false;
 
             bool validacion = true;
-            if (ddlEsFacturable.SelectedValue == "0")
-                validacion = false;
-
-            if (ddlEsFacturable.SelectedValue == "1")
-                if (ddlMomentoFacturable.SelectedValue == "0")
-                    validacion = false;
 
             if (validacion == true)
             {
@@ -631,8 +553,6 @@ public partial class CajaChica : System.Web.UI.Page
                 objCajaChicaBE.IdCentroCostos4 = Convert.ToInt32(ddlCentroCostos4.SelectedItem.Value);
                 objCajaChicaBE.IdCentroCostos5 = Convert.ToInt32(ddlCentroCostos5.SelectedItem.Value);
                 objCajaChicaBE.IdMetodoPago = Convert.ToInt32(ddlIdMetodoPago.SelectedItem.Value);
-                objCajaChicaBE.EsFacturable = ddlEsFacturable.SelectedItem.Value;
-                objCajaChicaBE.MomentoFacturable = ddlMomentoFacturable.SelectedItem.Value;
                 objCajaChicaBE.Comentario = "";
                 objCajaChicaBE.MotivoDetalle = txtMotivoDetalle.Text;
                 objCajaChicaBE.FechaSolicitud = DateTime.Now;
@@ -656,8 +576,6 @@ public partial class CajaChica : System.Web.UI.Page
                     estado = objCajaChicaBE.Estado;
                 }
 
-                objCajaChicaBE.EsFacturable = ddlEsFacturable.SelectedItem.Value;
-                objCajaChicaBE.MomentoFacturable = ddlMomentoFacturable.SelectedItem.Value;
 
                 if (Session["Usuario"] == null)
                 {
@@ -674,7 +592,7 @@ public partial class CajaChica : System.Web.UI.Page
                 }
 
                 objCajaChicaBC.ModificarCajaChica(objCajaChicaBE);
-                EnviarMensajeParaAprobar(objCajaChicaBE.IdCajaChica, "Caja Chica", objCajaChicaBE.MontoGastado , txtAsunto.Text, objCajaChicaBE.CodigoCajaChica, ddlIdUsuarioSolicitante.SelectedItem.Text, estado, objCajaChicaBE.IdEmpresa);
+                EnviarMensajeParaAprobar(objCajaChicaBE.IdCajaChica, "Caja Chica", objCajaChicaBE.MontoGastado, txtAsunto.Text, objCajaChicaBE.CodigoCajaChica, ddlIdUsuarioSolicitante.SelectedItem.Text, estado, objCajaChicaBE.IdEmpresa);
 
                 Response.Redirect("~/CajaChicas.aspx");
             }
@@ -748,12 +666,12 @@ public partial class CajaChica : System.Web.UI.Page
 
                 for (int x = 0; x < lstUsuarioTesoreriaBE.Count; x++)
                 {
-  
+
 
                     if (lstUsuarioTesoreriaBE[x].Mail.ToString() != "")
                     {
                         lstCorreosBE = objCorreosBC.ObtenerCorreos(1);
-                        MensajeEmail(lstCorreosBE[0].TextoCorreo.ToString() + ": La " + Documento + " con Codigo: " + CodigoCajaChica  + "<br/>" + "<br/>"
+                        MensajeEmail(lstCorreosBE[0].TextoCorreo.ToString() + ": La " + Documento + " con Codigo: " + CodigoCajaChica + "<br/>" + "<br/>"
                         + "Empresa: " + objEmpresaBE.Descripcion + "<br/>"
                         + "Beneficiario :" + objUsuarioBE.CardCode + " - " + objUsuarioBE.CardName + "<br/>"
                         + "Importe a Pagar :" + moneda + txtMontoInicial.Text + "<br/>"
@@ -782,7 +700,7 @@ public partial class CajaChica : System.Web.UI.Page
                 CorreosBE objCorreoBE = new CorreosBE();
                 CorreosBC objCorreosBC = new CorreosBC();
                 List<CorreosBE> lstCorreosBE = new List<CorreosBE>();
-                
+
                 String moneda = "";
                 if (ddlMoneda.SelectedValue.ToString() == "1")
                     moneda = "S/. ";
@@ -839,8 +757,6 @@ public partial class CajaChica : System.Web.UI.Page
             objCajaChicaBE.IdCentroCostos3 = Convert.ToInt32(ddlCentroCostos3.SelectedItem.Value);
             objCajaChicaBE.IdCentroCostos4 = Convert.ToInt32(ddlCentroCostos4.SelectedItem.Value);
             objCajaChicaBE.IdCentroCostos5 = Convert.ToInt32(ddlCentroCostos5.SelectedItem.Value);
-            objCajaChicaBE.EsFacturable = ddlEsFacturable.SelectedItem.Value;
-            objCajaChicaBE.MomentoFacturable = ddlMomentoFacturable.SelectedItem.Value;
 
             estado = objCajaChicaBE.Estado;
             if (Convert.ToInt32(estado) > 3)
@@ -878,7 +794,7 @@ public partial class CajaChica : System.Web.UI.Page
         {
             Response.Redirect("~/CajaChicas.aspx");
             bObservacion.Enabled = true;
-            
+
         }
     }
 
@@ -1100,17 +1016,6 @@ public partial class CajaChica : System.Web.UI.Page
         }
     }
 
-    protected void ddlEsFacturable_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        if (ddlEsFacturable.SelectedValue == "1")
-            ddlMomentoFacturable.Enabled = true;
-        else
-        {
-            ddlMomentoFacturable.SelectedValue = "0";
-            ddlMomentoFacturable.Enabled = false;
-        }
-    }
-
     protected void ddlCentroCosto3_SelectedIndexChanged(object sender, EventArgs e)
     {
         if (ddlCentroCostos3.SelectedValue != "0")
@@ -1155,6 +1060,11 @@ public partial class CajaChica : System.Web.UI.Page
         ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "MessageBox", "alert('" + mensaje + "')", true);
     }
     protected void ddlCentroCostos1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void ddlMoneda_SelectedIndexChanged(object sender, EventArgs e)
     {
 
     }

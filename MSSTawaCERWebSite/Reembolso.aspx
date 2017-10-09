@@ -45,12 +45,6 @@
     </td>
    </tr>
    <tr>
-    <td align="left"><label>Es Facturable?</label></td>
-    <td align="left"><asp:DropDownList ID="ddlEsFacturable" runat="server" Width="95%" OnSelectedIndexChanged="ddlEsFacturable_SelectedIndexChanged" AutoPostBack="true" ></asp:DropDownList></td>
-    <td align="left"><label>En que Momento?</label></td>
-    <td align="left"><asp:DropDownList ID="ddlMomentoFacturable" runat="server" Width="95%" ></asp:DropDownList></td>
-   </tr>
-   <tr>
     <td align="left"><label>Centro Costo Nivel 1</label></td>
     <td align="left"><asp:DropDownList ID="ddlCentroCostos1" runat="server" Width="95%" Enabled="false" ></asp:DropDownList></td>
     <td align="left"><label>Centro Costo Nivel 2</label></td>

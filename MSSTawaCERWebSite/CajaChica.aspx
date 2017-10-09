@@ -33,7 +33,7 @@
    </tr>
    <tr>
     <td align="left"><label>Moneda</label></td>
-    <td align="left"><asp:DropDownList ID="ddlMoneda" runat="server" Width="95%" ></asp:DropDownList></td>
+    <td align="left"><asp:DropDownList ID="ddlMoneda" runat="server" Width="95%" OnSelectedIndexChanged="ddlMoneda_SelectedIndexChanged" ></asp:DropDownList></td>
     <td align="left"><label>Monto</label></td>
     <td align="left">
      <asp:TextBox ID="txtMontoInicial" runat="server" Width="95%" MaxLength="20" ></asp:TextBox>
@@ -41,10 +41,10 @@
     </td>
    </tr>
    <tr>
-    <td align="left"><label>Es Facturable?</label></td>
-    <td align="left"><asp:DropDownList ID="ddlEsFacturable" runat="server" Width="95%" OnSelectedIndexChanged="ddlEsFacturable_SelectedIndexChanged" AutoPostBack="true" ></asp:DropDownList></td>
-    <td align="left"><label>En que Momento?</label></td>
-    <td align="left"><asp:DropDownList ID="ddlMomentoFacturable" runat="server" Width="95%" ></asp:DropDownList></td>
+    <td align="left">&nbsp;</td>
+    <td align="left">&nbsp;</td>
+    <td align="left">&nbsp;</td>
+    <td align="left">&nbsp;</td>
    </tr>
    <tr>
     <td align="left"><label>Centro Costo Nivel 1</label></td>

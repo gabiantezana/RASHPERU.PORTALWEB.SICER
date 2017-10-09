@@ -16,6 +16,7 @@ using System.Text;
 
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Globalization;
 
 public partial class RendirCajaChica : System.Web.UI.Page
 {
@@ -851,7 +852,8 @@ public partial class RendirCajaChica : System.Web.UI.Page
                 objCajaChicaDocumentoBE.TipoDoc = ddlTipo.SelectedItem.Value;
                 objCajaChicaDocumentoBE.SerieDoc = txtSerie.Text;
                 objCajaChicaDocumentoBE.CorrelativoDoc = txtNumero.Text;
-                objCajaChicaDocumentoBE.FechaDoc = Convert.ToDateTime(txtFecha.Text);
+                //objCajaChicaDocumentoBE.FechaDoc = Convert.ToDateTime(txtFecha.Text );
+                objCajaChicaDocumentoBE.FechaDoc = DateTime.ParseExact(txtFecha.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                 objCajaChicaDocumentoBE.IdMonedaOriginal = Convert.ToInt32(ddlIdMonedaOriginal.SelectedItem.Value);
                 objCajaChicaDocumentoBE.IdMonedaDoc = Convert.ToInt32(ddlIdMonedaDoc.SelectedItem.Value);
                 objCajaChicaDocumentoBE.MontoDoc = Convert.ToDouble(txtMontoDoc.Text).ToString("0.00");
@@ -1016,7 +1018,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
                 objCajaChicaDocumentoBE.TipoDoc = ddlTipo.SelectedItem.Value;
                 objCajaChicaDocumentoBE.SerieDoc = txtSerie.Text;
                 objCajaChicaDocumentoBE.CorrelativoDoc = txtNumero.Text;
-                objCajaChicaDocumentoBE.FechaDoc = Convert.ToDateTime(txtFecha.Text);
+                objCajaChicaDocumentoBE.FechaDoc = DateTime.ParseExact(txtFecha.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                 objCajaChicaDocumentoBE.IdMonedaOriginal = Convert.ToInt32(ddlIdMonedaOriginal.SelectedItem.Value);
                 objCajaChicaDocumentoBE.IdMonedaDoc = Convert.ToInt32(ddlIdMonedaDoc.SelectedItem.Value);
                 objCajaChicaDocumentoBE.MontoDoc = Convert.ToDouble(txtMontoDoc.Text).ToString("0.00");
@@ -1213,7 +1215,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
             {
                 if (txtFechaContabilizacion.Text.Trim() != "")
                 {
-                    objCajaChicaBE.FechaContabilizacion = Convert.ToDateTime(txtFechaContabilizacion.Text);
+                    objCajaChicaBE.FechaContabilizacion = DateTime.ParseExact(txtFechaContabilizacion.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                     objCajaChicaBE.Estado = "15";
 
                     CajaChicaDocumentoBC objCajaChicaDocumentoBC = new CajaChicaDocumentoBC();
@@ -2167,7 +2169,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
                     if (objCajaChicaBE.MontoInicial == objCajaChicaDocumentoBE.MontoTotal)
                     {
 
-                        objCajaChicaBE.FechaContabilizacion = Convert.ToDateTime(txtFechaContabilizacion.Text);
+                        objCajaChicaBE.FechaContabilizacion = DateTime.ParseExact(txtFechaContabilizacion.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                         objCajaChicaBE.Estado = "15";
 
 

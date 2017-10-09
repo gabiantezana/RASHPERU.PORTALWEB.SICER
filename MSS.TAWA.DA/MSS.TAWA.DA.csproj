@@ -48,6 +48,7 @@
     <Compile Include="CajaChicaDocumentoDA.cs" />
     <Compile Include="CentroCostosDA.cs" />
     <Compile Include="ConceptoDA.cs" />
+    <Compile Include="Helper\ExceptionHelper.cs" />
     <Compile Include="NivelSeguridadDA.cs" />
     <Compile Include="ControlContabilidadDA.cs" />
     <Compile Include="CorreosDA.cs" />

@@ -34,8 +34,6 @@ public partial class Reembolso : System.Web.UI.Page
 
                 ListarUsuarioSolicitante(Convert.ToInt32(strModo), Convert.ToInt32(strIdReembolso));
                 ListarMoneda();
-                ListarEsFacturable();
-                ListarMomentoFacturable();
                 ListarEmpresa();
                 ListarAreaSolicitante();
                 ListarCentroCostos();
@@ -92,42 +90,6 @@ public partial class Reembolso : System.Web.UI.Page
             ddlMoneda.DataTextField = "Descripcion";
             ddlMoneda.DataValueField = "IdMoneda";
             ddlMoneda.DataBind();
-        }
-        catch (Exception ex)
-        {
-            Mensaje("Ocurrió un error (Reembolso): " + ex.Message);
-        }
-    }
-
-    private void ListarEsFacturable()
-    {
-        try
-        {
-            ddlEsFacturable.Items.Clear();
-            ListItem oItem = new ListItem("Seleccionar", "0");
-            ddlEsFacturable.Items.Add(oItem);
-            oItem = new ListItem("Si", "1");
-            ddlEsFacturable.Items.Add(oItem);
-            oItem = new ListItem("No", "2");
-            ddlEsFacturable.Items.Add(oItem);
-        }
-        catch (Exception ex)
-        {
-            Mensaje("Ocurrió un error (Reembolso): " + ex.Message);
-        }
-    }
-
-    private void ListarMomentoFacturable()
-    {
-        try
-        {
-            ddlMomentoFacturable.Items.Clear();
-            ListItem oItem = new ListItem("Seleccionar", "0");
-            ddlMomentoFacturable.Items.Add(oItem);
-            oItem = new ListItem("En la entrega del dinero.", "1");
-            ddlMomentoFacturable.Items.Add(oItem);
-            oItem = new ListItem("En la rendicion.", "2");
-            ddlMomentoFacturable.Items.Add(oItem);
         }
         catch (Exception ex)
         {
@@ -255,8 +217,6 @@ public partial class Reembolso : System.Web.UI.Page
                 bRechazar.Visible = false;
                 bCancelar2.Visible = false;
 
-                ddlEsFacturable.Enabled = true;
-                ddlMomentoFacturable.Enabled = false;
                 ddlCentroCostos3.Enabled = false;
                 ddlCentroCostos4.Enabled = false;
                 ddlCentroCostos5.Enabled = false;
@@ -385,8 +345,6 @@ public partial class Reembolso : System.Web.UI.Page
         txtCodigoReembolso.Text = objReembolsoBE.CodigoReembolso;
         ddlIdUsuarioSolicitante.SelectedValue = objReembolsoBE.IdUsuarioSolicitante.ToString();
         ddlIdEmpresa.SelectedValue = objReembolsoBE.IdEmpresa.ToString();
-        ddlEsFacturable.SelectedValue = objReembolsoBE.EsFacturable.ToString();
-        ddlMomentoFacturable.SelectedValue = objReembolsoBE.MomentoFacturable.ToString();
 
         CentroCostosBC objCentroCostosBC = new CentroCostosBC();
         ddlCentroCostos1.DataSource = objCentroCostosBC.ListarCentroCostos(objReembolsoBE.IdEmpresa, 6, 0);
@@ -440,13 +398,9 @@ public partial class Reembolso : System.Web.UI.Page
         txtAsunto.Text = objReembolsoBE.Asunto;
         ddlMoneda.SelectedValue = objReembolsoBE.Moneda.ToString();
         txtMontoInicial.Text = Convert.ToDouble(objReembolsoBE.MontoInicial).ToString("0.00");
-        ddlEsFacturable.SelectedValue = objReembolsoBE.EsFacturable.ToString();
-        ddlMomentoFacturable.SelectedValue = objReembolsoBE.MomentoFacturable.ToString();
         txtComentario.Text = objReembolsoBE.Comentario;
         txtMotivoDetalle.Text = objReembolsoBE.MotivoDetalle;
 
-        if (objReembolsoBE.EsFacturable.Trim() == "2") ddlMomentoFacturable.Enabled = true;
-        else ddlMomentoFacturable.Enabled = false;
     }
 
     protected void Crear_Click(object sender, EventArgs e)
@@ -459,39 +413,6 @@ public partial class Reembolso : System.Web.UI.Page
             txtMontoInicial.Text = "0.00";
             bool validacion = true;
             string mensajeAlerta = "";
-
-            if (ddlEsFacturable.SelectedItem.Value == "0")
-            {
-                validacion = false;
-                mensajeAlerta = "No ah seleccionado si es o no refacturable";
-            }
-
-            if (ddlEsFacturable.SelectedItem.Value == "1")//Si
-            {
-                if (ddlIdUsuarioSolicitante.SelectedItem.Value == "0" || ddlIdEmpresa.SelectedItem.Value == "0" || //ddlIdArea.SelectedItem.Value == "0" ||
-                    //ddlCentroCostos3.SelectedItem.Value == "0" || ddlCentroCostos4.SelectedItem.Value == "0" || ddlCentroCostos5.SelectedItem.Value == "0" ||
-                    ddlCentroCostos1.SelectedItem.Value == "0" || //ddlCentroCostos2.SelectedItem.Value == "0" || 
-                    ddlIdMetodoPago.SelectedItem.Value == "0" ||
-                    txtAsunto.Text.Trim() == "" || ddlMoneda.SelectedItem.Value == "0" || txtMontoInicial.Text.Trim() == "0" ||
-                    ddlIdMotivo.SelectedItem.Value == "0" || ddlEsFacturable.SelectedItem.Value == "0" || ddlMomentoFacturable.SelectedItem.Value == "0")
-                {
-                    validacion = false;
-                    mensajeAlerta = "Es necesario llenar toda la informacion";
-                }
-            }
-            if (ddlEsFacturable.SelectedItem.Value == "2")
-            {
-                if (ddlIdUsuarioSolicitante.SelectedItem.Value == "0" || ddlIdEmpresa.SelectedItem.Value == "0" || //ddlIdArea.SelectedItem.Value == "0" ||
-                    //ddlCentroCostos3.SelectedItem.Value == "0" || ddlCentroCostos4.SelectedItem.Value == "0" || ddlCentroCostos5.SelectedItem.Value == "0" ||
-                    ddlCentroCostos1.SelectedItem.Value == "0" || //ddlCentroCostos2.SelectedItem.Value == "0" || 
-                    ddlIdMetodoPago.SelectedItem.Value == "0" ||
-                    txtAsunto.Text.Trim() == "" || ddlMoneda.SelectedItem.Value == "0" || txtMontoInicial.Text.Trim() == "0" ||
-                    ddlIdMotivo.SelectedItem.Value == "0")
-                {
-                    validacion = false;
-                    mensajeAlerta = "Es necesario llenar toda la informacion";
-                }
-            }
 
             if (validacion)
             {
@@ -552,8 +473,6 @@ public partial class Reembolso : System.Web.UI.Page
                 objReembolsoBE.MontoReembolsado = "0.00";
                 objReembolsoBE.MontoActual = Convert.ToDouble(txtMontoInicial.Text).ToString("0.00");
                 objReembolsoBE.Moneda = ddlMoneda.SelectedItem.Value;
-                objReembolsoBE.EsFacturable = ddlEsFacturable.SelectedItem.Value;
-                objReembolsoBE.MomentoFacturable = ddlMomentoFacturable.SelectedItem.Value;
                 objReembolsoBE.Comentario = "";
                 objReembolsoBE.MotivoDetalle = txtMotivoDetalle.Text;
                 objReembolsoBE.FechaSolicitud = DateTime.Now;
@@ -631,12 +550,6 @@ public partial class Reembolso : System.Web.UI.Page
         try
         {
             bool validacion = true;
-            if (ddlEsFacturable.SelectedValue == "0")
-                validacion = false;
-
-            if (ddlEsFacturable.SelectedValue == "1")
-                if (ddlMomentoFacturable.SelectedValue == "0")
-                    validacion = false;
 
             if (validacion == true)
             {
@@ -658,8 +571,6 @@ public partial class Reembolso : System.Web.UI.Page
                 objReembolsoBE.IdCentroCostos5 = Convert.ToInt32(ddlCentroCostos5.SelectedItem.Value);
                 objReembolsoBE.IdMotivo = Convert.ToInt32(ddlIdMotivo.SelectedItem.Value);
                 objReembolsoBE.IdMetodoPago = Convert.ToInt32(ddlIdMetodoPago.SelectedItem.Value);
-                objReembolsoBE.EsFacturable = ddlEsFacturable.SelectedItem.Value;
-                objReembolsoBE.MomentoFacturable = ddlMomentoFacturable.SelectedItem.Value;
                 objReembolsoBE.Comentario = "";
                 objReembolsoBE.MotivoDetalle = txtMotivoDetalle.Text;
 
@@ -684,8 +595,6 @@ public partial class Reembolso : System.Web.UI.Page
                 }
 
 
-                objReembolsoBE.EsFacturable = ddlEsFacturable.SelectedItem.Value;
-                objReembolsoBE.MomentoFacturable = ddlMomentoFacturable.SelectedItem.Value;
 
                 if (Session["Usuario"] == null)
                 {
@@ -765,7 +674,7 @@ public partial class Reembolso : System.Web.UI.Page
 
 
             for (int x = 0; x < lstUsuarioTesoreriaBE.Count; x++)
-            {              
+            {
 
 
                 lstCorreosBE = objCorreosBC.ObtenerCorreos(1);
@@ -814,8 +723,6 @@ public partial class Reembolso : System.Web.UI.Page
             objReembolsoBE.IdCentroCostos4 = Convert.ToInt32(ddlCentroCostos4.SelectedItem.Value);
             objReembolsoBE.IdCentroCostos5 = Convert.ToInt32(ddlCentroCostos5.SelectedItem.Value);
             objReembolsoBE.IdMotivo = Convert.ToInt32(ddlIdMotivo.SelectedItem.Value);
-            objReembolsoBE.EsFacturable = ddlEsFacturable.SelectedItem.Value;
-            objReembolsoBE.MomentoFacturable = ddlMomentoFacturable.SelectedItem.Value;
 
             estado = objReembolsoBE.Estado;
             if (Convert.ToInt32(estado) > 3)
@@ -1025,20 +932,6 @@ public partial class Reembolso : System.Web.UI.Page
             ddlCentroCostos5.Enabled = false;
             ddlIdMetodoPago.SelectedValue = "0";
             ddlIdMetodoPago.Enabled = false;
-        }
-    }
-
-    protected void ddlEsFacturable_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        if (ddlEsFacturable.SelectedValue == "1")
-        {
-            ddlMomentoFacturable.SelectedValue = "2";
-            ddlMomentoFacturable.Enabled = false;
-        }
-        else
-        {
-            ddlMomentoFacturable.SelectedValue = "0";
-            ddlMomentoFacturable.Enabled = false;
         }
     }
 

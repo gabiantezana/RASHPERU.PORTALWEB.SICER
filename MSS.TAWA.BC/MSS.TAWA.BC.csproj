@@ -49,6 +49,7 @@
     <Compile Include="CentroCostosBC.cs" />
     <Compile Include="ClbHelpers.cs" />
     <Compile Include="ConceptoBC.cs" />
+    <Compile Include="Helper\ExceptionHelper.cs" />
     <Compile Include="NivelSeguridadBC.cs" />
     <Compile Include="ControlContabilidadBC.cs" />
     <Compile Include="CorreosBC.cs" />

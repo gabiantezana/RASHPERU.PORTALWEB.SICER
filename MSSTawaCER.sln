@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.15
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSS.TAWA.BC", "MSS.TAWA.BC\MSS.TAWA.BC.csproj", "{3FC8535E-C4E6-49D7-B68C-62F1BCE977EF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSS.TAWA.DA", "MSS.TAWA.DA\MSS.TAWA.DA.csproj", "{A607D606-F8B7-4100-81DD-2D7656571BFD}"
@@ -26,6 +28,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "MSSTawaCERWebSite", "MSSTaw
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "22101"
+		SlnRelativePath = "MSSTawaCERWebSite\"
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
 EndProject
@@ -54,5 +57,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9A9896F7-A7CE-4260-A1C2-B828D713703C}
 	EndGlobalSection
 EndGlobal
