@@ -11,6 +11,8 @@ namespace MSS.TAWA.BE
         int _IdEntregaRendir;
         int _IdProveedor;
         int _IdConcepto;
+        int _IdCentroCostos1;
+        int _IdCentroCostos2;
         int _IdCentroCostos3;
         int _IdCentroCostos4;
         int _IdCentroCostos5;
@@ -51,6 +53,16 @@ namespace MSS.TAWA.BE
         {
             get { return _IdConcepto; }
             set { _IdConcepto = value; }
+        }
+        public int IdCentroCostos1
+        {
+            get { return _IdCentroCostos1; }
+            set { _IdCentroCostos1 = value; }
+        }
+        public int IdCentroCostos2
+        {
+            get { return _IdCentroCostos2; }
+            set { _IdCentroCostos2 = value; }
         }
         public int IdCentroCostos3
         {
