@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 using MSS.TAWA.BC;
 using MSS.TAWA.BE;
 using System.Web.Security;
+using MssTawaCer.App_Code.Helper;
 
 public partial class SiteMaster : System.Web.UI.MasterPage
 {
@@ -26,6 +27,7 @@ public partial class SiteMaster : System.Web.UI.MasterPage
         catch (Exception ex)
         {
             Mensaje("Ocurrió un error (SiteMaster): " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
     }
 
@@ -43,6 +45,7 @@ public partial class SiteMaster : System.Web.UI.MasterPage
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (SiteMaster): " + ex.Message);
         }
     }
@@ -99,6 +102,7 @@ public partial class SiteMaster : System.Web.UI.MasterPage
         catch (Exception ex)
         {
             Mensaje("Ocurrió un error (SiteMaster): " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
     }
 

@@ -15,6 +15,7 @@ using System.Web.UI.HtmlControls;
 using System.Text;
 using System.Net;
 using System.Net.NetworkInformation;
+using MssTawaCer.App_Code.Helper;
 
 public partial class RendirEntregaRendir : System.Web.UI.Page
 {
@@ -66,6 +67,7 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirEntregaRendir): " + ex.Message);
         }
     }
@@ -103,6 +105,7 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirEntregaRendir): " + ex.Message);
         }
     }
@@ -119,17 +122,17 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
             EntregaRendirBE objEntregaRendirBE = new EntregaRendirBE();
             objEntregaRendirBE = objEntregaRendirBC.ObtenerEntregaRendir(Convert.ToInt32(strIdEntregaRendir), 0);
 
-            ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(objEntregaRendirBE.IdUsuarioSolicitante, 8, objEntregaRendirBE.IdEmpresa);
+            ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(objEntregaRendirBE.IdEmpresa, 3);
             ddlCentroCostos3.DataTextField = "Descripcion";
             ddlCentroCostos3.DataValueField = "IdCentroCostos";
             ddlCentroCostos3.DataBind();
 
-            ddlCentroCostos4.DataSource = objCentroCostosBC.ListarCentroCostos(objEntregaRendirBE.IdCentroCostos3, 9, objEntregaRendirBE.IdEmpresa);
+            ddlCentroCostos4.DataSource = objCentroCostosBC.ListarCentroCostos(objEntregaRendirBE.IdEmpresa, 4);
             ddlCentroCostos4.DataTextField = "Descripcion";
             ddlCentroCostos4.DataValueField = "IdCentroCostos";
             ddlCentroCostos4.DataBind();
 
-            ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(objEntregaRendirBE.IdCentroCostos4, 11, objEntregaRendirBE.IdEmpresa);
+            ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(objEntregaRendirBE.IdEmpresa, 5);
             ddlCentroCostos5.DataTextField = "Descripcion";
             ddlCentroCostos5.DataValueField = "IdCentroCostos";
             ddlCentroCostos5.DataBind();
@@ -140,6 +143,7 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirEntregaRendir): " + ex.Message);
         }
     }
@@ -156,6 +160,7 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirEntregaRendir): " + ex.Message);
         }
     }
@@ -222,6 +227,7 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirEntregaRendir): " + ex.Message);
         }
     }
@@ -467,7 +473,10 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
                     lblProveedor.Text = objProveedorBE.CardName;
 
                     try { ddlConcepto.SelectedValue = objEntregaRendirDocumentoBE.IdConcepto.ToString(); }
-                    catch { ddlConcepto.SelectedValue = "0"; }
+
+                    catch(Exception ex) {
+            ExceptionHelper.LogException(ex);
+                        ddlConcepto.SelectedValue = "0"; }
                     ddlIdMonedaDoc.SelectedValue = objEntregaRendirDocumentoBE.IdMonedaDoc.ToString();
                     ddlIdMonedaOriginal.SelectedValue = objEntregaRendirDocumentoBE.IdMonedaOriginal.ToString();
 
@@ -510,6 +519,7 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (NivelAprobacion): " + ex.Message);
         }
     }
@@ -904,6 +914,7 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirEntregaRendir): " + ex.Message);
         }
         finally
@@ -1079,6 +1090,7 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirEntregaRendir): " + ex.Message);
         }
         finally
@@ -1164,6 +1176,7 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirEntregaRendir): " + ex.Message);
         }
         finally
@@ -1339,6 +1352,7 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
 
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirEntregaRendir): " + ex.Message);
         }
         finally
@@ -1476,6 +1490,7 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirEntregaRendir): " + ex.Message);
         }
         finally
@@ -1557,6 +1572,7 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
             }
             catch (System.Net.Mail.SmtpException ex)
             {
+            ExceptionHelper.LogException(ex);
                 Mensaje("Ocurrió un error (EntregaRendir): " + ex.Message);
             }
         }
@@ -1719,6 +1735,7 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (NivelAprobacion): " + ex.Message);
         }
     }
@@ -1785,6 +1802,7 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirEntregaRendir): " + ex.Message);
         }
         finally
@@ -1845,6 +1863,7 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirEntregaRendir): " + ex.Message);
         }
         finally
@@ -1946,6 +1965,7 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirEntregaRendir): " + ex.Message);
         }
         finally
@@ -2053,6 +2073,7 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirEntregaRendir): " + ex.Message);
         }
         finally
@@ -2181,6 +2202,7 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("El Excel a guardar no debe estar abierto: " + ex.Message);
         }
     }
@@ -2310,6 +2332,7 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
         catch (Exception ex)
         {
             //Mensaje("Ocurrió un error (Prueba): " + ex.Message);
+            ExceptionHelper.LogException(ex);
             blbResultadoMasivo.Text = "Ocurrió un error (Prueba): " + ex.Message;
         }
     }
@@ -2472,6 +2495,7 @@ public partial class RendirEntregaRendir : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirEntregaRendir): " + ex.Message);
         }
         finally

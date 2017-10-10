@@ -54,9 +54,9 @@
    </tr>
    <tr>
     <td align="left"><label>Centro Costo Nivel 3</label></td>
-    <td align="left"><asp:DropDownList ID="ddlCentroCostos3" runat="server" Width="95%" OnSelectedIndexChanged="ddlCentroCosto3_SelectedIndexChanged" AutoPostBack="true" Enabled="false" ></asp:DropDownList></td>
+    <td align="left"><asp:DropDownList ID="ddlCentroCostos3" runat="server" Width="95%" OnSelectedIndexChanged="ddlCentroCosto3_SelectedIndexChanged" AutoPostBack="true" ></asp:DropDownList></td>
     <td align="left"><label>Centro Costo Nivel 4</label></td>
-    <td align="left"><asp:DropDownList ID="ddlCentroCostos4" runat="server" Width="95%" OnSelectedIndexChanged="ddlCentroCosto4_SelectedIndexChanged" AutoPostBack="true" Enabled="false" ></asp:DropDownList></td>
+    <td align="left"><asp:DropDownList ID="ddlCentroCostos4" runat="server" Width="95%" OnSelectedIndexChanged="ddlCentroCosto4_SelectedIndexChanged" AutoPostBack="true" ></asp:DropDownList></td>
    </tr>
    <tr>  
     <td align="left"><label>Centro Costo Nivel 5</label></td>

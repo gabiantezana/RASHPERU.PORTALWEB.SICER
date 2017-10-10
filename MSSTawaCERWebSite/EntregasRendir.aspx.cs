@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 
 using MSS.TAWA.BC;
 using MSS.TAWA.BE;
+using MssTawaCer.App_Code.Helper;
 
 public partial class EntregasRendir : System.Web.UI.Page
 {
@@ -111,6 +112,7 @@ public partial class EntregasRendir : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (CajaChica): " + ex.Message);
         }
     }
@@ -138,6 +140,7 @@ public partial class EntregasRendir : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (CajaChica): " + ex.Message);
         }
     }
@@ -265,6 +268,7 @@ public partial class EntregasRendir : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (NivelAprobacion): " + ex.Message);
         }
     }

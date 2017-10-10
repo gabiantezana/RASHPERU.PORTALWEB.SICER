@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 
 using MSS.TAWA.BC;
 using MSS.TAWA.BE;
+using MssTawaCer.App_Code.Helper;
 
 public partial class GrupoTrabajo : System.Web.UI.Page
 {
@@ -38,6 +39,7 @@ public partial class GrupoTrabajo : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (GrupoTrabajo): " + ex.Message);
         }
     }
@@ -60,6 +62,7 @@ public partial class GrupoTrabajo : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (GrupoTrabajo): " + ex.Message);
         }
     }
@@ -77,6 +80,7 @@ public partial class GrupoTrabajo : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (GrupoTrabajo): " + ex.Message);
         }
     }
@@ -95,6 +99,7 @@ public partial class GrupoTrabajo : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (CajaChica): " + ex.Message);
         }
     }
@@ -123,6 +128,7 @@ public partial class GrupoTrabajo : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (GrupoTrabajo): " + ex.Message);
         }
     }
@@ -145,6 +151,7 @@ public partial class GrupoTrabajo : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (GrupoTrabajo): " + ex.Message);
         }
     }
@@ -177,6 +184,7 @@ public partial class GrupoTrabajo : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (Usuarios): " + ex.Message);
         }
         return Estado;

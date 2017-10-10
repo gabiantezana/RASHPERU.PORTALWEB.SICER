@@ -118,12 +118,12 @@ namespace MSS.TAWA.BE
         }
         public String EsFacturable
         {
-            get { return _EsFacturable; }
+            get { return _EsFacturable == null ? String.Empty : _EsFacturable; }
             set { _EsFacturable = value; }
         }
         public String MomentoFacturable
         {
-            get { return _MomentoFacturable; }
+            get { return _MomentoFacturable == null ? String.Empty : _MomentoFacturable; }
             set { _MomentoFacturable = value; }
         }
         public String Asunto

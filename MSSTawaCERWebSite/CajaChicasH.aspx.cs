@@ -10,6 +10,7 @@ using MSS.TAWA.BE;
 using System.IO;
 using System.Web.UI.HtmlControls;
 using System.Text;
+using MssTawaCer.App_Code.Helper;
 
 public partial class CajaChicasH : System.Web.UI.Page
 {
@@ -47,6 +48,7 @@ public partial class CajaChicasH : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirCajaChica): " + ex.Message);
         }
     }
@@ -86,6 +88,7 @@ public partial class CajaChicasH : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (NivelAprobacion): " + ex.Message);
         }
     }
@@ -227,6 +230,7 @@ public partial class CajaChicasH : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("El Excel a guardar no debe estar abierto: " + ex.Message);
         }
     }

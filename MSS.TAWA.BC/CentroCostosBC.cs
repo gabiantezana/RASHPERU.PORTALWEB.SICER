@@ -10,12 +10,12 @@ namespace MSS.TAWA.BC
 {
     public class CentroCostosBC
     {
-        public List<CentroCostosBE> ListarCentroCostos(int Id, int Tipo, int Tipo2)
+        public List<CentroCostosBE> ListarCentroCostos(int IdEmpresa, int nivel)
         {
             try
             {
                 CentroCostosDA objDA = new CentroCostosDA();
-                return objDA.ListarCentroCostos(Id, Tipo, Tipo2);
+                return objDA.ListarCentroCostos(IdEmpresa, nivel);
             }
             catch (Exception ex)
             {

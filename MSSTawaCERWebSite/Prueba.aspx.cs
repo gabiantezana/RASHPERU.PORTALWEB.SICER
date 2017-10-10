@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
+using MssTawaCer.App_Code.Helper;
 
 public partial class Prueba : System.Web.UI.Page
 {
@@ -57,6 +58,7 @@ public partial class Prueba : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (Prueba): " + ex.Message);
         }
     }

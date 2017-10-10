@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 using MSS.TAWA.BC;
 using MSS.TAWA.BE;
 using System.IO;
+using MssTawaCer.App_Code.Helper;
 //using System.Net.Mail;
 
 public partial class Reembolso : System.Web.UI.Page
@@ -35,7 +36,6 @@ public partial class Reembolso : System.Web.UI.Page
                 ListarUsuarioSolicitante(Convert.ToInt32(strModo), Convert.ToInt32(strIdReembolso));
                 ListarMoneda();
                 ListarEmpresa();
-                ListarAreaSolicitante();
                 ListarCentroCostos();
                 ListarMotivo();
                 ModalidadCampo(Convert.ToInt32(strModo), Convert.ToInt32(strIdReembolso));
@@ -44,6 +44,7 @@ public partial class Reembolso : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (Reembolso): " + ex.Message);
         }
     }
@@ -77,6 +78,7 @@ public partial class Reembolso : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (Reembolso): " + ex.Message);
         }
     }
@@ -112,30 +114,9 @@ public partial class Reembolso : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (Reembolso): " + ex.Message);
         }
-    }
-
-    private void ListarAreaSolicitante()
-    {
-        //try
-        //{
-        //    UsuarioBE objUsuarioBE = new UsuarioBE();
-        //    objUsuarioBE = (UsuarioBE)Session["Usuario"];
-
-        //    AreaBC objBC = new AreaBC();
-        //    List<AreaBE> lstBE = new List<AreaBE>();
-        //    lstBE = objBC.ListarArea(objUsuarioBE.IdUsuario, 2);
-
-        //    ddlIdArea.DataSource = lstBE;
-        //    ddlIdArea.DataTextField = "Descripcion";
-        //    ddlIdArea.DataValueField = "IdArea";
-        //    ddlIdArea.DataBind();
-        //}
-        //catch (Exception ex)
-        //{
-        //    Mensaje("Ocurrió un error (Reembolso): " + ex.Message);
-        //}
     }
 
     private void ListarCentroCostos()
@@ -154,6 +135,7 @@ public partial class Reembolso : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirReembolso): " + ex.Message);
         }
     }
@@ -177,6 +159,7 @@ public partial class Reembolso : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (Reembolso): " + ex.Message);
         }
     }
@@ -347,14 +330,14 @@ public partial class Reembolso : System.Web.UI.Page
         ddlIdEmpresa.SelectedValue = objReembolsoBE.IdEmpresa.ToString();
 
         CentroCostosBC objCentroCostosBC = new CentroCostosBC();
-        ddlCentroCostos1.DataSource = objCentroCostosBC.ListarCentroCostos(objReembolsoBE.IdEmpresa, 6, 0);
+        ddlCentroCostos1.DataSource = objCentroCostosBC.ListarCentroCostos(objReembolsoBE.IdEmpresa, 1);
         ddlCentroCostos1.DataTextField = "Descripcion";
         ddlCentroCostos1.DataValueField = "IdCentroCostos";
         ddlCentroCostos1.DataBind();
         ddlCentroCostos1.Enabled = true;
         ddlCentroCostos1.SelectedValue = objReembolsoBE.IdCentroCostos1.ToString();
 
-        ddlCentroCostos2.DataSource = objCentroCostosBC.ListarCentroCostos(objReembolsoBE.IdEmpresa, 7, 0);
+        ddlCentroCostos2.DataSource = objCentroCostosBC.ListarCentroCostos(objReembolsoBE.IdEmpresa, 2);
         ddlCentroCostos2.DataTextField = "Descripcion";
         ddlCentroCostos2.DataValueField = "IdCentroCostos";
         ddlCentroCostos2.DataBind();
@@ -362,7 +345,7 @@ public partial class Reembolso : System.Web.UI.Page
         ddlCentroCostos2.SelectedValue = objReembolsoBE.IdCentroCostos2.ToString();
 
         objCentroCostosBC = new CentroCostosBC();
-        ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(objReembolsoBE.IdUsuarioSolicitante, 8, objReembolsoBE.IdEmpresa);
+        ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(objReembolsoBE.IdEmpresa, 3);
         ddlCentroCostos3.DataTextField = "Descripcion";
         ddlCentroCostos3.DataValueField = "IdCentroCostos";
         ddlCentroCostos3.DataBind();
@@ -370,7 +353,7 @@ public partial class Reembolso : System.Web.UI.Page
         ddlCentroCostos3.SelectedValue = objReembolsoBE.IdCentroCostos3.ToString();
 
         objCentroCostosBC = new CentroCostosBC();
-        ddlCentroCostos4.DataSource = objCentroCostosBC.ListarCentroCostos(objReembolsoBE.IdCentroCostos3, 9, objReembolsoBE.IdEmpresa);
+        ddlCentroCostos4.DataSource = objCentroCostosBC.ListarCentroCostos(objReembolsoBE.IdEmpresa, 4);
         ddlCentroCostos4.DataTextField = "Descripcion";
         ddlCentroCostos4.DataValueField = "IdCentroCostos";
         ddlCentroCostos4.DataBind();
@@ -378,7 +361,7 @@ public partial class Reembolso : System.Web.UI.Page
         ddlCentroCostos4.SelectedValue = objReembolsoBE.IdCentroCostos4.ToString();
 
         objCentroCostosBC = new CentroCostosBC();
-        ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(objReembolsoBE.IdCentroCostos4, 11, objReembolsoBE.IdEmpresa);
+        ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(objReembolsoBE.IdEmpresa, 5);
         ddlCentroCostos5.DataTextField = "Descripcion";
         ddlCentroCostos5.DataValueField = "IdCentroCostos";
         ddlCentroCostos5.DataBind();
@@ -408,6 +391,30 @@ public partial class Reembolso : System.Web.UI.Page
         int Id;
         try
         {
+            /*---------------------------------------VALIDA CAMPOS REQUERIDOS------------------------------------------------*/
+            Int32[] indexNoValidos = { 0, -1 };
+            String errorMessage = null;
+            if (indexNoValidos.Contains(ddlIdUsuarioSolicitante.SelectedIndex))
+                errorMessage = "Debe ingresar el usuario solicitante";
+            else if (indexNoValidos.Contains(ddlIdEmpresa.SelectedIndex))
+                errorMessage = "Debe ingresar la empresa";
+            else if (indexNoValidos.Contains(ddlMoneda.SelectedIndex))
+                errorMessage = "Debe ingresar la  moneda";
+            else if (String.IsNullOrWhiteSpace(txtMontoInicial.Text))
+                errorMessage = "Debe ingresar el monto inicial";
+            else if (indexNoValidos.Contains(ddlCentroCostos1.SelectedIndex))
+                errorMessage = "Debe ingresar el centro de costo nivel 1";
+            else if (String.IsNullOrWhiteSpace(txtAsunto.Text))
+                errorMessage = "Debe ingresar el asunto.";
+            else if (String.IsNullOrWhiteSpace(txtMotivoDetalle.Text))
+                errorMessage = "Debe ingresar el motivo";
+
+            if (!String.IsNullOrEmpty(errorMessage))
+            {
+                Mensaje(errorMessage);
+                return;
+            }
+            /*-------------------------------------FIN VALIDA CAMPOS REQUERIDOS----------------------------------------------*/
             bCrear.Enabled = false;
 
             txtMontoInicial.Text = "0.00";
@@ -520,6 +527,7 @@ public partial class Reembolso : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (Reembolso): " + ex.Message);
         }
         finally
@@ -620,6 +628,7 @@ public partial class Reembolso : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (Reembolso): " + ex.Message);
         }
     }
@@ -756,6 +765,7 @@ public partial class Reembolso : System.Web.UI.Page
         {
             Response.Redirect("~/Reembolsos.aspx");
             Mensaje("Ocurrió un error (Reembolso): " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
     }
 
@@ -832,6 +842,7 @@ public partial class Reembolso : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (Reembolso): " + ex.Message);
         }
     }
@@ -856,7 +867,7 @@ public partial class Reembolso : System.Web.UI.Page
         if (ddlIdUsuarioSolicitante.SelectedValue != "0" && ddlIdEmpresa.SelectedValue != "0")
         {
             CentroCostosBC objCentroCostosBC = new CentroCostosBC();
-            ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdUsuarioSolicitante.SelectedValue), 8, Convert.ToInt32(ddlIdEmpresa.SelectedValue));
+            ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 3);
             ddlCentroCostos3.DataTextField = "Descripcion";
             ddlCentroCostos3.DataValueField = "IdCentroCostos";
             ddlCentroCostos3.DataBind();
@@ -879,44 +890,45 @@ public partial class Reembolso : System.Web.UI.Page
         {
             ddlCentroCostos1.Enabled = true;
             ddlCentroCostos2.Enabled = true;
+            ddlCentroCostos3.Enabled = true;
+            ddlCentroCostos4.Enabled = true;
+            ddlCentroCostos5.Enabled = true;
+            ddlIdMetodoPago.Enabled = true;
 
             CentroCostosBC objCentroCostosBC = new CentroCostosBC();
 
-            ddlCentroCostos1.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 6, 0);
+            ddlCentroCostos1.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 1);
             ddlCentroCostos1.DataTextField = "Descripcion";
             ddlCentroCostos1.DataValueField = "IdCentroCostos";
             ddlCentroCostos1.DataBind();
 
-            ddlCentroCostos2.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 7, 0);
+            ddlCentroCostos2.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 2);
             ddlCentroCostos2.DataTextField = "Descripcion";
             ddlCentroCostos2.DataValueField = "IdCentroCostos";
             ddlCentroCostos2.DataBind();
 
-            ddlIdMetodoPago.Enabled = true;
+            ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 3);
+            ddlCentroCostos3.DataTextField = "Descripcion";
+            ddlCentroCostos3.DataValueField = "IdCentroCostos";
+            ddlCentroCostos3.DataBind();
+
+            ddlCentroCostos4.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 4);
+            ddlCentroCostos4.DataTextField = "Descripcion";
+            ddlCentroCostos4.DataValueField = "IdCentroCostos";
+            ddlCentroCostos4.DataBind();
+
+            ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 5);
+            ddlCentroCostos5.DataTextField = "Descripcion";
+            ddlCentroCostos5.DataValueField = "IdCentroCostos";
+            ddlCentroCostos5.DataBind();
+
             MetodoPagoBC objMetodoPagoBC = new MetodoPagoBC();
             ddlIdMetodoPago.DataSource = objMetodoPagoBC.ListarMetodoPago(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 1, 0);
             ddlIdMetodoPago.DataTextField = "Descripcion";
             ddlIdMetodoPago.DataValueField = "IdMetodoPago";
             ddlIdMetodoPago.DataBind();
 
-            if (ddlIdUsuarioSolicitante.SelectedValue != "0")
-            {
-                objCentroCostosBC = new CentroCostosBC();
-                ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdUsuarioSolicitante.SelectedValue), 8, Convert.ToInt32(ddlIdEmpresa.SelectedValue));
-                ddlCentroCostos3.DataTextField = "Descripcion";
-                ddlCentroCostos3.DataValueField = "IdCentroCostos";
-                ddlCentroCostos3.DataBind();
-                ddlCentroCostos3.Enabled = true;
-            }
-            else
-            {
-                ddlCentroCostos3.SelectedValue = "0";
-                ddlCentroCostos3.Enabled = false;
-                ddlCentroCostos4.SelectedValue = "0";
-                ddlCentroCostos4.Enabled = false;
-                ddlCentroCostos5.SelectedValue = "0";
-                ddlCentroCostos5.Enabled = false;
-            }
+
         }
         else
         {
@@ -940,7 +952,7 @@ public partial class Reembolso : System.Web.UI.Page
         if (ddlCentroCostos3.SelectedValue != "0")
         {
             CentroCostosBC objCentroCostosBC = new CentroCostosBC();
-            ddlCentroCostos4.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlCentroCostos3.SelectedValue), 9, Convert.ToInt32(ddlIdEmpresa.SelectedValue));
+            ddlCentroCostos4.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 4);
             ddlCentroCostos4.DataTextField = "Descripcion";
             ddlCentroCostos4.DataValueField = "IdCentroCostos";
             ddlCentroCostos4.DataBind();
@@ -961,7 +973,7 @@ public partial class Reembolso : System.Web.UI.Page
         if (ddlCentroCostos4.SelectedValue != "0")
         {
             CentroCostosBC objCentroCostosBC = new CentroCostosBC();
-            ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlCentroCostos4.SelectedValue), 11, Convert.ToInt32(ddlIdEmpresa.SelectedValue));
+            ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue),5 );
             ddlCentroCostos5.DataTextField = "Descripcion";
             ddlCentroCostos5.DataValueField = "IdCentroCostos";
             ddlCentroCostos5.DataBind();
@@ -1007,6 +1019,7 @@ public partial class Reembolso : System.Web.UI.Page
             catch (System.Net.Mail.SmtpException ex)
             {
                 Mensaje("Ocurrió un error (Reembolso): " + ex.Message);
+            ExceptionHelper.LogException(ex);
                 //sMemoryStream.Close();
             }
         }

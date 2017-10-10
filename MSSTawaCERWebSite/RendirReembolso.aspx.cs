@@ -16,6 +16,7 @@ using System.Text;
 
 using System.Net;
 using System.Net.NetworkInformation;
+using MssTawaCer.App_Code.Helper;
 
 public partial class RendirReembolso : System.Web.UI.Page
 {
@@ -82,6 +83,7 @@ public partial class RendirReembolso : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirReembolso): " + ex.Message);
         }
     }
@@ -103,6 +105,7 @@ public partial class RendirReembolso : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirReembolso): " + ex.Message);
         }
     }
@@ -119,17 +122,17 @@ public partial class RendirReembolso : System.Web.UI.Page
             ReembolsoBE objReembolsoBE = new ReembolsoBE();
             objReembolsoBE = objReembolsoBC.ObtenerReembolso(Convert.ToInt32(strIdReembolso), 0);
 
-            ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(objReembolsoBE.IdUsuarioSolicitante, 8, objReembolsoBE.IdEmpresa);
+            ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(objReembolsoBE.IdEmpresa, 3);
             ddlCentroCostos3.DataTextField = "Descripcion";
             ddlCentroCostos3.DataValueField = "IdCentroCostos";
             ddlCentroCostos3.DataBind();
 
-            ddlCentroCostos4.DataSource = objCentroCostosBC.ListarCentroCostos(objReembolsoBE.IdCentroCostos3, 9, objReembolsoBE.IdEmpresa);
+            ddlCentroCostos4.DataSource = objCentroCostosBC.ListarCentroCostos(objReembolsoBE.IdEmpresa, 4);
             ddlCentroCostos4.DataTextField = "Descripcion";
             ddlCentroCostos4.DataValueField = "IdCentroCostos";
             ddlCentroCostos4.DataBind();
 
-            ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(objReembolsoBE.IdCentroCostos4, 11, objReembolsoBE.IdEmpresa);
+            ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(objReembolsoBE.IdEmpresa, 5);
             ddlCentroCostos5.DataTextField = "Descripcion";
             ddlCentroCostos5.DataValueField = "IdCentroCostos";
             ddlCentroCostos5.DataBind();
@@ -140,6 +143,7 @@ public partial class RendirReembolso : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirReembolso): " + ex.Message);
         }
     }
@@ -156,6 +160,7 @@ public partial class RendirReembolso : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirReembolso): " + ex.Message);
         }
     }
@@ -218,6 +223,7 @@ public partial class RendirReembolso : System.Web.UI.Page
         catch (Exception ex)
         {
             Mensaje("Ocurrió un error (RendirReembolso): " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
     }
 
@@ -467,6 +473,7 @@ public partial class RendirReembolso : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (NivelAprobacion): " + ex.Message);
         }
     }
@@ -801,6 +808,7 @@ public partial class RendirReembolso : System.Web.UI.Page
         catch (Exception ex)
         {
             Mensaje("Ocurrió un error (RendirReembolso): " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
         finally
         {
@@ -976,6 +984,7 @@ public partial class RendirReembolso : System.Web.UI.Page
         catch (Exception ex)
         {
             Mensaje("Ocurrió un error (RendirReembolso): " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
         finally
         {
@@ -1042,6 +1051,7 @@ public partial class RendirReembolso : System.Web.UI.Page
         catch (Exception ex)
         {
             Mensaje("Ocurrió un error (RendirReembolso): " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
         finally
         {
@@ -1229,6 +1239,7 @@ public partial class RendirReembolso : System.Web.UI.Page
         catch (Exception ex)
         {
             Mensaje("Ocurrió un error (RendirReembolso): " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
         finally
         {
@@ -1363,6 +1374,7 @@ public partial class RendirReembolso : System.Web.UI.Page
         catch (Exception ex)
         {
             Mensaje("Ocurrió un error (RendirReembolso): " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
         finally
         {
@@ -1447,6 +1459,7 @@ public partial class RendirReembolso : System.Web.UI.Page
             catch (System.Net.Mail.SmtpException ex)
             {
                 Mensaje("Ocurrió un error (Reembolso): " + ex.Message);
+            ExceptionHelper.LogException(ex);
             }
         }
     }
@@ -1609,6 +1622,7 @@ public partial class RendirReembolso : System.Web.UI.Page
         catch (Exception ex)
         {
             Mensaje("Ocurrió un error (NivelAprobacion): " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
     }
 
@@ -1675,6 +1689,7 @@ public partial class RendirReembolso : System.Web.UI.Page
         catch (Exception ex)
         {
             Mensaje("Ocurrió un error (RendirReembolso): " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
         finally
         {
@@ -1735,6 +1750,7 @@ public partial class RendirReembolso : System.Web.UI.Page
         catch (Exception ex)
         {
             Mensaje("Ocurrió un error (RendirReembolso): " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
         finally
         {
@@ -1795,6 +1811,7 @@ public partial class RendirReembolso : System.Web.UI.Page
         catch (Exception ex)
         {
             Mensaje("El Excel a guardar no debe estar abierto: " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
     }
 
@@ -1924,6 +1941,7 @@ public partial class RendirReembolso : System.Web.UI.Page
         {
             //Mensaje("Ocurrió un error (Prueba): " + ex.Message);
             blbResultadoMasivo.Text = "Ocurrió un error (Prueba): " + ex.Message;
+            ExceptionHelper.LogException(ex);
         }
     }
 
@@ -2086,6 +2104,7 @@ public partial class RendirReembolso : System.Web.UI.Page
         catch (Exception ex)
         {
             Mensaje("Ocurrió un error (RendirReembolso): " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
         finally
         {
@@ -2143,6 +2162,7 @@ public partial class RendirReembolso : System.Web.UI.Page
         catch (Exception ex)
         {
             Mensaje("Ocurrió un error (RendirReembolso): " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
     }
 

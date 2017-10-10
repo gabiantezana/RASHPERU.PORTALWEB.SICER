@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 using MSS.TAWA.BC;
 using MSS.TAWA.BE;
 using System.IO;
+using MssTawaCer.App_Code.Helper;
 //using System.Net.Mail;
 
 public partial class EntregaRendir : System.Web.UI.Page
@@ -34,10 +35,7 @@ public partial class EntregaRendir : System.Web.UI.Page
 
                 ListarUsuarioSolicitante(Convert.ToInt32(strModo), Convert.ToInt32(strIdEntregaRendir));
                 ListarMoneda();
-                ListarEsFacturable();
-                ListarMomentoFacturable();
                 ListarEmpresa();
-                ListarAreaSolicitante();
                 ListarCentroCostos();
                 ListarMotivo();
                 ModalidadCampo(Convert.ToInt32(strModo), Convert.ToInt32(strIdEntregaRendir));
@@ -46,6 +44,7 @@ public partial class EntregaRendir : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (EntregaRendir): " + ex.Message);
         }
     }
@@ -79,6 +78,7 @@ public partial class EntregaRendir : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (EntregaRendir): " + ex.Message);
         }
     }
@@ -95,45 +95,11 @@ public partial class EntregaRendir : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (EntregaRendir): " + ex.Message);
         }
     }
 
-    private void ListarEsFacturable()
-    {
-        try
-        {
-            ddlEsFacturable.Items.Clear();
-            ListItem oItem = new ListItem("Seleccionar", "0");
-            ddlEsFacturable.Items.Add(oItem);
-            oItem = new ListItem("Si", "1");
-            ddlEsFacturable.Items.Add(oItem);
-            oItem = new ListItem("No", "2");
-            ddlEsFacturable.Items.Add(oItem);
-        }
-        catch (Exception ex)
-        {
-            Mensaje("Ocurrió un error (EntregaRendir): " + ex.Message);
-        }
-    }
-
-    private void ListarMomentoFacturable()
-    {
-        try
-        {
-            ddlMomentoFacturable.Items.Clear();
-            ListItem oItem = new ListItem("Seleccionar", "0");
-            ddlMomentoFacturable.Items.Add(oItem);
-            oItem = new ListItem("En la entrega del dinero.", "1");
-            ddlMomentoFacturable.Items.Add(oItem);
-            oItem = new ListItem("En la rendicion.", "2");
-            ddlMomentoFacturable.Items.Add(oItem);
-        }
-        catch (Exception ex)
-        {
-            Mensaje("Ocurrió un error (EntregaRendir): " + ex.Message);
-        }
-    }
 
     private void ListarEmpresa()
     {
@@ -150,30 +116,9 @@ public partial class EntregaRendir : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (EntregaRendir): " + ex.Message);
         }
-    }
-
-    private void ListarAreaSolicitante()
-    {
-        //try
-        //{
-        //    UsuarioBE objUsuarioBE = new UsuarioBE();
-        //    objUsuarioBE = (UsuarioBE)Session["Usuario"];
-
-        //    AreaBC objBC = new AreaBC();
-        //    List<AreaBE> lstBE = new List<AreaBE>();
-        //    lstBE = objBC.ListarArea(objUsuarioBE.IdUsuario, 2);
-
-        //    ddlIdArea.DataSource = lstBE;
-        //    ddlIdArea.DataTextField = "Descripcion";
-        //    ddlIdArea.DataValueField = "IdArea";
-        //    ddlIdArea.DataBind();
-        //}
-        //catch (Exception ex)
-        //{
-        //    Mensaje("Ocurrió un error (EntregaRendir): " + ex.Message);
-        //}
     }
 
     private void ListarCentroCostos()
@@ -192,6 +137,7 @@ public partial class EntregaRendir : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirEntregaRendir): " + ex.Message);
         }
     }
@@ -215,6 +161,7 @@ public partial class EntregaRendir : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (EntregaRendir): " + ex.Message);
         }
     }
@@ -253,8 +200,6 @@ public partial class EntregaRendir : System.Web.UI.Page
                 bRechazar.Visible = false;
                 bCancelar2.Visible = false;
 
-                ddlEsFacturable.Enabled = true;
-                ddlMomentoFacturable.Enabled = false;
                 ddlCentroCostos3.Enabled = false;
                 ddlCentroCostos4.Enabled = false;
                 ddlCentroCostos5.Enabled = false;
@@ -390,18 +335,16 @@ public partial class EntregaRendir : System.Web.UI.Page
         txtCodigoEntregaRendir.Text = objEntregaRendirBE.CodigoEntregaRendir;
         ddlIdUsuarioSolicitante.SelectedValue = objEntregaRendirBE.IdUsuarioSolicitante.ToString();
         ddlIdEmpresa.SelectedValue = objEntregaRendirBE.IdEmpresa.ToString();
-        ddlEsFacturable.SelectedValue = objEntregaRendirBE.EsFacturable.ToString();
-        ddlMomentoFacturable.SelectedValue = objEntregaRendirBE.MomentoFacturable.ToString();
 
         CentroCostosBC objCentroCostosBC = new CentroCostosBC();
-        ddlCentroCostos1.DataSource = objCentroCostosBC.ListarCentroCostos(objEntregaRendirBE.IdEmpresa, 6, 0);
+        ddlCentroCostos1.DataSource = objCentroCostosBC.ListarCentroCostos(objEntregaRendirBE.IdEmpresa, 1);
         ddlCentroCostos1.DataTextField = "Descripcion";
         ddlCentroCostos1.DataValueField = "IdCentroCostos";
         ddlCentroCostos1.DataBind();
         ddlCentroCostos1.Enabled = true;
         ddlCentroCostos1.SelectedValue = objEntregaRendirBE.IdCentroCostos1.ToString();
 
-        ddlCentroCostos2.DataSource = objCentroCostosBC.ListarCentroCostos(objEntregaRendirBE.IdEmpresa, 7, 0);
+        ddlCentroCostos2.DataSource = objCentroCostosBC.ListarCentroCostos(objEntregaRendirBE.IdEmpresa, 2);
         ddlCentroCostos2.DataTextField = "Descripcion";
         ddlCentroCostos2.DataValueField = "IdCentroCostos";
         ddlCentroCostos2.DataBind();
@@ -409,7 +352,7 @@ public partial class EntregaRendir : System.Web.UI.Page
         ddlCentroCostos2.SelectedValue = objEntregaRendirBE.IdCentroCostos2.ToString();
 
         objCentroCostosBC = new CentroCostosBC();
-        ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(objEntregaRendirBE.IdUsuarioSolicitante, 8, objEntregaRendirBE.IdEmpresa);
+        ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(objEntregaRendirBE.IdEmpresa, 3);
         ddlCentroCostos3.DataTextField = "Descripcion";
         ddlCentroCostos3.DataValueField = "IdCentroCostos";
         ddlCentroCostos3.DataBind();
@@ -417,7 +360,7 @@ public partial class EntregaRendir : System.Web.UI.Page
         ddlCentroCostos3.SelectedValue = objEntregaRendirBE.IdCentroCostos3.ToString();
 
         objCentroCostosBC = new CentroCostosBC();
-        ddlCentroCostos4.DataSource = objCentroCostosBC.ListarCentroCostos(objEntregaRendirBE.IdCentroCostos3, 9, objEntregaRendirBE.IdEmpresa);
+        ddlCentroCostos4.DataSource = objCentroCostosBC.ListarCentroCostos(objEntregaRendirBE.IdEmpresa, 4);
         ddlCentroCostos4.DataTextField = "Descripcion";
         ddlCentroCostos4.DataValueField = "IdCentroCostos";
         ddlCentroCostos4.DataBind();
@@ -425,7 +368,7 @@ public partial class EntregaRendir : System.Web.UI.Page
         ddlCentroCostos4.SelectedValue = objEntregaRendirBE.IdCentroCostos4.ToString();
 
         objCentroCostosBC = new CentroCostosBC();
-        ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(objEntregaRendirBE.IdCentroCostos4, 11, objEntregaRendirBE.IdEmpresa);
+        ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(objEntregaRendirBE.IdEmpresa, 5);
         ddlCentroCostos5.DataTextField = "Descripcion";
         ddlCentroCostos5.DataValueField = "IdCentroCostos";
         ddlCentroCostos5.DataBind();
@@ -445,13 +388,9 @@ public partial class EntregaRendir : System.Web.UI.Page
         txtAsunto.Text = objEntregaRendirBE.Asunto;
         ddlMoneda.SelectedValue = objEntregaRendirBE.Moneda.ToString();
         txtMontoInicial.Text = Convert.ToDouble(objEntregaRendirBE.MontoInicial).ToString("0.00");
-        ddlEsFacturable.SelectedValue = objEntregaRendirBE.EsFacturable.ToString();
-        ddlMomentoFacturable.SelectedValue = objEntregaRendirBE.MomentoFacturable.ToString();
         txtComentario.Text = objEntregaRendirBE.Comentario;
         txtMotivoDetalle.Text = objEntregaRendirBE.MotivoDetalle;
 
-        if (objEntregaRendirBE.EsFacturable.Trim() == "2") ddlMomentoFacturable.Enabled = true;
-        else ddlMomentoFacturable.Enabled = false;
     }
 
     protected void Crear_Click(object sender, EventArgs e)
@@ -459,43 +398,36 @@ public partial class EntregaRendir : System.Web.UI.Page
         int Id;
         try
         {
+            /*---------------------------------------VALIDA CAMPOS REQUERIDOS------------------------------------------------*/
+            Int32[] indexNoValidos = { 0, -1 };
+            String errorMessage = null;
+            if (indexNoValidos.Contains(ddlIdUsuarioSolicitante.SelectedIndex))
+                errorMessage = "Debe ingresar el usuario solicitante";
+            else if (indexNoValidos.Contains(ddlIdEmpresa.SelectedIndex))
+                errorMessage = "Debe ingresar la empresa";
+            else if (indexNoValidos.Contains(ddlMoneda.SelectedIndex))
+                errorMessage = "Debe ingresar la  moneda";
+            else if (String.IsNullOrWhiteSpace(txtMontoInicial.Text))
+                errorMessage = "Debe ingresar el monto inicial";
+            else if (indexNoValidos.Contains(ddlCentroCostos1.SelectedIndex))
+                errorMessage = "Debe ingresar el centro de costo nivel 1";
+            else if (String.IsNullOrWhiteSpace(txtAsunto.Text))
+                errorMessage = "Debe ingresar el asunto.";
+            else if (String.IsNullOrWhiteSpace(txtMotivoDetalle.Text))
+                errorMessage = "Debe ingresar el motivo";
+
+            if (!String.IsNullOrEmpty(errorMessage))
+            {
+                Mensaje(errorMessage);
+                return;
+            }
+            /*-------------------------------------FIN VALIDA CAMPOS REQUERIDOS----------------------------------------------*/
+
+
             bCrear.Enabled = false;
 
             bool validacion = true;
             string mensajeAlerta = "";
-
-            if (ddlEsFacturable.SelectedItem.Value == "0")
-            {
-                validacion = false;
-                mensajeAlerta = "No ah seleccionado si es o no refacturable";
-            }
-
-            if (ddlEsFacturable.SelectedItem.Value == "1")//Si
-            {
-                if (ddlIdUsuarioSolicitante.SelectedItem.Value == "0" || ddlIdEmpresa.SelectedItem.Value == "0" || //ddlIdArea.SelectedItem.Value == "0" ||
-                   // ddlCentroCostos3.SelectedItem.Value == "0" || ddlCentroCostos4.SelectedItem.Value == "0" || ddlCentroCostos5.SelectedItem.Value == "0" ||
-                    ddlCentroCostos1.SelectedItem.Value == "0" ||// ddlCentroCostos2.SelectedItem.Value == "0" || 
-                    ddlIdMetodoPago.SelectedItem.Value == "0" ||
-                    txtAsunto.Text.Trim() == "" || ddlMoneda.SelectedItem.Value == "0" || txtMontoInicial.Text.Trim() == "0" ||
-                    ddlIdMotivo.SelectedItem.Value == "0" || ddlEsFacturable.SelectedItem.Value == "0" || ddlMomentoFacturable.SelectedItem.Value == "0")
-                {
-                    validacion = false;
-                    mensajeAlerta = "Es necesario llenar toda la informacion";
-                }
-            }
-            if (ddlEsFacturable.SelectedItem.Value == "2")
-            {
-                if (ddlIdUsuarioSolicitante.SelectedItem.Value == "0" || ddlIdEmpresa.SelectedItem.Value == "0" || //ddlIdArea.SelectedItem.Value == "0" ||
-                    // ddlCentroCostos3.SelectedItem.Value == "0" || ddlCentroCostos4.SelectedItem.Value == "0" || ddlCentroCostos5.SelectedItem.Value == "0" ||
-                    ddlCentroCostos1.SelectedItem.Value == "0" ||// ddlCentroCostos2.SelectedItem.Value == "0" || 
-                    ddlIdMetodoPago.SelectedItem.Value == "0" ||
-                    txtAsunto.Text.Trim() == "" || ddlMoneda.SelectedItem.Value == "0" || txtMontoInicial.Text.Trim() == "0" ||
-                    ddlIdMotivo.SelectedItem.Value == "0")
-                {
-                    validacion = false;
-                    mensajeAlerta = "Es necesario llenar toda la informacion";
-                }
-            }
 
             if (validacion)
             {
@@ -563,8 +495,6 @@ public partial class EntregaRendir : System.Web.UI.Page
                 objEntregaRendirBE.MontoReembolsado = "0.00";
                 objEntregaRendirBE.MontoActual = Convert.ToDouble(txtMontoInicial.Text).ToString("0.00");
                 objEntregaRendirBE.Moneda = ddlMoneda.SelectedItem.Value;
-                objEntregaRendirBE.EsFacturable = ddlEsFacturable.SelectedItem.Value;
-                objEntregaRendirBE.MomentoFacturable = ddlMomentoFacturable.SelectedItem.Value;
                 objEntregaRendirBE.Comentario = "";
                 objEntregaRendirBE.MotivoDetalle = txtMotivoDetalle.Text;
                 objEntregaRendirBE.FechaSolicitud = DateTime.Now;
@@ -608,6 +538,7 @@ public partial class EntregaRendir : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (EntregaRendir): " + ex.Message);
         }
         finally
@@ -640,12 +571,6 @@ public partial class EntregaRendir : System.Web.UI.Page
             bAprobar.Enabled = false;
 
             bool validacion = true;
-            if (ddlEsFacturable.SelectedValue == "0")
-                validacion = false;
-
-            if (ddlEsFacturable.SelectedValue == "1")
-                if (ddlMomentoFacturable.SelectedValue == "0")
-                    validacion = false;
 
             if (validacion == true)
             {
@@ -667,8 +592,6 @@ public partial class EntregaRendir : System.Web.UI.Page
                 objEntregaRendirBE.IdCentroCostos5 = Convert.ToInt32(ddlCentroCostos5.SelectedItem.Value);
                 objEntregaRendirBE.IdMotivo = Convert.ToInt32(ddlIdMotivo.SelectedItem.Value);
                 objEntregaRendirBE.IdMetodoPago = Convert.ToInt32(ddlIdMetodoPago.SelectedItem.Value);
-                objEntregaRendirBE.EsFacturable = ddlEsFacturable.SelectedItem.Value;
-                objEntregaRendirBE.MomentoFacturable = ddlMomentoFacturable.SelectedItem.Value;
                 objEntregaRendirBE.Comentario = "";
                 objEntregaRendirBE.MotivoDetalle = txtMotivoDetalle.Text;
 
@@ -693,8 +616,6 @@ public partial class EntregaRendir : System.Web.UI.Page
                 }
 
 
-                objEntregaRendirBE.EsFacturable = ddlEsFacturable.SelectedItem.Value;
-                objEntregaRendirBE.MomentoFacturable = ddlMomentoFacturable.SelectedItem.Value;
 
                 if (Session["Usuario"] == null)
                 {
@@ -720,6 +641,7 @@ public partial class EntregaRendir : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (EntregaRendir): " + ex.Message);
 
         }
@@ -876,8 +798,6 @@ public partial class EntregaRendir : System.Web.UI.Page
             objEntregaRendirBE.IdCentroCostos4 = Convert.ToInt32(ddlCentroCostos4.SelectedItem.Value);
             objEntregaRendirBE.IdCentroCostos5 = Convert.ToInt32(ddlCentroCostos5.SelectedItem.Value);
             objEntregaRendirBE.IdMotivo = Convert.ToInt32(ddlIdMotivo.SelectedItem.Value);
-            objEntregaRendirBE.EsFacturable = ddlEsFacturable.SelectedItem.Value;
-            objEntregaRendirBE.MomentoFacturable = ddlMomentoFacturable.SelectedItem.Value;
 
             estado = objEntregaRendirBE.Estado;
             if (Convert.ToInt32(estado) > 3)
@@ -909,13 +829,14 @@ public partial class EntregaRendir : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (EntregaRendir): " + ex.Message);
         }
         finally
         {
             Response.Redirect("~/EntregasRendir.aspx");
             bObservacion.Enabled = true;
-            
+
         }
     }
 
@@ -1000,6 +921,7 @@ public partial class EntregaRendir : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (EntregaRendir): " + ex.Message);
         }
         finally
@@ -1059,33 +981,14 @@ public partial class EntregaRendir : System.Web.UI.Page
             }
             catch (System.Net.Mail.SmtpException ex)
             {
+                ExceptionHelper.LogException(ex);
                 Mensaje("Ocurrió un error (EntregaRendir): " + ex.Message);
                 //sMemoryStream.Close();
             }
         }
     }
 
-    protected void ddlIdUsuarioSolicitante_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        if (ddlIdUsuarioSolicitante.SelectedValue != "0" && ddlIdEmpresa.SelectedValue != "0")
-        {
-            CentroCostosBC objCentroCostosBC = new CentroCostosBC();
-            ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdUsuarioSolicitante.SelectedValue), 8, Convert.ToInt32(ddlIdEmpresa.SelectedValue));
-            ddlCentroCostos3.DataTextField = "Descripcion";
-            ddlCentroCostos3.DataValueField = "IdCentroCostos";
-            ddlCentroCostos3.DataBind();
-            ddlCentroCostos3.Enabled = true;
-        }
-        else
-        {
-            ddlCentroCostos3.SelectedValue = "0";
-            ddlCentroCostos3.Enabled = false;
-            ddlCentroCostos4.SelectedValue = "0";
-            ddlCentroCostos4.Enabled = false;
-            ddlCentroCostos5.SelectedValue = "0";
-            ddlCentroCostos5.Enabled = false;
-        }
-    }
+    protected void ddlIdUsuarioSolicitante_SelectedIndexChanged(object sender, EventArgs e) { }
 
     protected void ddlIdEmpresa_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -1093,44 +996,45 @@ public partial class EntregaRendir : System.Web.UI.Page
         {
             ddlCentroCostos1.Enabled = true;
             ddlCentroCostos2.Enabled = true;
+            ddlCentroCostos3.Enabled = true;
+            ddlCentroCostos4.Enabled = true;
+            ddlCentroCostos5.Enabled = true;
+            ddlIdMetodoPago.Enabled = true;
 
             CentroCostosBC objCentroCostosBC = new CentroCostosBC();
 
-            ddlCentroCostos1.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 6, 0);
+            ddlCentroCostos1.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 1);
             ddlCentroCostos1.DataTextField = "Descripcion";
             ddlCentroCostos1.DataValueField = "IdCentroCostos";
             ddlCentroCostos1.DataBind();
 
-            ddlCentroCostos2.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 7, 0);
+            ddlCentroCostos2.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 2);
             ddlCentroCostos2.DataTextField = "Descripcion";
             ddlCentroCostos2.DataValueField = "IdCentroCostos";
             ddlCentroCostos2.DataBind();
 
-            ddlIdMetodoPago.Enabled = true;
+            ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 3);
+            ddlCentroCostos3.DataTextField = "Descripcion";
+            ddlCentroCostos3.DataValueField = "IdCentroCostos";
+            ddlCentroCostos3.DataBind();
+
+            ddlCentroCostos4.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 4);
+            ddlCentroCostos4.DataTextField = "Descripcion";
+            ddlCentroCostos4.DataValueField = "IdCentroCostos";
+            ddlCentroCostos4.DataBind();
+
+            ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 5);
+            ddlCentroCostos5.DataTextField = "Descripcion";
+            ddlCentroCostos5.DataValueField = "IdCentroCostos";
+            ddlCentroCostos5.DataBind();
+
             MetodoPagoBC objMetodoPagoBC = new MetodoPagoBC();
             ddlIdMetodoPago.DataSource = objMetodoPagoBC.ListarMetodoPago(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 1, 0);
             ddlIdMetodoPago.DataTextField = "Descripcion";
             ddlIdMetodoPago.DataValueField = "IdMetodoPago";
             ddlIdMetodoPago.DataBind();
 
-            if (ddlIdUsuarioSolicitante.SelectedValue != "0")
-            {
-                objCentroCostosBC = new CentroCostosBC();
-                ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdUsuarioSolicitante.SelectedValue), 8, Convert.ToInt32(ddlIdEmpresa.SelectedValue));
-                ddlCentroCostos3.DataTextField = "Descripcion";
-                ddlCentroCostos3.DataValueField = "IdCentroCostos";
-                ddlCentroCostos3.DataBind();
-                ddlCentroCostos3.Enabled = true;
-            }
-            else
-            {
-                ddlCentroCostos3.SelectedValue = "0";
-                ddlCentroCostos3.Enabled = false;
-                ddlCentroCostos4.SelectedValue = "0";
-                ddlCentroCostos4.Enabled = false;
-                ddlCentroCostos5.SelectedValue = "0";
-                ddlCentroCostos5.Enabled = false;
-            }
+        
         }
         else
         {
@@ -1149,23 +1053,12 @@ public partial class EntregaRendir : System.Web.UI.Page
         }
     }
 
-    protected void ddlEsFacturable_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        if (ddlEsFacturable.SelectedValue == "1")
-            ddlMomentoFacturable.Enabled = true;
-        else
-        {
-            ddlMomentoFacturable.SelectedValue = "0";
-            ddlMomentoFacturable.Enabled = false;
-        }
-    }
-
     protected void ddlCentroCosto3_SelectedIndexChanged(object sender, EventArgs e)
     {
         if (ddlCentroCostos3.SelectedValue != "0")
         {
             CentroCostosBC objCentroCostosBC = new CentroCostosBC();
-            ddlCentroCostos4.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlCentroCostos3.SelectedValue), 9, Convert.ToInt32(ddlIdEmpresa.SelectedValue));
+            ddlCentroCostos4.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 4);
             ddlCentroCostos4.DataTextField = "Descripcion";
             ddlCentroCostos4.DataValueField = "IdCentroCostos";
             ddlCentroCostos4.DataBind();
@@ -1186,7 +1079,7 @@ public partial class EntregaRendir : System.Web.UI.Page
         if (ddlCentroCostos4.SelectedValue != "0")
         {
             CentroCostosBC objCentroCostosBC = new CentroCostosBC();
-            ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlCentroCostos4.SelectedValue), 11, Convert.ToInt32(ddlIdEmpresa.SelectedValue));
+            ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 5);
             ddlCentroCostos5.DataTextField = "Descripcion";
             ddlCentroCostos5.DataValueField = "IdCentroCostos";
             ddlCentroCostos5.DataBind();

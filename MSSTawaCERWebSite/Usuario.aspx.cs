@@ -8,6 +8,7 @@ using System.Data;
 
 using MSS.TAWA.BC;
 using MSS.TAWA.BE;
+using MssTawaCer.App_Code.Helper;
 
 public partial class Usuario : System.Web.UI.Page
 {
@@ -34,8 +35,6 @@ public partial class Usuario : System.Web.UI.Page
                 ListarEstado();
                 ListarTipoUsuario();
                 ListarPerfil();
-                ListarAreaAprobacion();
-                ListarAreaSolicitante();
                 ListarNivelAprobacion();
                 ListarCentroCostos();
                 ListarUsuarioAprobador();
@@ -45,6 +44,7 @@ public partial class Usuario : System.Web.UI.Page
         catch (Exception ex)
         {
             Mensaje("Ocurrió un error (Usuario): " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
     }
 
@@ -67,6 +67,7 @@ public partial class Usuario : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (Usuario): " + ex.Message);
         }
     }
@@ -88,55 +89,8 @@ public partial class Usuario : System.Web.UI.Page
         catch (Exception ex)
         {
             Mensaje("Ocurrió un error (Usuario): " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
-    }
-
-    private void ListarAreaAprobacion()
-    {
-        //try
-        //{
-        //    AreaBC objAreaBC = new AreaBC();
-        //    List<AreaBE> lstAreaBE = new List<AreaBE>();
-        //    lstAreaBE = objAreaBC.ListarArea(0, 0);
-
-        //    cblArea.DataSource = lstAreaBE;
-        //    cblArea.DataTextField = "Descripcion";
-        //    cblArea.DataValueField = "IdArea";
-        //    cblArea.DataBind();
-        //}
-        //catch (Exception ex)
-        //{
-        //    Mensaje("Ocurrió un error (Usuario): " + ex.Message);
-        //}
-    }
-
-    private void ListarAreaSolicitante()
-    {
-        //try
-        //{
-        //    AreaBC objAreaBC = new AreaBC();
-        //    List<AreaBE> lstAreaBE = new List<AreaBE>();
-        //    lstAreaBE = objAreaBC.ListarArea(0, 1);
-
-        //    ddlArea1.DataSource = lstAreaBE;
-        //    ddlArea1.DataTextField = "Descripcion";
-        //    ddlArea1.DataValueField = "IdArea";
-        //    ddlArea1.DataBind();
-
-        //    ddlArea2.DataSource = lstAreaBE;
-        //    ddlArea2.DataTextField = "Descripcion";
-        //    ddlArea2.DataValueField = "IdArea";
-        //    ddlArea2.DataBind();
-
-        //    ddlArea3.DataSource = lstAreaBE;
-        //    ddlArea3.DataTextField = "Descripcion";
-        //    ddlArea3.DataValueField = "IdArea";
-        //    ddlArea3.DataBind();
-        //}
-        //catch (Exception ex)
-        //{
-        //    Mensaje("Ocurrió un error (Usuario): " + ex.Message);
-        //}
     }
 
     private void ListarPerfil()
@@ -155,6 +109,7 @@ public partial class Usuario : System.Web.UI.Page
         catch (Exception ex)
         {
             Mensaje("Ocurrió un error (Usuario): " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
     }
 
@@ -275,7 +230,7 @@ public partial class Usuario : System.Web.UI.Page
         {
             CentroCostosBC objCentroCostosBC = new CentroCostosBC();
             List<CentroCostosBE> lstCentroCostosBE = new List<CentroCostosBE>();
-            lstCentroCostosBE = objCentroCostosBC.ListarCentroCostos(0, 10, 0);
+            lstCentroCostosBE = objCentroCostosBC.ListarCentroCostos(0, 0);
 
             ddlCentroCostos1.DataSource = lstCentroCostosBE;
             ddlCentroCostos1.DataTextField = "Descripcion";
@@ -355,6 +310,7 @@ public partial class Usuario : System.Web.UI.Page
         catch (Exception ex)
         {
             Mensaje("Ocurrió un error (Usuario): " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
     }
 
@@ -430,6 +386,7 @@ public partial class Usuario : System.Web.UI.Page
         catch (Exception ex)
         {
             Mensaje("Ocurrió un error (Usuario): " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
     }
 
@@ -691,6 +648,7 @@ public partial class Usuario : System.Web.UI.Page
         catch (Exception ex)
         {
             Mensaje("Ocurrió un error (Usuario): " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
     }
 
@@ -803,6 +761,7 @@ public partial class Usuario : System.Web.UI.Page
         catch (Exception ex)
         {
             Mensaje("Ocurrió un error (Usuario): " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
     }
 
@@ -1478,6 +1437,7 @@ public partial class Usuario : System.Web.UI.Page
         {
             //Mensaje("Ocurrió un error (Prueba): " + ex.Message);
             blbResultadoMasivo.Text = "Ocurrió un error (Prueba): " + ex.Message;
+            ExceptionHelper.LogException(ex);
         }
 
     }
@@ -1591,6 +1551,7 @@ public partial class Usuario : System.Web.UI.Page
         catch (Exception ex)
         {
             Mensaje("Ocurrió un error (Usuarios): " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
         finally
         {

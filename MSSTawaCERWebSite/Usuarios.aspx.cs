@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 
 using MSS.TAWA.BC;
 using MSS.TAWA.BE;
+using MssTawaCer.App_Code.Helper;
 
 public partial class Usuarios : System.Web.UI.Page
 {
@@ -35,6 +36,7 @@ public partial class Usuarios : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (Usuarios): " + ex.Message);
         }
     }
@@ -71,6 +73,7 @@ public partial class Usuarios : System.Web.UI.Page
         catch (Exception ex)
         {
             Mensaje("Ocurrió un error (CajaChica): " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
     }
 
@@ -106,6 +109,7 @@ public partial class Usuarios : System.Web.UI.Page
         catch (Exception ex)
         {
             Mensaje("Ocurrió un error (Usuarios): " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
     }
 
@@ -143,6 +147,7 @@ public partial class Usuarios : System.Web.UI.Page
         catch (Exception ex)
         {
             Mensaje("Ocurrió un error (Usuarios): " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
         return Tipo;
     }
@@ -173,6 +178,7 @@ public partial class Usuarios : System.Web.UI.Page
         catch (Exception ex)
         {
             Mensaje("Ocurrió un error (Usuarios): " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
         return Estado;
     }

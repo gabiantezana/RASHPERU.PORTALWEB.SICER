@@ -17,6 +17,7 @@ using System.Text;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Globalization;
+using MssTawaCer.App_Code.Helper;
 
 public partial class RendirCajaChica : System.Web.UI.Page
 {
@@ -70,6 +71,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirCajaChica): " + ex.Message);
         }
     }
@@ -86,6 +88,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirCajaChica): " + ex.Message);
         }
     }
@@ -107,6 +110,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirCajaChica): " + ex.Message);
         }
     }
@@ -123,17 +127,17 @@ public partial class RendirCajaChica : System.Web.UI.Page
             CajaChicaBE objCajaChicaBE = new CajaChicaBE();
             objCajaChicaBE = objCajaChicaBC.ObtenerCajaChica(Convert.ToInt32(strIdCajaChica), 0);
 
-            ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(objCajaChicaBE.IdUsuarioSolicitante, 8, objCajaChicaBE.IdEmpresa);
+            ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(objCajaChicaBE.IdEmpresa, 3);
             ddlCentroCostos3.DataTextField = "Descripcion";
             ddlCentroCostos3.DataValueField = "IdCentroCostos";
             ddlCentroCostos3.DataBind();
 
-            ddlCentroCostos4.DataSource = objCentroCostosBC.ListarCentroCostos(objCajaChicaBE.IdCentroCostos3, 9, objCajaChicaBE.IdEmpresa);
+            ddlCentroCostos4.DataSource = objCentroCostosBC.ListarCentroCostos(objCajaChicaBE.IdEmpresa, 4);
             ddlCentroCostos4.DataTextField = "Descripcion";
             ddlCentroCostos4.DataValueField = "IdCentroCostos";
             ddlCentroCostos4.DataBind();
 
-            ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(objCajaChicaBE.IdCentroCostos4, 11, objCajaChicaBE.IdEmpresa);
+            ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(objCajaChicaBE.IdEmpresa, 5);
             ddlCentroCostos5.DataTextField = "Descripcion";
             ddlCentroCostos5.DataValueField = "IdCentroCostos";
             ddlCentroCostos5.DataBind();
@@ -144,6 +148,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirCajaChica): " + ex.Message);
         }
     }
@@ -160,6 +165,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirCajaChica): " + ex.Message);
         }
     }
@@ -221,6 +227,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirCajaChica): " + ex.Message);
         }
     }
@@ -447,17 +454,17 @@ public partial class RendirCajaChica : System.Web.UI.Page
                 CajaChicaBE objCajaChicaBE = new CajaChicaBE();
                 objCajaChicaBE = objCajaChicaBC.ObtenerCajaChica(objCajaChicaDocumentoBE.IdCajaChica, 0);
                 CentroCostosBC objCentroCostosBC = new CentroCostosBC();
-                ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(objCajaChicaBE.IdUsuarioSolicitante, 8, objCajaChicaBE.IdEmpresa);
+                ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(objCajaChicaBE.IdEmpresa, 3);
                 ddlCentroCostos3.DataTextField = "Descripcion";
                 ddlCentroCostos3.DataValueField = "IdCentroCostos";
                 ddlCentroCostos3.DataBind();
 
-                ddlCentroCostos4.DataSource = objCentroCostosBC.ListarCentroCostos(objCajaChicaDocumentoBE.IdCentroCostos3, 9, objCajaChicaBE.IdEmpresa);
+                ddlCentroCostos4.DataSource = objCentroCostosBC.ListarCentroCostos(objCajaChicaBE.IdEmpresa, 4);
                 ddlCentroCostos4.DataTextField = "Descripcion";
                 ddlCentroCostos4.DataValueField = "IdCentroCostos";
                 ddlCentroCostos4.DataBind();
 
-                ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(objCajaChicaDocumentoBE.IdCentroCostos4, 11, objCajaChicaBE.IdEmpresa);
+                ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(objCajaChicaBE.IdEmpresa, 5);
                 ddlCentroCostos5.DataTextField = "Descripcion";
                 ddlCentroCostos5.DataValueField = "IdCentroCostos";
                 ddlCentroCostos5.DataBind();
@@ -470,9 +477,10 @@ public partial class RendirCajaChica : System.Web.UI.Page
                 {
                     ddlConcepto.SelectedValue = objCajaChicaDocumentoBE.IdConcepto.ToString();
                 }
-                catch
+                catch (Exception ex)
                 {
                     ConceptoBC objConceptoBC = new ConceptoBC();
+                    ExceptionHelper.LogException(ex);
                     ddlConcepto.DataSource = objConceptoBC.ListarConcepto(objCajaChicaDocumentoBE.IdCentroCostos5, 1);
                     ddlConcepto.DataTextField = "Descripcion";
                     ddlConcepto.DataValueField = "IdConcepto";
@@ -492,6 +500,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (NivelAprobacion): " + ex.Message);
         }
     }
@@ -555,7 +564,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
         {
             CentroCostosBC objConceptoBC = new CentroCostosBC();
             List<CentroCostosBE> lstConceptoBE = new List<CentroCostosBE>();
-            lstConceptoBE = objConceptoBC.ListarCentroCostos(Convert.ToInt32(ddlCentroCostos3.SelectedValue), 9, objCajaChicaBE.IdEmpresa);
+            lstConceptoBE = objConceptoBC.ListarCentroCostos(objCajaChicaBE.IdEmpresa, 4);
             ddlCentroCostos4.DataSource = lstConceptoBE;
             ddlCentroCostos4.DataTextField = "Descripcion";
             ddlCentroCostos4.DataValueField = "IdCentroCostos";
@@ -586,7 +595,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
         if (ddlCentroCostos4.SelectedValue != "0")
         {
             CentroCostosBC objCentroCostosBC = new CentroCostosBC();
-            ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlCentroCostos4.SelectedValue), 11, objCajaChicaBE.IdEmpresa);
+            ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(objCajaChicaBE.IdEmpresa, 5);
             ddlCentroCostos5.DataTextField = "Descripcion";
             ddlCentroCostos5.DataValueField = "IdCentroCostos";
             ddlCentroCostos5.DataBind();
@@ -894,6 +903,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirCajaChica): " + ex.Message);
         }
         finally
@@ -1069,6 +1079,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirCajaChica): " + ex.Message);
         }
         finally
@@ -1146,6 +1157,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirCajaChica): " + ex.Message);
         }
         finally
@@ -1262,6 +1274,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
 
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirCajaChica): " + ex.Message);
         }
         finally
@@ -1382,6 +1395,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirCajaChica): " + ex.Message);
         }
         finally
@@ -1454,6 +1468,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
             }
             catch (System.Net.Mail.SmtpException ex)
             {
+                ExceptionHelper.LogException(ex);
                 Mensaje("Ocurrió un error (CajaChica): " + ex.Message);
             }
         }
@@ -1621,6 +1636,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (NivelAprobacion): " + ex.Message);
         }
     }
@@ -1687,6 +1703,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirCajaChica): " + ex.Message);
         }
         finally
@@ -1747,6 +1764,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirCajaChica): " + ex.Message);
         }
         finally
@@ -1807,6 +1825,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("El Excel a guardar no debe estar abierto: " + ex.Message);
         }
     }
@@ -1953,6 +1972,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
         catch (Exception ex)
         {
             //Mensaje("Ocurrió un error (Prueba): " + ex.Message);
+            ExceptionHelper.LogException(ex);
             blbResultadoMasivo.Text = "Ocurrió un error (Prueba): " + ex.Message;
         }
     }
@@ -2115,6 +2135,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirCajaChica): " + ex.Message);
         }
         finally
@@ -2220,6 +2241,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
 
         catch (Exception ex)
         {
+            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirCajaChica): " + ex.Message);
         }
         finally

@@ -13,7 +13,7 @@ namespace MSS.TAWA.DA
     public class CentroCostosDA
     {
         // Listar CentroCostosNivel5
-        public List<CentroCostosBE> ListarCentroCostos(int Id, int Tipo, int Tipo2)
+        public List<CentroCostosBE> ListarCentroCostos(int IdEmpresa, int Tipo)
         {
             SqlConnection sqlConn;
             String strConn;
@@ -34,9 +34,9 @@ namespace MSS.TAWA.DA
                 sqlCmd.CommandType = CommandType.StoredProcedure;
 
                 pId = new SqlParameter();
-                pId.ParameterName = "@Id";
+                pId.ParameterName = "@IdEmpresa";
                 pId.SqlDbType = SqlDbType.Int;
-                pId.Value = Id;
+                pId.Value = IdEmpresa;
 
                 pTipo = new SqlParameter();
                 pTipo.ParameterName = "@Tipo";
@@ -46,7 +46,7 @@ namespace MSS.TAWA.DA
                 pTipo2 = new SqlParameter();
                 pTipo2.ParameterName = "@Tipo2";
                 pTipo2.SqlDbType = SqlDbType.Int;
-                pTipo2.Value = Tipo2;
+                pTipo2.Value = 0;
 
                 sqlCmd.Parameters.Add(pId);
                 sqlCmd.Parameters.Add(pTipo);

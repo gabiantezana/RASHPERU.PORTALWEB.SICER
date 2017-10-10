@@ -10,6 +10,7 @@ using MSS.TAWA.BE;
 using System.IO;
 using System.Web.UI.HtmlControls;
 using System.Text;
+using MssTawaCer.App_Code.Helper;
 
 public partial class Reporte1 : System.Web.UI.Page
 {
@@ -37,6 +38,7 @@ public partial class Reporte1 : System.Web.UI.Page
         catch (Exception ex)
         {
             Mensaje("Ocurrió un error (Reporte1): " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
     }
 
@@ -56,6 +58,7 @@ public partial class Reporte1 : System.Web.UI.Page
         catch (Exception ex)
         {
             Mensaje("Ocurrió un error (CajaChica): " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
     }
 
@@ -115,6 +118,7 @@ public partial class Reporte1 : System.Web.UI.Page
         catch (Exception ex)
         {
             Mensaje("Ocurrió un error (CajaChica): " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
     }
 
@@ -130,7 +134,7 @@ public partial class Reporte1 : System.Web.UI.Page
         if (ddlIdEmpresa.SelectedValue != "0")
         {
             CentroCostosBC objCentroCostosBC = new CentroCostosBC();
-            ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(0, 12, Convert.ToInt32(ddlIdEmpresa.SelectedValue));
+            ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue),3);
             ddlCentroCostos3.DataTextField = "Descripcion";
             ddlCentroCostos3.DataValueField = "IdCentroCostos";
             ddlCentroCostos3.DataBind();
@@ -152,7 +156,7 @@ public partial class Reporte1 : System.Web.UI.Page
         if (ddlCentroCostos3.SelectedValue != "0")
         {
             CentroCostosBC objConceptoBC = new CentroCostosBC();
-            ddlCentroCostos4.DataSource = objConceptoBC.ListarCentroCostos(Convert.ToInt32(ddlCentroCostos3.SelectedValue), 9, Convert.ToInt32(ddlIdEmpresa.SelectedValue));
+            ddlCentroCostos4.DataSource = objConceptoBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 4);
             ddlCentroCostos4.DataTextField = "Descripcion";
             ddlCentroCostos4.DataValueField = "IdCentroCostos";
             ddlCentroCostos4.DataBind();
@@ -173,7 +177,7 @@ public partial class Reporte1 : System.Web.UI.Page
         if (ddlCentroCostos4.SelectedValue != "0")
         {
             CentroCostosBC objCentroCostosBC = new CentroCostosBC();
-            ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlCentroCostos4.SelectedValue), 11, Convert.ToInt32(ddlIdEmpresa.SelectedValue));
+            ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 4);
             ddlCentroCostos5.DataTextField = "Descripcion";
             ddlCentroCostos5.DataValueField = "IdCentroCostos";
             ddlCentroCostos5.DataBind();
@@ -229,6 +233,7 @@ public partial class Reporte1 : System.Web.UI.Page
         catch (Exception ex)
         {
             Mensaje("El Excel a guardar no debe estar abierto: " + ex.Message);
+            ExceptionHelper.LogException(ex);
         }
     }
 

@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 using MSS.TAWA.BC;
 using MSS.TAWA.BE;
 using System.Web.Security;
+using MssTawaCer.App_Code.Helper;
 
 public partial class Login : System.Web.UI.Page
 {
@@ -195,6 +196,7 @@ public partial class Login : System.Web.UI.Page
             }
             catch (System.Net.Mail.SmtpException ex)
             {
+            ExceptionHelper.LogException(ex);
                 Mensaje("Ocurrió un error (Recuperación Contraseña): " + ex.Message);
             }
         }
