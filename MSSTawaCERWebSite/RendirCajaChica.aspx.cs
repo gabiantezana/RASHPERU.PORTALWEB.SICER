@@ -127,6 +127,16 @@ public partial class RendirCajaChica : System.Web.UI.Page
             CajaChicaBE objCajaChicaBE = new CajaChicaBE();
             objCajaChicaBE = objCajaChicaBC.ObtenerCajaChica(Convert.ToInt32(strIdCajaChica), 0);
 
+            ddlCentroCostos1.DataSource = objCentroCostosBC.ListarCentroCostos(objCajaChicaBE.IdEmpresa, 1);
+            ddlCentroCostos1.DataTextField = "Descripcion";
+            ddlCentroCostos1.DataValueField = "IdCentroCostos";
+            ddlCentroCostos1.DataBind();
+
+            ddlCentroCostos2.DataSource = objCentroCostosBC.ListarCentroCostos(objCajaChicaBE.IdEmpresa, 2);
+            ddlCentroCostos2.DataTextField = "Descripcion";
+            ddlCentroCostos2.DataValueField = "IdCentroCostos";
+            ddlCentroCostos2.DataBind();
+
             ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(objCajaChicaBE.IdEmpresa, 3);
             ddlCentroCostos3.DataTextField = "Descripcion";
             ddlCentroCostos3.DataValueField = "IdCentroCostos";
@@ -142,9 +152,9 @@ public partial class RendirCajaChica : System.Web.UI.Page
             ddlCentroCostos5.DataValueField = "IdCentroCostos";
             ddlCentroCostos5.DataBind();
 
-            ddlCentroCostos3.SelectedValue = objCajaChicaBE.IdCentroCostos3.ToString();
-            ddlCentroCostos4.SelectedValue = objCajaChicaBE.IdCentroCostos4.ToString();
-            ddlCentroCostos5.SelectedValue = objCajaChicaBE.IdCentroCostos5.ToString();
+            //ddlCentroCostos3.SelectedValue = objCajaChicaBE.IdCentroCostos3.ToString();
+            //ddlCentroCostos4.SelectedValue = objCajaChicaBE.IdCentroCostos4.ToString();
+            //ddlCentroCostos5.SelectedValue = objCajaChicaBE.IdCentroCostos5.ToString();
         }
         catch (Exception ex)
         {
@@ -280,18 +290,6 @@ public partial class RendirCajaChica : System.Web.UI.Page
             bLiquidar.Visible = false;
             bObservacion.Visible = false;
 
-            if (objCajaChicaBE.EsFacturable == "1") //Si
-            {
-                ddlCentroCostos3.Enabled = false;
-                ddlCentroCostos4.Enabled = false;
-                ddlCentroCostos5.Enabled = false;
-            }
-            else//No
-            {
-                ddlCentroCostos3.Enabled = true;
-                ddlCentroCostos4.Enabled = true;
-                ddlCentroCostos5.Enabled = true;
-            }
             //11, Rendir: Por Aprobar Jefe Area //12, Rendir: Observaciones Nivel 1 
             //13, Rendir: Por Aprobar Contabilidad //14, Rendir: Observaciones Contabilidad //15, Rendir: Aprobado
 
@@ -454,6 +452,17 @@ public partial class RendirCajaChica : System.Web.UI.Page
                 CajaChicaBE objCajaChicaBE = new CajaChicaBE();
                 objCajaChicaBE = objCajaChicaBC.ObtenerCajaChica(objCajaChicaDocumentoBE.IdCajaChica, 0);
                 CentroCostosBC objCentroCostosBC = new CentroCostosBC();
+
+                ddlCentroCostos1.DataSource = objCentroCostosBC.ListarCentroCostos(objCajaChicaBE.IdEmpresa, 1);
+                ddlCentroCostos1.DataTextField = "Descripcion";
+                ddlCentroCostos1.DataValueField = "IdCentroCostos";
+                ddlCentroCostos1.DataBind();
+
+                ddlCentroCostos2.DataSource = objCentroCostosBC.ListarCentroCostos(objCajaChicaBE.IdEmpresa, 2);
+                ddlCentroCostos2.DataTextField = "Descripcion";
+                ddlCentroCostos2.DataValueField = "IdCentroCostos";
+                ddlCentroCostos2.DataBind();
+
                 ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(objCajaChicaBE.IdEmpresa, 3);
                 ddlCentroCostos3.DataTextField = "Descripcion";
                 ddlCentroCostos3.DataValueField = "IdCentroCostos";
@@ -553,6 +562,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
 
     protected void ddlCentroCosto3_SelectedIndexChanged(object sender, EventArgs e)
     {
+        /*
         String strIdCajaChica = "";
         strIdCajaChica = ViewState["IdCajaChica"].ToString();
 
@@ -580,11 +590,12 @@ public partial class RendirCajaChica : System.Web.UI.Page
             ddlCentroCostos4.Enabled = false;
             ddlCentroCostos5.SelectedValue = "0";
             ddlCentroCostos5.Enabled = false;
-        }
+        }*/
     }
 
     protected void ddlCentroCosto4_SelectedIndexChanged(object sender, EventArgs e)
     {
+        /*
         String strIdCajaChica = "";
         strIdCajaChica = ViewState["IdCajaChica"].ToString();
 
@@ -605,11 +616,12 @@ public partial class RendirCajaChica : System.Web.UI.Page
         {
             ddlCentroCostos5.SelectedValue = "0";
             ddlCentroCostos5.Enabled = false;
-        }
+        }*/
     }
 
     protected void ddlCentroCosto5_SelectedIndexChanged(object sender, EventArgs e)
     {
+        /*
         String strIdCajaChica = "";
         strIdCajaChica = ViewState["IdCajaChica"].ToString();
 
@@ -629,7 +641,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
         else
         {
             ddlConcepto.SelectedValue = "0";
-        }
+        }*/
     }
 
     protected void ddlIdMonedaDoc_SelectedIndexChanged(object sender, EventArgs e)
@@ -2260,6 +2272,16 @@ public partial class RendirCajaChica : System.Web.UI.Page
     }
 
     protected void ddlConcepto_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void ddlCentroCosto1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void ddlCentroCosto2_SelectedIndexChanged(object sender, EventArgs e)
     {
 
     }

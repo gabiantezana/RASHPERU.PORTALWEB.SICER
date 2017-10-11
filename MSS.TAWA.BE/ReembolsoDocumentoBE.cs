@@ -33,6 +33,7 @@ namespace MSS.TAWA.BE
         DateTime _CreateDate;
         String _UserUpdate;
         DateTime _UpdateDate;
+        String _PartidaPresupuestal;
 
         public int IdReembolsoDocumento
         {
@@ -163,6 +164,11 @@ namespace MSS.TAWA.BE
         {
             get { return _UpdateDate; }
             set { _UpdateDate = value; }
+        }
+        public String PartidaPresupuestal
+        {
+            get { return _PartidaPresupuestal; }
+            set { _PartidaPresupuestal = value; }
         }
     }
 }

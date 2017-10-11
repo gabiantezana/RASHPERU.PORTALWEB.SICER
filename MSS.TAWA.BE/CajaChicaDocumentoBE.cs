@@ -17,6 +17,10 @@ namespace MSS.TAWA.BE
         int _IdCentroCostos4;
         int _IdCentroCostos5;
         int _Rendicion;
+        /// <summary>
+        /// TODO: Partida presupuestal
+        /// </summary>
+        String _PartidaPresupuestal;
         String _TipoDoc;
         String _SerieDoc;
         String _CorrelativoDoc;
@@ -170,5 +174,11 @@ namespace MSS.TAWA.BE
             get { return _UpdateDate; }
             set { _UpdateDate = value; }
         }
+        public String PartidaPresupuestal
+        {
+            get { return _PartidaPresupuestal; }
+            set { _PartidaPresupuestal = value; }
+        }
+
     }
 }
