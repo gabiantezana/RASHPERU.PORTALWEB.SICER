@@ -116,7 +116,7 @@ namespace MSS.TAWA.DA
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
 
         }
@@ -232,7 +232,7 @@ namespace MSS.TAWA.DA
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 
@@ -355,7 +355,7 @@ namespace MSS.TAWA.DA
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 
@@ -414,7 +414,7 @@ namespace MSS.TAWA.DA
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
 
         }
@@ -543,7 +543,7 @@ namespace MSS.TAWA.DA
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
 
 
@@ -598,7 +598,7 @@ namespace MSS.TAWA.DA
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
 
         }
@@ -657,7 +657,7 @@ namespace MSS.TAWA.DA
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
 
         }
@@ -710,7 +710,7 @@ namespace MSS.TAWA.DA
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
 
         }
@@ -756,7 +756,7 @@ namespace MSS.TAWA.DA
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 
@@ -862,7 +862,7 @@ namespace MSS.TAWA.DA
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
 
         }
@@ -1250,7 +1250,7 @@ namespace MSS.TAWA.DA
 
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 
@@ -1329,7 +1329,7 @@ public bool InsertarAcceso(int IdLog, DateTime Fecha, String Usuario, String Con
             catch (Exception ex)
             {
                 return false;
-                throw new Exception(ex.Message);
+                throw;
             }
         }
         // Modificar Usuario
@@ -1698,7 +1698,7 @@ public bool InsertarAcceso(int IdLog, DateTime Fecha, String Usuario, String Con
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 
@@ -1746,7 +1746,7 @@ public bool InsertarAcceso(int IdLog, DateTime Fecha, String Usuario, String Con
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
     }

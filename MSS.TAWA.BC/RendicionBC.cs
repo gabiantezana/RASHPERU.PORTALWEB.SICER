@@ -19,7 +19,7 @@ namespace MSS.TAWA.BC
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
     }

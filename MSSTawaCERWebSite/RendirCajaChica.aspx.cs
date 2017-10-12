@@ -47,7 +47,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
                 ViewState["IdCajaChica"] = strIdCajaChica;
 
                 ListarTipoDocumento();
-                ListarProveedor();
+                //ListarProveedor();
                 ListarProveedorCrear();
                 ListarCentroCostos();
                 ListarConcepto();
@@ -57,16 +57,15 @@ public partial class RendirCajaChica : System.Web.UI.Page
                 ModalidadCampo(Convert.ToInt32(strModo), Convert.ToInt32(strIdCajaChica));
                 LlenarCamposCaberaExcel1();
 
-                CajaChicaBC objCajaChicaBC = new CajaChicaBC();
-                CajaChicaBE objCajaChicaBE = new CajaChicaBE();
-                objCajaChicaBE = objCajaChicaBC.ObtenerCajaChica(Convert.ToInt32(strIdCajaChica), 0);
+                CajaChicaBE objCajaChicaBE = new CajaChicaBC().ObtenerCajaChica(Convert.ToInt32(strIdCajaChica), 0);
 
-                if (objCajaChicaBE.Estado == "19")
-                    txtFechaContabilizacion.Text = txtFechaContabilizacion.Text = (objCajaChicaBE.FechaContabilizacion).ToString("dd/MM/yyyy");
+                if (objCajaChicaBE.Estado == "19") //TODO: ESTADOS
+                    txtFechaContabilizacion.Text = (objCajaChicaBE.FechaContabilizacion).ToString("dd/MM/yyyy");
                 else
-                    txtFechaContabilizacion.Text = txtFechaContabilizacion.Text = (DateTime.Today).ToString("dd/MM/yyyy");
+                    txtFechaContabilizacion.Text = (DateTime.Today).ToString("dd/MM/yyyy");
 
                 txtComentario.Text = objCajaChicaBE.Comentario;
+
             }
         }
         catch (Exception ex)
@@ -423,79 +422,68 @@ public partial class RendirCajaChica : System.Web.UI.Page
             {
                 lblIdCajaChicaDocumento.Text = IdCajaChicaDocumento.ToString();
 
-                CajaChicaDocumentoBC objCajaChicaDocumentoBC = new CajaChicaDocumentoBC();
-                CajaChicaDocumentoBE objCajaChicaDocumentoBE = new CajaChicaDocumentoBE();
-                objCajaChicaDocumentoBE = objCajaChicaDocumentoBC.ObtenerCajaChicaDocumento(IdCajaChicaDocumento, 0);
+                CajaChicaDocumentoBE objCajaChicaDocumentoBE = new CajaChicaDocumentoBC().ObtenerCajaChicaDocumento(IdCajaChicaDocumento, 0);
                 txtSerie.Text = objCajaChicaDocumentoBE.SerieDoc;
                 txtNumero.Text = objCajaChicaDocumentoBE.CorrelativoDoc;
-                txtFecha.Text = objCajaChicaDocumentoBE.FechaDoc.ToString().Substring(0, 10);
+                txtFecha.Text = objCajaChicaDocumentoBE.FechaDoc.ToString("dd/MM/yyyy");
                 txtMontoTotal.Text = Convert.ToDouble(objCajaChicaDocumentoBE.MontoTotal).ToString("0.00");
                 txtMontoDoc.Text = Convert.ToDouble(objCajaChicaDocumentoBE.MontoDoc).ToString("0.00");
                 txtMontoAfecta.Text = Convert.ToDouble(objCajaChicaDocumentoBE.MontoAfecto).ToString("0.00");
                 txtMontoNoAfecta.Text = Convert.ToDouble(objCajaChicaDocumentoBE.MontoNoAfecto).ToString("0.00");
                 txtMontoIGV.Text = Convert.ToDouble(objCajaChicaDocumentoBE.MontoIGV).ToString("0.00");
                 txtTasaCambio.Text = Convert.ToDouble(objCajaChicaDocumentoBE.TasaCambio).ToString("0.0000");
-                if (objCajaChicaDocumentoBE.IdMonedaDoc == objCajaChicaDocumentoBE.IdMonedaOriginal) txtTasaCambio.Enabled = false;
-                else txtTasaCambio.Enabled = false;
+                txtPartidaPresupuestal.Text = objCajaChicaDocumentoBE.PartidaPresupuestal;
+
+                if (objCajaChicaDocumentoBE.IdMonedaDoc == objCajaChicaDocumentoBE.IdMonedaOriginal)
+                    txtTasaCambio.Enabled = false;
+                else
+                    txtTasaCambio.Enabled = false;
                 ddlTipo.SelectedValue = objCajaChicaDocumentoBE.TipoDoc.ToString();
 
-                ProveedorBC objProveedorBC = new ProveedorBC();
-                ProveedorBE objProveedorBE = new ProveedorBE();
-                objProveedorBE = objProveedorBC.ObtenerProveedor(objCajaChicaDocumentoBE.IdProveedor, 0, "");
-                txtProveedor.Text = objProveedorBE.Documento;
-                lblProveedor.Text = objProveedorBE.CardName;
+                txtProveedor.Text = new ProveedorBC().ObtenerProveedor(objCajaChicaDocumentoBE.IdProveedor, 0, "").Documento;
+                lblProveedor.Text = new ProveedorBC().ObtenerProveedor(objCajaChicaDocumentoBE.IdProveedor, 0, "").CardName;
 
                 ddlIdMonedaDoc.SelectedValue = objCajaChicaDocumentoBE.IdMonedaDoc.ToString();
                 ddlIdMonedaOriginal.SelectedValue = objCajaChicaDocumentoBE.IdMonedaOriginal.ToString();
 
-                CajaChicaBC objCajaChicaBC = new CajaChicaBC();
-                CajaChicaBE objCajaChicaBE = new CajaChicaBE();
-                objCajaChicaBE = objCajaChicaBC.ObtenerCajaChica(objCajaChicaDocumentoBE.IdCajaChica, 0);
-                CentroCostosBC objCentroCostosBC = new CentroCostosBC();
+                Int32 IdEmpresa = new CajaChicaBC().ObtenerCajaChica(objCajaChicaDocumentoBE.IdCajaChica, 0).IdEmpresa;
 
-                ddlCentroCostos1.DataSource = objCentroCostosBC.ListarCentroCostos(objCajaChicaBE.IdEmpresa, 1);
+                ddlCentroCostos1.DataSource = new CentroCostosBC().ListarCentroCostos(IdEmpresa, 1);
                 ddlCentroCostos1.DataTextField = "Descripcion";
                 ddlCentroCostos1.DataValueField = "IdCentroCostos";
                 ddlCentroCostos1.DataBind();
 
-                ddlCentroCostos2.DataSource = objCentroCostosBC.ListarCentroCostos(objCajaChicaBE.IdEmpresa, 2);
+                ddlCentroCostos2.DataSource = new CentroCostosBC().ListarCentroCostos(IdEmpresa, 2);
                 ddlCentroCostos2.DataTextField = "Descripcion";
                 ddlCentroCostos2.DataValueField = "IdCentroCostos";
                 ddlCentroCostos2.DataBind();
 
-                ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(objCajaChicaBE.IdEmpresa, 3);
+                ddlCentroCostos3.DataSource = new CentroCostosBC().ListarCentroCostos(IdEmpresa, 3);
                 ddlCentroCostos3.DataTextField = "Descripcion";
                 ddlCentroCostos3.DataValueField = "IdCentroCostos";
                 ddlCentroCostos3.DataBind();
 
-                ddlCentroCostos4.DataSource = objCentroCostosBC.ListarCentroCostos(objCajaChicaBE.IdEmpresa, 4);
+                ddlCentroCostos4.DataSource = new CentroCostosBC().ListarCentroCostos(IdEmpresa, 4);
                 ddlCentroCostos4.DataTextField = "Descripcion";
                 ddlCentroCostos4.DataValueField = "IdCentroCostos";
                 ddlCentroCostos4.DataBind();
 
-                ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(objCajaChicaBE.IdEmpresa, 5);
+                ddlCentroCostos5.DataSource = new CentroCostosBC().ListarCentroCostos(IdEmpresa, 5);
                 ddlCentroCostos5.DataTextField = "Descripcion";
                 ddlCentroCostos5.DataValueField = "IdCentroCostos";
                 ddlCentroCostos5.DataBind();
 
+                ddlConcepto.DataSource = new ConceptoBC().ListarConcepto(0, 0);
+                ddlConcepto.DataTextField = "Descripcion";
+                ddlConcepto.DataValueField = "IdConcepto";
+                ddlConcepto.DataBind();
+
+                ddlCentroCostos1.SelectedValue = objCajaChicaDocumentoBE.IdCentroCostos1.ToString();
+                ddlCentroCostos2.SelectedValue = objCajaChicaDocumentoBE.IdCentroCostos2.ToString();
                 ddlCentroCostos3.SelectedValue = objCajaChicaDocumentoBE.IdCentroCostos3.ToString();
                 ddlCentroCostos4.SelectedValue = objCajaChicaDocumentoBE.IdCentroCostos4.ToString();
                 ddlCentroCostos5.SelectedValue = objCajaChicaDocumentoBE.IdCentroCostos5.ToString();
-
-                try
-                {
-                    ddlConcepto.SelectedValue = objCajaChicaDocumentoBE.IdConcepto.ToString();
-                }
-                catch (Exception ex)
-                {
-                    ConceptoBC objConceptoBC = new ConceptoBC();
-                    ExceptionHelper.LogException(ex);
-                    ddlConcepto.DataSource = objConceptoBC.ListarConcepto(objCajaChicaDocumentoBE.IdCentroCostos5, 1);
-                    ddlConcepto.DataTextField = "Descripcion";
-                    ddlConcepto.DataValueField = "IdConcepto";
-                    ddlConcepto.DataBind();
-                    ddlConcepto.SelectedValue = objCajaChicaDocumentoBE.IdConcepto.ToString();
-                }
+                ddlConcepto.SelectedValue = objCajaChicaDocumentoBE.IdConcepto.ToString();
 
                 bAgregar.Visible = false;
                 bGuardar.Visible = true;
@@ -554,10 +542,17 @@ public partial class RendirCajaChica : System.Web.UI.Page
         txtMontoIGV.Text = "";
         txtTasaCambio.Text = "";
         ddlTipo.SelectedValue = "0";
-        ddlConcepto.SelectedValue = "0";
         ddlIdMonedaDoc.SelectedValue = "0";
+        ddlCentroCostos1.SelectedValue = "0";
+        ddlCentroCostos2.SelectedValue = "0";
+        ddlCentroCostos3.SelectedValue = "0";
+        ddlCentroCostos4.SelectedValue = "0";
+        ddlCentroCostos5.SelectedValue = "0";
+        ddlConcepto.SelectedValue = "0";
+
         txtProveedor.Text = "";
         lblProveedor.Text = "sin validar";
+        txtPartidaPresupuestal.Text = String.Empty;
     }
 
     protected void ddlCentroCosto3_SelectedIndexChanged(object sender, EventArgs e)
@@ -758,169 +753,150 @@ public partial class RendirCajaChica : System.Web.UI.Page
         else return false;
     }
 
+    public Boolean CamposSonValidos(out String errorMessage)
+    {
+        /*---------------------------------------VALIDA CAMPOS REQUERIDOS------------------------------------------------*/
+        errorMessage = String.Empty;
+        Int32[] indexNoValidos = { 0, -1 };
+        if (indexNoValidos.Contains(ddlTipo.SelectedIndex))
+            errorMessage = "Debe ingresar el Tipo.";
+        else if (String.IsNullOrWhiteSpace(txtSerie.Text))
+            errorMessage = "Debe ingresar la serie.";
+        else if (String.IsNullOrWhiteSpace(txtNumero.Text))
+            errorMessage = "Debe ingresar el numero.";
+        else if (String.IsNullOrWhiteSpace(txtFecha.Text))
+            errorMessage = "Debe ingresar la fecha.";
+        else if (String.IsNullOrWhiteSpace(txtProveedor.Text))
+            errorMessage = "Debe ingresar el RUC.";
+        else if (!new ValidationHelper().ProveedorExiste(txtProveedor.Text))
+            errorMessage = "El proveedor no existe";
+        else if (indexNoValidos.Contains(ddlConcepto.SelectedIndex))
+            errorMessage = "Debe ingresar el concepto.";
+        else if (String.IsNullOrWhiteSpace(txtPartidaPresupuestal.Text))
+            errorMessage = "Debe ingresar la partida presupuestal.";
+        else if (indexNoValidos.Contains(ddlCentroCostos1.SelectedIndex))
+            errorMessage = "Debe ingresar el centro de costo nivel 1";
+        else if (indexNoValidos.Contains(ddlIdMonedaDoc.SelectedIndex))
+            errorMessage = "Debe ingresar la  moneda del documento.";
+        else if (String.IsNullOrWhiteSpace(txtMontoAfecta.Text) && String.IsNullOrWhiteSpace(txtMontoNoAfecta.Text))
+            errorMessage = "Debe ingresar los importes";
+        else if (String.IsNullOrWhiteSpace(txtMontoTotal.Text))
+            errorMessage = "Aún no se han validado los importes.";
+        else if (!txtMontoDoc.Text.IsNumeric()
+                || !txtTasaCambio.Text.IsNumeric()
+                || !txtMontoAfecta.Text.IsNumeric()
+                || !txtMontoNoAfecta.Text.IsNumeric())
+            errorMessage = "Los importes ingresados no son válidos";
+        else if (!ValidarImporte())
+            errorMessage = "No ha ingresado los importes correctamente";
+        else if (Math.Round(Convert.ToDouble(txtMontoDoc.Text), 2)
+                != Math.Round(Convert.ToDouble(txtMontoIGV.Text)
+                + Convert.ToDouble(txtMontoAfecta.Text)
+                + Convert.ToDouble(txtMontoNoAfecta.Text), 2))
+            errorMessage = "La suma del IGV, Afecta y NoAfecta no es igual al Total.";
+
+        if (!String.IsNullOrEmpty(errorMessage))
+            return false;
+        else
+            return true;
+        /*-------------------------------------FIN VALIDA CAMPOS REQUERIDOS----------------------------------------------*/
+
+    }
+
+    public Boolean GuardarDocumento(Int32 tipoGuardado)
+    {
+        try
+        {
+            String errorMessage;
+            if (!CamposSonValidos(out errorMessage))
+            {
+                Mensaje(errorMessage);
+                return false;
+            }
+
+            if (tipoGuardado == 0)
+                bAgregar.Enabled = false;
+            else if (tipoGuardado == 1)
+                bGuardar.Enabled = false;
+
+            CajaChicaDocumentoBE objCajaChicaDocumentoBE = new CajaChicaDocumentoBE();
+            objCajaChicaDocumentoBE.IdCajaChica = Convert.ToInt32(ViewState["IdCajaChica"].ToString());
+            objCajaChicaDocumentoBE.IdCajaChicaDocumento = Convert.ToInt32(lblIdCajaChicaDocumento.Text);
+            objCajaChicaDocumentoBE.TipoDoc = ddlTipo.SelectedItem.Value;
+            objCajaChicaDocumentoBE.SerieDoc = txtSerie.Text;
+            objCajaChicaDocumentoBE.CorrelativoDoc = txtNumero.Text;
+            objCajaChicaDocumentoBE.FechaDoc = DateTime.ParseExact(txtFecha.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            objCajaChicaDocumentoBE.IdProveedor = new ValidationHelper().GetIDProveedor(txtProveedor.Text);
+            objCajaChicaDocumentoBE.IdConcepto = Convert.ToInt32(ddlConcepto.SelectedItem.Value);
+            objCajaChicaDocumentoBE.PartidaPresupuestal = txtPartidaPresupuestal.Text;
+            objCajaChicaDocumentoBE.IdCentroCostos1 = Convert.ToInt32(ddlCentroCostos1.SelectedItem.Value);
+            objCajaChicaDocumentoBE.IdCentroCostos2 = Convert.ToInt32(ddlCentroCostos2.SelectedItem.Value);
+            objCajaChicaDocumentoBE.IdCentroCostos3 = Convert.ToInt32(ddlCentroCostos3.SelectedItem.Value);
+            objCajaChicaDocumentoBE.IdCentroCostos4 = Convert.ToInt32(ddlCentroCostos4.SelectedItem.Value);
+            objCajaChicaDocumentoBE.IdCentroCostos5 = Convert.ToInt32(ddlCentroCostos5.SelectedItem.Value);
+            objCajaChicaDocumentoBE.IdMonedaOriginal = Convert.ToInt32(ddlIdMonedaOriginal.SelectedItem.Value);
+            objCajaChicaDocumentoBE.IdMonedaDoc = Convert.ToInt32(ddlIdMonedaDoc.SelectedItem.Value);
+            objCajaChicaDocumentoBE.MontoAfecto = Convert.ToDouble(txtMontoAfecta.Text).ToString("0.00");
+            objCajaChicaDocumentoBE.MontoNoAfecto = Convert.ToDouble(txtMontoNoAfecta.Text).ToString("0.00");
+            objCajaChicaDocumentoBE.MontoIGV = Convert.ToDouble(txtMontoIGV.Text).ToString("0.00");
+            objCajaChicaDocumentoBE.MontoDoc = Convert.ToDouble(txtMontoDoc.Text).ToString("0.00");
+            objCajaChicaDocumentoBE.MontoTotal = Convert.ToDouble(txtMontoTotal.Text).ToString("0.00");
+            objCajaChicaDocumentoBE.Estado = "1";
+
+            if (ddlIdMonedaOriginal.SelectedValue == ddlIdMonedaDoc.SelectedValue)
+                objCajaChicaDocumentoBE.TasaCambio = "1.0000";
+            else
+                objCajaChicaDocumentoBE.TasaCambio = Convert.ToDouble(txtTasaCambio.Text).ToString("0.0000");
+
+            if (Session["Usuario"] == null)
+                Response.Redirect("~/Login.aspx");
+            else
+            {
+                UsuarioBE objUsuarioBE = new UsuarioBE();
+                objUsuarioBE = (UsuarioBE)Session["Usuario"];
+                objUsuarioBE = new UsuarioBC().ObtenerUsuario(objUsuarioBE.IdUsuario, 0);
+
+                objCajaChicaDocumentoBE.UserCreate = Convert.ToString(objUsuarioBE.IdUsuario);
+                objCajaChicaDocumentoBE.UserUpdate = Convert.ToString(objUsuarioBE.IdUsuario);
+                objCajaChicaDocumentoBE.CreateDate = DateTime.Now;
+                objCajaChicaDocumentoBE.UpdateDate = DateTime.Now;
+            }
+
+            if (tipoGuardado == 0)
+                new CajaChicaDocumentoBC().InsertarCajaChicaDocumento(objCajaChicaDocumentoBE);
+            else if (tipoGuardado == 1)
+                new CajaChicaDocumentoBC().ModificarCajaChicaDocumento(objCajaChicaDocumentoBE);
+
+            ListarRendicion();
+            LlenarCabecera();
+            LimpiarCampos();
+
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            throw;
+        }
+        finally
+        {
+            if (tipoGuardado == 0)
+                bAgregar.Enabled = true;
+            else if (tipoGuardado == 1)
+                bGuardar.Enabled = true;
+        }
+    }
+
     protected void Agregar_Click(object sender, EventArgs e)
     {
         try
         {
-            bAgregar.Enabled = false;
-
-            string mensajeError = "";
-            bool validacion = true;
-
-            validacion = ValidarImporte();
-            if (validacion == false) Mensaje("Usted a ingresado los importes erroneamente.");
-
-            if (validacion)
-            {
-                DocumentoBC objDocumentoBC = new DocumentoBC();
-                DocumentoBE objDocumentoBE = new DocumentoBE();
-                objDocumentoBE = objDocumentoBC.ObtenerDocumento(Convert.ToInt32(ddlIdMonedaOriginal.SelectedItem.Value));
-                if (objDocumentoBE != null)
-                {
-                    if (objDocumentoBE.CodigoSunat != "99")
-                    {
-                        if (ddlTipo.SelectedItem.Value == "0"
-                            || txtSerie.Text.Trim() == ""
-                            || txtNumero.Text.Trim() == ""
-                            || txtFecha.Text.Trim() == ""
-                            || ddlConcepto.SelectedItem.Value == "0"
-                            //|| ddlCentroCostos3.SelectedItem.Value == "0"
-                            //|| ddlCentroCostos4.SelectedItem.Value == "0" 
-                            //|| ddlCentroCostos5.SelectedItem.Value == "0"
-                            || ddlIdMonedaDoc.SelectedItem.Value == "0"
-                            || ddlIdMonedaOriginal.SelectedItem.Value == "0"
-                            || txtMontoDoc.Text.Trim() == ""
-                            || txtTasaCambio.Text.Trim() == "")
-                        {
-                            validacion = false;
-                            mensajeError = "Usted no ha ingresado toda la informacion necesaria";
-                        }
-                    }
-                    else
-                    {
-                        if (ddlTipo.SelectedItem.Value == "0"
-                            || txtFecha.Text.Trim() == ""
-                            || ddlConcepto.SelectedItem.Value == "0"
-                            //||ddlCentroCostos3.SelectedItem.Value == "0"
-                            //||ddlCentroCostos4.SelectedItem.Value == "0"
-                            //||ddlCentroCostos5.SelectedItem.Value == "0" 
-                            || ddlIdMonedaDoc.SelectedItem.Value == "0"
-                            || ddlIdMonedaOriginal.SelectedItem.Value == "0"
-                            || txtMontoDoc.Text.Trim() == ""
-                            || txtTasaCambio.Text.Trim() == "")
-                        {
-                            validacion = false;
-                            mensajeError = "Usted no ha ingresado toda la informacion necesaria";
-                        }
-                    }
-                }
-                else
-                {
-                    validacion = false;
-                    mensajeError = "Debe seleccionar el Tipo de Documento.";
-                }
-            }
-
-            if (validacion)
-            {
-                decimal n;
-                bool isNumeric1, isNumeric2, isNumeric3, isNumeric4;
-                isNumeric1 = decimal.TryParse(txtMontoDoc.Text, out n);
-                if (isNumeric1 == false) validacion = false;
-                isNumeric2 = decimal.TryParse(txtTasaCambio.Text, out n);
-                if (isNumeric2 == false) validacion = false;
-                isNumeric3 = decimal.TryParse(txtMontoAfecta.Text, out n);
-                if (isNumeric3 == false) validacion = false;
-                isNumeric4 = decimal.TryParse(txtMontoNoAfecta.Text, out n);
-                if (isNumeric4 == false) validacion = false;
-                mensajeError = "Usted a ingresado los importes erroneamente.";
-            }
-
-            if (validacion)
-            {
-                double MontoDoc = Convert.ToDouble(txtMontoDoc.Text);
-                double MontoIGV = Convert.ToDouble(txtMontoIGV.Text);
-                double MontoAfecto = Convert.ToDouble(txtMontoAfecta.Text);
-                double MontoNoAfecto = Convert.ToDouble(txtMontoNoAfecta.Text);
-                if (Math.Round(MontoDoc, 2) != Math.Round(MontoIGV + MontoAfecto + MontoNoAfecto, 2)) validacion = false;
-                mensajeError = "La suma del IGV, Afecata y NoAfecta no es igual al Total.";
-            }
-
-            ProveedorBC objProveedorBC = new ProveedorBC();
-            ProveedorBE objProveedorBE = new ProveedorBE();
-            if (validacion)
-            {
-                objProveedorBE = objProveedorBC.ObtenerProveedor(0, 1, txtProveedor.Text);
-                if (objProveedorBE == null) validacion = false;
-                mensajeError = "El proveedor no existe.";
-            }
-
-            if (validacion)
-            {
-                String strIdCajaChica = "";
-                strIdCajaChica = ViewState["IdCajaChica"].ToString();
-
-                CajaChicaDocumentoBC objCajaChicaDocumentoBC = new CajaChicaDocumentoBC();
-                CajaChicaDocumentoBE objCajaChicaDocumentoBE = new CajaChicaDocumentoBE();
-                objCajaChicaDocumentoBE.IdCajaChica = Convert.ToInt32(strIdCajaChica);
-
-                objCajaChicaDocumentoBE.IdProveedor = Convert.ToInt32(objProveedorBE.IdProveedor);
-
-                objCajaChicaDocumentoBE.IdConcepto = Convert.ToInt32(ddlConcepto.SelectedItem.Value);
-                objCajaChicaDocumentoBE.IdCentroCostos3 = Convert.ToInt32(ddlCentroCostos3.SelectedItem.Value);
-                objCajaChicaDocumentoBE.IdCentroCostos4 = Convert.ToInt32(ddlCentroCostos4.SelectedItem.Value);
-                objCajaChicaDocumentoBE.IdCentroCostos5 = Convert.ToInt32(ddlCentroCostos5.SelectedItem.Value);
-                objCajaChicaDocumentoBE.TipoDoc = ddlTipo.SelectedItem.Value;
-                objCajaChicaDocumentoBE.SerieDoc = txtSerie.Text;
-                objCajaChicaDocumentoBE.CorrelativoDoc = txtNumero.Text;
-                //objCajaChicaDocumentoBE.FechaDoc = Convert.ToDateTime(txtFecha.Text );
-                objCajaChicaDocumentoBE.FechaDoc = DateTime.ParseExact(txtFecha.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                objCajaChicaDocumentoBE.IdMonedaOriginal = Convert.ToInt32(ddlIdMonedaOriginal.SelectedItem.Value);
-                objCajaChicaDocumentoBE.IdMonedaDoc = Convert.ToInt32(ddlIdMonedaDoc.SelectedItem.Value);
-                objCajaChicaDocumentoBE.MontoDoc = Convert.ToDouble(txtMontoDoc.Text).ToString("0.00");
-                objCajaChicaDocumentoBE.MontoIGV = Convert.ToDouble(txtMontoIGV.Text).ToString("0.00");
-                objCajaChicaDocumentoBE.MontoAfecto = Convert.ToDouble(txtMontoAfecta.Text).ToString("0.00");
-                objCajaChicaDocumentoBE.MontoNoAfecto = Convert.ToDouble(txtMontoNoAfecta.Text).ToString("0.00");
-                objCajaChicaDocumentoBE.MontoTotal = Convert.ToDouble(txtMontoTotal.Text).ToString("0.00");
-
-                if (ddlIdMonedaOriginal.SelectedValue == ddlIdMonedaDoc.SelectedValue) objCajaChicaDocumentoBE.TasaCambio = "1.0000";
-                else objCajaChicaDocumentoBE.TasaCambio = Convert.ToDouble(txtTasaCambio.Text).ToString("0.0000");
-
-                objCajaChicaDocumentoBE.Estado = "1";
-
-                if (Session["Usuario"] == null)
-                {
-                    Response.Redirect("~/Login.aspx");
-                }
-                else
-                {
-                    UsuarioBC objUsuarioBC = new UsuarioBC();
-                    UsuarioBE objUsuarioBE = new UsuarioBE();
-                    objUsuarioBE = (UsuarioBE)Session["Usuario"];
-                    objUsuarioBE = objUsuarioBC.ObtenerUsuario(objUsuarioBE.IdUsuario, 0);
-
-                    objCajaChicaDocumentoBE.UserCreate = Convert.ToString(objUsuarioBE.IdUsuario);
-                    objCajaChicaDocumentoBE.CreateDate = DateTime.Now;
-                    objCajaChicaDocumentoBE.UserUpdate = Convert.ToString(objUsuarioBE.IdUsuario);
-                    objCajaChicaDocumentoBE.UpdateDate = DateTime.Now;
-                }
-                int Id;
-                Id = objCajaChicaDocumentoBC.InsertarCajaChicaDocumento(objCajaChicaDocumentoBE);
-                ListarRendicion();
-                LlenarCabecera();
-                LimpiarCampos();
-            }
-            else
-                Mensaje(mensajeError);
+            GuardarDocumento(0);
         }
         catch (Exception ex)
         {
             ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirCajaChica): " + ex.Message);
-        }
-        finally
-        {
-            bAgregar.Enabled = true;
         }
     }
 
@@ -928,175 +904,23 @@ public partial class RendirCajaChica : System.Web.UI.Page
     {
         try
         {
-            bGuardar.Enabled = false;
-
-            string mensajeError = "";
-            bool validacion = true;
-
-            validacion = ValidarImporte();
-            if (validacion == false) Mensaje("Usted a ingresado los importes erroneamente.");
-
-            if (validacion)
+            if (GuardarDocumento(1))
             {
-                DocumentoBC objDocumentoBC = new DocumentoBC();
-                DocumentoBE objDocumentoBE = new DocumentoBE();
-                objDocumentoBE = objDocumentoBC.ObtenerDocumento(Convert.ToInt32(ddlIdMonedaOriginal.SelectedItem.Value));
-                if (objDocumentoBE != null)
-                {
-                    if (objDocumentoBE.CodigoSunat != "99")
-                    {
-                        if (ddlTipo.SelectedItem.Value == "0"
-                            || txtSerie.Text.Trim() == ""
-                            || txtNumero.Text.Trim() == ""
-                            || txtFecha.Text.Trim() == ""
-                            || ddlConcepto.SelectedItem.Value == "0"
-                            //|| ddlCentroCostos3.SelectedItem.Value == "0"
-                            //|| ddlCentroCostos4.SelectedItem.Value == "0"
-                            //|| ddlCentroCostos5.SelectedItem.Value == "0"
-                            || ddlIdMonedaDoc.SelectedItem.Value == "0"
-                            || ddlIdMonedaOriginal.SelectedItem.Value == "0"
-                            || txtMontoDoc.Text.Trim() == ""
-                            || txtTasaCambio.Text.Trim() == "")
-                        {
-                            validacion = false;
-                            mensajeError = "Usted no ha ingresado toda la informacion necesaria";
-                        }
-                    }
-                    else
-                    {
-                        if (ddlTipo.SelectedItem.Value == "0"
-                            || txtFecha.Text.Trim() == ""
-                            || ddlConcepto.SelectedItem.Value == "0"
-                            //|| ddlCentroCostos3.SelectedItem.Value == "0"
-                            //|| ddlCentroCostos4.SelectedItem.Value == "0"
-                            //|| ddlCentroCostos5.SelectedItem.Value == "0"
-                            || ddlIdMonedaDoc.SelectedItem.Value == "0"
-                            || ddlIdMonedaOriginal.SelectedItem.Value == "0"
-                            || txtMontoDoc.Text.Trim() == ""
-                            || txtTasaCambio.Text.Trim() == "")
-                        {
-                            validacion = false;
-                            mensajeError = "Usted no ha ingresado toda la informacion necesaria";
-                        }
-                    }
-                }
-                else
-                {
-                    validacion = false;
-                    mensajeError = "Debe seleccionar el Tipo de Documento.";
-                }
-            }
-
-            if (validacion)
-            {
-                decimal n;
-                bool isNumeric1, isNumeric2, isNumeric3, isNumeric4;
-                isNumeric1 = decimal.TryParse(txtMontoDoc.Text, out n);
-                if (isNumeric1 == false) validacion = false;
-                isNumeric2 = decimal.TryParse(txtTasaCambio.Text, out n);
-                if (isNumeric2 == false) validacion = false;
-                isNumeric3 = decimal.TryParse(txtMontoAfecta.Text, out n);
-                if (isNumeric3 == false) validacion = false;
-                isNumeric4 = decimal.TryParse(txtMontoNoAfecta.Text, out n);
-                if (isNumeric4 == false) validacion = false;
-                mensajeError = "Usted a ingresado los importes erroneamente.";
-            }
-
-            if (validacion)
-            {
-                double MontoDoc = Convert.ToDouble(txtMontoDoc.Text);
-                double MontoIGV = Convert.ToDouble(txtMontoIGV.Text);
-                double MontoAfecto = Convert.ToDouble(txtMontoAfecta.Text);
-                double MontoNoAfecto = Convert.ToDouble(txtMontoNoAfecta.Text);
-                if (Math.Round(MontoDoc, 2) != Math.Round(MontoIGV + MontoAfecto + MontoNoAfecto, 2)) validacion = false;
-                mensajeError = "La suma del IGV, Afecata y NoAfecta no es igual al Total.";
-            }
-
-            ProveedorBC objProveedorBC = new ProveedorBC();
-            ProveedorBE objProveedorBE = new ProveedorBE();
-            if (validacion)
-            {
-                objProveedorBE = objProveedorBC.ObtenerProveedor(0, 1, txtProveedor.Text);
-                if (objProveedorBE == null) validacion = false;
-                mensajeError = "El proveedor no existe.";
-            }
-
-            if (validacion)
-            {
-                String strIdCajaChica = "";
-                strIdCajaChica = ViewState["IdCajaChica"].ToString();
-
-                CajaChicaDocumentoBC objCajaChicaDocumentoBC = new CajaChicaDocumentoBC();
-                CajaChicaDocumentoBE objCajaChicaDocumentoBE = new CajaChicaDocumentoBE();
-                objCajaChicaDocumentoBE.IdCajaChicaDocumento = Convert.ToInt32(lblIdCajaChicaDocumento.Text);
-                objCajaChicaDocumentoBE.IdCajaChica = Convert.ToInt32(strIdCajaChica);
-
-                objCajaChicaDocumentoBE.IdProveedor = Convert.ToInt32(objProveedorBE.IdProveedor);
-
-                objCajaChicaDocumentoBE.IdConcepto = Convert.ToInt32(ddlConcepto.SelectedItem.Value);
-                objCajaChicaDocumentoBE.IdCentroCostos3 = Convert.ToInt32(ddlCentroCostos3.SelectedItem.Value);
-                objCajaChicaDocumentoBE.IdCentroCostos4 = Convert.ToInt32(ddlCentroCostos4.SelectedItem.Value);
-                objCajaChicaDocumentoBE.IdCentroCostos5 = Convert.ToInt32(ddlCentroCostos5.SelectedItem.Value);
-                objCajaChicaDocumentoBE.TipoDoc = ddlTipo.SelectedItem.Value;
-                objCajaChicaDocumentoBE.SerieDoc = txtSerie.Text;
-                objCajaChicaDocumentoBE.CorrelativoDoc = txtNumero.Text;
-                objCajaChicaDocumentoBE.FechaDoc = DateTime.ParseExact(txtFecha.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                objCajaChicaDocumentoBE.IdMonedaOriginal = Convert.ToInt32(ddlIdMonedaOriginal.SelectedItem.Value);
-                objCajaChicaDocumentoBE.IdMonedaDoc = Convert.ToInt32(ddlIdMonedaDoc.SelectedItem.Value);
-                objCajaChicaDocumentoBE.MontoDoc = Convert.ToDouble(txtMontoDoc.Text).ToString("0.00");
-                objCajaChicaDocumentoBE.MontoIGV = Convert.ToDouble(txtMontoIGV.Text).ToString("0.00");
-                objCajaChicaDocumentoBE.MontoAfecto = Convert.ToDouble(txtMontoAfecta.Text).ToString("0.00");
-                objCajaChicaDocumentoBE.MontoNoAfecto = Convert.ToDouble(txtMontoNoAfecta.Text).ToString("0.00");
-                objCajaChicaDocumentoBE.MontoTotal = Convert.ToDouble(txtMontoTotal.Text).ToString("0.00");
-
-                if (ddlIdMonedaOriginal.SelectedValue == ddlIdMonedaDoc.SelectedValue) objCajaChicaDocumentoBE.TasaCambio = "1.0000";
-                else objCajaChicaDocumentoBE.TasaCambio = Convert.ToDouble(txtTasaCambio.Text).ToString("0.0000");
-
-                objCajaChicaDocumentoBE.Estado = "1";
-
-                if (Session["Usuario"] == null)
-                {
-                    Response.Redirect("~/Login.aspx");
-                }
-                else
-                {
-                    UsuarioBC objUsuarioBC = new UsuarioBC();
-                    UsuarioBE objUsuarioBE = new UsuarioBE();
-                    objUsuarioBE = (UsuarioBE)Session["Usuario"];
-                    objUsuarioBE = objUsuarioBC.ObtenerUsuario(objUsuarioBE.IdUsuario, 0);
-
-                    objCajaChicaDocumentoBE.UserCreate = Convert.ToString(objUsuarioBE.IdUsuario);
-                    objCajaChicaDocumentoBE.CreateDate = DateTime.Now;
-                    objCajaChicaDocumentoBE.UserUpdate = Convert.ToString(objUsuarioBE.IdUsuario);
-                    objCajaChicaDocumentoBE.UpdateDate = DateTime.Now;
-                }
-
-                objCajaChicaDocumentoBC.ModificarCajaChicaDocumento(objCajaChicaDocumentoBE);
-                ListarRendicion();
-                LlenarCabecera();
-                LimpiarCampos();
-
                 lblIdCajaChicaDocumento.Text = "";
                 bAgregar.Visible = true;
                 bGuardar.Visible = false;
 
-                CajaChicaBC objCajaChicaBC = new CajaChicaBC();
-                CajaChicaBE objCajaChicaBE = new CajaChicaBE();
-                objCajaChicaBE = objCajaChicaBC.ObtenerCajaChica(Convert.ToInt32(strIdCajaChica), 0);
-                if (objCajaChicaBE.Estado == "4") bEnviar.Visible = true;
-                else bEnviar.Visible = false;
+                String estadoCajaChica = new CajaChicaBC().ObtenerCajaChica(Convert.ToInt32(ViewState["IdCajaChica"].ToString()), 0).Estado;
+                if (estadoCajaChica == "4")
+                    bEnviar.Visible = true;
+                else
+                    bEnviar.Visible = false;
             }
-            else
-                Mensaje(mensajeError);
         }
         catch (Exception ex)
         {
             ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirCajaChica): " + ex.Message);
-        }
-        finally
-        {
-            bGuardar.Enabled = true;
         }
     }
 
@@ -1927,20 +1751,20 @@ public partial class RendirCajaChica : System.Web.UI.Page
         {
             DataTable dt = new DataTable();
             dt.Columns.AddRange(new DataColumn[14] {
-                    new DataColumn("Tipo_Documento", typeof(int)),
-                    new DataColumn("Serie", typeof(string)),
-                    new DataColumn("Numero",typeof(Int32)),
-                    new DataColumn("Fecha",typeof(DateTime)),
-                    new DataColumn("Ruc",typeof(string)),
-                    new DataColumn("Razon_Social",typeof(string)),
-                    new DataColumn("Concepto",typeof(int)),
-                    new DataColumn("Moneda_Documento",typeof(int)),
-                    new DataColumn("Tasa_Cambio",typeof(decimal)),
-                    new DataColumn("No_Afecta",typeof(decimal)),
-                    new DataColumn("Afecta",typeof(decimal)),
-                    new DataColumn("IGV",typeof(decimal)),
-                    new DataColumn("Total_Documento",typeof(decimal)),
-                    new DataColumn("Total_Moneda_Origen",typeof(decimal))  });
+        new DataColumn("Tipo_Documento", typeof(int)),
+        new DataColumn("Serie", typeof(string)),
+        new DataColumn("Numero",typeof(Int32)),
+        new DataColumn("Fecha",typeof(DateTime)),
+        new DataColumn("Ruc",typeof(string)),
+        new DataColumn("Razon_Social",typeof(string)),
+        new DataColumn("Concepto",typeof(int)),
+        new DataColumn("Moneda_Documento",typeof(int)),
+        new DataColumn("Tasa_Cambio",typeof(decimal)),
+        new DataColumn("No_Afecta",typeof(decimal)),
+        new DataColumn("Afecta",typeof(decimal)),
+        new DataColumn("IGV",typeof(decimal)),
+        new DataColumn("Total_Documento",typeof(decimal)),
+        new DataColumn("Total_Moneda_Origen",typeof(decimal))  });
 
             string copiedContent = Request.Form[txtCopied.UniqueID];
             foreach (string row in copiedContent.Split('\n'))
@@ -2282,6 +2106,11 @@ public partial class RendirCajaChica : System.Web.UI.Page
     }
 
     protected void ddlCentroCosto2_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void txtMontoDoc_TextChanged(object sender, EventArgs e)
     {
 
     }

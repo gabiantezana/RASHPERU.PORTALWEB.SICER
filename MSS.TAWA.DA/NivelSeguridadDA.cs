@@ -62,7 +62,7 @@ namespace MSS.TAWA.DA
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 
@@ -119,7 +119,7 @@ namespace MSS.TAWA.DA
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 
@@ -233,7 +233,7 @@ namespace MSS.TAWA.DA
 
         //    catch (Exception ex)
         //    {
-        //        throw new Exception(ex.Message);
+        //        throw;
         //    }
         //}
 
@@ -368,7 +368,7 @@ namespace MSS.TAWA.DA
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
     }

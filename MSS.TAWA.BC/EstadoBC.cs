@@ -21,7 +21,7 @@ namespace MSS.TAWA.BC
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 
@@ -34,7 +34,7 @@ namespace MSS.TAWA.BC
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
         public List<EstadoBE> ListarEntregaRendir()
@@ -46,7 +46,7 @@ namespace MSS.TAWA.BC
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
         public List<EstadoBE> ListarReembolso()
@@ -58,7 +58,7 @@ namespace MSS.TAWA.BC
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 

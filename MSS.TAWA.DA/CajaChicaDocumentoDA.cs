@@ -87,6 +87,7 @@ namespace MSS.TAWA.DA
                     objCajaChicaDocumentoBE.CreateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("CreateDate"));
                     objCajaChicaDocumentoBE.UserUpdate = sqlDR.GetString(sqlDR.GetOrdinal("UserUpdate"));
                     objCajaChicaDocumentoBE.UpdateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("UpdateDate"));
+                    objCajaChicaDocumentoBE.PartidaPresupuestal = sqlDR.GetString(sqlDR.GetOrdinal("PartidaPresupuestal"));
                     lstCajaChicaDocumentoBE.Add(objCajaChicaDocumentoBE);
                 }
 
@@ -100,7 +101,7 @@ namespace MSS.TAWA.DA
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 
@@ -147,9 +148,11 @@ namespace MSS.TAWA.DA
                 {
                     objCajaChicaDocumentoBE = new CajaChicaDocumentoBE();
                     objCajaChicaDocumentoBE.IdCajaChicaDocumento = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCajaChicaDocumento"));
-                    objCajaChicaDocumentoBE.IdCajaChica = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCajaChica"));  
+                    objCajaChicaDocumentoBE.IdCajaChica = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCajaChica"));
                     objCajaChicaDocumentoBE.IdProveedor = sqlDR.GetInt32(sqlDR.GetOrdinal("IdProveedor"));
                     objCajaChicaDocumentoBE.IdConcepto = sqlDR.GetInt32(sqlDR.GetOrdinal("IdConcepto"));
+                    objCajaChicaDocumentoBE.IdCentroCostos1 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos1"));
+                    objCajaChicaDocumentoBE.IdCentroCostos2 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos2"));
                     objCajaChicaDocumentoBE.IdCentroCostos3 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos3"));
                     objCajaChicaDocumentoBE.IdCentroCostos4 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos4"));
                     objCajaChicaDocumentoBE.IdCentroCostos5 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos5"));
@@ -160,7 +163,7 @@ namespace MSS.TAWA.DA
                     objCajaChicaDocumentoBE.IdMonedaDoc = sqlDR.GetInt32(sqlDR.GetOrdinal("IdMonedaDoc"));
                     objCajaChicaDocumentoBE.MontoDoc = sqlDR.GetString(sqlDR.GetOrdinal("MontoDoc"));
                     objCajaChicaDocumentoBE.TasaCambio = sqlDR.GetString(sqlDR.GetOrdinal("TasaCambio"));
-                    objCajaChicaDocumentoBE.IdMonedaOriginal = sqlDR.GetInt32(sqlDR.GetOrdinal("IdMonedaOriginal")); 
+                    objCajaChicaDocumentoBE.IdMonedaOriginal = sqlDR.GetInt32(sqlDR.GetOrdinal("IdMonedaOriginal"));
                     objCajaChicaDocumentoBE.MontoNoAfecto = sqlDR.GetString(sqlDR.GetOrdinal("MontoNoAfecto"));
                     objCajaChicaDocumentoBE.MontoAfecto = sqlDR.GetString(sqlDR.GetOrdinal("MontoAfecto"));
                     objCajaChicaDocumentoBE.MontoIGV = sqlDR.GetString(sqlDR.GetOrdinal("MontoIGV"));
@@ -170,6 +173,8 @@ namespace MSS.TAWA.DA
                     objCajaChicaDocumentoBE.CreateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("CreateDate"));
                     objCajaChicaDocumentoBE.UserUpdate = sqlDR.GetString(sqlDR.GetOrdinal("UserUpdate"));
                     objCajaChicaDocumentoBE.UpdateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("UpdateDate"));
+                    objCajaChicaDocumentoBE.PartidaPresupuestal = sqlDR.GetString(sqlDR.GetOrdinal("PartidaPresupuestal"));
+
                 }
 
                 sqlCmd.Connection.Close();
@@ -182,7 +187,7 @@ namespace MSS.TAWA.DA
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 
@@ -198,6 +203,8 @@ namespace MSS.TAWA.DA
             SqlParameter pIdCajaChica;
             SqlParameter pIdProveedor;
             SqlParameter pIdConcepto;
+            SqlParameter pIdCentroCostos1;
+            SqlParameter pIdCentroCostos2;
             SqlParameter pIdCentroCostos3;
             SqlParameter pIdCentroCostos4;
             SqlParameter pIdCentroCostos5;
@@ -218,6 +225,7 @@ namespace MSS.TAWA.DA
             SqlParameter pCreateDate;
             SqlParameter pUserUpdate;
             SqlParameter pUpdateDate;
+            SqlParameter pPartidaPresupuestal;
 
             int Id;
 
@@ -247,6 +255,16 @@ namespace MSS.TAWA.DA
                 pIdConcepto.ParameterName = "@IdConcepto";
                 pIdConcepto.SqlDbType = SqlDbType.Int;
                 pIdConcepto.Value = objBE.IdConcepto;
+
+                pIdCentroCostos1 = new SqlParameter();
+                pIdCentroCostos1.ParameterName = "@IdCentroCostos1";
+                pIdCentroCostos1.SqlDbType = SqlDbType.Int;
+                pIdCentroCostos1.Value = objBE.IdCentroCostos1;
+
+                pIdCentroCostos2 = new SqlParameter();
+                pIdCentroCostos2.ParameterName = "@IdCentroCostos2";
+                pIdCentroCostos2.SqlDbType = SqlDbType.Int;
+                pIdCentroCostos2.Value = objBE.IdCentroCostos2;
 
                 pIdCentroCostos3 = new SqlParameter();
                 pIdCentroCostos3.ParameterName = "@IdCentroCostos3";
@@ -360,10 +378,18 @@ namespace MSS.TAWA.DA
                 pUpdateDate.SqlDbType = SqlDbType.DateTime;
                 pUpdateDate.Value = objBE.UpdateDate;
 
+                pPartidaPresupuestal = new SqlParameter();
+                pPartidaPresupuestal.ParameterName = "@PartidaPresupuestal";
+                pPartidaPresupuestal.SqlDbType = SqlDbType.NVarChar;
+                pPartidaPresupuestal.Value = objBE.PartidaPresupuestal;
+                
+
                 sqlCmd.Parameters.Add(pIdCajaChicaDocumento);
                 sqlCmd.Parameters.Add(pIdCajaChica);
                 sqlCmd.Parameters.Add(pIdProveedor);
                 sqlCmd.Parameters.Add(pIdConcepto);
+                sqlCmd.Parameters.Add(pIdCentroCostos1);
+                sqlCmd.Parameters.Add(pIdCentroCostos2);
                 sqlCmd.Parameters.Add(pIdCentroCostos3);
                 sqlCmd.Parameters.Add(pIdCentroCostos4);
                 sqlCmd.Parameters.Add(pIdCentroCostos5);
@@ -384,6 +410,7 @@ namespace MSS.TAWA.DA
                 sqlCmd.Parameters.Add(pCreateDate);
                 sqlCmd.Parameters.Add(pUserUpdate);
                 sqlCmd.Parameters.Add(pUpdateDate);
+                sqlCmd.Parameters.Add(pPartidaPresupuestal);
 
                 sqlCmd.Connection.Open();
                 sqlCmd.ExecuteNonQuery();
@@ -399,7 +426,7 @@ namespace MSS.TAWA.DA
 
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 
@@ -435,6 +462,7 @@ namespace MSS.TAWA.DA
             SqlParameter pCreateDate;
             SqlParameter pUserUpdate;
             SqlParameter pUpdateDate;
+            SqlParameter pPartidaPresupuestal;
 
             try
             {
@@ -577,6 +605,12 @@ namespace MSS.TAWA.DA
                 pUpdateDate.SqlDbType = SqlDbType.DateTime;
                 pUpdateDate.Value = objBE.UpdateDate;
 
+                pPartidaPresupuestal = new SqlParameter();
+                pPartidaPresupuestal.ParameterName = "@PartidaPresupuestal";
+                pPartidaPresupuestal.SqlDbType = SqlDbType.NVarChar;
+                pPartidaPresupuestal.Value = objBE.PartidaPresupuestal;
+                
+
                 sqlCmd.Parameters.Add(pIdCajaChicaDocumento);
                 sqlCmd.Parameters.Add(pIdCajaChica);
                 sqlCmd.Parameters.Add(pIdProveedor);
@@ -601,6 +635,7 @@ namespace MSS.TAWA.DA
                 sqlCmd.Parameters.Add(pCreateDate);
                 sqlCmd.Parameters.Add(pUserUpdate);
                 sqlCmd.Parameters.Add(pUpdateDate);
+                sqlCmd.Parameters.Add(pPartidaPresupuestal);
 
                 sqlCmd.Connection.Open();
                 sqlCmd.ExecuteNonQuery();
@@ -614,7 +649,7 @@ namespace MSS.TAWA.DA
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 
@@ -655,7 +690,7 @@ namespace MSS.TAWA.DA
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
     }

@@ -112,7 +112,7 @@ namespace MSS.TAWA.DA
             catch (Exception ex)
             {
                 return false;
-                throw new Exception(ex.Message);
+                throw;
             }
         }
     }

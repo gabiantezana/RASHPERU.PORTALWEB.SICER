@@ -21,7 +21,7 @@ namespace MSS.TAWA.BC
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 
@@ -34,7 +34,7 @@ namespace MSS.TAWA.BC
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 
@@ -47,7 +47,7 @@ namespace MSS.TAWA.BC
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 
@@ -61,7 +61,7 @@ namespace MSS.TAWA.BC
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
         public bool ModificarContrasena(int CardCode,String Pass)
@@ -73,7 +73,7 @@ namespace MSS.TAWA.BC
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 
@@ -86,7 +86,7 @@ namespace MSS.TAWA.BC
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 
@@ -99,7 +99,7 @@ namespace MSS.TAWA.BC
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 
@@ -112,7 +112,7 @@ namespace MSS.TAWA.BC
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 
@@ -125,7 +125,7 @@ namespace MSS.TAWA.BC
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 
@@ -138,7 +138,7 @@ namespace MSS.TAWA.BC
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 
@@ -151,7 +151,7 @@ namespace MSS.TAWA.BC
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 
@@ -164,7 +164,7 @@ public bool InsertarAcceso(int IdLog, DateTime Fecha,String Usuario,String Contr
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
         public void ModificarUsuario(UsuarioBE objBE)
@@ -176,7 +176,7 @@ public bool InsertarAcceso(int IdLog, DateTime Fecha,String Usuario,String Contr
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 
@@ -189,7 +189,7 @@ public bool InsertarAcceso(int IdLog, DateTime Fecha,String Usuario,String Contr
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 

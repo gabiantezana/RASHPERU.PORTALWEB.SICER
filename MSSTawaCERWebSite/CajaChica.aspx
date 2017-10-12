@@ -1,23 +1,25 @@
 ﻿<%@ Page Title="CajaChica" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="CajaChica.aspx.cs" Inherits="CajaChica" %>
+
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent"></asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
- 
- <ajaxtoolkit:toolkitscriptmanager ID="ToolkitScriptManager1" runat="server"></ajaxtoolkit:toolkitscriptmanager>
- 
-<asp:UpdatePanel ID="UpdatePanel1" runat="server" >
-<ContentTemplate>
 
- <table width="100%">
-  <tr>
-   <td align="center">
-    <h1><asp:Label ID="lblCabezera" runat= "server"/></h1>
-   </td>
-  </tr>
- </table> 
- <br />
- <center>
+    <ajaxToolkit:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server"></ajaxToolkit:ToolkitScriptManager>
+
+    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+        <ContentTemplate>
+
+            <table width="100%">
+                <tr>
+                    <td align="center">
+                        <h1>
+                            <asp:Label ID="lblCabezera" runat="server" /></h1>
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <center>
   <table width="800px" style="font-family:Verdana, Arial, Helvetica, sans-serif;"> 
    <tr>
     <td width="175px" align="left"><label>Id Caja Chica</label></td>
@@ -87,8 +89,8 @@
    </tr>
   </table>
  </center>
- <br />
- <center>
+            <br />
+            <center>
   <table width="400px">
    <tr>
     <td width="200px" align="center">
@@ -118,9 +120,9 @@
    </tr>
   </table>
  </center>
- <br />
- 
- </ContentTemplate>
- </asp:UpdatePanel>
+            <br />
+
+        </ContentTemplate>
+    </asp:UpdatePanel>
 
 </asp:Content>

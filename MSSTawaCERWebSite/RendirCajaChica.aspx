@@ -62,6 +62,16 @@
                         <asp:DropDownList ID="ddlConcepto" runat="server" Width="95%" OnSelectedIndexChanged="ddlConcepto_SelectedIndexChanged"></asp:DropDownList></td>
                 </tr>
                 <tr>
+                   <td width="140px" align="left">
+                        <label>Partida presupuestal</label></td>
+                    <td width="196px" align="left">
+                        <asp:TextBox ID="txtPartidaPresupuestal" runat="server" Width="95%"></asp:TextBox></td>
+
+                        <caption>
+                            &nbsp;</td>
+                    </caption>
+                </tr>
+                <tr>
                     <td align="left">
                         <label>Centro Costo Nivel 1</label></td>
                     <td align="left">
@@ -125,7 +135,7 @@
                     <td align="left">
                         <label>Total Documento</label></td>
                     <td align="left">
-                        <asp:TextBox ID="txtMontoDoc" runat="server" Width="95%" Enabled="false"></asp:TextBox>
+                        <asp:TextBox ID="txtMontoDoc" runat="server" Width="95%" Enabled="false" OnTextChanged="txtMontoDoc_TextChanged"></asp:TextBox>
                         <ajaxToolkit:FilteredTextBoxExtender ID="FilteredTextBoxExtender1" TargetControlID="txtMontoDoc" runat="server" Enabled="True" FilterType="Numbers,Custom" ValidChars="."></ajaxToolkit:FilteredTextBoxExtender>
                     </td>
                     <td align="left">
@@ -147,8 +157,9 @@
                         <asp:Button ID="bCancelar" runat="server" Text="Regresar" CssClass="button" OnClick="Cancelar_Click" /></td>
                 </tr>
             </table>
-            <br />
-            <table width="1008px" style="border-top: thick solid #000000;">
+            <div style="display:none">
+                  <br />
+            <table width="1008px" style="border-top: thick solid #000000;" visible="false">
                 <tr>
                     <td align="center">
                         <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="false"
@@ -185,12 +196,14 @@
                 </tr>
             </table>
             <br />
+            </div>
             <table width="1008px" style="border-bottom: thick solid #000000;">
                 <tr>
                     <td></td>
                 </tr>
             </table>
             <br />
+          
             <table width="1008px">
                 <tr>
                     <td width="252px"></td>
@@ -255,7 +268,7 @@
                 </tr>
             </table>
             <br />
-            <table width="1008px">
+            <table width="1008px" style="display:none">
                 <tr>
                     <td align="center">
                         <asp:LinkButton ID="lnkExportarReporte" runat="server" Font-Underline="false" OnClick="lnkExportarReporte_Click"> 
@@ -340,8 +353,10 @@
 
                             </Columns>
 
-                            <EmptyDataTemplate>No hay informacion que mostrar<br />
-                                <img alt="noinfo" src="img/empty.png" width="100%" /></EmptyDataTemplate>
+                            <EmptyDataTemplate>
+                                No hay informacion que mostrar<br />
+                                <img alt="noinfo" src="img/empty.png" width="100%" />
+                            </EmptyDataTemplate>
 
                         </asp:GridView>
                     </td>
@@ -432,8 +447,10 @@
 
                 </Columns>
 
-                <EmptyDataTemplate>No hay informacion que mostrar<br />
-                    <img alt="noinfo" src="img/empty.png" width="100%" /></EmptyDataTemplate>
+                <EmptyDataTemplate>
+                    No hay informacion que mostrar<br />
+                    <img alt="noinfo" src="img/empty.png" width="100%" />
+                </EmptyDataTemplate>
 
             </asp:GridView>
 
