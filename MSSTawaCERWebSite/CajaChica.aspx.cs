@@ -73,7 +73,6 @@ public partial class CajaChica : System.Web.UI.Page
             Response.Redirect("~/Login.aspx");
         else
         {
-
             if (Modo == 1)//TODO?
             {
                 bCrear.Visible = true;
@@ -102,30 +101,18 @@ public partial class CajaChica : System.Web.UI.Page
                 UsuarioBE objUsuarioSolicitanteBE = new UsuarioBC().ObtenerUsuario(objCajaChicaBE.IdUsuarioSolicitante, 0);
                 PerfilUsuarioBE objPerfilUsuarioBE = new PerfilUsuarioBC().ObtenerPerfilUsuario(objUsuarioSesionBE.IdPerfilUsuario);
 
-                switch ((EstadoDocumento)Enum.Parse(typeof(EstadoDocumento), objCajaChicaBE.Estado))
+                EstadoDocumento estadoDocumento = (EstadoDocumento)Enum.Parse(typeof(EstadoDocumento), objCajaChicaBE.Estado);
+                TipoAprobador tipoAprobador = (TipoAprobador)Enum.Parse(typeof(TipoAprobador), objPerfilUsuarioBE.TipoAprobador);
+                switch (estadoDocumento)
                 {
                     case EstadoDocumento.PorAprobarNivel1:
                     case EstadoDocumento.PorAprobarNivel2:
                     case EstadoDocumento.PorAprobarNivel3:
-                        switch ((TipoAprobador)Enum.Parse(typeof(TipoAprobador), objPerfilUsuarioBE.TipoAprobador))
+                        switch (tipoAprobador)
                         {
                             case TipoAprobador.Aprobador:
                             case TipoAprobador.AprobadorYCreador:
-                                switch ((EstadoDocumento)Enum.Parse(typeof(EstadoDocumento), objCajaChicaBE.Estado))
-                                {
-                                    case EstadoDocumento.PorAprobarNivel1:
-                                        if (objUsuarioSolicitanteBE.IdUsuarioCC1 == objUsuarioSolicitanteBE.IdUsuario)
-                                            habilitarBotonesDeAprobacion = true;
-                                        break;
-                                    case EstadoDocumento.PorAprobarNivel2:
-                                        if (objUsuarioSolicitanteBE.IdUsuarioCC2 == objUsuarioSolicitanteBE.IdUsuario)
-                                            habilitarBotonesDeAprobacion = true;
-                                        break;
-                                    case EstadoDocumento.PorAprobarNivel3:
-                                        if (objUsuarioSolicitanteBE.IdUsuarioCC3 == objUsuarioSolicitanteBE.IdUsuario)
-                                            habilitarBotonesDeAprobacion = true;
-                                        break;
-                                }
+                                habilitarBotonesDeAprobacion = UsuarioPuedeAprobarDocumento(estadoDocumento, objUsuarioSolicitanteBE);
                                 break;
                         }
                         break;
@@ -137,7 +124,6 @@ public partial class CajaChica : System.Web.UI.Page
                             habilitarOBservacion = true;
                         break;
                 }
-
 
                 bCrear.Visible = false;
                 bCancelar.Visible = false;
@@ -153,14 +139,34 @@ public partial class CajaChica : System.Web.UI.Page
                     bObservacion.Visible = true;
                     bRechazar.Visible = true;
                 }
-                if(habilitarOBservacion)
+                if (habilitarOBservacion)
                 {
                     bAprobar.Text = "Enviar";
-                    bAprobar.Visible = true; 
+                    bAprobar.Visible = true;
                 }
 
             }
         }
+    }
+
+    public Boolean UsuarioPuedeAprobarDocumento(EstadoDocumento estadoDocumento, UsuarioBE usuario)
+    {
+        switch (estadoDocumento)
+        {
+            case EstadoDocumento.PorAprobarNivel1:
+                if (usuario.IdUsuarioCC1 == usuario.IdUsuario)
+                    return true;
+                break;
+            case EstadoDocumento.PorAprobarNivel2:
+                if (usuario.IdUsuarioCC2 == usuario.IdUsuario)
+                    return true;
+                break;
+            case EstadoDocumento.PorAprobarNivel3:
+                if (usuario.IdUsuarioCC3 == usuario.IdUsuario)
+                    return true;
+                break;
+        }
+        return false;
     }
 
     private void LimpiarCampos()
