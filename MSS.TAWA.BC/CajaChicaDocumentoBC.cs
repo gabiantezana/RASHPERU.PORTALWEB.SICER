@@ -49,6 +49,8 @@ namespace MSS.TAWA.BC
             }
         }
 
+       
+
         public void ModificarCajaChicaDocumento(CajaChicaDocumentoBE objBE)
         {
             try

@@ -794,6 +794,8 @@ public partial class RendirCajaChica : System.Web.UI.Page
                 + Convert.ToDouble(txtMontoAfecta.Text)
                 + Convert.ToDouble(txtMontoNoAfecta.Text), 2))
             errorMessage = "La suma del IGV, Afecta y NoAfecta no es igual al Total.";
+        else if (Convert.ToDouble(txtMontoTotal.Text) > new ValidationHelper().ObtenerMontoMaximoDeDocumento(1, ddlIdMonedaDoc.SelectedItem.Text))
+            errorMessage = "El monto total del documento excede al monto máximo permitido: " + new ValidationHelper().ObtenerMontoMaximoDeDocumento(1, ddlIdMonedaDoc.SelectedItem.Text);
 
         if (!String.IsNullOrEmpty(errorMessage))
             return false;
@@ -803,88 +805,79 @@ public partial class RendirCajaChica : System.Web.UI.Page
 
     }
 
+    public void  ValidateDocument(CajaChicaDocumentoBE cajaChica)
+    {
+        //TODO: Validar montos máximos por documentos
+
+    }
+
     public Boolean GuardarDocumento(Int32 tipoGuardado)
     {
-        try
+        String errorMessage;
+        CamposSonValidos(out errorMessage);
+        if (!String.IsNullOrEmpty(errorMessage))
         {
-            String errorMessage;
-            if (!CamposSonValidos(out errorMessage))
-            {
-                Mensaje(errorMessage);
-                return false;
-            }
-
-            if (tipoGuardado == 0)
-                bAgregar.Enabled = false;
-            else if (tipoGuardado == 1)
-                bGuardar.Enabled = false;
-
-            CajaChicaDocumentoBE objCajaChicaDocumentoBE = new CajaChicaDocumentoBE();
-            objCajaChicaDocumentoBE.IdCajaChica = Convert.ToInt32(ViewState["IdCajaChica"].ToString());
-            objCajaChicaDocumentoBE.IdCajaChicaDocumento = Convert.ToInt32(lblIdCajaChicaDocumento.Text);
-            objCajaChicaDocumentoBE.TipoDoc = ddlTipo.SelectedItem.Value;
-            objCajaChicaDocumentoBE.SerieDoc = txtSerie.Text;
-            objCajaChicaDocumentoBE.CorrelativoDoc = txtNumero.Text;
-            objCajaChicaDocumentoBE.FechaDoc = DateTime.ParseExact(txtFecha.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            objCajaChicaDocumentoBE.IdProveedor = new ValidationHelper().GetIDProveedor(txtProveedor.Text);
-            objCajaChicaDocumentoBE.IdConcepto = Convert.ToInt32(ddlConcepto.SelectedItem.Value);
-            objCajaChicaDocumentoBE.PartidaPresupuestal = txtPartidaPresupuestal.Text;
-            objCajaChicaDocumentoBE.IdCentroCostos1 = Convert.ToInt32(ddlCentroCostos1.SelectedItem.Value);
-            objCajaChicaDocumentoBE.IdCentroCostos2 = Convert.ToInt32(ddlCentroCostos2.SelectedItem.Value);
-            objCajaChicaDocumentoBE.IdCentroCostos3 = Convert.ToInt32(ddlCentroCostos3.SelectedItem.Value);
-            objCajaChicaDocumentoBE.IdCentroCostos4 = Convert.ToInt32(ddlCentroCostos4.SelectedItem.Value);
-            objCajaChicaDocumentoBE.IdCentroCostos5 = Convert.ToInt32(ddlCentroCostos5.SelectedItem.Value);
-            objCajaChicaDocumentoBE.IdMonedaOriginal = Convert.ToInt32(ddlIdMonedaOriginal.SelectedItem.Value);
-            objCajaChicaDocumentoBE.IdMonedaDoc = Convert.ToInt32(ddlIdMonedaDoc.SelectedItem.Value);
-            objCajaChicaDocumentoBE.MontoAfecto = Convert.ToDouble(txtMontoAfecta.Text).ToString("0.00");
-            objCajaChicaDocumentoBE.MontoNoAfecto = Convert.ToDouble(txtMontoNoAfecta.Text).ToString("0.00");
-            objCajaChicaDocumentoBE.MontoIGV = Convert.ToDouble(txtMontoIGV.Text).ToString("0.00");
-            objCajaChicaDocumentoBE.MontoDoc = Convert.ToDouble(txtMontoDoc.Text).ToString("0.00");
-            objCajaChicaDocumentoBE.MontoTotal = Convert.ToDouble(txtMontoTotal.Text).ToString("0.00");
-            objCajaChicaDocumentoBE.Estado = "1";
-
-            if (ddlIdMonedaOriginal.SelectedValue == ddlIdMonedaDoc.SelectedValue)
-                objCajaChicaDocumentoBE.TasaCambio = "1.0000";
-            else
-                objCajaChicaDocumentoBE.TasaCambio = Convert.ToDouble(txtTasaCambio.Text).ToString("0.0000");
-
-            if (Session["Usuario"] == null)
-                Response.Redirect("~/Login.aspx");
-            else
-            {
-                UsuarioBE objUsuarioBE = new UsuarioBE();
-                objUsuarioBE = (UsuarioBE)Session["Usuario"];
-                objUsuarioBE = new UsuarioBC().ObtenerUsuario(objUsuarioBE.IdUsuario, 0);
-
-                objCajaChicaDocumentoBE.UserCreate = Convert.ToString(objUsuarioBE.IdUsuario);
-                objCajaChicaDocumentoBE.UserUpdate = Convert.ToString(objUsuarioBE.IdUsuario);
-                objCajaChicaDocumentoBE.CreateDate = DateTime.Now;
-                objCajaChicaDocumentoBE.UpdateDate = DateTime.Now;
-            }
-
-            if (tipoGuardado == 0)
-                new CajaChicaDocumentoBC().InsertarCajaChicaDocumento(objCajaChicaDocumentoBE);
-            else if (tipoGuardado == 1)
-                new CajaChicaDocumentoBC().ModificarCajaChicaDocumento(objCajaChicaDocumentoBE);
-
-            ListarRendicion();
-            LlenarCabecera();
-            LimpiarCampos();
-
-
-            return true;
+            Mensaje(errorMessage);
+            return false;
         }
-        catch (Exception ex)
+
+        if (tipoGuardado == 0)
+            bAgregar.Enabled = false;
+        else if (tipoGuardado == 1)
+            bGuardar.Enabled = false;
+
+        CajaChicaDocumentoBE objCajaChicaDocumentoBE = new CajaChicaDocumentoBE();
+        objCajaChicaDocumentoBE.IdCajaChica = Convert.ToInt32(ViewState["IdCajaChica"].ToString());
+        objCajaChicaDocumentoBE.IdCajaChicaDocumento = Convert.ToInt32(lblIdCajaChicaDocumento.Text);
+        objCajaChicaDocumentoBE.TipoDoc = ddlTipo.SelectedItem.Value;
+        objCajaChicaDocumentoBE.SerieDoc = txtSerie.Text;
+        objCajaChicaDocumentoBE.CorrelativoDoc = txtNumero.Text;
+        objCajaChicaDocumentoBE.FechaDoc = DateTime.ParseExact(txtFecha.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+        objCajaChicaDocumentoBE.IdProveedor = new ValidationHelper().GetIDProveedor(txtProveedor.Text);
+        objCajaChicaDocumentoBE.IdConcepto = Convert.ToInt32(ddlConcepto.SelectedItem.Value);
+        objCajaChicaDocumentoBE.PartidaPresupuestal = txtPartidaPresupuestal.Text;
+        objCajaChicaDocumentoBE.IdCentroCostos1 = Convert.ToInt32(ddlCentroCostos1.SelectedItem.Value);
+        objCajaChicaDocumentoBE.IdCentroCostos2 = Convert.ToInt32(ddlCentroCostos2.SelectedItem.Value);
+        objCajaChicaDocumentoBE.IdCentroCostos3 = Convert.ToInt32(ddlCentroCostos3.SelectedItem.Value);
+        objCajaChicaDocumentoBE.IdCentroCostos4 = Convert.ToInt32(ddlCentroCostos4.SelectedItem.Value);
+        objCajaChicaDocumentoBE.IdCentroCostos5 = Convert.ToInt32(ddlCentroCostos5.SelectedItem.Value);
+        objCajaChicaDocumentoBE.IdMonedaOriginal = Convert.ToInt32(ddlIdMonedaOriginal.SelectedItem.Value);
+        objCajaChicaDocumentoBE.IdMonedaDoc = Convert.ToInt32(ddlIdMonedaDoc.SelectedItem.Value);
+        objCajaChicaDocumentoBE.MontoAfecto = Convert.ToDouble(txtMontoAfecta.Text).ToString("0.00");
+        objCajaChicaDocumentoBE.MontoNoAfecto = Convert.ToDouble(txtMontoNoAfecta.Text).ToString("0.00");
+        objCajaChicaDocumentoBE.MontoIGV = Convert.ToDouble(txtMontoIGV.Text).ToString("0.00");
+        objCajaChicaDocumentoBE.MontoDoc = Convert.ToDouble(txtMontoDoc.Text).ToString("0.00");
+        objCajaChicaDocumentoBE.MontoTotal = Convert.ToDouble(txtMontoTotal.Text).ToString("0.00");
+        objCajaChicaDocumentoBE.Estado = "1";
+
+        if (ddlIdMonedaOriginal.SelectedValue == ddlIdMonedaDoc.SelectedValue)
+            objCajaChicaDocumentoBE.TasaCambio = "1.0000";
+        else
+            objCajaChicaDocumentoBE.TasaCambio = Convert.ToDouble(txtTasaCambio.Text).ToString("0.0000");
+
+        if (Session["Usuario"] == null)
+            Response.Redirect("~/Login.aspx");
+        else
         {
-            throw;
+            UsuarioBE objUsuarioBE = new UsuarioBE();
+            objUsuarioBE = (UsuarioBE)Session["Usuario"];
+            objUsuarioBE = new UsuarioBC().ObtenerUsuario(objUsuarioBE.IdUsuario, 0);
+
+            objCajaChicaDocumentoBE.UserCreate = Convert.ToString(objUsuarioBE.IdUsuario);
+            objCajaChicaDocumentoBE.UserUpdate = Convert.ToString(objUsuarioBE.IdUsuario);
+            objCajaChicaDocumentoBE.CreateDate = DateTime.Now;
+            objCajaChicaDocumentoBE.UpdateDate = DateTime.Now;
         }
-        finally
-        {
-            if (tipoGuardado == 0)
-                bAgregar.Enabled = true;
-            else if (tipoGuardado == 1)
-                bGuardar.Enabled = true;
-        }
+
+        if (tipoGuardado == 0)
+            new CajaChicaDocumentoBC().InsertarCajaChicaDocumento(objCajaChicaDocumentoBE);
+        else if (tipoGuardado == 1)
+            new CajaChicaDocumentoBC().ModificarCajaChicaDocumento(objCajaChicaDocumentoBE);
+
+        ListarRendicion();
+        LlenarCabecera();
+        LimpiarCampos();
+        return true;
     }
 
     protected void Agregar_Click(object sender, EventArgs e)
@@ -898,6 +891,10 @@ public partial class RendirCajaChica : System.Web.UI.Page
             ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirCajaChica): " + ex.Message);
         }
+        finally
+        {
+            bAgregar.Enabled = true;
+        }
     }
 
     protected void Guardar_Click(object sender, EventArgs e)
@@ -906,7 +903,7 @@ public partial class RendirCajaChica : System.Web.UI.Page
         {
             if (GuardarDocumento(1))
             {
-                lblIdCajaChicaDocumento.Text = "";
+                lblIdCajaChicaDocumento.Text = "0";
                 bAgregar.Visible = true;
                 bGuardar.Visible = false;
 
@@ -921,6 +918,10 @@ public partial class RendirCajaChica : System.Web.UI.Page
         {
             ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (RendirCajaChica): " + ex.Message);
+        }
+        finally
+        {
+            bGuardar.Enabled = true;
         }
     }
 
@@ -2111,6 +2112,11 @@ public partial class RendirCajaChica : System.Web.UI.Page
     }
 
     protected void txtMontoDoc_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void txtMontoAfecta_TextChanged(object sender, EventArgs e)
     {
 
     }

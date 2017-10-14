@@ -191,6 +191,7 @@ namespace MSS.TAWA.DA
             }
         }
 
+
         // Insertar CajaChicaDocumento
         public int InsertarCajaChicaDocumento(CajaChicaDocumentoBE objBE)
         {

@@ -12,22 +12,18 @@ using MssTawaCer.App_Code.Helper;
 
 public partial class CajaChica : System.Web.UI.Page
 {
+    #region On Load Page
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (Session["Usuario"] == null)
-        {
             Response.Redirect("~/Login.aspx");
-        }
-
         try
         {
-            String strModo = "";
-            String strIdCajaChica = "";
-
             if (!this.IsPostBack)
             {
-                strModo = Context.Items["Modo"].ToString();
-                strIdCajaChica = Context.Items["IdCajaChica"].ToString();
+                String strModo = Context.Items["Modo"].ToString();
+                String strIdCajaChica = Context.Items["IdCajaChica"].ToString();
 
                 ViewState["Modo"] = strModo;
                 ViewState["IdCajaChica"] = strIdCajaChica;
@@ -45,83 +41,6 @@ public partial class CajaChica : System.Web.UI.Page
             Mensaje("Ocurrió un error (CajaChica): " + ex.Message);
             ExceptionHelper.LogException(ex);
         }
-    }
-
-    private void ListarUsuarioSolicitante(int Modo, int IdCajaChica)
-    {
-        try
-        {
-            UsuarioBC objUsuarioBC = new UsuarioBC();
-            UsuarioBE objUsuarioBE = new UsuarioBE();
-            List<UsuarioBE> lstUsuarioBE = new List<UsuarioBE>();
-
-            if (Modo == 1)
-            {
-                objUsuarioBE = (UsuarioBE)Session["Usuario"];
-                lstUsuarioBE = objUsuarioBC.ListarUsuario(1, objUsuarioBE.IdUsuario, 0);
-            }
-            else
-            {
-                CajaChicaBC objCajaChicaBC = new CajaChicaBC();
-                CajaChicaBE objCajaChicaBE = new CajaChicaBE();
-                objCajaChicaBE = objCajaChicaBC.ObtenerCajaChica(IdCajaChica, 0);
-
-                lstUsuarioBE = objUsuarioBC.ListarUsuario(1, objCajaChicaBE.IdUsuarioCreador, 0);
-            }
-
-            ddlIdUsuarioSolicitante.DataSource = lstUsuarioBE;
-            ddlIdUsuarioSolicitante.DataTextField = "CardName";
-            ddlIdUsuarioSolicitante.DataValueField = "IdUsuario";
-            ddlIdUsuarioSolicitante.DataBind();
-        }
-        catch (Exception ex)
-        {
-            Mensaje("Ocurrió un error (CajaChica): " + ex.Message);
-            ExceptionHelper.LogException(ex);
-        }
-    }
-
-    private void ListarMoneda()
-    {
-        try
-        {
-            MonedaBC objMonedaBC = new MonedaBC();
-            ddlMoneda.DataSource = objMonedaBC.ListarMoneda(0, 1);
-            ddlMoneda.DataTextField = "Descripcion";
-            ddlMoneda.DataValueField = "IdMoneda";
-            ddlMoneda.DataBind();
-        }
-        catch (Exception ex)
-        {
-            Mensaje("Ocurrió un error (CajaChica): " + ex.Message);
-            ExceptionHelper.LogException(ex);
-        }
-    }
-
-
-
-    private void ListarEmpresa()
-    {
-        try
-        {
-            EmpresaBC objEmpresaBC = new EmpresaBC();
-            List<EmpresaBE> lstEmpresaBE = new List<EmpresaBE>();
-            lstEmpresaBE = objEmpresaBC.ListarEmpresa();
-
-            ddlIdEmpresa.DataSource = lstEmpresaBE;
-            ddlIdEmpresa.DataTextField = "Descripcion";
-            ddlIdEmpresa.DataValueField = "IdEmpresa";
-            ddlIdEmpresa.DataBind();
-        }
-        catch (Exception ex)
-        {
-            Mensaje("Ocurrió un error (CajaChica): " + ex.Message);
-            ExceptionHelper.LogException(ex);
-        }
-    }
-
-    private void ListarCentroCostos()
-    {
     }
 
     private void Modalidad(int p)
@@ -151,32 +70,11 @@ public partial class CajaChica : System.Web.UI.Page
     private void ModalidadCampo(int Modo, int IdCajaChica)
     {
         if (Session["Usuario"] == null)
-        {
             Response.Redirect("~/Login.aspx");
-        }
         else
         {
-            //UsuarioAreaNivelBC objUsuarioAreaNivelBC = new UsuarioAreaNivelBC();
-            //UsuarioAreaNivelBE objUsuarioAreaNivelBE = new UsuarioAreaNivelBE();
-            //objUsuarioAreaNivelBE = objUsuarioAreaNivelBC.ObtenerUsuarioAreaNivel(objUsuarioBE.IdUsuario, 1, IdCajaChica);
 
-            //NivelAprobacionBC objNivelAprobacionBC = new NivelAprobacionBC();
-            //NivelAprobacionBE objNivelAprobacionBE = new NivelAprobacionBE();
-            //if (objUsuarioAreaNivelBE != null)
-            //    objNivelAprobacionBE = objNivelAprobacionBC.ObtenerNivelAprobacion(objUsuarioAreaNivelBE.IdNivelAprobacion, 0);
-
-            //bCrear.Visible = false;
-            //bCancelar.Visible = false;
-            //bAprobar.Visible = false;
-            //bObservacion.Visible = false;
-            //bRechazar.Visible = false;
-            //bCancelar2.Visible = false;
-
-            //ddlEsFacturable.Enabled = false;
-            //ddlMomentoFacturable.Enabled = false;
-            //txtComentario.Enabled = false;
-
-            if (Modo == 1)
+            if (Modo == 1)//TODO?
             {
                 bCrear.Visible = true;
                 bCancelar.Visible = true;
@@ -193,20 +91,53 @@ public partial class CajaChica : System.Web.UI.Page
             }
             else
             {
-                UsuarioBC objUsuarioBC = new UsuarioBC();
                 UsuarioBE objUsuarioSesionBE = new UsuarioBE();
-                UsuarioBE objUsuarioSolicitanteBE = new UsuarioBE();
                 objUsuarioSesionBE = (UsuarioBE)Session["Usuario"];
-                objUsuarioSesionBE = objUsuarioBC.ObtenerUsuario(objUsuarioSesionBE.IdUsuario, 0);
+                objUsuarioSesionBE = new UsuarioBC().ObtenerUsuario(objUsuarioSesionBE.IdUsuario, 0);
 
-                PerfilUsuarioBC objPerfilUsuarioBC = new PerfilUsuarioBC();
-                PerfilUsuarioBE objPerfilUsuarioBE = new PerfilUsuarioBE();
-                objPerfilUsuarioBE = objPerfilUsuarioBC.ObtenerPerfilUsuario(objUsuarioSesionBE.IdPerfilUsuario);
+                Boolean habilitarBotonesDeAprobacion = false;
+                Boolean habilitarOBservacion = false;
 
-                CajaChicaBC objCajaChicaBC = new CajaChicaBC();
-                CajaChicaBE objCajaChicaBE = new CajaChicaBE();
-                objCajaChicaBE = objCajaChicaBC.ObtenerCajaChica(IdCajaChica, 0);
-                objUsuarioSolicitanteBE = objUsuarioBC.ObtenerUsuario(objCajaChicaBE.IdUsuarioSolicitante, 0);
+                CajaChicaBE objCajaChicaBE = new CajaChicaBC().ObtenerCajaChica(IdCajaChica, 0);
+                UsuarioBE objUsuarioSolicitanteBE = new UsuarioBC().ObtenerUsuario(objCajaChicaBE.IdUsuarioSolicitante, 0);
+                PerfilUsuarioBE objPerfilUsuarioBE = new PerfilUsuarioBC().ObtenerPerfilUsuario(objUsuarioSesionBE.IdPerfilUsuario);
+
+                switch ((EstadoDocumento)Enum.Parse(typeof(EstadoDocumento), objCajaChicaBE.Estado))
+                {
+                    case EstadoDocumento.PorAprobarNivel1:
+                    case EstadoDocumento.PorAprobarNivel2:
+                    case EstadoDocumento.PorAprobarNivel3:
+                        switch ((TipoAprobador)Enum.Parse(typeof(TipoAprobador), objPerfilUsuarioBE.TipoAprobador))
+                        {
+                            case TipoAprobador.Aprobador:
+                            case TipoAprobador.AprobadorYCreador:
+                                switch ((EstadoDocumento)Enum.Parse(typeof(EstadoDocumento), objCajaChicaBE.Estado))
+                                {
+                                    case EstadoDocumento.PorAprobarNivel1:
+                                        if (objUsuarioSolicitanteBE.IdUsuarioCC1 == objUsuarioSolicitanteBE.IdUsuario)
+                                            habilitarBotonesDeAprobacion = true;
+                                        break;
+                                    case EstadoDocumento.PorAprobarNivel2:
+                                        if (objUsuarioSolicitanteBE.IdUsuarioCC2 == objUsuarioSolicitanteBE.IdUsuario)
+                                            habilitarBotonesDeAprobacion = true;
+                                        break;
+                                    case EstadoDocumento.PorAprobarNivel3:
+                                        if (objUsuarioSolicitanteBE.IdUsuarioCC3 == objUsuarioSolicitanteBE.IdUsuario)
+                                            habilitarBotonesDeAprobacion = true;
+                                        break;
+                                }
+                                break;
+                        }
+                        break;
+                    case EstadoDocumento.ObservacionNivel1:
+                    case EstadoDocumento.ObservacionNivel2:
+                    case EstadoDocumento.ObservacionNivel3:
+                        if (objCajaChicaBE.IdUsuarioSolicitante == objUsuarioSesionBE.IdUsuario
+                            || objCajaChicaBE.IdUsuarioCreador == objUsuarioSesionBE.IdUsuario)
+                            habilitarOBservacion = true;
+                        break;
+                }
+
 
                 bCrear.Visible = false;
                 bCancelar.Visible = false;
@@ -215,88 +146,19 @@ public partial class CajaChica : System.Web.UI.Page
                 bRechazar.Visible = false;
                 bCancelar2.Visible = true;
                 txtComentario.Enabled = true;
-                //1: Por Aprobar Nivel 1 /2: Por Aprobar Nivel 2 /3: Por Aprobar Nivel 3 /4: Aprobado 
-                //5: Rechazado /8: Observaciones Nivel 1 /9: Observaciones Nivel 2 /10: Observaciones Nivel 3
 
-                //1: Aprobador/ 2: Contabilidad/ 3: Creador/ 4: Aprobador y Creador/ 5: Contabilidad y Creador
-                if (objCajaChicaBE.Estado == "1")
+                if (habilitarBotonesDeAprobacion)
                 {
-                    if (objPerfilUsuarioBE.TipoAprobador == "1" || objPerfilUsuarioBE.TipoAprobador == "4")
-                    {
-                        if (objUsuarioSolicitanteBE.IdUsuarioCC1 == objUsuarioSesionBE.IdUsuario)
-                        {
-                            bAprobar.Visible = true; bObservacion.Visible = true; bRechazar.Visible = true;
-                        }
-                    }
+                    bAprobar.Visible = true;
+                    bObservacion.Visible = true;
+                    bRechazar.Visible = true;
                 }
-                //1: Aprobador/ 2: Contabilidad/ 3: Creador/ 4: Aprobador y Creador/ 5: Contabilidad y Creador
-                if (objCajaChicaBE.Estado == "2")
+                if(habilitarOBservacion)
                 {
-                    if (objPerfilUsuarioBE.TipoAprobador == "1" || objPerfilUsuarioBE.TipoAprobador == "4")
-                    {
-                        if (objUsuarioSolicitanteBE.IdUsuarioCC2 == objUsuarioSesionBE.IdUsuario)
-                        {
-                            bAprobar.Visible = true; bObservacion.Visible = true; bRechazar.Visible = true;
-                        }
-                    }
+                    bAprobar.Text = "Enviar";
+                    bAprobar.Visible = true; 
                 }
-                //1: Aprobador/ 2: Contabilidad/ 3: Creador/ 4: Aprobador y Creador/ 5: Contabilidad y Creador
-                if (objCajaChicaBE.Estado == "3")
-                {
-                    if (objPerfilUsuarioBE.TipoAprobador == "1" || objPerfilUsuarioBE.TipoAprobador == "4")
-                    {
-                        if (objUsuarioSolicitanteBE.IdUsuarioCC3 == objUsuarioSesionBE.IdUsuario)
-                        {
-                            bAprobar.Visible = true; bObservacion.Visible = true; bRechazar.Visible = true;
-                        }
-                    }
-                }
-                //if (objCajaChicaBE.Estado == "4" || objCajaChicaBE.Estado == "5") bCancelar2.Visible = true;
-                //1: Aprobador/ 2: Contabilidad/ 3: Creador/ 4: Aprobador y Creador/ 5: Contabilidad y Creador
-                if (objCajaChicaBE.Estado == "8")
-                {
-                    if (objPerfilUsuarioBE.TipoAprobador == "1" || objPerfilUsuarioBE.TipoAprobador == "3" || objPerfilUsuarioBE.TipoAprobador == "4" || objPerfilUsuarioBE.TipoAprobador == "5")
-                    {
-                        if (objCajaChicaBE.IdUsuarioSolicitante == objUsuarioSesionBE.IdUsuario)
-                        {
-                            bAprobar.Text = "Enviar"; bAprobar.Visible = true; //bObservacion.Visible = true; bRechazar.Visible = true;
-                        }
-                        if (objCajaChicaBE.IdUsuarioCreador == objUsuarioSesionBE.IdUsuario)
-                        {
-                            bAprobar.Text = "Enviar"; bAprobar.Visible = true; //bObservacion.Visible = true; bRechazar.Visible = true;
-                        }
-                    }
-                }
-                //1: Aprobador/ 2: Contabilidad/ 3: Creador/ 4: Aprobador y Creador/ 5: Contabilidad y Creador
-                if (objCajaChicaBE.Estado == "9")
-                {
-                    if (objPerfilUsuarioBE.TipoAprobador == "1" || objPerfilUsuarioBE.TipoAprobador == "3" || objPerfilUsuarioBE.TipoAprobador == "4" || objPerfilUsuarioBE.TipoAprobador == "5")
-                    {
-                        if (objCajaChicaBE.IdUsuarioSolicitante == objUsuarioSesionBE.IdUsuario)
-                        {
-                            bAprobar.Text = "Enviar"; bAprobar.Visible = true; //bObservacion.Visible = true; bRechazar.Visible = true;
-                        }
-                        if (objCajaChicaBE.IdUsuarioCreador == objUsuarioSesionBE.IdUsuario)
-                        {
-                            bAprobar.Text = "Enviar"; bAprobar.Visible = true; //bObservacion.Visible = true; bRechazar.Visible = true;
-                        }
-                    }
-                }
-                //1: Aprobador/ 2: Contabilidad/ 3: Creador/ 4: Aprobador y Creador/ 5: Contabilidad y Creador
-                if (objCajaChicaBE.Estado == "10")
-                {
-                    if (objPerfilUsuarioBE.TipoAprobador == "1" || objPerfilUsuarioBE.TipoAprobador == "3" || objPerfilUsuarioBE.TipoAprobador == "4" || objPerfilUsuarioBE.TipoAprobador == "5")
-                    {
-                        if (objCajaChicaBE.IdUsuarioSolicitante == objUsuarioSesionBE.IdUsuario)
-                        {
-                            bAprobar.Text = "Enviar"; bAprobar.Visible = true; //bObservacion.Visible = true; bRechazar.Visible = true;
-                        }
-                        if (objCajaChicaBE.IdUsuarioCreador == objUsuarioSesionBE.IdUsuario)
-                        {
-                            bAprobar.Text = "Enviar"; bAprobar.Visible = true; //bObservacion.Visible = true; bRechazar.Visible = true;
-                        }
-                    }
-                }
+
             }
         }
     }
@@ -376,6 +238,89 @@ public partial class CajaChica : System.Web.UI.Page
         txtMotivoDetalle.Text = objCajaChicaBE.MotivoDetalle;
 
     }
+
+    #endregion
+
+    #region Listar Selects
+
+    private void ListarUsuarioSolicitante(int Modo, int IdCajaChica)
+    {
+        try
+        {
+            UsuarioBC objUsuarioBC = new UsuarioBC();
+            UsuarioBE objUsuarioBE = new UsuarioBE();
+            List<UsuarioBE> lstUsuarioBE = new List<UsuarioBE>();
+
+            if (Modo == 1)
+            {
+                objUsuarioBE = (UsuarioBE)Session["Usuario"];
+                lstUsuarioBE = objUsuarioBC.ListarUsuario(1, objUsuarioBE.IdUsuario, 0);
+            }
+            else
+            {
+                CajaChicaBC objCajaChicaBC = new CajaChicaBC();
+                CajaChicaBE objCajaChicaBE = new CajaChicaBE();
+                objCajaChicaBE = objCajaChicaBC.ObtenerCajaChica(IdCajaChica, 0);
+
+                lstUsuarioBE = objUsuarioBC.ListarUsuario(1, objCajaChicaBE.IdUsuarioCreador, 0);
+            }
+
+            ddlIdUsuarioSolicitante.DataSource = lstUsuarioBE;
+            ddlIdUsuarioSolicitante.DataTextField = "CardName";
+            ddlIdUsuarioSolicitante.DataValueField = "IdUsuario";
+            ddlIdUsuarioSolicitante.DataBind();
+        }
+        catch (Exception ex)
+        {
+            Mensaje("Ocurrió un error (CajaChica): " + ex.Message);
+            ExceptionHelper.LogException(ex);
+        }
+    }
+
+    private void ListarMoneda()
+    {
+        try
+        {
+            MonedaBC objMonedaBC = new MonedaBC();
+            ddlMoneda.DataSource = objMonedaBC.ListarMoneda(0, 1);
+            ddlMoneda.DataTextField = "Descripcion";
+            ddlMoneda.DataValueField = "IdMoneda";
+            ddlMoneda.DataBind();
+        }
+        catch (Exception ex)
+        {
+            Mensaje("Ocurrió un error (CajaChica): " + ex.Message);
+            ExceptionHelper.LogException(ex);
+        }
+    }
+
+    private void ListarEmpresa()
+    {
+        try
+        {
+            EmpresaBC objEmpresaBC = new EmpresaBC();
+            List<EmpresaBE> lstEmpresaBE = new List<EmpresaBE>();
+            lstEmpresaBE = objEmpresaBC.ListarEmpresa();
+
+            ddlIdEmpresa.DataSource = lstEmpresaBE;
+            ddlIdEmpresa.DataTextField = "Descripcion";
+            ddlIdEmpresa.DataValueField = "IdEmpresa";
+            ddlIdEmpresa.DataBind();
+        }
+        catch (Exception ex)
+        {
+            Mensaje("Ocurrió un error (CajaChica): " + ex.Message);
+            ExceptionHelper.LogException(ex);
+        }
+    }
+
+    private void ListarCentroCostos()
+    {
+    }
+
+    #endregion
+
+    #region Submit Buttons
 
     protected void Crear_Click(object sender, EventArgs e)
     {
@@ -521,18 +466,6 @@ public partial class CajaChica : System.Web.UI.Page
         }
     }
 
-    private bool validaDecimales(string p)
-    {
-        string[] words = p.Split('.');
-        int cantidad = words.Length;
-        string decimales = "000";
-
-        if (cantidad == 2) decimales = words[1];
-
-        if (decimales.Length == 2) return true;
-        else return false;
-    }
-
     protected void Cancelar_Click(object sender, EventArgs e)
     {
         Response.Redirect("~/CajaChicas.aspx");
@@ -548,12 +481,9 @@ public partial class CajaChica : System.Web.UI.Page
 
             if (validacion == true)
             {
-                String strIdCajaChica = "";
-                strIdCajaChica = ViewState["IdCajaChica"].ToString();
+                String strIdCajaChica = ViewState["IdCajaChica"].ToString();
 
-                CajaChicaBC objCajaChicaBC = new CajaChicaBC();
-                CajaChicaBE objCajaChicaBE = new CajaChicaBE();
-                objCajaChicaBE = objCajaChicaBC.ObtenerCajaChica(Convert.ToInt32(strIdCajaChica), 0);
+                CajaChicaBE objCajaChicaBE = new CajaChicaBC().ObtenerCajaChica(Convert.ToInt32(strIdCajaChica), 0);
 
                 objCajaChicaBE.Asunto = txtAsunto.Text;
                 objCajaChicaBE.Moneda = ddlMoneda.SelectedItem.Value;
@@ -605,7 +535,7 @@ public partial class CajaChica : System.Web.UI.Page
                     objCajaChicaBE.UpdateDate = DateTime.Now;
                 }
 
-                objCajaChicaBC.ModificarCajaChica(objCajaChicaBE);
+                new CajaChicaBC().ModificarCajaChica(objCajaChicaBE);
                 EnviarMensajeParaAprobar(objCajaChicaBE.IdCajaChica, "Caja Chica", objCajaChicaBE.MontoGastado, txtAsunto.Text, objCajaChicaBE.CodigoCajaChica, ddlIdUsuarioSolicitante.SelectedItem.Text, estado, objCajaChicaBE.IdEmpresa);
 
                 Response.Redirect("~/CajaChicas.aspx");
@@ -623,6 +553,128 @@ public partial class CajaChica : System.Web.UI.Page
             bAprobar.Enabled = true;
         }
     }
+
+    protected void Rechazar_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            bRechazar.Enabled = true;
+
+            String strIdCajaChica = "";
+            strIdCajaChica = ViewState["IdCajaChica"].ToString();
+
+            UsuarioBE objUsuarioBE = new UsuarioBE();
+            CajaChicaBC objCajaChicaBC = new CajaChicaBC();
+            CajaChicaBE objCajaChicaBE = new CajaChicaBE();
+            objCajaChicaBE = objCajaChicaBC.ObtenerCajaChica(Convert.ToInt32(strIdCajaChica), 0);
+
+            objCajaChicaBE.Estado = "5";
+            objCajaChicaBE.Comentario = txtComentario.Text;
+            if (Session["Usuario"] == null)
+            {
+                Response.Redirect("~/Login.aspx");
+            }
+            else
+            {
+                objUsuarioBE = (UsuarioBE)Session["Usuario"];
+                objCajaChicaBE.UserCreate = Convert.ToString(objUsuarioBE.IdUsuario);
+                objCajaChicaBE.CreateDate = DateTime.Now;
+                objCajaChicaBE.UserUpdate = Convert.ToString(objUsuarioBE.IdUsuario);
+                objCajaChicaBE.UpdateDate = DateTime.Now;
+            }
+
+            objCajaChicaBC.ModificarCajaChica(objCajaChicaBE);
+            //EnviarMensajeRechazado(objUsuarioBE.IdUsuario, objCajaChicaBE.IdUsuarioCreador, objCajaChicaBE.IdUsuarioSolicitante, "Caja Chica", txtAsunto.Text, objCajaChicaBE.CodigoCajaChica, objUsuarioBE.CardName);
+
+            Response.Redirect("~/CajaChicas.aspx");
+        }
+        catch (Exception ex)
+        {
+            Mensaje("Ocurrió un error (CajaChica): " + ex.Message);
+            ExceptionHelper.LogException(ex);
+        }
+        finally
+        {
+            bRechazar.Enabled = true;
+        }
+    }
+
+    protected void Observacion_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            bObservacion.Enabled = false;
+
+            String strIdCajaChica = "";
+            strIdCajaChica = ViewState["IdCajaChica"].ToString();
+            String estado = "";
+
+            UsuarioBE objUsuarioBE = new UsuarioBE();
+            CajaChicaBC objCajaChicaBC = new CajaChicaBC();
+            CajaChicaBE objCajaChicaBE = new CajaChicaBE();
+            objCajaChicaBE = objCajaChicaBC.ObtenerCajaChica(Convert.ToInt32(strIdCajaChica), 0);
+
+            objCajaChicaBE.Asunto = txtAsunto.Text;
+            objCajaChicaBE.Moneda = ddlMoneda.SelectedItem.Value;
+            objCajaChicaBE.MontoInicial = Convert.ToDouble(txtMontoInicial.Text).ToString("0.000000");
+            objCajaChicaBE.MontoGastado = "0.000000";
+            //objCajaChicaBE.MontoReembolsado = "0.000000";
+            objCajaChicaBE.MontoActual = Convert.ToDouble(txtMontoInicial.Text).ToString("0.000000");
+            objCajaChicaBE.IdEmpresa = Convert.ToInt32(ddlIdEmpresa.SelectedItem.Value);
+            objCajaChicaBE.IdArea = 0;//Convert.ToInt32(ddlIdArea.SelectedItem.Value);
+            objCajaChicaBE.IdCentroCostos3 = Convert.ToInt32(ddlCentroCostos3.SelectedItem.Value);
+            objCajaChicaBE.IdCentroCostos4 = Convert.ToInt32(ddlCentroCostos4.SelectedItem.Value);
+            objCajaChicaBE.IdCentroCostos5 = Convert.ToInt32(ddlCentroCostos5.SelectedItem.Value);
+
+            estado = objCajaChicaBE.Estado;
+            if (Convert.ToInt32(estado) > 3)
+            {
+                estado = Convert.ToString(Convert.ToInt32(estado) - 7 - 1);
+                objCajaChicaBE.Estado = Convert.ToString(Convert.ToInt32(objCajaChicaBE.Estado) - 1);
+            }
+            else
+                objCajaChicaBE.Estado = Convert.ToString(Convert.ToInt32(objCajaChicaBE.Estado) + 7);
+
+            objCajaChicaBE.Comentario = txtComentario.Text;
+            if (Session["Usuario"] == null)
+            {
+                Response.Redirect("~/Login.aspx");
+            }
+            else
+            {
+                objUsuarioBE = (UsuarioBE)Session["Usuario"];
+                objCajaChicaBE.UserCreate = Convert.ToString(objUsuarioBE.IdUsuario);
+                objCajaChicaBE.CreateDate = DateTime.Now;
+                objCajaChicaBE.UserUpdate = Convert.ToString(objUsuarioBE.IdUsuario);
+                objCajaChicaBE.UpdateDate = DateTime.Now;
+            }
+
+            objCajaChicaBC.ModificarCajaChica(objCajaChicaBE);
+            EnviarMensajeObservacion(objUsuarioBE.IdUsuario, objCajaChicaBE.IdCajaChica, objCajaChicaBE.IdUsuarioSolicitante, objCajaChicaBE.IdUsuarioCreador, "Caja Chica", txtAsunto.Text, objCajaChicaBE.CodigoCajaChica, objUsuarioBE.CardName, estado);
+
+            Response.Redirect("~/CajaChicas.aspx");
+        }
+        catch (Exception ex)
+        {
+            Mensaje("Ocurrió un error (CajaChica): " + ex.Message);
+            ExceptionHelper.LogException(ex);
+        }
+        finally
+        {
+            Response.Redirect("~/CajaChicas.aspx");
+            bObservacion.Enabled = true;
+
+        }
+    }
+
+    private void Mensaje(String mensaje)
+    {
+        ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "MessageBox", "alert('" + mensaje + "')", true);
+    }
+
+    #endregion
+
+    #region Envio Correos
 
     private void EnviarMensajeParaAprobar(int IdCajaChica, string Documento, String Monto, string Asunto, string CodigoCajaChica, string UsuarioSolicitante, string estado, int IdEmpresa)
     {
@@ -746,74 +798,6 @@ public partial class CajaChica : System.Web.UI.Page
         }
     }
 
-    protected void Observacion_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            bObservacion.Enabled = false;
-
-            String strIdCajaChica = "";
-            strIdCajaChica = ViewState["IdCajaChica"].ToString();
-            String estado = "";
-
-            UsuarioBE objUsuarioBE = new UsuarioBE();
-            CajaChicaBC objCajaChicaBC = new CajaChicaBC();
-            CajaChicaBE objCajaChicaBE = new CajaChicaBE();
-            objCajaChicaBE = objCajaChicaBC.ObtenerCajaChica(Convert.ToInt32(strIdCajaChica), 0);
-
-            objCajaChicaBE.Asunto = txtAsunto.Text;
-            objCajaChicaBE.Moneda = ddlMoneda.SelectedItem.Value;
-            objCajaChicaBE.MontoInicial = Convert.ToDouble(txtMontoInicial.Text).ToString("0.000000");
-            objCajaChicaBE.MontoGastado = "0.000000";
-            //objCajaChicaBE.MontoReembolsado = "0.000000";
-            objCajaChicaBE.MontoActual = Convert.ToDouble(txtMontoInicial.Text).ToString("0.000000");
-            objCajaChicaBE.IdEmpresa = Convert.ToInt32(ddlIdEmpresa.SelectedItem.Value);
-            objCajaChicaBE.IdArea = 0;//Convert.ToInt32(ddlIdArea.SelectedItem.Value);
-            objCajaChicaBE.IdCentroCostos3 = Convert.ToInt32(ddlCentroCostos3.SelectedItem.Value);
-            objCajaChicaBE.IdCentroCostos4 = Convert.ToInt32(ddlCentroCostos4.SelectedItem.Value);
-            objCajaChicaBE.IdCentroCostos5 = Convert.ToInt32(ddlCentroCostos5.SelectedItem.Value);
-
-            estado = objCajaChicaBE.Estado;
-            if (Convert.ToInt32(estado) > 3)
-            {
-                estado = Convert.ToString(Convert.ToInt32(estado) - 7 - 1);
-                objCajaChicaBE.Estado = Convert.ToString(Convert.ToInt32(objCajaChicaBE.Estado) - 1);
-            }
-            else
-                objCajaChicaBE.Estado = Convert.ToString(Convert.ToInt32(objCajaChicaBE.Estado) + 7);
-
-            objCajaChicaBE.Comentario = txtComentario.Text;
-            if (Session["Usuario"] == null)
-            {
-                Response.Redirect("~/Login.aspx");
-            }
-            else
-            {
-                objUsuarioBE = (UsuarioBE)Session["Usuario"];
-                objCajaChicaBE.UserCreate = Convert.ToString(objUsuarioBE.IdUsuario);
-                objCajaChicaBE.CreateDate = DateTime.Now;
-                objCajaChicaBE.UserUpdate = Convert.ToString(objUsuarioBE.IdUsuario);
-                objCajaChicaBE.UpdateDate = DateTime.Now;
-            }
-
-            objCajaChicaBC.ModificarCajaChica(objCajaChicaBE);
-            EnviarMensajeObservacion(objUsuarioBE.IdUsuario, objCajaChicaBE.IdCajaChica, objCajaChicaBE.IdUsuarioSolicitante, objCajaChicaBE.IdUsuarioCreador, "Caja Chica", txtAsunto.Text, objCajaChicaBE.CodigoCajaChica, objUsuarioBE.CardName, estado);
-
-            Response.Redirect("~/CajaChicas.aspx");
-        }
-        catch (Exception ex)
-        {
-            Mensaje("Ocurrió un error (CajaChica): " + ex.Message);
-            ExceptionHelper.LogException(ex);
-        }
-        finally
-        {
-            Response.Redirect("~/CajaChicas.aspx");
-            bObservacion.Enabled = true;
-
-        }
-    }
-
     private void EnviarMensajeObservacion(int IdUsuarioAprobador, int IdCajaChica, int IdUsuarioSolicitante, int IdUsuarioCreador, string Documento, string Asunto, string CodigoCajaChica, string UsuarioAprobador, string estado)
     {
         UsuarioBC objUsuarioBC = new UsuarioBC();
@@ -853,51 +837,6 @@ public partial class CajaChica : System.Web.UI.Page
             }
         }
 
-    }
-
-    protected void Rechazar_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            bRechazar.Enabled = true;
-
-            String strIdCajaChica = "";
-            strIdCajaChica = ViewState["IdCajaChica"].ToString();
-
-            UsuarioBE objUsuarioBE = new UsuarioBE();
-            CajaChicaBC objCajaChicaBC = new CajaChicaBC();
-            CajaChicaBE objCajaChicaBE = new CajaChicaBE();
-            objCajaChicaBE = objCajaChicaBC.ObtenerCajaChica(Convert.ToInt32(strIdCajaChica), 0);
-
-            objCajaChicaBE.Estado = "5";
-            objCajaChicaBE.Comentario = txtComentario.Text;
-            if (Session["Usuario"] == null)
-            {
-                Response.Redirect("~/Login.aspx");
-            }
-            else
-            {
-                objUsuarioBE = (UsuarioBE)Session["Usuario"];
-                objCajaChicaBE.UserCreate = Convert.ToString(objUsuarioBE.IdUsuario);
-                objCajaChicaBE.CreateDate = DateTime.Now;
-                objCajaChicaBE.UserUpdate = Convert.ToString(objUsuarioBE.IdUsuario);
-                objCajaChicaBE.UpdateDate = DateTime.Now;
-            }
-
-            objCajaChicaBC.ModificarCajaChica(objCajaChicaBE);
-            //EnviarMensajeRechazado(objUsuarioBE.IdUsuario, objCajaChicaBE.IdUsuarioCreador, objCajaChicaBE.IdUsuarioSolicitante, "Caja Chica", txtAsunto.Text, objCajaChicaBE.CodigoCajaChica, objUsuarioBE.CardName);
-
-            Response.Redirect("~/CajaChicas.aspx");
-        }
-        catch (Exception ex)
-        {
-            Mensaje("Ocurrió un error (CajaChica): " + ex.Message);
-            ExceptionHelper.LogException(ex);
-        }
-        finally
-        {
-            bRechazar.Enabled = true;
-        }
     }
 
     private void EnviarMensajeRechazado(int IdUsuarioAprobador, int IdUsuarioCreador, int IdUsuarioSolicitante, string Documento, string Asunto, string CodigoCajaChica, string UsuarioAprobador, string estado)
@@ -949,6 +888,10 @@ public partial class CajaChica : System.Web.UI.Page
             }
         }
     }
+
+    #endregion
+
+    #region Select Change
 
     protected void ddlIdUsuarioSolicitante_SelectedIndexChanged(object sender, EventArgs e) { }
 
@@ -1015,56 +958,27 @@ public partial class CajaChica : System.Web.UI.Page
         }
     }
 
-    protected void ddlCentroCosto3_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        if (ddlCentroCostos3.SelectedValue != "0")
-        {
-            CentroCostosBC objCentroCostosBC = new CentroCostosBC();
-            ddlCentroCostos4.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 3);
-            ddlCentroCostos4.DataTextField = "Descripcion";
-            ddlCentroCostos4.DataValueField = "IdCentroCostos";
-            ddlCentroCostos4.DataBind();
-
-            ddlCentroCostos4.Enabled = true;
-        }
-        else
-        {
-            ddlCentroCostos4.SelectedValue = "0";
-            ddlCentroCostos4.Enabled = false;
-            ddlCentroCostos5.SelectedValue = "0";
-            ddlCentroCostos5.Enabled = false;
-        }
-    }
-
-    protected void ddlCentroCosto4_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        if (ddlCentroCostos4.SelectedValue != "0")
-        {
-            CentroCostosBC objCentroCostosBC = new CentroCostosBC();
-            ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 5);
-            ddlCentroCostos5.DataTextField = "Descripcion";
-            ddlCentroCostos5.DataValueField = "IdCentroCostos";
-            ddlCentroCostos5.DataBind();
-            ddlCentroCostos5.Enabled = true;
-        }
-        else
-        {
-            ddlCentroCostos5.SelectedValue = "0";
-            ddlCentroCostos5.Enabled = false;
-        }
-    }
-
-    private void Mensaje(String mensaje)
-    {
-        ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "MessageBox", "alert('" + mensaje + "')", true);
-    }
-    protected void ddlCentroCostos1_SelectedIndexChanged(object sender, EventArgs e)
-    {
-
-    }
 
     protected void ddlMoneda_SelectedIndexChanged(object sender, EventArgs e)
     {
 
     }
+
+    #endregion
+
+    #region Validaciones
+
+    private bool validaDecimales(string p)
+    {
+        string[] words = p.Split('.');
+        int cantidad = words.Length;
+        string decimales = "000";
+
+        if (cantidad == 2) decimales = words[1];
+
+        if (decimales.Length == 2) return true;
+        else return false;
+    }
+
+    #endregion
 }

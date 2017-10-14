@@ -2,7 +2,13 @@
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 
-<asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent"></asp:Content>
+<asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
+    <style type="text/css">
+        .auto-style1 {
+            width: 298px;
+        }
+    </style>
+</asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent" EnableEventValidation="false">
 
     <ajaxToolkit:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server"></ajaxToolkit:ToolkitScriptManager>
@@ -19,191 +25,310 @@
                 </tr>
             </table>
             <br />
-            <asp:Label ID="lblIdCajaChicaDocumento" runat="server" Visible="false"></asp:Label><asp:Label ID="lblIdProveedor" runat="server" Visible="false"></asp:Label>
-            <table width="1008px">
+            <asp:Label ID="lblIdCajaChicaDocumento" value="0" Text="0" runat="server" Visible="false"></asp:Label><asp:Label ID="lblIdProveedor" runat="server" Visible="false"></asp:Label>
+            <table width="1100px">
                 <tr>
-                    <td width="100px" align="left">
-                        <label>Tipo</label></td>
-                    <td width="152px" align="left">
-                        <asp:DropDownList ID="ddlTipo" runat="server" Width="95%"></asp:DropDownList></td>
-                    <td width="100px" align="left">
-                        <label>Serie</label></td>
-                    <td width="152px" align="left">
-                        <asp:TextBox ID="txtSerie" runat="server" Width="95%" MaxLength="4"></asp:TextBox>
-                        <ajaxToolkit:FilteredTextBoxExtender ID="FilteredTextBoxExtender9" TargetControlID="txtSerie" runat="server" Enabled="True" FilterType="Numbers,LowercaseLetters,UppercaseLetters"></ajaxToolkit:FilteredTextBoxExtender>
+                    <td width="15%">
+                        <table>
+                            <%-- TIPO  --%>
+                            <tr>
+                                <td>
+                                    <label>Tipo</label></td>
+                                <td width="140px">
+                                    <asp:DropDownList ID="ddlTipo" runat="server" Width="95%"></asp:DropDownList>
+                                </td>
+                            </tr>
+                            <%-- SERIE  --%>
+                            <tr>
+                                <td>
+                                    <label>Serie</label></td>
+                                <td>
+                                    <asp:TextBox ID="txtSerie" runat="server" Width="95%" MaxLength="4"></asp:TextBox>
+                                    <ajaxToolkit:FilteredTextBoxExtender ID="FilteredTextBoxExtender9" TargetControlID="txtSerie" runat="server" Enabled="True" FilterType="Numbers,LowercaseLetters,UppercaseLetters"></ajaxToolkit:FilteredTextBoxExtender>
+                                </td>
+                            </tr>
+                            <%-- NUMERO  --%>
+                            <tr>
+                                <td>
+                                    <label>Número</label></td>
+                                <td>
+                                    <asp:TextBox ID="txtNumero" runat="server" Width="95%" MaxLength="9"></asp:TextBox>
+                                    <ajaxToolkit:FilteredTextBoxExtender ID="FilteredTextBoxExtender10" TargetControlID="txtNumero" runat="server" Enabled="True" FilterType="Numbers" ValidChars="."></ajaxToolkit:FilteredTextBoxExtender>
+                                </td>
+                            </tr>
+                            <%-- FECHA  --%>
+                            <tr>
+                                <td>
+                                    <label>Fecha</label></td>
+                                <td>
+                                    <asp:TextBox ID="txtFecha" runat="server" Width="95%"></asp:TextBox>
+                                    <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" TargetControlID="txtFecha" CssClass="MyCalendar" Format="dd/MM/yyyy" PopupButtonID="img/calendar.png"></ajaxToolkit:CalendarExtender>
+                                </td>
+                            </tr>
+                            <%-- PARTIDA PRESUPUESTAL --%>
+                            <tr>
+                                <td>
+                                    <label>Partida pres.</label>
+                                </td>
+                                <td>
+                                    <asp:TextBox ID="txtPartidaPresupuestal" runat="server" Width="95%"></asp:TextBox>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                            </tr>
+                        </table>
                     </td>
-                    <td width="100px" align="left">
-                        <label>Numero</label></td>
-                    <td width="152px" align="left">
-                        <asp:TextBox ID="txtNumero" runat="server" Width="95%" MaxLength="9"></asp:TextBox>
-                        <ajaxToolkit:FilteredTextBoxExtender ID="FilteredTextBoxExtender10" TargetControlID="txtNumero" runat="server" Enabled="True" FilterType="Numbers" ValidChars="."></ajaxToolkit:FilteredTextBoxExtender>
-                    </td>
-                    <td width="100px" align="left">
-                        <label>Fecha</label></td>
-                    <td width="152px" align="left">
-                        <asp:TextBox ID="txtFecha" runat="server" Width="95%"></asp:TextBox>
-                        <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" TargetControlID="txtFecha" CssClass="MyCalendar" Format="dd/MM/yyyy" PopupButtonID="img/calendar.png"></ajaxToolkit:CalendarExtender>
-                    </td>
-                </tr>
-            </table>
-            <table width="1008px">
-                <tr>
-                    <td width="140px" align="left">
-                        <label>RUC</label></td>
-                    <td width="196px" align="left">
-                        <asp:TextBox ID="txtProveedor" runat="server" Width="95%"></asp:TextBox></td>
-                    <td width="140px" align="left">
-                        <asp:Button ID="btnValidar" runat="server" Text="Validar" CssClass="button" OnClick="Validar_Click" /></td>
-                    <td width="196px" align="left">
-                        <asp:Label ID="lblProveedor" runat="server" Text="sin validar"></asp:Label></td>
-                    <td width="140px" align="left">
-                        <label>Concepto</label></td>
-                    <td width="196px" align="left">
-                        <asp:DropDownList ID="ddlConcepto" runat="server" Width="95%" OnSelectedIndexChanged="ddlConcepto_SelectedIndexChanged"></asp:DropDownList></td>
-                </tr>
-                <tr>
-                   <td width="140px" align="left">
-                        <label>Partida presupuestal</label></td>
-                    <td width="196px" align="left">
-                        <asp:TextBox ID="txtPartidaPresupuestal" runat="server" Width="95%"></asp:TextBox></td>
+                    <td width="25%">
+                        <table>
+                            <%-- CONCEPTO --%>
+                            <tr>
+                                <td>
+                                    <label>Concepto</label>
+                                </td>
+                                <td>
+                                    <asp:DropDownList ID="ddlConcepto" runat="server" Width="95%"></asp:DropDownList>
+                                </td>
+                            </tr>
+                            <%-- RUC  --%>
+                            <tr>
+                                <td>
+                                    <label>RUC</label>
+                                </td>
+                                <td width="200px">
+                                    <asp:TextBox ID="txtProveedor" runat="server" Width="95%"></asp:TextBox>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" align="right">
+                                    <asp:Label ID="lblProveedor" runat="server" Text="Sin validar"></asp:Label>
 
-                        <caption>
-                            &nbsp;</td>
-                    </caption>
-                </tr>
-                <tr>
-                    <td align="left">
-                        <label>Centro Costo Nivel 1</label></td>
-                    <td align="left">
-                        <asp:DropDownList ID="ddlCentroCostos1" runat="server" Width="95%" OnSelectedIndexChanged="ddlCentroCosto1_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList></td>
-                    <td align="left">
-                        <label>Centro Costo Nivel 2</label></td>
-                    <td align="left">
-                        <asp:DropDownList ID="ddlCentroCostos2" runat="server" Width="95%" OnSelectedIndexChanged="ddlCentroCosto2_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList></td>
-                </tr>
-                <tr>
-                    <td align="left">
-                        <label>Centro Costo Nivel 3</label></td>
-                    <td align="left">
-                        <asp:DropDownList ID="ddlCentroCostos3" runat="server" Width="95%" OnSelectedIndexChanged="ddlCentroCosto3_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList></td>
-                    <td align="left">
-                        <label>Centro Costo Nivel 4</label></td>
-                    <td align="left">
-                        <asp:DropDownList ID="ddlCentroCostos4" runat="server" Width="95%" OnSelectedIndexChanged="ddlCentroCosto4_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList></td>
-                    <td align="left">
-                        <label>Centro Costo Nivel 5</label></td>
-                    <td align="left">
-                        <asp:DropDownList ID="ddlCentroCostos5" runat="server" Width="95%" OnSelectedIndexChanged="ddlCentroCosto5_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList></td>
-                </tr>
-                <tr>
-                    <td align="left">
-                        <label>Moneda de Caja Chica</label></td>
-                    <td align="left">
-                        <asp:DropDownList ID="ddlIdMonedaOriginal" runat="server" Width="95%" Enabled="false"></asp:DropDownList></td>
-                    <td align="left">
-                        <label>Moneda del Documento</label></td>
-                    <td align="left">
-                        <asp:DropDownList ID="ddlIdMonedaDoc" runat="server" Width="95%" OnSelectedIndexChanged="ddlIdMonedaDoc_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList></td>
-                    <td align="left">
-                        <label>Tasa de Cambio</label></td>
-                    <td align="left">
-                        <asp:TextBox ID="txtTasaCambio" runat="server" Width="95%"></asp:TextBox>
-                        <ajaxToolkit:FilteredTextBoxExtender ID="FilteredTextBoxExtender2" TargetControlID="txtTasaCambio" runat="server" Enabled="True" FilterType="Numbers,Custom" ValidChars="."></ajaxToolkit:FilteredTextBoxExtender>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" align="right">
+                                    <asp:Button ID="btnValidar" runat="server" Text="Validar" CssClass="button" OnClick="Validar_Click" Width="" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                            </tr>
+
+                        </table>
                     </td>
-                </tr>
-                <tr>
-                    <td align="left">
-                        <label>Importe Afecta</label></td>
-                    <td align="left">
-                        <asp:TextBox ID="txtMontoAfecta" runat="server" Width="95%"></asp:TextBox>
-                        <ajaxToolkit:FilteredTextBoxExtender ID="FilteredTextBoxExtender4" TargetControlID="txtMontoAfecta" runat="server" Enabled="True" FilterType="Numbers,Custom" ValidChars="."></ajaxToolkit:FilteredTextBoxExtender>
+                    <td width="25%">
+                        <table>
+
+                            <%-- MONEDA ORIGINAL --%>
+                            <tr>
+                                <td width="20px">
+                                    <label>Moneda Original</label>
+                                </td>
+                                <td width="100px">
+                                    <asp:DropDownList ID="ddlIdMonedaOriginal" runat="server" Width="95%" Enabled="false"></asp:DropDownList>
+                                </td>
+                            </tr>
+                            <%-- MONEDA DOCUMENTO --%>
+                            <tr>
+                                <td>
+                                    <label>Moneda doc</label>
+                                </td>
+                                <td width="100px">
+                                    <asp:DropDownList ID="ddlIdMonedaDoc" runat="server" Width="95%" OnSelectedIndexChanged="ddlIdMonedaDoc_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
+                                </td>
+                            </tr>
+                            <%-- TASA DE CAMBIO--%>
+                            <tr>
+                                <td width="100px">
+                                    <label>T. cambio</label>
+                                </td>
+                                <td>
+                                    <asp:TextBox ID="txtTasaCambio" runat="server" Width="95%"></asp:TextBox>
+                                    <ajaxToolkit:FilteredTextBoxExtender ID="FilteredTextBoxExtender2" TargetControlID="txtTasaCambio" runat="server" Enabled="True" FilterType="Numbers,Custom" ValidChars="."></ajaxToolkit:FilteredTextBoxExtender>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                            </tr>
+
+                        </table>
                     </td>
-                    <td align="left">
-                        <label>Importe No Afecta</label></td>
-                    <td align="left">
-                        <asp:TextBox ID="txtMontoNoAfecta" runat="server" Width="95%"></asp:TextBox>
-                        <ajaxToolkit:FilteredTextBoxExtender ID="FilteredTextBoxExtender3" TargetControlID="txtMontoNoAfecta" runat="server" Enabled="True" FilterType="Numbers,Custom" ValidChars="."></ajaxToolkit:FilteredTextBoxExtender>
+                    <td width="15%">
+                        <table>
+                            <%-- AFECTA --%>
+                            <tr>
+                                <td>
+                                    <label>Afecta</label>
+                                </td>
+                                <td width="100px">
+                                    <asp:TextBox ID="txtMontoAfecta" runat="server" Width="95%" OnTextChanged="txtMontoAfecta_TextChanged"></asp:TextBox>
+                                    <ajaxToolkit:FilteredTextBoxExtender ID="FilteredTextBoxExtender4" TargetControlID="txtMontoAfecta" runat="server" Enabled="True" FilterType="Numbers,Custom" ValidChars="."></ajaxToolkit:FilteredTextBoxExtender>
+                                </td>
+                            </tr>
+                            <%-- NO AFECTA --%>
+                            <tr>
+                                <td width="100px">
+                                    <label>No afecta</label></td>
+                                <td width="100px">
+                                    <asp:TextBox ID="txtMontoNoAfecta" runat="server" Width="95%"></asp:TextBox>
+                                    <ajaxToolkit:FilteredTextBoxExtender ID="FilteredTextBoxExtender3" TargetControlID="txtMontoNoAfecta" runat="server" Enabled="True" FilterType="Numbers,Custom" ValidChars="."></ajaxToolkit:FilteredTextBoxExtender>
+                                </td>
+                            </tr>
+                            <%-- IGV --%>
+                            <tr>
+                                <td>
+                                    <label>IGV</label></td>
+                                <td width="100px">
+                                    <asp:TextBox ID="txtMontoIGV" runat="server" Width="95%" Enabled="false"></asp:TextBox>
+                                    <ajaxToolkit:FilteredTextBoxExtender ID="FilteredTextBoxExtender5" TargetControlID="txtMontoIGV" runat="server" Enabled="True" FilterType="Numbers,Custom" ValidChars="."></ajaxToolkit:FilteredTextBoxExtender>
+                                </td>
+                            </tr>
+                            <%-- TOTAL MONEDA --%>
+                            <tr>
+                                <td>
+                                    <label>Total moneda</label></td>
+                                <td width="100px">
+                                    <asp:TextBox ID="txtMontoTotal" runat="server" Width="95%" Enabled="false"></asp:TextBox>
+                                    <ajaxToolkit:FilteredTextBoxExtender ID="FilteredTextBoxExtender6" TargetControlID="txtMontoTotal" runat="server" Enabled="True" FilterType="Numbers,Custom" ValidChars="."></ajaxToolkit:FilteredTextBoxExtender>
+                                </td>
+                            </tr>
+                            <%-- TOTAL DOCUMENTO --%>
+                            <tr>
+                                <td>
+                                    <label>Total documento</label></td>
+                                <td width="100px">
+                                    <asp:TextBox ID="txtMontoDoc" runat="server" Width="95%" Enabled="false" OnTextChanged="txtMontoDoc_TextChanged"></asp:TextBox>
+                                    <ajaxToolkit:FilteredTextBoxExtender ID="FilteredTextBoxExtender1" TargetControlID="txtMontoDoc" runat="server" Enabled="True" FilterType="Numbers,Custom" ValidChars="."></ajaxToolkit:FilteredTextBoxExtender>
+                                </td>
+                            </tr>
+                            <%-- VALIDAR IMPORTE--%>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <asp:Button ID="bValidarImporte" runat="server" Text="Validar" CssClass="button" OnClick="ValidarImporte_Click" Width="98px" />
+                                </td>
+                            </tr>
+                        </table>
                     </td>
-                    <td align="left">
-                        <label>Importe IGV</label></td>
-                    <td align="left">
-                        <asp:TextBox ID="txtMontoIGV" runat="server" Width="95%" Enabled="false"></asp:TextBox>
-                        <ajaxToolkit:FilteredTextBoxExtender ID="FilteredTextBoxExtender5" TargetControlID="txtMontoIGV" runat="server" Enabled="True" FilterType="Numbers,Custom" ValidChars="."></ajaxToolkit:FilteredTextBoxExtender>
+                    <td width="25%">
+                        <%-- CENTROS DE COSTO --%>
+                        <table>
+                            <tr>
+                                <td>
+                                    <label>CC 1</label>
+                                </td>
+                                <td width="180px">
+                                    <asp:DropDownList ID="ddlCentroCostos1" runat="server" Width="95%" OnSelectedIndexChanged="ddlCentroCosto1_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>CC 2</label>
+                                </td>
+                                <td width="180px">
+                                    <asp:DropDownList ID="ddlCentroCostos2" runat="server" Width="95%" OnSelectedIndexChanged="ddlCentroCosto2_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>CC 3</label>
+                                </td>
+                                <td width="180px">
+                                    <asp:DropDownList ID="ddlCentroCostos3" runat="server" Width="95%" OnSelectedIndexChanged="ddlCentroCosto3_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>CC 4</label>
+                                </td>
+                                <td width="180px">
+                                    <asp:DropDownList ID="ddlCentroCostos4" runat="server" Width="95%" OnSelectedIndexChanged="ddlCentroCosto4_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>CC 5</label>
+                                </td>
+                                <td width="180px">
+                                    <asp:DropDownList ID="ddlCentroCostos5" runat="server" Width="95%" OnSelectedIndexChanged="ddlCentroCosto5_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                            </tr>
+
+                        </table>
                     </td>
-                </tr>
-                <tr>
-                    <td align="left">
-                        <label>Total Documento</label></td>
-                    <td align="left">
-                        <asp:TextBox ID="txtMontoDoc" runat="server" Width="95%" Enabled="false" OnTextChanged="txtMontoDoc_TextChanged"></asp:TextBox>
-                        <ajaxToolkit:FilteredTextBoxExtender ID="FilteredTextBoxExtender1" TargetControlID="txtMontoDoc" runat="server" Enabled="True" FilterType="Numbers,Custom" ValidChars="."></ajaxToolkit:FilteredTextBoxExtender>
-                    </td>
-                    <td align="left">
-                        <label>Importe Total Moneda C.C.</label></td>
-                    <td align="left">
-                        <asp:TextBox ID="txtMontoTotal" runat="server" Width="95%" Enabled="false"></asp:TextBox>
-                        <ajaxToolkit:FilteredTextBoxExtender ID="FilteredTextBoxExtender6" TargetControlID="txtMontoTotal" runat="server" Enabled="True" FilterType="Numbers,Custom" ValidChars="."></ajaxToolkit:FilteredTextBoxExtender>
-                    </td>
-                    <td colspan="2" align="left">
-                        <asp:Button ID="bValidarImporte" runat="server" Text="Validar Importes" CssClass="button" OnClick="ValidarImporte_Click" /></td>
+
                 </tr>
             </table>
+            <!-- DivTable.com -->
             <br />
             <table width="1008px">
                 <tr>
                     <td align="center">
-                        <asp:Button ID="bAgregar" runat="server" OnClientClick="this.disabled = true; this.value = 'Procesando...';" UseSubmitBehavior="false" Text="Agregar" CssClass="button" OnClick="Agregar_Click" />
-                        <asp:Button ID="bGuardar" runat="server" OnClientClick="this.disabled = true; this.value = 'Procesando...';" UseSubmitBehavior="false" Text="Guardar" CssClass="button" OnClick="Guardar_Click" />
+                        <asp:Button ID="bAgregar" runat="server" OnClientClick="this.disabled = true; this.value = 'Procesando...';" UseSubmitBehavior="false" Text="Agregar" CssClass="button2" OnClick="Agregar_Click" />
+                        <asp:Button ID="bGuardar" runat="server" OnClientClick="this.disabled = true; this.value = 'Procesando...';" UseSubmitBehavior="false" Text="Guardar" CssClass="button2" OnClick="Guardar_Click" />
                         <asp:Button ID="bCancelar" runat="server" Text="Regresar" CssClass="button" OnClick="Cancelar_Click" /></td>
                 </tr>
             </table>
-            <div style="display:none">
-                  <br />
-            <table width="1008px" style="border-top: thick solid #000000;" visible="false">
-                <tr>
-                    <td align="center">
-                        <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="false"
-                            BorderStyle="Double" BorderColor="#989898" CellPadding="10" CellSpacing="0"
-                            HeaderStyle-BackColor="#059BD8" HeaderStyle-ForeColor="#FFFFFF" HeaderStyle-Font-Bold="true" HeaderStyle-Font-Size="X-Small"
-                            RowStyle-BackColor="#FFFFFF" AlternatingRowStyle-BackColor="#EFEFEF" RowStyle-Font-Size="XX-Small">
-                            <Columns>
-                                <asp:BoundField DataField="Tipo_Documento" HeaderText="Tipo Documento" ItemStyle-Width="150" />
-                                <asp:BoundField DataField="Serie" HeaderText="Serie" ItemStyle-Width="150" />
-                                <asp:BoundField DataField="Numero" HeaderText="Numero" ItemStyle-Width="150" />
-                                <asp:BoundField DataField="Fecha" HeaderText="Fecha" ItemStyle-Width="150" />
-                                <asp:BoundField DataField="Ruc" HeaderText="Ruc" ItemStyle-Width="150" />
-                                <asp:BoundField DataField="Razon_Social" HeaderText="Razon Social" ItemStyle-Width="150" />
-                                <asp:BoundField DataField="Concepto" HeaderText="Concepto" ItemStyle-Width="150" />
-                                <asp:BoundField DataField="Moneda_Documento" HeaderText="Moneda Documento" ItemStyle-Width="150" />
-                                <asp:BoundField DataField="Tasa_Cambio" HeaderText="Tasa Cambio" ItemStyle-Width="150" />
-                                <asp:BoundField DataField="No_Afecta" HeaderText="No Afecta" ItemStyle-Width="150" />
-                                <asp:BoundField DataField="Afecta" HeaderText="Afecta" ItemStyle-Width="150" />
-                                <asp:BoundField DataField="IGV" HeaderText="IGV" ItemStyle-Width="150" />
-                                <asp:BoundField DataField="Total_Documento" HeaderText="Total Documento" ItemStyle-Width="150" />
-                                <asp:BoundField DataField="Total_Moneda_Origen" HeaderText="Total Moneda Origen" ItemStyle-Width="150" />
-                            </Columns>
-                        </asp:GridView>
-                        <br />
-                        <asp:TextBox ID="txtCopied" runat="server" Visible="false" TextMode="MultiLine" Height="100px" Width="1008px" />
-                        <br />
-                        <asp:Label ID="blbResultadoMasivo" runat="server"></asp:Label>
-                        <br />
-                        <asp:Button ID="bMasivo" runat="server" OnClientClick="this.disabled = true; this.value = 'Procesando...';" UseSubmitBehavior="false" Text="Subir Masivamente" CssClass="button" OnClick="Masivo_Click" />
-                        <asp:Button ID="bPreliminar4" runat="server" Visible="false" OnClientClick="this.disabled = true; this.value = 'Procesando...';" UseSubmitBehavior="false" Text="Vista Preliminar" CssClass="button" OnClick="Preliminar4_Click" />
-                        <asp:Button ID="bAgregar4" runat="server" Visible="false" OnClientClick="this.disabled = true; this.value = 'Procesando...';" UseSubmitBehavior="false" Text="Agregar" CssClass="button" OnClick="Agregar4_Click" />
-                        <asp:Button ID="bCancelar4" runat="server" Visible="false" Text="Cancelar" CssClass="button" OnClick="Cancelar4_Click" />
-                    </td>
-                </tr>
-            </table>
-            <br />
+            <div style="display: none">
+                <br />
+                <table width="1008px" style="border-top: thick solid #000000;" visible="false">
+                    <tr>
+                        <td align="center">
+                            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="false"
+                                BorderStyle="Double" BorderColor="#989898" CellPadding="10" CellSpacing="0"
+                                HeaderStyle-BackColor="#059BD8" HeaderStyle-ForeColor="#FFFFFF" HeaderStyle-Font-Bold="true" HeaderStyle-Font-Size="X-Small"
+                                RowStyle-BackColor="#FFFFFF" AlternatingRowStyle-BackColor="#EFEFEF" RowStyle-Font-Size="XX-Small">
+                                <Columns>
+                                    <asp:BoundField DataField="Tipo_Documento" HeaderText="Tipo Documento" ItemStyle-Width="150" />
+                                    <asp:BoundField DataField="Serie" HeaderText="Serie" ItemStyle-Width="150" />
+                                    <asp:BoundField DataField="Numero" HeaderText="Numero" ItemStyle-Width="150" />
+                                    <asp:BoundField DataField="Fecha" HeaderText="Fecha" ItemStyle-Width="150" />
+                                    <asp:BoundField DataField="Ruc" HeaderText="Ruc" ItemStyle-Width="150" />
+                                    <asp:BoundField DataField="Razon_Social" HeaderText="Razon Social" ItemStyle-Width="150" />
+                                    <asp:BoundField DataField="Concepto" HeaderText="Concepto" ItemStyle-Width="150" />
+                                    <asp:BoundField DataField="Moneda_Documento" HeaderText="Moneda Documento" ItemStyle-Width="150" />
+                                    <asp:BoundField DataField="Tasa_Cambio" HeaderText="Tasa Cambio" ItemStyle-Width="150" />
+                                    <asp:BoundField DataField="No_Afecta" HeaderText="No Afecta" ItemStyle-Width="150" />
+                                    <asp:BoundField DataField="Afecta" HeaderText="Afecta" ItemStyle-Width="150" />
+                                    <asp:BoundField DataField="IGV" HeaderText="IGV" ItemStyle-Width="150" />
+                                    <asp:BoundField DataField="Total_Documento" HeaderText="Total Documento" ItemStyle-Width="150" />
+                                    <asp:BoundField DataField="Total_Moneda_Origen" HeaderText="Total Moneda Origen" ItemStyle-Width="150" />
+                                </Columns>
+                            </asp:GridView>
+                            <br />
+                            <asp:TextBox ID="txtCopied" runat="server" Visible="false" TextMode="MultiLine" Height="100px" Width="1008px" />
+                            <br />
+                            <asp:Label ID="blbResultadoMasivo" runat="server"></asp:Label>
+                            <br />
+                            <asp:Button ID="bMasivo" runat="server" OnClientClick="this.disabled = true; this.value = 'Procesando...';" UseSubmitBehavior="false" Text="Subir Masivamente" CssClass="button" OnClick="Masivo_Click" />
+                            <asp:Button ID="bPreliminar4" runat="server" Visible="false" OnClientClick="this.disabled = true; this.value = 'Procesando...';" UseSubmitBehavior="false" Text="Vista Preliminar" CssClass="button" OnClick="Preliminar4_Click" />
+                            <asp:Button ID="bAgregar4" runat="server" Visible="false" OnClientClick="this.disabled = true; this.value = 'Procesando...';" UseSubmitBehavior="false" Text="Agregar" CssClass="button" OnClick="Agregar4_Click" />
+                            <asp:Button ID="bCancelar4" runat="server" Visible="false" Text="Cancelar" CssClass="button" OnClick="Cancelar4_Click" />
+                        </td>
+                    </tr>
+                </table>
+                <br />
             </div>
-            <table width="1008px" style="border-bottom: thick solid #000000;">
+            <table width="1100" style="border-bottom: thick solid #000000;">
                 <tr>
                     <td></td>
                 </tr>
             </table>
             <br />
-          
+
             <table width="1008px">
                 <tr>
                     <td width="252px"></td>
@@ -262,13 +387,13 @@
                     </td>
                 </tr>
             </table>
-            <table width="1008px" style="border-bottom: thick solid #000000;">
+            <table width="1100" style="border-bottom: thick solid #000000;">
                 <tr>
                     <td></td>
                 </tr>
             </table>
             <br />
-            <table width="1008px" style="display:none">
+            <table width="1008px" style="display: none">
                 <tr>
                     <td align="center">
                         <asp:LinkButton ID="lnkExportarReporte" runat="server" Font-Underline="false" OnClick="lnkExportarReporte_Click"> 

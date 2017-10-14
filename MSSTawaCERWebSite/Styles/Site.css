@@ -215,6 +215,17 @@ input.button {
 	border: 1px solid #DADADA;	
     cursor: pointer;
     }
+
+input.button2 {
+    margin: 0;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    background: black;
+    border-radius: 5px 5px 5px 5px;
+    padding: 5px 10px 5px 10px;
+    color: #FFFFFF;
+    border: 1px solid black;
+    cursor: pointer;
+}
 input.post  
 {
     

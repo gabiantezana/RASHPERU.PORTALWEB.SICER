@@ -134,6 +134,74 @@ namespace MSS.TAWA.DA
             }
         }
 
+        // Obtener NivelAprobacion
+        public NivelAprobacionBE ObtenerNivelAprobacionV2(int idTipoDocumento, int? idNivelMoneda)
+        {
+            SqlConnection sqlConn;
+            String strConn;
+            SqlCommand sqlCmd;
+            String strSP;
+            SqlDataReader sqlDR;
+
+            SqlParameter pIdNivel;
+            SqlParameter pTipo;
+
+            try
+            {
+                strConn = ConfigurationManager.ConnectionStrings["SICER"].ConnectionString;
+                sqlConn = new SqlConnection(strConn);
+                strSP = "MSS_WEB_NivelAprobacionObtenerv2";
+                sqlCmd = new SqlCommand(strSP, sqlConn);
+                sqlCmd.CommandType = CommandType.StoredProcedure;
+
+                pIdNivel = new SqlParameter();
+                pIdNivel.ParameterName = "@idTipoDocumento";
+                pIdNivel.SqlDbType = SqlDbType.Int;
+                pIdNivel.Value = idTipoDocumento;
+
+                pTipo = new SqlParameter();
+                pTipo.ParameterName = "@idNivelMoneda";
+                pTipo.SqlDbType = SqlDbType.Int;
+                pTipo.Value = idNivelMoneda;
+
+                sqlCmd.Parameters.Add(pIdNivel);
+                sqlCmd.Parameters.Add(pTipo);
+
+                sqlCmd.Connection.Open();
+                sqlDR = sqlCmd.ExecuteReader();
+
+                NivelAprobacionBE objNivelAprobacionBE;
+                objNivelAprobacionBE = null;
+
+                while (sqlDR.Read())
+                {
+                    objNivelAprobacionBE = new NivelAprobacionBE();
+                    objNivelAprobacionBE.IdNivel = sqlDR.GetInt32(sqlDR.GetOrdinal("IdNivel"));
+                    objNivelAprobacionBE.Descripcion = sqlDR.GetString(sqlDR.GetOrdinal("Descripcion"));
+                    objNivelAprobacionBE.Nivel = sqlDR.GetString(sqlDR.GetOrdinal("Nivel"));
+                    objNivelAprobacionBE.Documento = sqlDR.GetString(sqlDR.GetOrdinal("Documento"));
+                    objNivelAprobacionBE.EsDeMonto = sqlDR.GetString(sqlDR.GetOrdinal("EsDeMonto"));
+                    objNivelAprobacionBE.Monto = sqlDR.GetString(sqlDR.GetOrdinal("Monto"));
+                    objNivelAprobacionBE.UserCreate = sqlDR.GetString(sqlDR.GetOrdinal("UserCreate"));
+                    objNivelAprobacionBE.CreateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("CreateDate"));
+                    objNivelAprobacionBE.UserUpdate = sqlDR.GetString(sqlDR.GetOrdinal("UserUpdate"));
+                    objNivelAprobacionBE.UpdateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("UpdateDate"));
+                }
+
+                sqlCmd.Connection.Close();
+                sqlCmd.Dispose();
+
+                sqlConn.Close();
+                sqlConn.Dispose();
+
+                return objNivelAprobacionBE;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         // Insertar NivelAprobacion
         public int InsertarNivelAprobacion(NivelAprobacionBE objBE)
         {
