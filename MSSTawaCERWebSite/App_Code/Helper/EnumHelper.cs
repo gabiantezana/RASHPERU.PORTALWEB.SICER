@@ -14,6 +14,14 @@ public static class EnumHelper
         return asdf.ToString();
     }
 }
+
+public enum TipoDocumento
+{
+    CajaChica = 1,
+    EntregaRendir = 2,
+    Reembolso = 3,
+}
+
 public enum EstadoDocumento
 {
     PorAprobarNivel1 = 1,

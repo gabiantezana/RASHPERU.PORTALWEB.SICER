@@ -57,9 +57,46 @@ public class ValidationHelper
         return montoMaximo;
     }
 
-    public Boolean UsuarioEsAprobador ()
+    public Boolean UsuarioPuedeAprobarDocumento(EstadoDocumento estadoDocumento, UsuarioBE usuario)
     {
-
+        switch (estadoDocumento)
+        {
+            case EstadoDocumento.PorAprobarNivel1:
+                if (usuario.IdUsuarioCC1 == usuario.IdUsuario)
+                    return true;
+                break;
+            case EstadoDocumento.PorAprobarNivel2:
+                if (usuario.IdUsuarioCC2 == usuario.IdUsuario)
+                    return true;
+                break;
+            case EstadoDocumento.PorAprobarNivel3:
+                if (usuario.IdUsuarioCC3 == usuario.IdUsuario)
+                    return true;
+                break;
+        }
+        return false;
     }
+
+    public Boolean UsuarioExcedeCantMaxDocumento(TipoDocumento tipoDocumento, Int32 idUsuario)
+    {
+        UsuarioBE objUsuarioBE = new UsuarioBC().ObtenerUsuario(idUsuario, 0);
+        Int32 cantidadActualDocs = 0;
+        Int32 cantidadMaximaDocs = 0;
+
+        switch (tipoDocumento)
+        {
+            case TipoDocumento.CajaChica:
+                cantidadActualDocs = new CajaChicaBC().ListarCajaChica(idUsuario, 2, 10, "", "", "", "", "").Count;
+                cantidadMaximaDocs = Convert.ToInt32(objUsuarioBE.CantMaxCC);
+                break;
+            default:
+                throw new NotImplementedException();
+        }
+
+        if (cantidadActualDocs < cantidadMaximaDocs)
+            return false;
+        return true;
+    }
+
 
 }

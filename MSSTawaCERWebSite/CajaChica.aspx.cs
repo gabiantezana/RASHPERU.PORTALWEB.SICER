@@ -22,18 +22,13 @@ public partial class CajaChica : System.Web.UI.Page
         {
             if (!this.IsPostBack)
             {
-                String strModo = Context.Items["Modo"].ToString();
-                String strIdCajaChica = Context.Items["IdCajaChica"].ToString();
+                Int32 idModo = Convert.ToInt32(Context.Items["Modo"].ToString());
+                Int32 idDocumento = Convert.ToInt32(Context.Items["IdCajaChica"].ToString());
 
-                ViewState["Modo"] = strModo;
-                ViewState["IdCajaChica"] = strIdCajaChica;
+                ViewState["Modo"] = idModo;
+                ViewState["IdCajaChica"] = idDocumento;
 
-                ListarUsuarioSolicitante(Convert.ToInt32(strModo), Convert.ToInt32(strIdCajaChica));
-                ListarMoneda();
-                ListarEmpresa();
-                ListarCentroCostos();
-                Modalidad(Convert.ToInt32(strModo));
-                ModalidadCampo(Convert.ToInt32(strModo), Convert.ToInt32(strIdCajaChica));
+                SetCrearOEditar(idModo, idDocumento);
             }
         }
         catch (Exception ex)
@@ -43,22 +38,28 @@ public partial class CajaChica : System.Web.UI.Page
         }
     }
 
-    private void Modalidad(int p)
+    private void SetCrearOEditar(int idModo, Int32 idDocumento)
     {
         try
         {
-            switch (p)
+            ListarUsuarioSolicitante(idModo, idDocumento);
+            ListarMoneda();
+            ListarEmpresa();
+
+            switch (idModo)
             {
-                case 1:
+                case 1: //Crear
                     lblCabezera.Text = "Crear Nueva Caja Chica";
                     LimpiarCampos();
                     break;
-                case 2:
+                case 2: //Editar
                     lblCabezera.Text = "Caja Chica";
                     bCrear.Text = "Guardar";
-                    LlenarCampos(Convert.ToInt32(ViewState["IdCajaChica"].ToString()));
+                    EditarCajaChica_Fill(idDocumento);
                     break;
             }
+
+            SetModadlidadBotones(idModo, idDocumento);
         }
         catch (Exception ex)
         {
@@ -67,7 +68,7 @@ public partial class CajaChica : System.Web.UI.Page
         }
     }
 
-    private void ModalidadCampo(int Modo, int IdCajaChica)
+    private void SetModadlidadBotones(int Modo, int IdCajaChica)
     {
         if (Session["Usuario"] == null)
             Response.Redirect("~/Login.aspx");
@@ -112,7 +113,7 @@ public partial class CajaChica : System.Web.UI.Page
                         {
                             case TipoAprobador.Aprobador:
                             case TipoAprobador.AprobadorYCreador:
-                                habilitarBotonesDeAprobacion = UsuarioPuedeAprobarDocumento(estadoDocumento, objUsuarioSolicitanteBE);
+                                habilitarBotonesDeAprobacion = new ValidationHelper().UsuarioPuedeAprobarDocumento(estadoDocumento, objUsuarioSolicitanteBE);
                                 break;
                         }
                         break;
@@ -149,26 +150,6 @@ public partial class CajaChica : System.Web.UI.Page
         }
     }
 
-    public Boolean UsuarioPuedeAprobarDocumento(EstadoDocumento estadoDocumento, UsuarioBE usuario)
-    {
-        switch (estadoDocumento)
-        {
-            case EstadoDocumento.PorAprobarNivel1:
-                if (usuario.IdUsuarioCC1 == usuario.IdUsuario)
-                    return true;
-                break;
-            case EstadoDocumento.PorAprobarNivel2:
-                if (usuario.IdUsuarioCC2 == usuario.IdUsuario)
-                    return true;
-                break;
-            case EstadoDocumento.PorAprobarNivel3:
-                if (usuario.IdUsuarioCC3 == usuario.IdUsuario)
-                    return true;
-                break;
-        }
-        return false;
-    }
-
     private void LimpiarCampos()
     {
         txtIdCajaChica.Text = "";
@@ -178,73 +159,30 @@ public partial class CajaChica : System.Web.UI.Page
         txtComentario.Text = "";
     }
 
-    private void LlenarCampos(int p)
+    private void EditarCajaChica_Fill(int idCajaChica)
     {
-        CajaChicaBC objCajaChicaBC = new CajaChicaBC();
-        CajaChicaBE objCajaChicaBE = new CajaChicaBE();
-        objCajaChicaBE = objCajaChicaBC.ObtenerCajaChica(p, 0);
+        CajaChicaBE objCajaChicaBE = new CajaChicaBC().ObtenerCajaChica(idCajaChica, 0);
+
+        ListarCentroCostos(objCajaChicaBE.IdEmpresa);
+        ListarMetodosPago(objCajaChicaBE.IdEmpresa);
 
         txtIdCajaChica.Text = objCajaChicaBE.IdCajaChica.ToString();
         txtCodigoCajaChica.Text = objCajaChicaBE.CodigoCajaChica;
-        ddlIdUsuarioSolicitante.SelectedValue = objCajaChicaBE.IdUsuarioSolicitante.ToString();
-        ddlIdEmpresa.SelectedValue = objCajaChicaBE.IdEmpresa.ToString();
-
-        CentroCostosBC objCentroCostosBC = new CentroCostosBC();
-        ddlCentroCostos1.DataSource = objCentroCostosBC.ListarCentroCostos(objCajaChicaBE.IdEmpresa, 1);
-        ddlCentroCostos1.DataTextField = "Descripcion";
-        ddlCentroCostos1.DataValueField = "IdCentroCostos";
-        ddlCentroCostos1.DataBind();
-        ddlCentroCostos1.Enabled = true;
-        ddlCentroCostos1.SelectedValue = objCajaChicaBE.IdCentroCostos1.ToString();
-
-        ddlCentroCostos2.DataSource = objCentroCostosBC.ListarCentroCostos(objCajaChicaBE.IdEmpresa, 2);
-        ddlCentroCostos2.DataTextField = "Descripcion";
-        ddlCentroCostos2.DataValueField = "IdCentroCostos";
-        ddlCentroCostos2.DataBind();
-        ddlCentroCostos2.Enabled = true;
-        ddlCentroCostos2.SelectedValue = objCajaChicaBE.IdCentroCostos2.ToString();
-
-        objCentroCostosBC = new CentroCostosBC();
-        ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(objCajaChicaBE.IdEmpresa, 3);
-        ddlCentroCostos3.DataTextField = "Descripcion";
-        ddlCentroCostos3.DataValueField = "IdCentroCostos";
-        ddlCentroCostos3.DataBind();
-        ddlCentroCostos3.Enabled = true;
-        ddlCentroCostos3.SelectedValue = objCajaChicaBE.IdCentroCostos3.ToString();
-
-        objCentroCostosBC = new CentroCostosBC();
-        ddlCentroCostos4.DataSource = objCentroCostosBC.ListarCentroCostos(objCajaChicaBE.IdEmpresa, 4);
-        ddlCentroCostos4.DataTextField = "Descripcion";
-        ddlCentroCostos4.DataValueField = "IdCentroCostos";
-        ddlCentroCostos4.DataBind();
-        ddlCentroCostos4.Enabled = true;
-        ddlCentroCostos4.SelectedValue = objCajaChicaBE.IdCentroCostos4.ToString();
-
-        objCentroCostosBC = new CentroCostosBC();
-        ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(objCajaChicaBE.IdEmpresa, 5);
-        ddlCentroCostos5.DataTextField = "Descripcion";
-        ddlCentroCostos5.DataValueField = "IdCentroCostos";
-        ddlCentroCostos5.DataBind();
-        ddlCentroCostos5.Enabled = true;
-        ddlCentroCostos5.SelectedValue = objCajaChicaBE.IdCentroCostos5.ToString();
-
-        MetodoPagoBC objMetodoPagoBC = new MetodoPagoBC();
-        ddlIdMetodoPago.DataSource = objMetodoPagoBC.ListarMetodoPago(objCajaChicaBE.IdEmpresa, 1, 0);
-        ddlIdMetodoPago.DataTextField = "Descripcion";
-        ddlIdMetodoPago.DataValueField = "IdMetodoPago";
-        ddlIdMetodoPago.DataBind();
-        ddlIdMetodoPago.Enabled = true;
-        ddlIdMetodoPago.SelectedValue = objCajaChicaBE.IdMetodoPago.ToString();
-
-        //ddlIdArea.SelectedValue = objCajaChicaBE.IdArea.ToString();
         txtAsunto.Text = objCajaChicaBE.Asunto;
-        ddlMoneda.SelectedValue = objCajaChicaBE.Moneda.ToString();
         txtMontoInicial.Text = objCajaChicaBE.MontoInicial;
         txtComentario.Text = objCajaChicaBE.Comentario;
         txtMotivoDetalle.Text = objCajaChicaBE.MotivoDetalle;
 
+        ddlIdEmpresa.SelectedValue = objCajaChicaBE.IdEmpresa.ToString();
+        ddlIdUsuarioSolicitante.SelectedValue = objCajaChicaBE.IdUsuarioSolicitante.ToString();
+        ddlMoneda.SelectedValue = objCajaChicaBE.Moneda.ToString();
+        ddlCentroCostos1.SelectedValue = objCajaChicaBE.IdCentroCostos1.ToString();
+        ddlCentroCostos2.SelectedValue = objCajaChicaBE.IdCentroCostos2.ToString();
+        ddlCentroCostos3.SelectedValue = objCajaChicaBE.IdCentroCostos3.ToString();
+        ddlCentroCostos4.SelectedValue = objCajaChicaBE.IdCentroCostos4.ToString();
+        ddlCentroCostos5.SelectedValue = objCajaChicaBE.IdCentroCostos5.ToString();
+        ddlIdMetodoPago.SelectedValue = objCajaChicaBE.IdMetodoPago.ToString();
     }
-
     #endregion
 
     #region Listar Selects
@@ -320,155 +258,152 @@ public partial class CajaChica : System.Web.UI.Page
         }
     }
 
-    private void ListarCentroCostos()
+    private void ListarCentroCostos(int idEmpresa)
     {
+        CentroCostosBC objCentroCostosBC = new CentroCostosBC();
+        ddlCentroCostos1.DataSource = objCentroCostosBC.ListarCentroCostos(idEmpresa, 1);
+        ddlCentroCostos1.DataTextField = "Descripcion";
+        ddlCentroCostos1.DataValueField = "IdCentroCostos";
+        ddlCentroCostos1.DataBind();
+        ddlCentroCostos1.Enabled = true;
+
+        ddlCentroCostos2.DataSource = objCentroCostosBC.ListarCentroCostos(idEmpresa, 2);
+        ddlCentroCostos2.DataTextField = "Descripcion";
+        ddlCentroCostos2.DataValueField = "IdCentroCostos";
+        ddlCentroCostos2.DataBind();
+        ddlCentroCostos2.Enabled = true;
+
+        objCentroCostosBC = new CentroCostosBC();
+        ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(idEmpresa, 3);
+        ddlCentroCostos3.DataTextField = "Descripcion";
+        ddlCentroCostos3.DataValueField = "IdCentroCostos";
+        ddlCentroCostos3.DataBind();
+        ddlCentroCostos3.Enabled = true;
+
+        objCentroCostosBC = new CentroCostosBC();
+        ddlCentroCostos4.DataSource = objCentroCostosBC.ListarCentroCostos(idEmpresa, 4);
+        ddlCentroCostos4.DataTextField = "Descripcion";
+        ddlCentroCostos4.DataValueField = "IdCentroCostos";
+        ddlCentroCostos4.DataBind();
+        ddlCentroCostos4.Enabled = true;
+
+        objCentroCostosBC = new CentroCostosBC();
+        ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(idEmpresa, 5);
+        ddlCentroCostos5.DataTextField = "Descripcion";
+        ddlCentroCostos5.DataValueField = "IdCentroCostos";
+        ddlCentroCostos5.DataBind();
+        ddlCentroCostos5.Enabled = true;
     }
 
+    private void ListarMetodosPago(int idEmpresa)
+    {
+        MetodoPagoBC objMetodoPagoBC = new MetodoPagoBC();
+        ddlIdMetodoPago.DataSource = objMetodoPagoBC.ListarMetodoPago(idEmpresa, 1, 0);
+        ddlIdMetodoPago.DataTextField = "Descripcion";
+        ddlIdMetodoPago.DataValueField = "IdMetodoPago";
+        ddlIdMetodoPago.DataBind();
+        ddlIdMetodoPago.Enabled = true;
+    }
     #endregion
 
     #region Submit Buttons
 
+    public Boolean CamposSonValidos(out String errorMessage)
+    {
+        Int32[] indexNoValidos = { 0, -1 };
+        errorMessage = String.Empty;
+        if (indexNoValidos.Contains(ddlIdUsuarioSolicitante.SelectedIndex))
+            errorMessage = "Debe ingresar el usuario solicitante";
+        else if (indexNoValidos.Contains(ddlIdEmpresa.SelectedIndex))
+            errorMessage = "Debe ingresar la empresa";
+        else if (indexNoValidos.Contains(ddlMoneda.SelectedIndex))
+            errorMessage = "Debe ingresar la  moneda";
+        else if (String.IsNullOrWhiteSpace(txtMontoInicial.Text))
+            errorMessage = "Debe ingresar el monto inicial";
+        else if (!txtMontoInicial.Text.IsNumeric())
+            errorMessage = "El importe inicial no es válido";
+        else if (indexNoValidos.Contains(ddlCentroCostos1.SelectedIndex))
+            errorMessage = "Debe ingresar el centro de costo nivel 1";
+        else if (String.IsNullOrWhiteSpace(txtAsunto.Text))
+            errorMessage = "Debe ingresar el asunto.";
+        else if (String.IsNullOrWhiteSpace(txtMotivoDetalle.Text))
+            errorMessage = "Debe ingresar el motivo";
+        else if (new ValidationHelper().UsuarioExcedeCantMaxDocumento(TipoDocumento.CajaChica, Convert.ToInt32(ddlIdUsuarioSolicitante.SelectedItem.Value)))
+            errorMessage = "El usuario ha excedido la cantidad máxima de documentos.";
+
+        if (!String.IsNullOrEmpty(errorMessage))
+            return false;
+        else
+            return true;
+    }
+
+
     protected void Crear_Click(object sender, EventArgs e)
     {
-        int Id;
+        if (Session["Usuario"] == null)
+            Response.Redirect("~/Login.aspx");
+
         try
         {
-            /*---------------------------------------VALIDA CAMPOS REQUERIDOS------------------------------------------------*/
-            Int32[] indexNoValidos = { 0, -1 };
-            String errorMessage = null;
-            if (indexNoValidos.Contains(ddlIdUsuarioSolicitante.SelectedIndex))
-                errorMessage = "Debe ingresar el usuario solicitante";
-            else if (indexNoValidos.Contains(ddlIdEmpresa.SelectedIndex))
-                errorMessage = "Debe ingresar la empresa";
-            else if (indexNoValidos.Contains(ddlMoneda.SelectedIndex))
-                errorMessage = "Debe ingresar la  moneda";
-            else if (String.IsNullOrWhiteSpace(txtMontoInicial.Text))
-                errorMessage = "Debe ingresar el monto inicial";
-            else if (indexNoValidos.Contains(ddlCentroCostos1.SelectedIndex))
-                errorMessage = "Debe ingresar el centro de costo nivel 1";
-            else if (String.IsNullOrWhiteSpace(txtAsunto.Text))
-                errorMessage = "Debe ingresar el asunto.";
-            else if (String.IsNullOrWhiteSpace(txtMotivoDetalle.Text))
-                errorMessage = "Debe ingresar el motivo";
-
+            String errorMessage;
+            CamposSonValidos(out errorMessage);
             if (!String.IsNullOrEmpty(errorMessage))
             {
                 Mensaje(errorMessage);
                 return;
             }
-            /*-------------------------------------FIN VALIDA CAMPOS REQUERIDOS----------------------------------------------*/
-            else
-            {
 
-            }
+            Int32 idUsuario = ((UsuarioBE)Session["Usuario"]).IdUsuario;
+            Int32 idModo = Convert.ToInt32(ViewState["Modo"].ToString());
+            Int32 idDocumento = Convert.ToInt32(ViewState["IdCajaChica"].ToString());
 
-            bool validacion = true;
-            string mensajeAlerta = "";
+            CajaChicaBE objCajaChicaBE = new CajaChicaBE();
+            objCajaChicaBE.CodigoCajaChica = String.Empty;
+            objCajaChicaBE.IdUsuarioSolicitante = Convert.ToInt32(ddlIdUsuarioSolicitante.SelectedItem.Value);
+            objCajaChicaBE.IdEmpresa = Convert.ToInt32(ddlIdEmpresa.SelectedItem.Value);
+            objCajaChicaBE.IdCentroCostos1 = Convert.ToInt32(ddlCentroCostos1.SelectedItem.Value);
+            objCajaChicaBE.IdCentroCostos2 = Convert.ToInt32(ddlCentroCostos2.SelectedItem.Value);
+            objCajaChicaBE.IdCentroCostos3 = Convert.ToInt32(ddlCentroCostos3.SelectedItem.Value);
+            objCajaChicaBE.IdCentroCostos4 = Convert.ToInt32(ddlCentroCostos4.SelectedItem.Value);
+            objCajaChicaBE.IdCentroCostos5 = Convert.ToInt32(ddlCentroCostos5.SelectedItem.Value);
+            objCajaChicaBE.IdMetodoPago = Convert.ToInt32(ddlIdMetodoPago.SelectedItem.Value);
+            objCajaChicaBE.IdArea = 0;
+            objCajaChicaBE.Asunto = txtAsunto.Text;
+            objCajaChicaBE.MontoInicial = Convert.ToDouble(txtMontoInicial.Text).ToString("0.00");
+            objCajaChicaBE.MontoGastado = "0.00";
+            objCajaChicaBE.MontoActual = Convert.ToDouble(txtMontoInicial.Text).ToString("0.00");
+            objCajaChicaBE.Moneda = ddlMoneda.SelectedItem.Value;
+            objCajaChicaBE.Comentario = "";
+            objCajaChicaBE.MotivoDetalle = txtMotivoDetalle.Text;
+            objCajaChicaBE.FechaSolicitud = DateTime.Now;
+            objCajaChicaBE.FechaContabilizacion = DateTime.Now;
+            objCajaChicaBE.Estado = EstadoDocumento.PorAprobarNivel1.IdToString();
+            objCajaChicaBE.IdUsuarioCreador = idUsuario;
+            objCajaChicaBE.UserCreate = idUsuario.ToString();
+            objCajaChicaBE.CreateDate = DateTime.Now;
+            objCajaChicaBE.UserUpdate = idUsuario.ToString();
+            objCajaChicaBE.UpdateDate = DateTime.Now;
 
-            if (validacion)
-            {
-                decimal n;
-                bool isNumeric = decimal.TryParse(txtMontoInicial.Text, out n);
-                if (isNumeric == false)
-                {
-                    validacion = false;
-                    mensajeAlerta = " El monto inicial no es un numero";
-                }
-            }
 
-            if (validacion)
-            {
-                validacion = validaDecimales(txtMontoInicial.Text);
-                if (validacion == false)
-                    mensajeAlerta = "Los importes deben tener solo 2 decimales";
-            }
-
-
-            //INI: VALIDACION CANTIDAD MAXIMA CAJA CHICA
             CajaChicaBC objCajaChicaBC = new CajaChicaBC();
-            List<CajaChicaBE> lstCajaChicaBE = new List<CajaChicaBE>();
-            UsuarioBC objUsuarioBC = new UsuarioBC();
-            UsuarioBE objUsuarioBE = new UsuarioBE();
-            if (validacion)
+            if (idModo == 1) //INSERT
             {
-                objUsuarioBE = objUsuarioBC.ObtenerUsuario(Convert.ToInt32(ddlIdUsuarioSolicitante.SelectedItem.Value), 0);
-
-                lstCajaChicaBE = objCajaChicaBC.ListarCajaChica(Convert.ToInt32(ddlIdUsuarioSolicitante.SelectedItem.Value), 2, 10, "", "", "", "", "");
-                if (lstCajaChicaBE.Count >= Convert.ToInt32(objUsuarioBE.CantMaxCC))
-                {
-                    validacion = false;
-                    mensajeAlerta = "No es posible solicitar mas Cajas Chicas porque se llego al maximo permitido.";
-                }
+                Int32 idDocumentoInsertado = objCajaChicaBC.InsertarCajaChica(objCajaChicaBE);
+                CajaChicaBE documentoInsertado = objCajaChicaBC.ObtenerCajaChica(idDocumentoInsertado, 0);
+                EnviarMensajeParaAprobar(idDocumentoInsertado, "Caja Chica", documentoInsertado.MontoGastado, txtAsunto.Text, documentoInsertado.CodigoCajaChica, ddlIdUsuarioSolicitante.SelectedItem.Text, EstadoDocumento.PorAprobarNivel1.IdToString(), documentoInsertado.IdEmpresa);
             }
-            //FIN: VALIDACION CANTIDAD MAXIMA CAJA CHICA
-
-            if (validacion)
+            else //UPDATE
             {
-                CajaChicaBE objCajaChicaBE = new CajaChicaBE();
-                objCajaChicaBE.CodigoCajaChica = "";
-                objCajaChicaBE.IdUsuarioSolicitante = Convert.ToInt32(ddlIdUsuarioSolicitante.SelectedItem.Value);
-                objCajaChicaBE.IdEmpresa = Convert.ToInt32(ddlIdEmpresa.SelectedItem.Value);
-                objCajaChicaBE.IdCentroCostos1 = Convert.ToInt32(ddlCentroCostos1.SelectedItem.Value);
-                objCajaChicaBE.IdCentroCostos2 = Convert.ToInt32(ddlCentroCostos2.SelectedItem.Value);
-                objCajaChicaBE.IdCentroCostos3 = Convert.ToInt32(ddlCentroCostos3.SelectedItem.Value);
-                objCajaChicaBE.IdCentroCostos4 = Convert.ToInt32(ddlCentroCostos4.SelectedItem.Value);
-                objCajaChicaBE.IdCentroCostos5 = Convert.ToInt32(ddlCentroCostos5.SelectedItem.Value);
-                objCajaChicaBE.IdMetodoPago = Convert.ToInt32(ddlIdMetodoPago.SelectedItem.Value);
-                objCajaChicaBE.IdArea = 0; //Convert.ToInt32(ddlIdArea.SelectedItem.Value);
-                objCajaChicaBE.Asunto = txtAsunto.Text;
-                objCajaChicaBE.MontoInicial = Convert.ToDouble(txtMontoInicial.Text).ToString("0.00");
-                objCajaChicaBE.MontoGastado = "0.00";
-                //objCajaChicaBE.MontoReembolsado = "0.000000";
-                objCajaChicaBE.MontoActual = Convert.ToDouble(txtMontoInicial.Text).ToString("0.00");
-                objCajaChicaBE.Moneda = ddlMoneda.SelectedItem.Value;
-                objCajaChicaBE.Comentario = "";
-                objCajaChicaBE.MotivoDetalle = txtMotivoDetalle.Text;
-                objCajaChicaBE.FechaSolicitud = DateTime.Now;
-                objCajaChicaBE.FechaContabilizacion = DateTime.Now;
-                objCajaChicaBE.Estado = "1";
-
-                if (Session["Usuario"] == null)
-                {
-                    Response.Redirect("~/Login.aspx");
-                }
-                else
-                {
-                    objUsuarioBE = (UsuarioBE)Session["Usuario"];
-                    objCajaChicaBE.IdUsuarioCreador = objUsuarioBE.IdUsuario;
-                    objCajaChicaBE.UserCreate = Convert.ToString(objUsuarioBE.IdUsuario);
-                    objCajaChicaBE.CreateDate = DateTime.Now;
-                    objCajaChicaBE.UserUpdate = Convert.ToString(objUsuarioBE.IdUsuario);
-                    objCajaChicaBE.UpdateDate = DateTime.Now;
-                }
-
-                int Modo = Convert.ToInt32(ViewState["Modo"].ToString());
-                int IdCajaChica = Convert.ToInt32(ViewState["IdCajaChica"].ToString());
-                if (Modo == 1)
-                {
-                    Id = objCajaChicaBC.InsertarCajaChica(objCajaChicaBE);
-                    objCajaChicaBE = objCajaChicaBC.ObtenerCajaChica(Id, 0);
-                    EnviarMensajeParaAprobar(Id, "Caja Chica", objCajaChicaBE.MontoGastado, txtAsunto.Text, objCajaChicaBE.CodigoCajaChica, ddlIdUsuarioSolicitante.SelectedItem.Text, "1", objCajaChicaBE.IdEmpresa);
-                }
-                else
-                {
-                    objCajaChicaBE.IdCajaChica = IdCajaChica;
-                    objCajaChicaBC.ModificarCajaChica(objCajaChicaBE);
-                }
-
-                Response.Redirect("CajaChicas.aspx");
+                objCajaChicaBE.IdCajaChica = idDocumento;
+                objCajaChicaBC.ModificarCajaChica(objCajaChicaBE);
             }
-            else
-            {
-                Mensaje(mensajeAlerta);
-            }
+
+            Response.Redirect("CajaChicas.aspx");
         }
         catch (Exception ex)
         {
-            Mensaje("Ocurrió un error (CajaChica): " + ex.Message);
+            Mensaje("Ocurrió un error: " + ex.Message);
             ExceptionHelper.LogException(ex);
-        }
-        finally
-        {
         }
     }
 
@@ -479,75 +414,44 @@ public partial class CajaChica : System.Web.UI.Page
 
     protected void Aprobar_Click(object sender, EventArgs e)
     {
+        if (Session["Usuario"] == null)
+            Response.Redirect("~/Login.aspx");
+
         try
         {
             bAprobar.Enabled = false;
 
-            bool validacion = true;
+            Int32 idUsuario = ((UsuarioBE)Session["Usuario"]).IdUsuario;
+            Int32 idModo = Convert.ToInt32(ViewState["Modo"].ToString());
+            Int32 idDocumento = Convert.ToInt32(ViewState["IdCajaChica"].ToString());
 
-            if (validacion == true)
+            CajaChicaBE objCajaChicaBE = new CajaChicaBC().ObtenerCajaChica(idDocumento, 0);
+
+            String estado = String.Empty;
+            if (objCajaChicaBE.Estado == EstadoDocumento.ObservacionNivel1.IdToString()
+            || objCajaChicaBE.Estado == EstadoDocumento.ObservacionNivel2.IdToString()
+            || objCajaChicaBE.Estado == EstadoDocumento.ObservacionNivel3.IdToString())
             {
-                String strIdCajaChica = ViewState["IdCajaChica"].ToString();
-
-                CajaChicaBE objCajaChicaBE = new CajaChicaBC().ObtenerCajaChica(Convert.ToInt32(strIdCajaChica), 0);
-
-                objCajaChicaBE.Asunto = txtAsunto.Text;
-                objCajaChicaBE.Moneda = ddlMoneda.SelectedItem.Value;
-                objCajaChicaBE.MontoInicial = Convert.ToDouble(txtMontoInicial.Text).ToString("0.00");
-                objCajaChicaBE.MontoGastado = "0.00";
-                //objCajaChicaBE.MontoReembolsado = "0.000000";
-                objCajaChicaBE.MontoActual = Convert.ToDouble(txtMontoInicial.Text).ToString("0.00");
-                objCajaChicaBE.IdEmpresa = Convert.ToInt32(ddlIdEmpresa.SelectedItem.Value);
-                objCajaChicaBE.IdArea = 0;// Convert.ToInt32(ddlIdArea.SelectedItem.Value);
-                objCajaChicaBE.IdCentroCostos3 = Convert.ToInt32(ddlCentroCostos3.SelectedItem.Value);
-                objCajaChicaBE.IdCentroCostos4 = Convert.ToInt32(ddlCentroCostos4.SelectedItem.Value);
-                objCajaChicaBE.IdCentroCostos5 = Convert.ToInt32(ddlCentroCostos5.SelectedItem.Value);
-                objCajaChicaBE.IdMetodoPago = Convert.ToInt32(ddlIdMetodoPago.SelectedItem.Value);
-                objCajaChicaBE.Comentario = "";
-                objCajaChicaBE.MotivoDetalle = txtMotivoDetalle.Text;
-                objCajaChicaBE.FechaSolicitud = DateTime.Now;
-
-                String estado = "";
-                if (objCajaChicaBE.Estado == "8" || objCajaChicaBE.Estado == "9" || objCajaChicaBE.Estado == "10")//revisado
-                {
-                    estado = objCajaChicaBE.Estado;
-                    objCajaChicaBE.Estado = Convert.ToString(Convert.ToInt32(objCajaChicaBE.Estado) - 7);
-                }
-                else
-                {
-                    NivelAprobacionBC objNivelAprobacionBC = new NivelAprobacionBC();
-                    NivelAprobacionBE objNivelAprobacionBE = new NivelAprobacionBE();
-                    objNivelAprobacionBE = objNivelAprobacionBC.ObtenerNivelAprobacion(Convert.ToInt32(strIdCajaChica), 4); //ultimo nivel CC
-                    if ((Convert.ToInt32(objCajaChicaBE.Estado) + 1) > Convert.ToInt32(objNivelAprobacionBE.Nivel))
-                        objCajaChicaBE.Estado = "4";
-                    else
-                        objCajaChicaBE.Estado = Convert.ToString(Convert.ToInt32(objCajaChicaBE.Estado) + 1);
-
-                    estado = objCajaChicaBE.Estado;
-                }
-
-
-                if (Session["Usuario"] == null)
-                {
-                    Response.Redirect("~/Login.aspx");
-                }
-                else
-                {
-                    UsuarioBE objUsuarioBE = new UsuarioBE();
-                    objUsuarioBE = (UsuarioBE)Session["Usuario"];
-                    objCajaChicaBE.UserCreate = Convert.ToString(objUsuarioBE.IdUsuario);
-                    objCajaChicaBE.CreateDate = DateTime.Now;
-                    objCajaChicaBE.UserUpdate = Convert.ToString(objUsuarioBE.IdUsuario);
-                    objCajaChicaBE.UpdateDate = DateTime.Now;
-                }
-
-                new CajaChicaBC().ModificarCajaChica(objCajaChicaBE);
-                EnviarMensajeParaAprobar(objCajaChicaBE.IdCajaChica, "Caja Chica", objCajaChicaBE.MontoGastado, txtAsunto.Text, objCajaChicaBE.CodigoCajaChica, ddlIdUsuarioSolicitante.SelectedItem.Text, estado, objCajaChicaBE.IdEmpresa);
-
-                Response.Redirect("~/CajaChicas.aspx");
+                estado = objCajaChicaBE.Estado;
+                objCajaChicaBE.Estado = Convert.ToString(Convert.ToInt32(objCajaChicaBE.Estado) - 7);
             }
             else
-                Mensaje("Alerta: Es necesario llenar toda la informacion");
+            {
+                switch ((EstadoDocumento)Enum.Parse(typeof(EstadoDocumento), objCajaChicaBE.Estado))
+                {
+                    case EstadoDocumento.PorAprobarNivel1:
+                        objCajaChicaBE.Estado = EstadoDocumento.PorAprobarNivel2.IdToString();
+                        break;
+                    case EstadoDocumento.PorAprobarNivel2:
+                        objCajaChicaBE.Estado = EstadoDocumento.Aprobado.IdToString();
+                        break;
+                }
+            }
+
+            new CajaChicaBC().ModificarCajaChica(objCajaChicaBE);
+            EnviarMensajeParaAprobar(objCajaChicaBE.IdCajaChica, "Caja Chica", objCajaChicaBE.MontoGastado, txtAsunto.Text, objCajaChicaBE.CodigoCajaChica, ddlIdUsuarioSolicitante.SelectedItem.Text, objCajaChicaBE.Estado, objCajaChicaBE.IdEmpresa);
+
+            Response.Redirect("~/CajaChicas.aspx");
         }
         catch (Exception ex)
         {
@@ -899,11 +803,10 @@ public partial class CajaChica : System.Web.UI.Page
 
     #region Select Change
 
-    protected void ddlIdUsuarioSolicitante_SelectedIndexChanged(object sender, EventArgs e) { }
-
-    protected void ddlIdEmpresa_SelectedIndexChanged(object sender, EventArgs e)
+    protected void ddlIdEmpresa_SelectedIndexChanged1(object sender, EventArgs e)
     {
-        if (ddlIdEmpresa.SelectedValue != "0")
+        Int32 idEmpresa = Convert.ToInt32(ddlIdEmpresa.SelectedValue.ToString());
+        if (idEmpresa != 0)
         {
             ddlCentroCostos1.Enabled = true;
             ddlCentroCostos2.Enabled = true;
@@ -912,40 +815,8 @@ public partial class CajaChica : System.Web.UI.Page
             ddlCentroCostos5.Enabled = true;
             ddlIdMetodoPago.Enabled = true;
 
-            CentroCostosBC objCentroCostosBC = new CentroCostosBC();
-
-            ddlCentroCostos1.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 1);
-            ddlCentroCostos1.DataTextField = "Descripcion";
-            ddlCentroCostos1.DataValueField = "IdCentroCostos";
-            ddlCentroCostos1.DataBind();
-
-            ddlCentroCostos2.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 2);
-            ddlCentroCostos2.DataTextField = "Descripcion";
-            ddlCentroCostos2.DataValueField = "IdCentroCostos";
-            ddlCentroCostos2.DataBind();
-
-            ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 3);
-            ddlCentroCostos3.DataTextField = "Descripcion";
-            ddlCentroCostos3.DataValueField = "IdCentroCostos";
-            ddlCentroCostos3.DataBind();
-
-            ddlCentroCostos4.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 4);
-            ddlCentroCostos4.DataTextField = "Descripcion";
-            ddlCentroCostos4.DataValueField = "IdCentroCostos";
-            ddlCentroCostos4.DataBind();
-
-            ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 5);
-            ddlCentroCostos5.DataTextField = "Descripcion";
-            ddlCentroCostos5.DataValueField = "IdCentroCostos";
-            ddlCentroCostos5.DataBind();
-
-            MetodoPagoBC objMetodoPagoBC = new MetodoPagoBC();
-            ddlIdMetodoPago.DataSource = objMetodoPagoBC.ListarMetodoPago(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 1, 0);
-            ddlIdMetodoPago.DataTextField = "Descripcion";
-            ddlIdMetodoPago.DataValueField = "IdMetodoPago";
-            ddlIdMetodoPago.DataBind();
-
-
+            ListarCentroCostos(idEmpresa);
+            ListarMetodosPago(idEmpresa);
         }
         else
         {
@@ -959,15 +830,10 @@ public partial class CajaChica : System.Web.UI.Page
             ddlCentroCostos4.Enabled = false;
             ddlCentroCostos5.SelectedValue = "0";
             ddlCentroCostos5.Enabled = false;
+
             ddlIdMetodoPago.SelectedValue = "0";
             ddlIdMetodoPago.Enabled = false;
         }
-    }
-
-
-    protected void ddlMoneda_SelectedIndexChanged(object sender, EventArgs e)
-    {
-
     }
 
     #endregion
@@ -987,4 +853,5 @@ public partial class CajaChica : System.Web.UI.Page
     }
 
     #endregion
+
 }

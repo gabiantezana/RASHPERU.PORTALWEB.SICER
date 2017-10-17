@@ -29,13 +29,13 @@
    </tr>
    <tr>   
     <td align="left"><label>Usuario Solicitante</label></td>
-    <td align="left"><asp:DropDownList ID="ddlIdUsuarioSolicitante" runat="server" OnSelectedIndexChanged="ddlIdUsuarioSolicitante_SelectedIndexChanged" AutoPostBack="true" Width="95%" ></asp:DropDownList></td>
+    <td align="left"><asp:DropDownList ID="ddlIdUsuarioSolicitante" runat="server" AutoPostBack="true" Width="95%" ></asp:DropDownList></td>
     <td align="left"><label>Empresa</label></td>
-    <td align="left"><asp:DropDownList ID="ddlIdEmpresa" runat="server" OnSelectedIndexChanged="ddlIdEmpresa_SelectedIndexChanged" AutoPostBack="true" Width="95%" ></asp:DropDownList></td>
+    <td align="left"><asp:DropDownList ID="ddlIdEmpresa" runat="server" AutoPostBack="true" Width="95%" OnSelectedIndexChanged="ddlIdEmpresa_SelectedIndexChanged1" ></asp:DropDownList></td>
    </tr>
    <tr>
     <td align="left"><label>Moneda</label></td>
-    <td align="left"><asp:DropDownList ID="ddlMoneda" runat="server" Width="95%" OnSelectedIndexChanged="ddlMoneda_SelectedIndexChanged" ></asp:DropDownList></td>
+    <td align="left"><asp:DropDownList ID="ddlMoneda" runat="server" Width="95%" ></asp:DropDownList></td>
     <td align="left"><label>Monto</label></td>
     <td align="left">
      <asp:TextBox ID="txtMontoInicial" runat="server" Width="95%" MaxLength="20" ></asp:TextBox>
@@ -56,9 +56,9 @@
    </tr>
    <tr>
     <td align="left"><label>Centro Costo Nivel 3</label></td>
-    <td align="left"><asp:DropDownList ID="ddlCentroCostos3" runat="server" Width="95%" OnSelectedIndexChanged="ddlCentroCosto3_SelectedIndexChanged" AutoPostBack="true" ></asp:DropDownList></td>
+    <td align="left"><asp:DropDownList ID="ddlCentroCostos3" runat="server" Width="95%" AutoPostBack="true" ></asp:DropDownList></td>
     <td align="left"><label>Centro Costo Nivel 4</label></td>
-    <td align="left"><asp:DropDownList ID="ddlCentroCostos4" runat="server" Width="95%" OnSelectedIndexChanged="ddlCentroCosto4_SelectedIndexChanged" AutoPostBack="true" ></asp:DropDownList></td>
+    <td align="left"><asp:DropDownList ID="ddlCentroCostos4" runat="server" Width="95%" AutoPostBack="true" ></asp:DropDownList></td>
    </tr>
    <tr>  
     <td align="left"><label>Centro Costo Nivel 5</label></td>
