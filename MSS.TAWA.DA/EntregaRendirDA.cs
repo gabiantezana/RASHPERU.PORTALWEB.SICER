@@ -71,7 +71,7 @@ namespace MSS.TAWA.DA
                 pEsFacturable = new SqlParameter();
                 pEsFacturable.ParameterName = "@EsFacturable";
                 pEsFacturable.SqlDbType = SqlDbType.VarChar;
-                pEsFacturable.Value = EsFacturable;
+                pEsFacturable.Value = 0;
 
                 pEstado = new SqlParameter();
                 pEstado.ParameterName = "@Estado";
@@ -97,8 +97,8 @@ namespace MSS.TAWA.DA
                 while (sqlDR.Read())
                 {
                     objEntregaRendirBE = new EntregaRendirBE();
-                    objEntregaRendirBE.IdEntregaRendir = sqlDR.GetInt32(sqlDR.GetOrdinal("IdEntregaRendir"));
-                    objEntregaRendirBE.CodigoEntregaRendir = sqlDR.GetString(sqlDR.GetOrdinal("CodigoEntregaRendir"));
+                    objEntregaRendirBE.IdDocumento = sqlDR.GetInt32(sqlDR.GetOrdinal("IdEntregaRendir"));
+                    objEntregaRendirBE.CodigoDocumento = sqlDR.GetString(sqlDR.GetOrdinal("CodigoEntregaRendir"));
                     objEntregaRendirBE.IdEmpresa = sqlDR.GetInt32(sqlDR.GetOrdinal("IdEmpresa"));
                     objEntregaRendirBE.IdArea = sqlDR.GetInt32(sqlDR.GetOrdinal("IdArea"));
                     objEntregaRendirBE.IdUsuarioCreador = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioCreador"));
@@ -186,8 +186,8 @@ namespace MSS.TAWA.DA
                 while (sqlDR.Read())
                 {
                     objEntregaRendirBE = new EntregaRendirBE();
-                    objEntregaRendirBE.IdEntregaRendir = sqlDR.GetInt32(sqlDR.GetOrdinal("IdEntregaRendir"));
-                    objEntregaRendirBE.CodigoEntregaRendir = sqlDR.GetString(sqlDR.GetOrdinal("CodigoEntregaRendir"));
+                    objEntregaRendirBE.IdDocumento = sqlDR.GetInt32(sqlDR.GetOrdinal("IdEntregaRendir"));
+                    objEntregaRendirBE.CodigoDocumento = sqlDR.GetString(sqlDR.GetOrdinal("CodigoEntregaRendir"));
                     objEntregaRendirBE.IdEmpresa = sqlDR.GetInt32(sqlDR.GetOrdinal("IdEmpresa"));
                     objEntregaRendirBE.IdArea = sqlDR.GetInt32(sqlDR.GetOrdinal("IdArea"));
                     objEntregaRendirBE.IdUsuarioCreador = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioCreador"));
@@ -289,7 +289,7 @@ namespace MSS.TAWA.DA
                 pCodigoEntregaRendir.ParameterName = "@CodigoEntregaRendir";
                 pCodigoEntregaRendir.SqlDbType = SqlDbType.VarChar;
                 pCodigoEntregaRendir.Size = 100;
-                pCodigoEntregaRendir.Value = objBE.CodigoEntregaRendir;
+                pCodigoEntregaRendir.Value = objBE.CodigoDocumento;
 
                 pIdEmpresa = new SqlParameter();
                 pIdEmpresa.ParameterName = "@IdEmpresa";
@@ -362,7 +362,7 @@ namespace MSS.TAWA.DA
                 pMontoReembolsado.ParameterName = "@MontoReembolsado";
                 pMontoReembolsado.SqlDbType = SqlDbType.VarChar;
                 pMontoReembolsado.Size = 20;
-                pMontoReembolsado.Value = objBE.MontoReembolsado;                
+                pMontoReembolsado.Value = 0;                
 
                 pMontoActual = new SqlParameter();
                 pMontoActual.ParameterName = "@MontoActual";
@@ -380,13 +380,13 @@ namespace MSS.TAWA.DA
                 pEsFacturable.ParameterName = "@EsFacturable";
                 pEsFacturable.SqlDbType = SqlDbType.VarChar;
                 pEsFacturable.Size = 3;
-                pEsFacturable.Value = objBE.EsFacturable;
+                pEsFacturable.Value = 0;
 
                 pMomentoFacturable = new SqlParameter();
                 pMomentoFacturable.ParameterName = "@MomentoFacturable";
                 pMomentoFacturable.SqlDbType = SqlDbType.VarChar;
                 pMomentoFacturable.Size = 3;
-                pMomentoFacturable.Value = objBE.MomentoFacturable;
+                pMomentoFacturable.Value = 0;
 
                 pAsunto = new SqlParameter();
                 pAsunto.ParameterName = "@Asunto";
@@ -544,13 +544,13 @@ namespace MSS.TAWA.DA
                 prmIdEntregaRendir = new SqlParameter();
                 prmIdEntregaRendir.ParameterName = "@IdEntregaRendir";
                 prmIdEntregaRendir.SqlDbType = SqlDbType.Int;
-                prmIdEntregaRendir.Value = objBE.IdEntregaRendir;
+                prmIdEntregaRendir.Value = objBE.IdDocumento;
 
                 pCodigoEntregaRendir = new SqlParameter();
                 pCodigoEntregaRendir.ParameterName = "@CodigoEntregaRendir";
                 pCodigoEntregaRendir.SqlDbType = SqlDbType.VarChar;
                 pCodigoEntregaRendir.Size = 100;
-                pCodigoEntregaRendir.Value = objBE.CodigoEntregaRendir;
+                pCodigoEntregaRendir.Value = objBE.CodigoDocumento;
 
                 pIdEmpresa = new SqlParameter();
                 pIdEmpresa.ParameterName = "@IdEmpresa";
@@ -623,7 +623,7 @@ namespace MSS.TAWA.DA
                 pMontoReembolsado.ParameterName = "@MontoReembolsado";
                 pMontoReembolsado.SqlDbType = SqlDbType.VarChar;
                 pMontoReembolsado.Size = 20;
-                pMontoReembolsado.Value = objBE.MontoReembolsado;    
+                pMontoReembolsado.Value = 0;    
 
                 pMontoActual = new SqlParameter();
                 pMontoActual.ParameterName = "@MontoActual";
@@ -641,13 +641,13 @@ namespace MSS.TAWA.DA
                 pEsFacturable.ParameterName = "@EsFacturable";
                 pEsFacturable.SqlDbType = SqlDbType.VarChar;
                 pEsFacturable.Size = 3;
-                pEsFacturable.Value = objBE.EsFacturable;
+                pEsFacturable.Value = 0;
 
                 pMomentoFacturable = new SqlParameter();
                 pMomentoFacturable.ParameterName = "@MomentoFacturable";
                 pMomentoFacturable.SqlDbType = SqlDbType.VarChar;
                 pMomentoFacturable.Size = 3;
-                pMomentoFacturable.Value = objBE.MomentoFacturable;
+                pMomentoFacturable.Value = 0;
 
                 pAsunto = new SqlParameter();
                 pAsunto.ParameterName = "@Asunto";

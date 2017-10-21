@@ -7,7 +7,7 @@ namespace MSS.TAWA.BE
 {
     public class ConceptoBE
     {
-        int _IdConcepto;
+        String _IdConcepto;
         String _Descripcion;
         String _CuentaContable;
         String _UserCreate;
@@ -15,7 +15,7 @@ namespace MSS.TAWA.BE
         String _UserUpdate;
         DateTime _UpdateDate;
 
-        public int IdConcepto
+        public String IdConcepto
         {
             get { return _IdConcepto; }
             set { _IdConcepto = value; }

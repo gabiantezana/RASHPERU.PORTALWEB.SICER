@@ -54,8 +54,8 @@ namespace MSS.TAWA.DA
                 while (sqlDR.Read())
                 {
                     objReembolsoDocumentoBE = new ReembolsoDocumentoBE();
-                    objReembolsoDocumentoBE.IdReembolsoDocumento = sqlDR.GetInt32(sqlDR.GetOrdinal("IdReembolsoDocumento"));
-                    objReembolsoDocumentoBE.IdReembolso = sqlDR.GetInt32(sqlDR.GetOrdinal("IdReembolso"));
+                    objReembolsoDocumentoBE.IdDocumentoDetalle = sqlDR.GetInt32(sqlDR.GetOrdinal("IdReembolsoDocumento"));
+                    objReembolsoDocumentoBE.IdDocumento = sqlDR.GetInt32(sqlDR.GetOrdinal("IdReembolso"));
                     objReembolsoDocumentoBE.IdProveedor = sqlDR.GetInt32(sqlDR.GetOrdinal("IdProveedor"));
                     objReembolsoDocumentoBE.IdConcepto = sqlDR.GetInt32(sqlDR.GetOrdinal("IdConcepto"));
                     objReembolsoDocumentoBE.IdCentroCostos3 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos3"));
@@ -137,8 +137,8 @@ namespace MSS.TAWA.DA
                 while (sqlDR.Read())
                 {
                     objReembolsoDocumentoBE = new ReembolsoDocumentoBE();
-                    objReembolsoDocumentoBE.IdReembolsoDocumento = sqlDR.GetInt32(sqlDR.GetOrdinal("IdReembolsoDocumento"));
-                    objReembolsoDocumentoBE.IdReembolso = sqlDR.GetInt32(sqlDR.GetOrdinal("IdReembolso"));
+                    objReembolsoDocumentoBE.IdDocumentoDetalle = sqlDR.GetInt32(sqlDR.GetOrdinal("IdReembolsoDocumento"));
+                    objReembolsoDocumentoBE.IdDocumento = sqlDR.GetInt32(sqlDR.GetOrdinal("IdReembolso"));
                     objReembolsoDocumentoBE.IdProveedor = sqlDR.GetInt32(sqlDR.GetOrdinal("IdProveedor"));
                     objReembolsoDocumentoBE.IdConcepto = sqlDR.GetInt32(sqlDR.GetOrdinal("IdConcepto"));
                     objReembolsoDocumentoBE.IdCentroCostos3 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos3"));
@@ -227,7 +227,7 @@ namespace MSS.TAWA.DA
                 pIdReembolso = new SqlParameter();
                 pIdReembolso.ParameterName = "@IdReembolso";
                 pIdReembolso.SqlDbType = SqlDbType.Int;
-                pIdReembolso.Value = objBE.IdReembolso;
+                pIdReembolso.Value = objBE.IdDocumento;
 
                 pIdProveedor = new SqlParameter();
                 pIdProveedor.ParameterName = "@IdProveedor";
@@ -439,12 +439,12 @@ namespace MSS.TAWA.DA
                 pIdReembolsoDocumento = new SqlParameter();
                 pIdReembolsoDocumento.ParameterName = "@IdReembolsoDocumento";
                 pIdReembolsoDocumento.SqlDbType = SqlDbType.Int;
-                pIdReembolsoDocumento.Value = objBE.IdReembolsoDocumento;
+                pIdReembolsoDocumento.Value = objBE.IdDocumentoDetalle;
 
                 pIdReembolso = new SqlParameter();
                 pIdReembolso.ParameterName = "@IdReembolso";
                 pIdReembolso.SqlDbType = SqlDbType.Int;
-                pIdReembolso.Value = objBE.IdReembolso;
+                pIdReembolso.Value = objBE.IdDocumento;
 
                 pIdProveedor = new SqlParameter();
                 pIdProveedor.ParameterName = "@IdProveedor";

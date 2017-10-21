@@ -10,7 +10,7 @@ namespace MSS.TAWA.BC
 {
     public class EntregaRendirBC
     {
-        public List<EntregaRendirBE> ListarEntregaRendir(int IdUsuario, int Tipo, int Tipo2, String CodigoDocumento, String Dni, String NombreSolicitante, String EsFacturable, String Estado)
+        public List<EntregaRendirBE> ListarDocumentos(int IdUsuario, int Tipo, int Tipo2, String CodigoDocumento, String Dni, String NombreSolicitante, String EsFacturable, String Estado)
         {
             try
             {
@@ -23,7 +23,7 @@ namespace MSS.TAWA.BC
             }
         }
 
-        public EntregaRendirBE ObtenerEntregaRendir(int IdEntregaRendir, int Tipo)
+        public EntregaRendirBE ObtenerDocumento(int IdEntregaRendir, int Tipo)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace MSS.TAWA.BC
             }
         }
 
-        public int InsertarEntregaRendir(EntregaRendirBE objBE)
+        public int InsertarDocumento(EntregaRendirBE objBE)
         {
             try
             {
@@ -49,7 +49,7 @@ namespace MSS.TAWA.BC
             }
         }
 
-        public void ModificarEntregaRendir(EntregaRendirBE objBE)
+        public void ModificarDocumento(EntregaRendirBE objBE)
         {
             try
             {

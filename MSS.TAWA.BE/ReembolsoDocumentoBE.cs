@@ -35,12 +35,12 @@ namespace MSS.TAWA.BE
         DateTime _UpdateDate;
         String _PartidaPresupuestal;
 
-        public int IdReembolsoDocumento
+        public int IdDocumentoDetalle
         {
             get { return _IdReembolsoDocumento; }
             set { _IdReembolsoDocumento = value; }
         }
-        public int IdReembolso
+        public int IdDocumento
         {
             get { return _IdReembolso; }
             set { _IdReembolso = value; }

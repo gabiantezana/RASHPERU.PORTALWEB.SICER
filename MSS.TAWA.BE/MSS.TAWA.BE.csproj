@@ -43,8 +43,9 @@
     <Compile Include="AprobacionBE.cs" />
     <Compile Include="AreaBE.cs" />
     <Compile Include="BancoBE.cs" />
-    <Compile Include="CajaChicaBE.cs" />
-    <Compile Include="CajaChicaDocumentoBE.cs" />
+    <Compile Include="CuentaContableDevolucionBE.cs" />
+    <Compile Include="DocumentBE.cs" />
+    <Compile Include="DocumentDetailBE.cs" />
     <Compile Include="CentroCostosBE.cs" />
     <Compile Include="ConceptoBE.cs" />
     <Compile Include="Helper\ExceptionHelper.cs" />
@@ -54,22 +55,25 @@
     <Compile Include="EstadoBE.cs" />
     <Compile Include="DocumentoBE.cs" />
     <Compile Include="EmpresaBE.cs" />
-    <Compile Include="EntregaRendirBE.cs" />
-    <Compile Include="EntregaRendirDocumentoBE.cs" />
     <Compile Include="GrupoTrabajoBE.cs" />
     <Compile Include="MetodoPagoBE.cs" />
     <Compile Include="MonedaBE.cs" />
     <Compile Include="MotivoBE.cs" />
     <Compile Include="NivelAprobacionBE.cs" />
+    <Compile Include="PartidaPresupuestalBE.cs" />
     <Compile Include="PerfilUsuarioBE.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProveedorBE.cs" />
-    <Compile Include="ReembolsoBE.cs" />
-    <Compile Include="ReembolsoDocumentoBE.cs" />
     <Compile Include="RendicionBE.cs" />
     <Compile Include="ReporteBE.cs" />
     <Compile Include="UsuarioAreaNivelBE.cs" />
     <Compile Include="UsuarioBE.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MSS.TAWA.HP\MSS.TAWA.HP.csproj">
+      <Project>{b1805497-4160-424a-8cb5-ddde29a6a820}</Project>
+      <Name>MSS.TAWA.HP</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

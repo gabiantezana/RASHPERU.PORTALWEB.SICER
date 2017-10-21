@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 using MSS.TAWA.BC;
 using MSS.TAWA.BE;
-using MssTawaCer.App_Code.Helper;
+using MSS.TAWA.HP;
 
 public partial class PerfilUsuario : System.Web.UI.Page
 {

@@ -13,7 +13,7 @@ namespace MSS.TAWA.DA
     public class CajaChicaDocumentoDA
     {
         // Listar CajaChicaDocumento
-        public List<CajaChicaDocumentoBE> ListarCajaChicaDocumento(int Id, int Tipo, int Tipo2)
+        public List<DocumentDetailBE> ListarCajaChicaDocumento(int Id, int Tipo, int Tipo2)
         {
             SqlConnection sqlConn;
             String strConn;
@@ -55,20 +55,20 @@ namespace MSS.TAWA.DA
                 sqlCmd.Connection.Open();
                 sqlDR = sqlCmd.ExecuteReader();
 
-                List<CajaChicaDocumentoBE> lstCajaChicaDocumentoBE;
-                CajaChicaDocumentoBE objCajaChicaDocumentoBE;
-                lstCajaChicaDocumentoBE = new List<CajaChicaDocumentoBE>();
+                List<DocumentDetailBE> lstCajaChicaDocumentoBE;
+                DocumentDetailBE objCajaChicaDocumentoBE;
+                lstCajaChicaDocumentoBE = new List<DocumentDetailBE>();
 
                 while (sqlDR.Read())
                 {
-                    objCajaChicaDocumentoBE = new CajaChicaDocumentoBE();
-                    objCajaChicaDocumentoBE.IdCajaChicaDocumento = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCajaChicaDocumento"));
-                    objCajaChicaDocumentoBE.IdCajaChica = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCajaChica"));                    
+                    objCajaChicaDocumentoBE = new DocumentDetailBE();
+                    objCajaChicaDocumentoBE.IdDocumentoDetalle = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCajaChicaDocumento"));
+                    objCajaChicaDocumentoBE.IdDocumento = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCajaChica"));                    
                     objCajaChicaDocumentoBE.IdProveedor = sqlDR.GetInt32(sqlDR.GetOrdinal("IdProveedor"));
-                    objCajaChicaDocumentoBE.IdConcepto = sqlDR.GetInt32(sqlDR.GetOrdinal("IdConcepto"));
-                    objCajaChicaDocumentoBE.IdCentroCostos3 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos3"));
-                    objCajaChicaDocumentoBE.IdCentroCostos4 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos4"));
-                    objCajaChicaDocumentoBE.IdCentroCostos5 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos5"));
+                    objCajaChicaDocumentoBE.IdConcepto = sqlDR.GetString(sqlDR.GetOrdinal("IdConcepto"));
+                    objCajaChicaDocumentoBE.IdCentroCostos3 = sqlDR.GetString(sqlDR.GetOrdinal("IdCentroCostos3"));
+                    objCajaChicaDocumentoBE.IdCentroCostos4 = sqlDR.GetString(sqlDR.GetOrdinal("IdCentroCostos4"));
+                    objCajaChicaDocumentoBE.IdCentroCostos5 = sqlDR.GetString(sqlDR.GetOrdinal("IdCentroCostos5"));
                     objCajaChicaDocumentoBE.Rendicion = sqlDR.GetInt32(sqlDR.GetOrdinal("Rendicion"));
                     objCajaChicaDocumentoBE.TipoDoc = sqlDR.GetString(sqlDR.GetOrdinal("TipoDoc"));
                     objCajaChicaDocumentoBE.SerieDoc = sqlDR.GetString(sqlDR.GetOrdinal("SerieDoc"));
@@ -106,7 +106,7 @@ namespace MSS.TAWA.DA
         }
 
         // Obtener CajaChicaDocumento
-        public CajaChicaDocumentoBE ObtenerCajaChicaDocumento(int Id, int Tipo)
+        public DocumentDetailBE ObtenerCajaChicaDocumento(int Id, int Tipo)
         {
             SqlConnection sqlConn;
             String strConn;
@@ -141,21 +141,21 @@ namespace MSS.TAWA.DA
                 sqlCmd.Connection.Open();
                 sqlDR = sqlCmd.ExecuteReader();
 
-                CajaChicaDocumentoBE objCajaChicaDocumentoBE;
+                DocumentDetailBE objCajaChicaDocumentoBE;
                 objCajaChicaDocumentoBE = null;
 
                 while (sqlDR.Read())
                 {
-                    objCajaChicaDocumentoBE = new CajaChicaDocumentoBE();
-                    objCajaChicaDocumentoBE.IdCajaChicaDocumento = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCajaChicaDocumento"));
-                    objCajaChicaDocumentoBE.IdCajaChica = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCajaChica"));
+                    objCajaChicaDocumentoBE = new DocumentDetailBE();
+                    objCajaChicaDocumentoBE.IdDocumentoDetalle = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCajaChicaDocumento"));
+                    objCajaChicaDocumentoBE.IdDocumento = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCajaChica"));
                     objCajaChicaDocumentoBE.IdProveedor = sqlDR.GetInt32(sqlDR.GetOrdinal("IdProveedor"));
-                    objCajaChicaDocumentoBE.IdConcepto = sqlDR.GetInt32(sqlDR.GetOrdinal("IdConcepto"));
-                    objCajaChicaDocumentoBE.IdCentroCostos1 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos1"));
-                    objCajaChicaDocumentoBE.IdCentroCostos2 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos2"));
-                    objCajaChicaDocumentoBE.IdCentroCostos3 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos3"));
-                    objCajaChicaDocumentoBE.IdCentroCostos4 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos4"));
-                    objCajaChicaDocumentoBE.IdCentroCostos5 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos5"));
+                    objCajaChicaDocumentoBE.IdConcepto = sqlDR.GetString(sqlDR.GetOrdinal("IdConcepto"));
+                    objCajaChicaDocumentoBE.IdCentroCostos1 = sqlDR.GetString(sqlDR.GetOrdinal("IdCentroCostos1"));
+                    objCajaChicaDocumentoBE.IdCentroCostos2 = sqlDR.GetString(sqlDR.GetOrdinal("IdCentroCostos2"));
+                    objCajaChicaDocumentoBE.IdCentroCostos3 = sqlDR.GetString(sqlDR.GetOrdinal("IdCentroCostos3"));
+                    objCajaChicaDocumentoBE.IdCentroCostos4 = sqlDR.GetString(sqlDR.GetOrdinal("IdCentroCostos4"));
+                    objCajaChicaDocumentoBE.IdCentroCostos5 = sqlDR.GetString(sqlDR.GetOrdinal("IdCentroCostos5"));
                     objCajaChicaDocumentoBE.TipoDoc = sqlDR.GetString(sqlDR.GetOrdinal("TipoDoc"));
                     objCajaChicaDocumentoBE.SerieDoc = sqlDR.GetString(sqlDR.GetOrdinal("SerieDoc"));
                     objCajaChicaDocumentoBE.CorrelativoDoc = sqlDR.GetString(sqlDR.GetOrdinal("CorrelativoDoc"));
@@ -193,7 +193,7 @@ namespace MSS.TAWA.DA
 
 
         // Insertar CajaChicaDocumento
-        public int InsertarCajaChicaDocumento(CajaChicaDocumentoBE objBE)
+        public int InsertarCajaChicaDocumento(DocumentDetailBE objBE)
         {
             SqlConnection sqlConn;
             String strConn;
@@ -245,7 +245,7 @@ namespace MSS.TAWA.DA
                 pIdCajaChica = new SqlParameter();
                 pIdCajaChica.ParameterName = "@IdCajaChica";
                 pIdCajaChica.SqlDbType = SqlDbType.Int;
-                pIdCajaChica.Value = objBE.IdCajaChica;
+                pIdCajaChica.Value = objBE.IdDocumento;
 
                 pIdProveedor = new SqlParameter();
                 pIdProveedor.ParameterName = "@IdProveedor";
@@ -254,32 +254,32 @@ namespace MSS.TAWA.DA
 
                 pIdConcepto = new SqlParameter();
                 pIdConcepto.ParameterName = "@IdConcepto";
-                pIdConcepto.SqlDbType = SqlDbType.Int;
+                pIdConcepto.SqlDbType = SqlDbType.NVarChar;
                 pIdConcepto.Value = objBE.IdConcepto;
 
                 pIdCentroCostos1 = new SqlParameter();
                 pIdCentroCostos1.ParameterName = "@IdCentroCostos1";
-                pIdCentroCostos1.SqlDbType = SqlDbType.Int;
+                pIdCentroCostos1.SqlDbType = SqlDbType.NVarChar;
                 pIdCentroCostos1.Value = objBE.IdCentroCostos1;
 
                 pIdCentroCostos2 = new SqlParameter();
                 pIdCentroCostos2.ParameterName = "@IdCentroCostos2";
-                pIdCentroCostos2.SqlDbType = SqlDbType.Int;
+                pIdCentroCostos2.SqlDbType = SqlDbType.NVarChar;
                 pIdCentroCostos2.Value = objBE.IdCentroCostos2;
 
                 pIdCentroCostos3 = new SqlParameter();
                 pIdCentroCostos3.ParameterName = "@IdCentroCostos3";
-                pIdCentroCostos3.SqlDbType = SqlDbType.Int;
+                pIdCentroCostos3.SqlDbType = SqlDbType.NVarChar;
                 pIdCentroCostos3.Value = objBE.IdCentroCostos3;
 
                 pIdCentroCostos4 = new SqlParameter();
                 pIdCentroCostos4.ParameterName = "@IdCentroCostos4";
-                pIdCentroCostos4.SqlDbType = SqlDbType.Int;
+                pIdCentroCostos4.SqlDbType = SqlDbType.NVarChar;
                 pIdCentroCostos4.Value = objBE.IdCentroCostos4;
 
                 pIdCentroCostos5 = new SqlParameter();
                 pIdCentroCostos5.ParameterName = "@IdCentroCostos5";
-                pIdCentroCostos5.SqlDbType = SqlDbType.Int;
+                pIdCentroCostos5.SqlDbType = SqlDbType.NVarChar;
                 pIdCentroCostos5.Value = objBE.IdCentroCostos5;
                 
                 pTipoDoc = new SqlParameter();
@@ -432,7 +432,7 @@ namespace MSS.TAWA.DA
         }
 
         // Modificar CajaChicaDocumento
-        public void ModificarCajaChicaDocumento(CajaChicaDocumentoBE objBE)
+        public void ModificarCajaChicaDocumento(DocumentDetailBE objBE)
         {
             SqlConnection sqlConn;
             String strConn;
@@ -443,6 +443,8 @@ namespace MSS.TAWA.DA
             SqlParameter pIdCajaChica;
             SqlParameter pIdProveedor;
             SqlParameter pIdConcepto;
+            SqlParameter pIdCentroCostos1;
+            SqlParameter pIdCentroCostos2;
             SqlParameter pIdCentroCostos3;
             SqlParameter pIdCentroCostos4;
             SqlParameter pIdCentroCostos5;
@@ -477,12 +479,12 @@ namespace MSS.TAWA.DA
                 pIdCajaChicaDocumento = new SqlParameter();
                 pIdCajaChicaDocumento.ParameterName = "@IdCajaChicaDocumento";
                 pIdCajaChicaDocumento.SqlDbType = SqlDbType.Int;
-                pIdCajaChicaDocumento.Value = objBE.IdCajaChicaDocumento;
+                pIdCajaChicaDocumento.Value = objBE.IdDocumentoDetalle;
 
                 pIdCajaChica = new SqlParameter();
                 pIdCajaChica.ParameterName = "@IdCajaChica";
                 pIdCajaChica.SqlDbType = SqlDbType.Int;
-                pIdCajaChica.Value = objBE.IdCajaChica;
+                pIdCajaChica.Value = objBE.IdDocumento;
 
                 pIdProveedor = new SqlParameter();
                 pIdProveedor.ParameterName = "@IdProveedor";
@@ -491,22 +493,32 @@ namespace MSS.TAWA.DA
 
                 pIdConcepto = new SqlParameter();
                 pIdConcepto.ParameterName = "@IdConcepto";
-                pIdConcepto.SqlDbType = SqlDbType.Int;
+                pIdConcepto.SqlDbType = SqlDbType.NVarChar;
                 pIdConcepto.Value = objBE.IdConcepto;
+
+                pIdCentroCostos1 = new SqlParameter();
+                pIdCentroCostos1.ParameterName = "@IdCentroCostos1";
+                pIdCentroCostos1.SqlDbType = SqlDbType.NVarChar;
+                pIdCentroCostos1.Value = objBE.IdCentroCostos1;
+
+                pIdCentroCostos2 = new SqlParameter();
+                pIdCentroCostos2.ParameterName = "@IdCentroCostos2";
+                pIdCentroCostos2.SqlDbType = SqlDbType.NVarChar;
+                pIdCentroCostos2.Value = objBE.IdCentroCostos1;
 
                 pIdCentroCostos3 = new SqlParameter();
                 pIdCentroCostos3.ParameterName = "@IdCentroCostos3";
-                pIdCentroCostos3.SqlDbType = SqlDbType.Int;
+                pIdCentroCostos3.SqlDbType = SqlDbType.NVarChar;
                 pIdCentroCostos3.Value = objBE.IdCentroCostos3;
 
                 pIdCentroCostos4 = new SqlParameter();
                 pIdCentroCostos4.ParameterName = "@IdCentroCostos4";
-                pIdCentroCostos4.SqlDbType = SqlDbType.Int;
+                pIdCentroCostos4.SqlDbType = SqlDbType.NVarChar;
                 pIdCentroCostos4.Value = objBE.IdCentroCostos4;
 
                 pIdCentroCostos5 = new SqlParameter();
                 pIdCentroCostos5.ParameterName = "@IdCentroCostos5";
-                pIdCentroCostos5.SqlDbType = SqlDbType.Int;
+                pIdCentroCostos5.SqlDbType = SqlDbType.NVarChar;
                 pIdCentroCostos5.Value = objBE.IdCentroCostos5;
 
                 pTipoDoc = new SqlParameter();
@@ -616,6 +628,8 @@ namespace MSS.TAWA.DA
                 sqlCmd.Parameters.Add(pIdCajaChica);
                 sqlCmd.Parameters.Add(pIdProveedor);
                 sqlCmd.Parameters.Add(pIdConcepto);
+                sqlCmd.Parameters.Add(pIdCentroCostos1);
+                sqlCmd.Parameters.Add(pIdCentroCostos2);
                 sqlCmd.Parameters.Add(pIdCentroCostos3);
                 sqlCmd.Parameters.Add(pIdCentroCostos4);
                 sqlCmd.Parameters.Add(pIdCentroCostos5);

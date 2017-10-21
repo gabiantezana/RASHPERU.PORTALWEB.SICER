@@ -54,8 +54,8 @@ namespace MSS.TAWA.DA
                 while (sqlDR.Read())
                 {
                     objEntregaRendirDocumentoBE = new EntregaRendirDocumentoBE();
-                    objEntregaRendirDocumentoBE.IdEntregaRendirDocumento = sqlDR.GetInt32(sqlDR.GetOrdinal("IdEntregaRendirDocumento"));
-                    objEntregaRendirDocumentoBE.IdEntregaRendir = sqlDR.GetInt32(sqlDR.GetOrdinal("IdEntregaRendir"));
+                    objEntregaRendirDocumentoBE.IdDocumentoDetalle = sqlDR.GetInt32(sqlDR.GetOrdinal("IdEntregaRendirDocumento"));
+                    objEntregaRendirDocumentoBE.IdDocumento = sqlDR.GetInt32(sqlDR.GetOrdinal("IdEntregaRendir"));
                     objEntregaRendirDocumentoBE.IdProveedor = sqlDR.GetInt32(sqlDR.GetOrdinal("IdProveedor"));
                     objEntregaRendirDocumentoBE.IdConcepto = sqlDR.GetInt32(sqlDR.GetOrdinal("IdConcepto"));
                     objEntregaRendirDocumentoBE.IdCentroCostos3 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos3"));
@@ -137,8 +137,8 @@ namespace MSS.TAWA.DA
                 while (sqlDR.Read())
                 {
                     objEntregaRendirDocumentoBE = new EntregaRendirDocumentoBE();
-                    objEntregaRendirDocumentoBE.IdEntregaRendirDocumento = sqlDR.GetInt32(sqlDR.GetOrdinal("IdEntregaRendirDocumento"));
-                    objEntregaRendirDocumentoBE.IdEntregaRendir = sqlDR.GetInt32(sqlDR.GetOrdinal("IdEntregaRendir"));
+                    objEntregaRendirDocumentoBE.IdDocumentoDetalle = sqlDR.GetInt32(sqlDR.GetOrdinal("IdEntregaRendirDocumento"));
+                    objEntregaRendirDocumentoBE.IdDocumento = sqlDR.GetInt32(sqlDR.GetOrdinal("IdEntregaRendir"));
                     objEntregaRendirDocumentoBE.IdProveedor = sqlDR.GetInt32(sqlDR.GetOrdinal("IdProveedor"));
                     objEntregaRendirDocumentoBE.IdConcepto = sqlDR.GetInt32(sqlDR.GetOrdinal("IdConcepto"));
                     objEntregaRendirDocumentoBE.IdCentroCostos3 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos3"));
@@ -227,7 +227,7 @@ namespace MSS.TAWA.DA
                 pIdEntregaRendir = new SqlParameter();
                 pIdEntregaRendir.ParameterName = "@IdEntregaRendir";
                 pIdEntregaRendir.SqlDbType = SqlDbType.Int;
-                pIdEntregaRendir.Value = objBE.IdEntregaRendir;
+                pIdEntregaRendir.Value = objBE.IdDocumento;
 
                 pIdProveedor = new SqlParameter();
                 pIdProveedor.ParameterName = "@IdProveedor";
@@ -439,12 +439,12 @@ namespace MSS.TAWA.DA
                 pIdEntregaRendirDocumento = new SqlParameter();
                 pIdEntregaRendirDocumento.ParameterName = "@IdEntregaRendirDocumento";
                 pIdEntregaRendirDocumento.SqlDbType = SqlDbType.Int;
-                pIdEntregaRendirDocumento.Value = objBE.IdEntregaRendirDocumento;
+                pIdEntregaRendirDocumento.Value = objBE.IdDocumentoDetalle;
 
                 pIdEntregaRendir = new SqlParameter();
                 pIdEntregaRendir.ParameterName = "@IdEntregaRendir";
                 pIdEntregaRendir.SqlDbType = SqlDbType.Int;
-                pIdEntregaRendir.Value = objBE.IdEntregaRendir;
+                pIdEntregaRendir.Value = objBE.IdDocumento;
 
                 pIdProveedor = new SqlParameter();
                 pIdProveedor.ParameterName = "@IdProveedor";

@@ -7,8 +7,8 @@ namespace MSS.TAWA.BE
 {
     public class CentroCostosBE
     {
-        int _IdCentroCostos;
-        int _Nivel;
+        String _IdCentroCostos;
+        Int32 _Nivel;
         String _CodigoSAP;
         String _Descripcion;
         int _IdEmpresa;
@@ -18,12 +18,12 @@ namespace MSS.TAWA.BE
         String _UserUpdate;
         DateTime _UpdateDate;
 
-        public int IdCentroCostos
+        public String IdCentroCostos
         {
             get { return _IdCentroCostos; }
             set { _IdCentroCostos = value; }
         }
-        public int Nivel
+        public Int32 Nivel
         {
             get { return _Nivel; }
             set { _Nivel = value; }

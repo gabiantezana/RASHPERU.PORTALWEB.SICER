@@ -39,18 +39,12 @@ namespace MSS.TAWA.DA
                 pId.Value = IdEmpresa;
 
                 pTipo = new SqlParameter();
-                pTipo.ParameterName = "@Tipo";
+                pTipo.ParameterName = "@Nivel";
                 pTipo.SqlDbType = SqlDbType.Int;
                 pTipo.Value = Tipo;
 
-                pTipo2 = new SqlParameter();
-                pTipo2.ParameterName = "@Tipo2";
-                pTipo2.SqlDbType = SqlDbType.Int;
-                pTipo2.Value = 0;
-
                 sqlCmd.Parameters.Add(pId);
                 sqlCmd.Parameters.Add(pTipo);
-                sqlCmd.Parameters.Add(pTipo2);
 
                 sqlCmd.Connection.Open();
                 sqlDR = sqlCmd.ExecuteReader();
@@ -62,16 +56,19 @@ namespace MSS.TAWA.DA
                 while (sqlDR.Read())
                 {
                     objCentroCostosBE = new CentroCostosBE();
-                    objCentroCostosBE.IdCentroCostos = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos"));
+                    objCentroCostosBE.IdCentroCostos = sqlDR.GetString(sqlDR.GetOrdinal("IdCentroCostos"));
                     objCentroCostosBE.Nivel = sqlDR.GetInt32(sqlDR.GetOrdinal("Nivel"));
                     objCentroCostosBE.CodigoSAP = sqlDR.GetString(sqlDR.GetOrdinal("CodigoSAP"));
-                    objCentroCostosBE.Descripcion = sqlDR.GetString(sqlDR.GetOrdinal("Descripcion"));
+                    if (!sqlDR.IsDBNull(sqlDR.GetOrdinal("Descripcion")))
+                        objCentroCostosBE.Descripcion = sqlDR.GetString(sqlDR.GetOrdinal("Descripcion"));
+                    else
+                        objCentroCostosBE.Descripcion = String.Empty;
                     objCentroCostosBE.IdEmpresa = sqlDR.GetInt32(sqlDR.GetOrdinal("IdEmpresa"));
-                    objCentroCostosBE.Concepto = sqlDR.GetString(sqlDR.GetOrdinal("Concepto"));
-                    objCentroCostosBE.UserCreate = sqlDR.GetString(sqlDR.GetOrdinal("UserCreate"));
-                    objCentroCostosBE.CreateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("CreateDate"));
-                    objCentroCostosBE.UserUpdate = sqlDR.GetString(sqlDR.GetOrdinal("UserUpdate"));
-                    objCentroCostosBE.UpdateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("UpdateDate"));
+                    //objCentroCostosBE.Concepto = sqlDR.GetString(sqlDR.GetOrdinal("Concepto"));
+                    //objCentroCostosBE.UserCreate = sqlDR.GetString(sqlDR.GetOrdinal("UserCreate"));
+                    //objCentroCostosBE.CreateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("CreateDate"));
+                    //objCentroCostosBE.UserUpdate = sqlDR.GetString(sqlDR.GetOrdinal("UserUpdate"));
+                    //objCentroCostosBE.UpdateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("UpdateDate"));
                     lstCentroCostosBE.Add(objCentroCostosBE);
                 }
 
@@ -90,7 +87,7 @@ namespace MSS.TAWA.DA
         }
 
         // Obtener CentroCostosNivel5
-        public CentroCostosBE ObtenerCentroCostos(int CodigoSAP)
+        public CentroCostosBE ObtenerCentroCostos(String CodigoSAP)
         {
             SqlConnection sqlConn;
             String strConn;
@@ -109,8 +106,8 @@ namespace MSS.TAWA.DA
                 sqlCmd.CommandType = CommandType.StoredProcedure;
 
                 pId = new SqlParameter();
-                pId.ParameterName = "@Id";
-                pId.SqlDbType = SqlDbType.Int;
+                pId.ParameterName = "@OcrCode";
+                pId.SqlDbType = SqlDbType.NVarChar;
                 pId.Value = CodigoSAP;
                 sqlCmd.Parameters.Add(pId);
 
@@ -123,16 +120,16 @@ namespace MSS.TAWA.DA
                 while (sqlDR.Read())
                 {
                     objCentroCostosBE = new CentroCostosBE();
-                    objCentroCostosBE.IdCentroCostos = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos"));
+                    objCentroCostosBE.IdCentroCostos = sqlDR.GetString(sqlDR.GetOrdinal("IdCentroCostos"));
                     objCentroCostosBE.Nivel = sqlDR.GetInt32(sqlDR.GetOrdinal("Nivel"));
                     objCentroCostosBE.CodigoSAP = sqlDR.GetString(sqlDR.GetOrdinal("CodigoSAP"));
                     objCentroCostosBE.Descripcion = sqlDR.GetString(sqlDR.GetOrdinal("Descripcion"));
                     objCentroCostosBE.IdEmpresa = sqlDR.GetInt32(sqlDR.GetOrdinal("IdEmpresa"));
                     objCentroCostosBE.Concepto = sqlDR.GetString(sqlDR.GetOrdinal("Concepto"));
-                    objCentroCostosBE.UserCreate = sqlDR.GetString(sqlDR.GetOrdinal("UserCreate"));
-                    objCentroCostosBE.CreateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("CreateDate"));
-                    objCentroCostosBE.UserUpdate = sqlDR.GetString(sqlDR.GetOrdinal("UserUpdate"));
-                    objCentroCostosBE.UpdateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("UpdateDate"));
+                    //objCentroCostosBE.UserCreate = sqlDR.GetString(sqlDR.GetOrdinal("UserCreate"));
+                    //objCentroCostosBE.CreateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("CreateDate"));
+                    //objCentroCostosBE.UserUpdate = sqlDR.GetString(sqlDR.GetOrdinal("UserUpdate"));
+                    //objCentroCostosBE.UpdateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("UpdateDate"));
                 }
 
                 sqlCmd.Connection.Close();

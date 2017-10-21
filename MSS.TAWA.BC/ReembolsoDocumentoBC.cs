@@ -10,7 +10,7 @@ namespace MSS.TAWA.BC
 {
     public class ReembolsoDocumentoBC
     {
-        public List<ReembolsoDocumentoBE> ListarReembolsoDocumento(int Id, int Tipo)
+        public List<ReembolsoDocumentoBE> ListarDocumentoDetalles(int Id, int Tipo)
         {
             try
             {
@@ -24,7 +24,7 @@ namespace MSS.TAWA.BC
             }
         }
 
-        public ReembolsoDocumentoBE ObtenerReembolsoDocumento(int Id, int Tipo)
+        public ReembolsoDocumentoBE ObtenerDocumentoDetalle(int Id, int Tipo)
         {
             try
             {
@@ -37,7 +37,7 @@ namespace MSS.TAWA.BC
             }
         }
 
-        public int InsertarReembolsoDocumento(ReembolsoDocumentoBE objBE)
+        public int InsertarDocumentoDetalle(ReembolsoDocumentoBE objBE)
         {
             try
             {
@@ -50,7 +50,7 @@ namespace MSS.TAWA.BC
             }
         }
 
-        public void ModificarReembolsoDocumento(ReembolsoDocumentoBE objBE)
+        public void ModificarDocumentoDetalle(ReembolsoDocumentoBE objBE)
         {
             try
             {
@@ -63,7 +63,7 @@ namespace MSS.TAWA.BC
             }
         }
 
-        public void EliminarReembolsoDocumento(int IdReembolsoDocumento)
+        public void EliminarDocumentoDetalle(int IdReembolsoDocumento)
         {
             try
             {

@@ -13,7 +13,7 @@ namespace MSS.TAWA.DA
     public class ConceptoDA
     {
         // Listar Concepto
-        public List<ConceptoBE> ListarConcepto(int Id, int Tipo)
+        public List<ConceptoBE> ListarConcepto()
         {
             SqlConnection sqlConn;
             String strConn;
@@ -32,19 +32,6 @@ namespace MSS.TAWA.DA
                 sqlCmd = new SqlCommand(strSP, sqlConn);
                 sqlCmd.CommandType = CommandType.StoredProcedure;
 
-                pId = new SqlParameter();
-                pId.ParameterName = "@Id";
-                pId.SqlDbType = SqlDbType.Int;
-                pId.Value = Id;
-
-                pTipo = new SqlParameter();
-                pTipo.ParameterName = "@Tipo";
-                pTipo.SqlDbType = SqlDbType.Int;
-                pTipo.Value = Tipo;
-
-                sqlCmd.Parameters.Add(pId);
-                sqlCmd.Parameters.Add(pTipo);
-
                 sqlCmd.Connection.Open();
                 sqlDR = sqlCmd.ExecuteReader();
 
@@ -55,13 +42,13 @@ namespace MSS.TAWA.DA
                 while (sqlDR.Read())
                 {
                     objConceptoBE = new ConceptoBE();
-                    objConceptoBE.IdConcepto = sqlDR.GetInt32(sqlDR.GetOrdinal("IdConcepto"));
+                    objConceptoBE.IdConcepto = sqlDR.GetString(sqlDR.GetOrdinal("IdConcepto"));
                     objConceptoBE.Descripcion = sqlDR.GetString(sqlDR.GetOrdinal("Descripcion"));
                     objConceptoBE.CuentaContable = sqlDR.GetString(sqlDR.GetOrdinal("CuentaContable"));
-                    objConceptoBE.UserCreate = sqlDR.GetString(sqlDR.GetOrdinal("UserCreate"));
-                    objConceptoBE.CreateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("CreateDate"));
-                    objConceptoBE.UserUpdate = sqlDR.GetString(sqlDR.GetOrdinal("UserUpdate"));
-                    objConceptoBE.UpdateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("UpdateDate"));
+                    //objConceptoBE.UserCreate = sqlDR.GetString(sqlDR.GetOrdinal("UserCreate"));
+                    //objConceptoBE.CreateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("CreateDate"));
+                    //objConceptoBE.UserUpdate = sqlDR.GetString(sqlDR.GetOrdinal("UserUpdate"));
+                    //objConceptoBE.UpdateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("UpdateDate"));
                     lstConceptoBE.Add(objConceptoBE);
                 }
 
@@ -80,7 +67,7 @@ namespace MSS.TAWA.DA
         }
 
         // Obtener Concepto
-        public ConceptoBE ObtenerConcepto(int Id)
+        public ConceptoBE ObtenerConcepto(String codigo)
         {
             SqlConnection sqlConn;
             String strConn;
@@ -99,9 +86,9 @@ namespace MSS.TAWA.DA
                 sqlCmd.CommandType = CommandType.StoredProcedure;
 
                 pId = new SqlParameter();
-                pId.ParameterName = "@Id";
-                pId.SqlDbType = SqlDbType.Int;
-                pId.Value = Id;
+                pId.ParameterName = "@codigo";
+                pId.SqlDbType = SqlDbType.NVarChar;
+                pId.Value = codigo;
                 sqlCmd.Parameters.Add(pId);
 
                 sqlCmd.Connection.Open();
@@ -113,13 +100,13 @@ namespace MSS.TAWA.DA
                 while (sqlDR.Read())
                 {
                     objConceptoBE = new ConceptoBE();
-                    objConceptoBE.IdConcepto = sqlDR.GetInt32(sqlDR.GetOrdinal("IdConcepto"));
+                    objConceptoBE.IdConcepto = sqlDR.GetString(sqlDR.GetOrdinal("IdConcepto"));
                     objConceptoBE.Descripcion = sqlDR.GetString(sqlDR.GetOrdinal("Descripcion"));
                     objConceptoBE.CuentaContable = sqlDR.GetString(sqlDR.GetOrdinal("CuentaContable"));
-                    objConceptoBE.UserCreate = sqlDR.GetString(sqlDR.GetOrdinal("UserCreate"));
-                    objConceptoBE.CreateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("CreateDate"));
-                    objConceptoBE.UserUpdate = sqlDR.GetString(sqlDR.GetOrdinal("UserUpdate"));
-                    objConceptoBE.UpdateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("UpdateDate"));
+                    //objConceptoBE.UserCreate = sqlDR.GetString(sqlDR.GetOrdinal("UserCreate"));
+                    //objConceptoBE.CreateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("CreateDate"));
+                    //objConceptoBE.UserUpdate = sqlDR.GetString(sqlDR.GetOrdinal("UserUpdate"));
+                    //objConceptoBE.UpdateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("UpdateDate"));
                 }
 
                 sqlCmd.Connection.Close();

@@ -44,8 +44,8 @@
     <Compile Include="AprobacionBC.cs" />
     <Compile Include="AreaBC.cs" />
     <Compile Include="BancoBC.cs" />
-    <Compile Include="CajaChicaBC.cs" />
-    <Compile Include="CajaChicaDocumentoBC.cs" />
+    <Compile Include="CuentaContableBC.cs" />
+    <Compile Include="DocumentBC.cs" />
     <Compile Include="CentroCostosBC.cs" />
     <Compile Include="ClbHelpers.cs" />
     <Compile Include="ConceptoBC.cs" />
@@ -56,8 +56,6 @@
     <Compile Include="EstadoBC.cs" />
     <Compile Include="DocumentoBC.cs" />
     <Compile Include="EmpresaBC.cs" />
-    <Compile Include="EntregaRendirBC.cs" />
-    <Compile Include="EntregaRendirDocumentoBC.cs" />
     <Compile Include="GrupoTrabajoBC.cs" />
     <Compile Include="MetodoPagoBC.cs" />
     <Compile Include="MonedaBC.cs" />
@@ -66,8 +64,6 @@
     <Compile Include="PerfilUsuarioBC.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProveedorBC.cs" />
-    <Compile Include="ReembolsoBC.cs" />
-    <Compile Include="ReembolsoDocumentoBC.cs" />
     <Compile Include="RendicionBC.cs" />
     <Compile Include="ReporteBC.cs" />
     <Compile Include="UsuarioAreaNivelBC.cs" />
@@ -81,6 +77,10 @@
     <ProjectReference Include="..\MSS.TAWA.DA\MSS.TAWA.DA.csproj">
       <Project>{A607D606-F8B7-4100-81DD-2D7656571BFD}</Project>
       <Name>MSS.TAWA.DA</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MSS.TAWA.HP\MSS.TAWA.HP.csproj">
+      <Project>{b1805497-4160-424a-8cb5-ddde29a6a820}</Project>
+      <Name>MSS.TAWA.HP</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

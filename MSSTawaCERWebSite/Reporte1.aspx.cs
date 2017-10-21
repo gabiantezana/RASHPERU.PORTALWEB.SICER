@@ -10,7 +10,7 @@ using MSS.TAWA.BE;
 using System.IO;
 using System.Web.UI.HtmlControls;
 using System.Text;
-using MssTawaCer.App_Code.Helper;
+using MSS.TAWA.HP;
 
 public partial class Reporte1 : System.Web.UI.Page
 {

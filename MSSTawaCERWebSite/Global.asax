@@ -17,7 +17,7 @@
     void Application_Error(object sender, EventArgs e)
     {
         Exception exception = Server.GetLastError();
-        MssTawaCer.App_Code.Helper.ExceptionHelper.LogException(exception);
+        MSS.TAWA.HP.ExceptionHelper.LogException(exception);
         // Code that runs when an unhandled error occurs
 
     }

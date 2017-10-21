@@ -44,10 +44,11 @@
     <Compile Include="AprobacionDA.cs" />
     <Compile Include="AreaDA.cs" />
     <Compile Include="BancoDA.cs" />
-    <Compile Include="CajaChicaDA.cs" />
-    <Compile Include="CajaChicaDocumentoDA.cs" />
     <Compile Include="CentroCostosDA.cs" />
     <Compile Include="ConceptoDA.cs" />
+    <Compile Include="CuentasContablesDevolucionDA.cs" />
+    <Compile Include="DocumentDA.cs" />
+    <Compile Include="DocumentDetailDA.cs" />
     <Compile Include="Helper\ExceptionHelper.cs" />
     <Compile Include="NivelSeguridadDA.cs" />
     <Compile Include="ControlContabilidadDA.cs" />
@@ -55,18 +56,15 @@
     <Compile Include="EstadoDA.cs" />
     <Compile Include="DocumentoDA.cs" />
     <Compile Include="EmpresaDA.cs" />
-    <Compile Include="EntregaRendirDA.cs" />
-    <Compile Include="EntregaRendirDocumentoDA.cs" />
     <Compile Include="GrupoTrabajoDA.cs" />
     <Compile Include="MetodoPagoDA.cs" />
     <Compile Include="MonedaDA.cs" />
     <Compile Include="MotivoDA.cs" />
     <Compile Include="NivelAprobacionDA.cs" />
+    <Compile Include="PartidaPresupuestalDA.cs" />
     <Compile Include="PerfilUsuarioDA.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProveedorDA.cs" />
-    <Compile Include="ReembolsoDA.cs" />
-    <Compile Include="ReembolsoDocumentoDA.cs" />
     <Compile Include="RendicionDA.cs" />
     <Compile Include="ReporteDA.cs" />
     <Compile Include="UsuarioAreaNivelDA.cs" />
@@ -76,6 +74,10 @@
     <ProjectReference Include="..\MSS.TAWA.BE\MSS.TAWA.BE.csproj">
       <Project>{91059CA6-2597-4D91-AEBB-7F458A803388}</Project>
       <Name>MSS.TAWA.BE</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MSS.TAWA.HP\MSS.TAWA.HP.csproj">
+      <Project>{b1805497-4160-424a-8cb5-ddde29a6a820}</Project>
+      <Name>MSS.TAWA.HP</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

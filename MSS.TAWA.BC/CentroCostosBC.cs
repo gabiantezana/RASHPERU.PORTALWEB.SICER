@@ -23,7 +23,7 @@ namespace MSS.TAWA.BC
             }
         }
 
-        public CentroCostosBE ObtenerCentroCostos(int CodigoSAP)
+        public CentroCostosBE ObtenerCentroCostos(String CodigoSAP)
         {
             try
             {

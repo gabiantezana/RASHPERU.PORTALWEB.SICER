@@ -8,7 +8,6 @@ using System.Web.UI.WebControls;
 using MSS.TAWA.BC;
 using MSS.TAWA.BE;
 using System.Web.Security;
-using MssTawaCer.App_Code.Helper;
 
 public partial class SiteMaster : System.Web.UI.MasterPage
 {
@@ -26,30 +25,30 @@ public partial class SiteMaster : System.Web.UI.MasterPage
         }
         catch (Exception ex)
         {
-            Mensaje("Ocurrió un error (SiteMaster): " + ex.Message);
-            ExceptionHelper.LogException(ex);
+            Mensaje("Ocurrió un error: " + ex.Message);
+            MSS.TAWA.HP.ExceptionHelper.LogException(ex);
         }
     }
 
-    private void MenuVisible(bool p)
+    private void MenuVisible(bool visible)
     {
         try
         {
-            lnkBienvenido.Visible = p;
-            lnkPerfil.Visible = p;
-            lnkAdministrador.Visible = p;
-            lnkCajaChica.Visible = p;
-            lnkEntregaRendir.Visible = p;
-            lnkReembolso.Visible = p;
-            lnkReporte.Visible = p;
+            lnkBienvenido.Visible = visible;
+            lnkPerfil.Visible = visible;
+            lnkAdministrador.Visible = visible;
+            lnkCajaChica.Visible = visible;
+            lnkEntregaRendir.Visible = visible;
+            lnkReembolso.Visible = visible;
+            lnkReporte.Visible = visible;
         }
         catch (Exception ex)
         {
-            ExceptionHelper.LogException(ex);
+            MSS.TAWA.HP.ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error (SiteMaster): " + ex.Message);
         }
     }
-    
+
     private void Revisar_Menus()
     {
         int link = 0;
@@ -86,14 +85,28 @@ public partial class SiteMaster : System.Web.UI.MasterPage
                     PerfilUsuarioBE objPerfilUsuarioBE = new PerfilUsuarioBE();
                     objPerfilUsuarioBE = objPerfilUsuarioBC.ObtenerPerfilUsuario(objUsuarioBE.IdPerfilUsuario);
 
-                    if (objPerfilUsuarioBE.ModAdministrador=="1") lnkAdministrador.Visible = true;
-                    else lnkAdministrador.Visible = false;
-                    if (objPerfilUsuarioBE.ModCajaChica == "1" || objPerfilUsuarioBE.CreaCajaChica == "1") lnkCajaChica.Visible = true;
-                    else lnkCajaChica.Visible = false;
-                    if (objPerfilUsuarioBE.ModEntregaRendir == "1" || objPerfilUsuarioBE.CreaEntregaRendir == "1") lnkEntregaRendir.Visible = true;
-                    else lnkEntregaRendir.Visible = false;
-                    if (objPerfilUsuarioBE.ModReembolso == "1" || objPerfilUsuarioBE.CreaReembolso == "1") lnkReembolso.Visible = true;
-                    else lnkReembolso.Visible = false;
+                    if (objPerfilUsuarioBE.ModAdministrador == "1")
+                        lnkAdministrador.Visible = true;
+                    else
+                        lnkAdministrador.Visible = false;
+
+                    if (objPerfilUsuarioBE.ModCajaChica == "1" 
+                    || objPerfilUsuarioBE.CreaCajaChica == "1")
+                        lnkCajaChica.Visible = true;
+                    else
+                        lnkCajaChica.Visible = false;
+
+                    if (objPerfilUsuarioBE.ModEntregaRendir == "1" 
+                    || objPerfilUsuarioBE.CreaEntregaRendir == "1")
+                        lnkEntregaRendir.Visible = true;
+                    else
+                        lnkEntregaRendir.Visible = false;
+
+                    if (objPerfilUsuarioBE.ModReembolso == "1" 
+                    || objPerfilUsuarioBE.CreaReembolso == "1")
+                        lnkReembolso.Visible = true;
+                    else
+                        lnkReembolso.Visible = false;
 
                     lnkReporte.Visible = true;
                 }
@@ -101,8 +114,8 @@ public partial class SiteMaster : System.Web.UI.MasterPage
         }
         catch (Exception ex)
         {
-            Mensaje("Ocurrió un error (SiteMaster): " + ex.Message);
-            ExceptionHelper.LogException(ex);
+            Mensaje("Ocurrió un error: " + ex.Message);
+            MSS.TAWA.HP.ExceptionHelper.LogException(ex);
         }
     }
 
@@ -110,7 +123,7 @@ public partial class SiteMaster : System.Web.UI.MasterPage
     {
         Server.Transfer("~/Login.aspx");
     }
-    
+
     protected void lnkLogout_Click(object sender, EventArgs e)
     {
         FormsAuthentication.SignOut();
@@ -154,21 +167,22 @@ public partial class SiteMaster : System.Web.UI.MasterPage
     protected void lnkReporte_Click(object sender, EventArgs e)
     {
         Response.Redirect("~/Reporte1.aspx");
-    }    
+    }
 
-    protected void lnkCajaChica_Click(object sender, EventArgs e)
+    protected void lnkCajaChica_Click(object sender, EventArgs e)//todo: send parameter documentType
     {
-        Response.Redirect("~/CajaChicas.aspx");
+        Response.Redirect("~/ListadoDocumentos.aspx"+ "?TipoDocumentoWeb=1");
+        //Response.Redirect("~/CajaChicas.aspx");
     }
 
     protected void lnkEntregaRendir_Click(object sender, EventArgs e)
     {
-        Response.Redirect("~/EntregasRendir.aspx");
+        Response.Redirect("~/ListadoDocumentos.aspx"+ "?TipoDocumentoWeb=2");
     }
 
     protected void lnkReembolso_Click(object sender, EventArgs e)
     {
-        Response.Redirect("~/Reembolsos.aspx");
+        Response.Redirect("~/ListadoDocumentos.aspx"+ "?TipoDocumentoWeb=3");
     }
 
     protected void lnkCambiar_Click(object sender, EventArgs e)
@@ -195,9 +209,9 @@ public partial class SiteMaster : System.Web.UI.MasterPage
             {
                 Mensaje("No ah ingresado su contraseña");
             }
-        }                
+        }
     }
-    
+
     private void Mensaje(String mensaje)
     {
         ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "MessageBox", "alert('" + mensaje + "')", true);

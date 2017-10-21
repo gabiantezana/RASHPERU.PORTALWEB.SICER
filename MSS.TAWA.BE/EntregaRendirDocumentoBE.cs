@@ -34,12 +34,12 @@ namespace MSS.TAWA.BE
         String _UserUpdate;
         DateTime _UpdateDate;
         String _PartidaPresupuestal;
-        public int IdEntregaRendirDocumento
+        public int IdDocumentoDetalle
         {
             get { return _IdEntregaRendirDocumento; }
             set { _IdEntregaRendirDocumento = value; }
         }
-        public int IdEntregaRendir
+        public int IdDocumento
         {
             get { return _IdEntregaRendir; }
             set { _IdEntregaRendir = value; }

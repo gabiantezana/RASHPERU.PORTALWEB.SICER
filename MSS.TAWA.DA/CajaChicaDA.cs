@@ -13,7 +13,7 @@ namespace MSS.TAWA.DA
     public class CajaChicaDA
     {
         // Listar CajaChica
-        public List<CajaChicaBE> ListarCajaChica(int IdUsuario, int Tipo, int Tipo2, String CodigoDocumento, String Dni, String NombreSolicitante, String EsFacturable, String Estado)
+        public List<DocumentBE> ListarDocumentos(int IdUsuario, int Tipo, int Tipo2, String CodigoDocumento, String Dni, String NombreSolicitante, String EsFacturable, String Estado)
         {
             SqlConnection sqlConn;
             String strConn;
@@ -90,42 +90,42 @@ namespace MSS.TAWA.DA
                 sqlCmd.Connection.Open();
                 sqlDR = sqlCmd.ExecuteReader();
 
-                List<CajaChicaBE> lstCajaChicaBE;
-                CajaChicaBE objCajaChicaBE;
-                lstCajaChicaBE = new List<CajaChicaBE>();
+                List<DocumentBE> lstDocumentosBE;
+                DocumentBE objDocumentoBE;
+                lstDocumentosBE = new List<DocumentBE>();
 
                 while (sqlDR.Read())
                 {
-                    objCajaChicaBE = new CajaChicaBE();
-                    objCajaChicaBE.IdCajaChica = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCajaChica"));
-                    objCajaChicaBE.CodigoCajaChica = sqlDR.GetString(sqlDR.GetOrdinal("CodigoCajaChica"));
-                    objCajaChicaBE.IdEmpresa = sqlDR.GetInt32(sqlDR.GetOrdinal("IdEmpresa"));
-                    objCajaChicaBE.IdArea = sqlDR.GetInt32(sqlDR.GetOrdinal("IdArea"));
-                    objCajaChicaBE.IdUsuarioCreador = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioCreador"));
-                    objCajaChicaBE.IdUsuarioSolicitante = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioSolicitante"));
-                    objCajaChicaBE.IdCentroCostos1 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos1"));
-                    objCajaChicaBE.IdCentroCostos2 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos2"));
-                    objCajaChicaBE.IdCentroCostos3 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos3"));
-                    objCajaChicaBE.IdCentroCostos4 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos4"));
-                    objCajaChicaBE.IdCentroCostos5 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos5"));
-                    objCajaChicaBE.IdMetodoPago = sqlDR.GetInt32(sqlDR.GetOrdinal("IdMetodoPago"));
-                    objCajaChicaBE.MontoInicial = sqlDR.GetString(sqlDR.GetOrdinal("MontoInicial"));
-                    objCajaChicaBE.MontoGastado = sqlDR.GetString(sqlDR.GetOrdinal("MontoGastado"));
-                    objCajaChicaBE.MontoActual = sqlDR.GetString(sqlDR.GetOrdinal("MontoActual"));
-                    objCajaChicaBE.Moneda = sqlDR.GetString(sqlDR.GetOrdinal("Moneda"));
-                    objCajaChicaBE.EsFacturable = sqlDR.GetString(sqlDR.GetOrdinal("EsFacturable"));
-                    objCajaChicaBE.MomentoFacturable = sqlDR.GetString(sqlDR.GetOrdinal("MomentoFacturable"));
-                    objCajaChicaBE.Asunto = sqlDR.GetString(sqlDR.GetOrdinal("Asunto"));
-                    objCajaChicaBE.Comentario = sqlDR.GetString(sqlDR.GetOrdinal("Comentario"));
-                    objCajaChicaBE.MotivoDetalle = sqlDR.GetString(sqlDR.GetOrdinal("MotivoDetalle"));
-                    objCajaChicaBE.FechaSolicitud = sqlDR.GetDateTime(sqlDR.GetOrdinal("FechaSolicitud"));
-                    objCajaChicaBE.FechaContabilizacion = sqlDR.GetDateTime(sqlDR.GetOrdinal("FechaContabilizacion"));
-                    objCajaChicaBE.Estado = sqlDR.GetString(sqlDR.GetOrdinal("Estado"));
-                    objCajaChicaBE.UserCreate = sqlDR.GetString(sqlDR.GetOrdinal("UserCreate"));
-                    objCajaChicaBE.CreateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("CreateDate"));
-                    objCajaChicaBE.UserUpdate = sqlDR.GetString(sqlDR.GetOrdinal("UserUpdate"));
-                    objCajaChicaBE.UpdateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("UpdateDate"));
-                    lstCajaChicaBE.Add(objCajaChicaBE);
+                    objDocumentoBE = new DocumentBE();
+                    objDocumentoBE.IdDocumento = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCajaChica"));
+                    objDocumentoBE.CodigoDocumento = sqlDR.GetString(sqlDR.GetOrdinal("CodigoCajaChica"));
+                    objDocumentoBE.IdEmpresa = sqlDR.GetInt32(sqlDR.GetOrdinal("IdEmpresa"));
+                    objDocumentoBE.IdArea = sqlDR.GetInt32(sqlDR.GetOrdinal("IdArea"));
+                    objDocumentoBE.IdUsuarioCreador = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioCreador"));
+                    objDocumentoBE.IdUsuarioSolicitante = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioSolicitante"));
+                    objDocumentoBE.IdCentroCostos1 = sqlDR.GetString(sqlDR.GetOrdinal("IdCentroCostos1"));
+                    objDocumentoBE.IdCentroCostos2 = sqlDR.GetString(sqlDR.GetOrdinal("IdCentroCostos2"));
+                    objDocumentoBE.IdCentroCostos3 = sqlDR.GetString(sqlDR.GetOrdinal("IdCentroCostos3"));
+                    objDocumentoBE.IdCentroCostos4 = sqlDR.GetString(sqlDR.GetOrdinal("IdCentroCostos4"));
+                    objDocumentoBE.IdCentroCostos5 = sqlDR.GetString(sqlDR.GetOrdinal("IdCentroCostos5"));
+                    objDocumentoBE.IdMetodoPago = sqlDR.GetInt32(sqlDR.GetOrdinal("IdMetodoPago"));
+                    objDocumentoBE.MontoInicial = sqlDR.GetString(sqlDR.GetOrdinal("MontoInicial"));
+                    objDocumentoBE.MontoGastado = sqlDR.GetString(sqlDR.GetOrdinal("MontoGastado"));
+                    objDocumentoBE.MontoActual = sqlDR.GetString(sqlDR.GetOrdinal("MontoActual"));
+                    objDocumentoBE.Moneda = sqlDR.GetString(sqlDR.GetOrdinal("Moneda"));
+                    objDocumentoBE.EsFacturable = sqlDR.GetString(sqlDR.GetOrdinal("EsFacturable"));
+                    objDocumentoBE.MomentoFacturable = sqlDR.GetString(sqlDR.GetOrdinal("MomentoFacturable"));
+                    objDocumentoBE.Asunto = sqlDR.GetString(sqlDR.GetOrdinal("Asunto"));
+                    objDocumentoBE.Comentario = sqlDR.GetString(sqlDR.GetOrdinal("Comentario"));
+                    objDocumentoBE.MotivoDetalle = sqlDR.GetString(sqlDR.GetOrdinal("MotivoDetalle"));
+                    objDocumentoBE.FechaSolicitud = sqlDR.GetDateTime(sqlDR.GetOrdinal("FechaSolicitud"));
+                    objDocumentoBE.FechaContabilizacion = sqlDR.GetDateTime(sqlDR.GetOrdinal("FechaContabilizacion"));
+                    objDocumentoBE.Estado = sqlDR.GetString(sqlDR.GetOrdinal("Estado"));
+                    objDocumentoBE.UserCreate = sqlDR.GetString(sqlDR.GetOrdinal("UserCreate"));
+                    objDocumentoBE.CreateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("CreateDate"));
+                    objDocumentoBE.UserUpdate = sqlDR.GetString(sqlDR.GetOrdinal("UserUpdate"));
+                    objDocumentoBE.UpdateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("UpdateDate"));
+                    lstDocumentosBE.Add(objDocumentoBE);
                 }
 
                 sqlCmd.Connection.Close();
@@ -134,7 +134,7 @@ namespace MSS.TAWA.DA
                 sqlConn.Close();
                 sqlConn.Dispose();
 
-                return lstCajaChicaBE;
+                return lstDocumentosBE;
             }
             catch (Exception ex)
             {
@@ -143,7 +143,7 @@ namespace MSS.TAWA.DA
         }
 
         // Obtener CajaChica
-        public CajaChicaBE ObtenerCajaChica(int IdCajaChica, int Tipo)
+        public DocumentBE ObtenerDocumento(int IdDocumento, int Tipo)
         {
             SqlConnection sqlConn;
             String strConn;
@@ -151,7 +151,7 @@ namespace MSS.TAWA.DA
             String strSP;
             SqlDataReader sqlDR;
 
-            SqlParameter pIdCajaChica;
+            SqlParameter pIdDocumento;
             SqlParameter pTipo;
 
             try
@@ -162,56 +162,56 @@ namespace MSS.TAWA.DA
                 sqlCmd = new SqlCommand(strSP, sqlConn);
                 sqlCmd.CommandType = CommandType.StoredProcedure;
 
-                pIdCajaChica = new SqlParameter();
-                pIdCajaChica.ParameterName = "@IdCajaChica";
-                pIdCajaChica.SqlDbType = SqlDbType.Int;
-                pIdCajaChica.Value = IdCajaChica;
+                pIdDocumento = new SqlParameter();
+                pIdDocumento.ParameterName = "@IdCajaChica";
+                pIdDocumento.SqlDbType = SqlDbType.Int;
+                pIdDocumento.Value = IdDocumento;
 
                 pTipo = new SqlParameter();
                 pTipo.ParameterName = "@Tipo";
                 pTipo.SqlDbType = SqlDbType.Int;
                 pTipo.Value = Tipo;
 
-                sqlCmd.Parameters.Add(pIdCajaChica);
+                sqlCmd.Parameters.Add(pIdDocumento);
                 sqlCmd.Parameters.Add(pTipo);
 
                 sqlCmd.Connection.Open();
                 sqlDR = sqlCmd.ExecuteReader();
 
-                CajaChicaBE objCajaChicaBE;
-                objCajaChicaBE = null;
+                DocumentBE objDocumentoBE;
+                objDocumentoBE = null;
 
                 while (sqlDR.Read())
                 {
-                    objCajaChicaBE = new CajaChicaBE();
-                    objCajaChicaBE.IdCajaChica = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCajaChica"));
-                    objCajaChicaBE.CodigoCajaChica = sqlDR.GetString(sqlDR.GetOrdinal("CodigoCajaChica"));
-                    objCajaChicaBE.IdEmpresa = sqlDR.GetInt32(sqlDR.GetOrdinal("IdEmpresa"));
-                    objCajaChicaBE.IdArea = sqlDR.GetInt32(sqlDR.GetOrdinal("IdArea"));
-                    objCajaChicaBE.IdUsuarioCreador = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioCreador"));
-                    objCajaChicaBE.IdUsuarioSolicitante = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioSolicitante"));
-                    objCajaChicaBE.IdCentroCostos1 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos1"));
-                    objCajaChicaBE.IdCentroCostos2 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos2"));
-                    objCajaChicaBE.IdCentroCostos3 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos3"));
-                    objCajaChicaBE.IdCentroCostos4 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos4"));
-                    objCajaChicaBE.IdCentroCostos5 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos5"));
-                    objCajaChicaBE.IdMetodoPago = sqlDR.GetInt32(sqlDR.GetOrdinal("IdMetodoPago"));
-                    objCajaChicaBE.MontoInicial = sqlDR.GetString(sqlDR.GetOrdinal("MontoInicial"));
-                    objCajaChicaBE.MontoGastado = sqlDR.GetString(sqlDR.GetOrdinal("MontoGastado"));
-                    objCajaChicaBE.MontoActual = sqlDR.GetString(sqlDR.GetOrdinal("MontoActual"));
-                    objCajaChicaBE.Moneda = sqlDR.GetString(sqlDR.GetOrdinal("Moneda"));
-                    objCajaChicaBE.EsFacturable = sqlDR.GetString(sqlDR.GetOrdinal("EsFacturable"));
-                    objCajaChicaBE.MomentoFacturable = sqlDR.GetString(sqlDR.GetOrdinal("MomentoFacturable"));
-                    objCajaChicaBE.Asunto = sqlDR.GetString(sqlDR.GetOrdinal("Asunto"));
-                    objCajaChicaBE.Comentario = sqlDR.GetString(sqlDR.GetOrdinal("Comentario"));
-                    objCajaChicaBE.MotivoDetalle = sqlDR.GetString(sqlDR.GetOrdinal("MotivoDetalle"));
-                    objCajaChicaBE.FechaSolicitud = sqlDR.GetDateTime(sqlDR.GetOrdinal("FechaSolicitud"));
-                    objCajaChicaBE.FechaContabilizacion = sqlDR.GetDateTime(sqlDR.GetOrdinal("FechaContabilizacion"));
-                    objCajaChicaBE.Estado = sqlDR.GetString(sqlDR.GetOrdinal("Estado"));
-                    objCajaChicaBE.UserCreate = sqlDR.GetString(sqlDR.GetOrdinal("UserCreate"));
-                    objCajaChicaBE.CreateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("CreateDate"));
-                    objCajaChicaBE.UserUpdate = sqlDR.GetString(sqlDR.GetOrdinal("UserUpdate"));
-                    objCajaChicaBE.UpdateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("UpdateDate"));
+                    objDocumentoBE = new DocumentBE();
+                    objDocumentoBE.IdDocumento = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCajaChica"));
+                    objDocumentoBE.CodigoDocumento = sqlDR.GetString(sqlDR.GetOrdinal("CodigoCajaChica"));
+                    objDocumentoBE.IdEmpresa = sqlDR.GetInt32(sqlDR.GetOrdinal("IdEmpresa"));
+                    objDocumentoBE.IdArea = sqlDR.GetInt32(sqlDR.GetOrdinal("IdArea"));
+                    objDocumentoBE.IdUsuarioCreador = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioCreador"));
+                    objDocumentoBE.IdUsuarioSolicitante = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioSolicitante"));
+                    objDocumentoBE.IdCentroCostos1 = sqlDR.GetString(sqlDR.GetOrdinal("IdCentroCostos1"));
+                    objDocumentoBE.IdCentroCostos2 = sqlDR.GetString(sqlDR.GetOrdinal("IdCentroCostos2"));
+                    objDocumentoBE.IdCentroCostos3 = sqlDR.GetString(sqlDR.GetOrdinal("IdCentroCostos3"));
+                    objDocumentoBE.IdCentroCostos4 = sqlDR.GetString(sqlDR.GetOrdinal("IdCentroCostos4"));
+                    objDocumentoBE.IdCentroCostos5 = sqlDR.GetString(sqlDR.GetOrdinal("IdCentroCostos5"));
+                    objDocumentoBE.IdMetodoPago = sqlDR.GetInt32(sqlDR.GetOrdinal("IdMetodoPago"));
+                    objDocumentoBE.MontoInicial = sqlDR.GetString(sqlDR.GetOrdinal("MontoInicial"));
+                    objDocumentoBE.MontoGastado = sqlDR.GetString(sqlDR.GetOrdinal("MontoGastado"));
+                    objDocumentoBE.MontoActual = sqlDR.GetString(sqlDR.GetOrdinal("MontoActual"));
+                    objDocumentoBE.Moneda = sqlDR.GetString(sqlDR.GetOrdinal("Moneda"));
+                    objDocumentoBE.EsFacturable = sqlDR.GetString(sqlDR.GetOrdinal("EsFacturable"));
+                    objDocumentoBE.MomentoFacturable = sqlDR.GetString(sqlDR.GetOrdinal("MomentoFacturable"));
+                    objDocumentoBE.Asunto = sqlDR.GetString(sqlDR.GetOrdinal("Asunto"));
+                    objDocumentoBE.Comentario = sqlDR.GetString(sqlDR.GetOrdinal("Comentario"));
+                    objDocumentoBE.MotivoDetalle = sqlDR.GetString(sqlDR.GetOrdinal("MotivoDetalle"));
+                    objDocumentoBE.FechaSolicitud = sqlDR.GetDateTime(sqlDR.GetOrdinal("FechaSolicitud"));
+                    objDocumentoBE.FechaContabilizacion = sqlDR.GetDateTime(sqlDR.GetOrdinal("FechaContabilizacion"));
+                    objDocumentoBE.Estado = sqlDR.GetString(sqlDR.GetOrdinal("Estado"));
+                    objDocumentoBE.UserCreate = sqlDR.GetString(sqlDR.GetOrdinal("UserCreate"));
+                    objDocumentoBE.CreateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("CreateDate"));
+                    objDocumentoBE.UserUpdate = sqlDR.GetString(sqlDR.GetOrdinal("UserUpdate"));
+                    objDocumentoBE.UpdateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("UpdateDate"));
                 }
 
                 sqlCmd.Connection.Close();
@@ -220,7 +220,7 @@ namespace MSS.TAWA.DA
                 sqlConn.Close();
                 sqlConn.Dispose();
 
-                return objCajaChicaBE;
+                return objDocumentoBE;
             }
             catch (Exception ex)
             {
@@ -229,15 +229,15 @@ namespace MSS.TAWA.DA
         }
 
         // Insertar CajaChica
-        public int InsertarCajaChica(CajaChicaBE objBE)
+        public int InsertarDocumento(DocumentBE objBE)
         {
             SqlConnection sqlConn;
             String strConn;
             SqlCommand sqlCmd;
             String strSP;
 
-            SqlParameter pIdCajaChica;
-            SqlParameter pCodigoCajaChica;
+            SqlParameter pIdDocumento;
+            SqlParameter pCodigoDocumento;
             SqlParameter pIdEmpresa;
             SqlParameter pIdArea;
             SqlParameter pIdUsuarioCreador;
@@ -275,15 +275,15 @@ namespace MSS.TAWA.DA
                 sqlCmd = new SqlCommand(strSP, sqlConn);
                 sqlCmd.CommandType = CommandType.StoredProcedure;
 
-                pIdCajaChica = new SqlParameter();
-                pIdCajaChica.Direction = ParameterDirection.ReturnValue;
-                pIdCajaChica.SqlDbType = SqlDbType.Int;
+                pIdDocumento = new SqlParameter();
+                pIdDocumento.Direction = ParameterDirection.ReturnValue;
+                pIdDocumento.SqlDbType = SqlDbType.Int;
 
-                pCodigoCajaChica = new SqlParameter();
-                pCodigoCajaChica.ParameterName = "@CodigoCajaChica";
-                pCodigoCajaChica.SqlDbType = SqlDbType.VarChar;
-                pCodigoCajaChica.Size = 100;
-                pCodigoCajaChica.Value = objBE.CodigoCajaChica;
+                pCodigoDocumento = new SqlParameter();
+                pCodigoDocumento.ParameterName = "@CodigoCajaChica";
+                pCodigoDocumento.SqlDbType = SqlDbType.VarChar;
+                pCodigoDocumento.Size = 100;
+                pCodigoDocumento.Value = objBE.CodigoDocumento;
 
                 pIdEmpresa = new SqlParameter();
                 pIdEmpresa.ParameterName = "@IdEmpresa";
@@ -307,27 +307,27 @@ namespace MSS.TAWA.DA
 
                 pIdCentroCostos1 = new SqlParameter();
                 pIdCentroCostos1.ParameterName = "@IdCentroCostos1";
-                pIdCentroCostos1.SqlDbType = SqlDbType.Int;
+                pIdCentroCostos1.SqlDbType = SqlDbType.NVarChar;
                 pIdCentroCostos1.Value = objBE.IdCentroCostos1;
 
                 pIdCentroCostos2 = new SqlParameter();
                 pIdCentroCostos2.ParameterName = "@IdCentroCostos2";
-                pIdCentroCostos2.SqlDbType = SqlDbType.Int;
+                pIdCentroCostos2.SqlDbType = SqlDbType.NVarChar;
                 pIdCentroCostos2.Value = objBE.IdCentroCostos2;
 
                 pIdCentroCostos3 = new SqlParameter();
                 pIdCentroCostos3.ParameterName = "@IdCentroCostos3";
-                pIdCentroCostos3.SqlDbType = SqlDbType.Int;
+                pIdCentroCostos3.SqlDbType = SqlDbType.NVarChar;
                 pIdCentroCostos3.Value = objBE.IdCentroCostos3;
 
                 pIdCentroCostos4 = new SqlParameter();
                 pIdCentroCostos4.ParameterName = "@IdCentroCostos4";
-                pIdCentroCostos4.SqlDbType = SqlDbType.Int;
+                pIdCentroCostos4.SqlDbType = SqlDbType.NVarChar;
                 pIdCentroCostos4.Value = objBE.IdCentroCostos4;
 
                 pIdCentroCostos5 = new SqlParameter();
                 pIdCentroCostos5.ParameterName = "@IdCentroCostos5";
-                pIdCentroCostos5.SqlDbType = SqlDbType.Int;
+                pIdCentroCostos5.SqlDbType = SqlDbType.NVarChar;
                 pIdCentroCostos5.Value = objBE.IdCentroCostos5;
 
                 pIdMetodoPago = new SqlParameter();
@@ -427,8 +427,8 @@ namespace MSS.TAWA.DA
                 pUpdateDate.SqlDbType = SqlDbType.DateTime;
                 pUpdateDate.Value = objBE.UpdateDate;
 
-                sqlCmd.Parameters.Add(pIdCajaChica);
-                sqlCmd.Parameters.Add(pCodigoCajaChica);
+                sqlCmd.Parameters.Add(pIdDocumento);
+                sqlCmd.Parameters.Add(pCodigoDocumento);
                 sqlCmd.Parameters.Add(pIdEmpresa);
                 sqlCmd.Parameters.Add(pIdArea);
                 sqlCmd.Parameters.Add(pIdUsuarioCreador);
@@ -458,7 +458,7 @@ namespace MSS.TAWA.DA
 
                 sqlCmd.Connection.Open();
                 sqlCmd.ExecuteNonQuery();
-                Id = Convert.ToInt32(pIdCajaChica.Value);
+                Id = Convert.ToInt32(pIdDocumento.Value);
 
                 sqlCmd.Connection.Close();
                 sqlCmd.Dispose();
@@ -475,15 +475,15 @@ namespace MSS.TAWA.DA
         }
 
         // Modificar CajaChica
-        public void ModificarCajaChica(CajaChicaBE objBE)
+        public void ModificarDocumento(DocumentBE objBE)
         {
             SqlConnection sqlConn;
             String strConn;
             SqlCommand sqlCmd;
             String strSP;
 
-            SqlParameter prmIdCajaChica;
-            SqlParameter pCodigoCajaChica;
+            SqlParameter prmIdDocumento;
+            SqlParameter pCodigoDocumento;
             SqlParameter pIdEmpresa;
             SqlParameter pIdArea;
             SqlParameter pIdUsuarioCreador;
@@ -520,16 +520,16 @@ namespace MSS.TAWA.DA
                 sqlCmd = new SqlCommand(strSP, sqlConn);
                 sqlCmd.CommandType = CommandType.StoredProcedure;
 
-                prmIdCajaChica = new SqlParameter();
-                prmIdCajaChica.ParameterName = "@IdCajaChica";
-                prmIdCajaChica.SqlDbType = SqlDbType.Int;
-                prmIdCajaChica.Value = objBE.IdCajaChica;
+                prmIdDocumento = new SqlParameter();
+                prmIdDocumento.ParameterName = "@IdCajaChica";
+                prmIdDocumento.SqlDbType = SqlDbType.Int;
+                prmIdDocumento.Value = objBE.IdDocumento;
 
-                pCodigoCajaChica = new SqlParameter();
-                pCodigoCajaChica.ParameterName = "@CodigoCajaChica";
-                pCodigoCajaChica.SqlDbType = SqlDbType.VarChar;
-                pCodigoCajaChica.Size = 100;
-                pCodigoCajaChica.Value = objBE.CodigoCajaChica;
+                pCodigoDocumento = new SqlParameter();
+                pCodigoDocumento.ParameterName = "@CodigoCajaChica";
+                pCodigoDocumento.SqlDbType = SqlDbType.VarChar;
+                pCodigoDocumento.Size = 100;
+                pCodigoDocumento.Value = objBE.CodigoDocumento;
 
                 pIdEmpresa = new SqlParameter();
                 pIdEmpresa.ParameterName = "@IdEmpresa";
@@ -553,27 +553,27 @@ namespace MSS.TAWA.DA
 
                 pIdCentroCostos1 = new SqlParameter();
                 pIdCentroCostos1.ParameterName = "@IdCentroCostos1";
-                pIdCentroCostos1.SqlDbType = SqlDbType.Int;
+                pIdCentroCostos1.SqlDbType = SqlDbType.NVarChar;
                 pIdCentroCostos1.Value = objBE.IdCentroCostos1;
 
                 pIdCentroCostos2 = new SqlParameter();
                 pIdCentroCostos2.ParameterName = "@IdCentroCostos2";
-                pIdCentroCostos2.SqlDbType = SqlDbType.Int;
+                pIdCentroCostos2.SqlDbType = SqlDbType.NVarChar;
                 pIdCentroCostos2.Value = objBE.IdCentroCostos2;
 
                 pIdCentroCostos3 = new SqlParameter();
                 pIdCentroCostos3.ParameterName = "@IdCentroCostos3";
-                pIdCentroCostos3.SqlDbType = SqlDbType.Int;
+                pIdCentroCostos3.SqlDbType = SqlDbType.NVarChar;
                 pIdCentroCostos3.Value = objBE.IdCentroCostos3;
 
                 pIdCentroCostos4 = new SqlParameter();
                 pIdCentroCostos4.ParameterName = "@IdCentroCostos4";
-                pIdCentroCostos4.SqlDbType = SqlDbType.Int;
+                pIdCentroCostos4.SqlDbType = SqlDbType.NVarChar;
                 pIdCentroCostos4.Value = objBE.IdCentroCostos4;
 
                 pIdCentroCostos5 = new SqlParameter();
                 pIdCentroCostos5.ParameterName = "@IdCentroCostos5";
-                pIdCentroCostos5.SqlDbType = SqlDbType.Int;
+                pIdCentroCostos5.SqlDbType = SqlDbType.NVarChar;
                 pIdCentroCostos5.Value = objBE.IdCentroCostos5;
 
                 pIdMetodoPago = new SqlParameter();
@@ -673,8 +673,8 @@ namespace MSS.TAWA.DA
                 pUpdateDate.SqlDbType = SqlDbType.DateTime;
                 pUpdateDate.Value = objBE.UpdateDate;
 
-                sqlCmd.Parameters.Add(prmIdCajaChica);
-                sqlCmd.Parameters.Add(pCodigoCajaChica);
+                sqlCmd.Parameters.Add(prmIdDocumento);
+                sqlCmd.Parameters.Add(pCodigoDocumento);
                 sqlCmd.Parameters.Add(pIdEmpresa);
                 sqlCmd.Parameters.Add(pIdArea);
                 sqlCmd.Parameters.Add(pIdUsuarioCreador);

@@ -77,25 +77,35 @@ public class ValidationHelper
         return false;
     }
 
-    public Boolean UsuarioExcedeCantMaxDocumento(TipoDocumento tipoDocumento, Int32 idUsuario)
+    public Boolean UsuarioExcedeCantMaxDocumento(TipoDocumentoWeb tipoDocumento, Int32 idUsuario)
     {
         UsuarioBE objUsuarioBE = new UsuarioBC().ObtenerUsuario(idUsuario, 0);
         Int32 cantidadActualDocs = 0;
         Int32 cantidadMaximaDocs = 0;
 
-        switch (tipoDocumento)
-        {
-            case TipoDocumento.CajaChica:
-                cantidadActualDocs = new CajaChicaBC().ListarCajaChica(idUsuario, 2, 10, "", "", "", "", "").Count;
-                cantidadMaximaDocs = Convert.ToInt32(objUsuarioBE.CantMaxCC);
-                break;
-            default:
-                throw new NotImplementedException();
-        }
+        cantidadActualDocs = new DocumentBC(tipoDocumento).ListarDocumentos(idUsuario, 2, 10, "", "", "", "", "").Count;
+        cantidadMaximaDocs = Convert.ToInt32(objUsuarioBE.CantMaxCC);
 
         if (cantidadActualDocs < cantidadMaximaDocs)
             return false;
         return true;
+    }
+
+    public Boolean DocumentoSePuedeRendir(EstadoDocumento estadoDocumento)
+    {
+        Int32[] estadosEnLosQueSepuedeRendirDocumento = {
+                                                        (Int32)EstadoDocumento.Aprobado
+                                                        ,(Int32)EstadoDocumento.RendirPorAprobarJefeArea
+                                                        ,(Int32)EstadoDocumento.RendirObservacionesNivel1
+                                                        ,(Int32)EstadoDocumento.RendirPorAprobarContabilidad
+                                                        ,(Int32)EstadoDocumento.RendirObservacionContabilidad
+                                                        ,(Int32)EstadoDocumento.RendirAprobado
+        };
+        Int32 _estadoDocumento = (Int32)estadoDocumento;
+        if (estadosEnLosQueSepuedeRendirDocumento.ToList().Contains(_estadoDocumento))
+            return true;
+        return false;
+
     }
 
 

@@ -10,12 +10,12 @@ namespace MSS.TAWA.BC
 {
     public class ConceptoBC
     {
-        public List<ConceptoBE> ListarConcepto(int Id, int Tipo)
+        public List<ConceptoBE> ListarConcepto()
         {
             try
             {
                 ConceptoDA objDA = new ConceptoDA();
-                return objDA.ListarConcepto(Id, Tipo);
+                return objDA.ListarConcepto();
             }
             catch (Exception ex)
             {
@@ -23,12 +23,12 @@ namespace MSS.TAWA.BC
             }
         }
 
-        public ConceptoBE ObtenerConcepto(int Id)
+        public ConceptoBE ObtenerConcepto(String codigo)
         {
             try
             {
                 ConceptoDA objDA = new ConceptoDA();
-                return objDA.ObtenerConcepto(Id);
+                return objDA.ObtenerConcepto(codigo);
             }
             catch (Exception ex)
             {

@@ -97,8 +97,8 @@ namespace MSS.TAWA.DA
                 while (sqlDR.Read())
                 {
                     objReembolsoBE = new ReembolsoBE();
-                    objReembolsoBE.IdReembolso = sqlDR.GetInt32(sqlDR.GetOrdinal("IdReembolso"));
-                    objReembolsoBE.CodigoReembolso = sqlDR.GetString(sqlDR.GetOrdinal("CodigoReembolso"));
+                    objReembolsoBE.IdDocumento = sqlDR.GetInt32(sqlDR.GetOrdinal("IdReembolso"));
+                    objReembolsoBE.CodigoDocumento = sqlDR.GetString(sqlDR.GetOrdinal("CodigoReembolso"));
                     objReembolsoBE.IdEmpresa = sqlDR.GetInt32(sqlDR.GetOrdinal("IdEmpresa"));
                     objReembolsoBE.IdArea = sqlDR.GetInt32(sqlDR.GetOrdinal("IdArea"));
                     objReembolsoBE.IdUsuarioCreador = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioCreador"));
@@ -186,8 +186,8 @@ namespace MSS.TAWA.DA
                 while (sqlDR.Read())
                 {
                     objReembolsoBE = new ReembolsoBE();
-                    objReembolsoBE.IdReembolso = sqlDR.GetInt32(sqlDR.GetOrdinal("IdReembolso"));
-                    objReembolsoBE.CodigoReembolso = sqlDR.GetString(sqlDR.GetOrdinal("CodigoReembolso"));
+                    objReembolsoBE.IdDocumento = sqlDR.GetInt32(sqlDR.GetOrdinal("IdReembolso"));
+                    objReembolsoBE.CodigoDocumento = sqlDR.GetString(sqlDR.GetOrdinal("CodigoReembolso"));
                     objReembolsoBE.IdEmpresa = sqlDR.GetInt32(sqlDR.GetOrdinal("IdEmpresa"));
                     objReembolsoBE.IdArea = sqlDR.GetInt32(sqlDR.GetOrdinal("IdArea"));
                     objReembolsoBE.IdUsuarioCreador = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioCreador"));
@@ -289,7 +289,7 @@ namespace MSS.TAWA.DA
                 pCodigoReembolso.ParameterName = "@CodigoReembolso";
                 pCodigoReembolso.SqlDbType = SqlDbType.VarChar;
                 pCodigoReembolso.Size = 100;
-                pCodigoReembolso.Value = objBE.CodigoReembolso;
+                pCodigoReembolso.Value = objBE.CodigoDocumento;
 
                 pIdEmpresa = new SqlParameter();
                 pIdEmpresa.ParameterName = "@IdEmpresa";
@@ -544,13 +544,13 @@ namespace MSS.TAWA.DA
                 prmIdReembolso = new SqlParameter();
                 prmIdReembolso.ParameterName = "@IdReembolso";
                 prmIdReembolso.SqlDbType = SqlDbType.Int;
-                prmIdReembolso.Value = objBE.IdReembolso;
+                prmIdReembolso.Value = objBE.IdDocumento;
 
                 pCodigoReembolso = new SqlParameter();
                 pCodigoReembolso.ParameterName = "@CodigoReembolso";
                 pCodigoReembolso.SqlDbType = SqlDbType.VarChar;
                 pCodigoReembolso.Size = 100;
-                pCodigoReembolso.Value = objBE.CodigoReembolso;
+                pCodigoReembolso.Value = objBE.CodigoDocumento;
 
                 pIdEmpresa = new SqlParameter();
                 pIdEmpresa.ParameterName = "@IdEmpresa";
