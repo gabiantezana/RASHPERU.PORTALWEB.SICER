@@ -10,12 +10,12 @@ namespace MSS.TAWA.BC
 {
     public class MonedaBC
     {
-        public List<MonedaBE> ListarMoneda(int Id, int Tipo)
+        public List<MonedaBE> ListarMoneda(int? IdDocumentoWeb = null)
         {
             try
             {
                 MonedaDA objDA = new MonedaDA();
-                return objDA.ListarMoneda(Id, Tipo);
+                return objDA.ListarMoneda(IdDocumentoWeb);
             }
             catch (Exception ex)
             {

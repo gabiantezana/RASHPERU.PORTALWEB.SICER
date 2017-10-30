@@ -19,14 +19,19 @@
 
     <table width="100%">
         <tr>
-            <td align="center" class="style2">
+              <td align="center" colspan="7">
+                  <h1 runat="server" id="lblTitle" style="align-content:center" ></h1></td>
+        </tr>
+        <tr>
+          
+            <td class="style2">
                 <asp:LinkButton ID="lnkNuevoDocumento" runat="server" Font-Underline="false" OnClick="lnkNuevoDocumento_Click"> 
-            <img src="img/money.png" alt="Nueva DocumentName //TODO:" width="50px"/><br />Nuevo documentName //TODO:
+            <img src="img/money.png" alt="" width="50px"/><br />NUEVO
                 </asp:LinkButton>
             </td>
-            <td align="right" width="10%">
+            <td style="display:none" align="right" width="10%">
                 <label>Filtro:</label></td>
-            <td align="left" width="15%">
+            <td   style="display:none"  align ="left" width="15%">
                 <label>
                     <asp:DropDownList ID="ddlFiltro" runat="server" Width="95%" AutoPostBack="true"
                         OnSelectedIndexChanged="ddlFiltro_SelectedIndexChanged">
@@ -35,7 +40,8 @@
             <td align="left" class="style2">
                 <label>&nbsp;</label></td>
         </tr>
-        <tr>
+        <%-- INICIO FILTROS --%>
+        <tr style="display:none">
             <td class="style2">
                 <label>
                     DNI:<br />
@@ -78,6 +84,7 @@
                 <br />
             </td>
         </tr>
+        <%-- FIN FILTROS --%>
     </table>
     <br />
     <table width="100%">
@@ -119,32 +126,34 @@
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Solicitud" ItemStyle-HorizontalAlign="Center">
                             <ItemTemplate>
-                                <asp:LinkButton ID="lnkSolicitud" runat="server" CommandName="Solicitud" CommandArgument='<%#Eval("IdDocumento")%>'>
+                                <asp:LinkButton ID="lnkSolicitud" runat="server" CommandName="Solicitud"  CommandArgument='<% #Eval("IdDocumentoWeb")%>'>
          <img src="img/detail.png" alt="Editar" width="20px" />
                                 </asp:LinkButton>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Aprobacion" ItemStyle-HorizontalAlign="Center">
                             <ItemTemplate>
-                                <asp:LinkButton ID="lnkAprobacion" runat="server" CommandName="Aprobacion" CommandArgument='<%#Eval("IdDocumento")%>'>
+                                <asp:LinkButton ID="lnkAprobacion" runat="server" CommandName="Aprobacion"  CommandArgument='<% #Eval("IdDocumentoWeb")%>'>
          <img src="img/apply.png" alt="Editar" width="20px" />
                                 </asp:LinkButton>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Rendir" ItemStyle-HorizontalAlign="Center">
                             <ItemTemplate>
-                                <asp:LinkButton ID="lnkRendir" runat="server" CommandName="Rendir" CommandArgument='<%#Eval("IdDocumento")%>'>
+                                <asp:LinkButton ID="lnkRendir" runat="server" CommandName="Rendir"    CommandArgument='<% #Eval("IdDocumentoWeb")%>'>
          <img src="img/cashRegister.png" alt="Editar" width="20px" />
                                 </asp:LinkButton>
                             </ItemTemplate>
                         </asp:TemplateField>
+
+                  <%--     
                         <asp:TemplateField HeaderText="Historial" ItemStyle-HorizontalAlign="Center">
                             <ItemTemplate>
-                                <asp:LinkButton ID="lnkHistorial" runat="server" CommandName="Historial" CommandArgument='<%#Eval("IdDocumento")%>'>
+                                <asp:LinkButton ID="lnkHistorial" runat="server" CommandName="Historial"   CommandArgument='<% #Eval("IdDocumentoWeb")%>'>
          <img src="img/details.png" alt="Editar" width="20px" />
                                 </asp:LinkButton>
                             </ItemTemplate>
-                        </asp:TemplateField>
+                        </asp:TemplateField>--%>
 
                     </Columns>
 

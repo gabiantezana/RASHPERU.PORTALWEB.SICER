@@ -100,9 +100,9 @@ namespace MSS.TAWA.DA
                 while (sqlDR.Read())
                 {
                     objConceptoBE = new ConceptoBE();
-                    objConceptoBE.IdConcepto = sqlDR.GetString(sqlDR.GetOrdinal("IdConcepto"));
-                    objConceptoBE.Descripcion = sqlDR.GetString(sqlDR.GetOrdinal("Descripcion"));
-                    objConceptoBE.CuentaContable = sqlDR.GetString(sqlDR.GetOrdinal("CuentaContable"));
+                    objConceptoBE.IdConcepto = sqlDR.GetString(sqlDR.GetOrdinal("U_Codigo"));
+                    objConceptoBE.Descripcion = sqlDR.GetString(sqlDR.GetOrdinal("U_Descripcion"));
+                    objConceptoBE.CuentaContable = sqlDR.GetString(sqlDR.GetOrdinal("u_CuentaContable"));
                     //objConceptoBE.UserCreate = sqlDR.GetString(sqlDR.GetOrdinal("UserCreate"));
                     //objConceptoBE.CreateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("CreateDate"));
                     //objConceptoBE.UserUpdate = sqlDR.GetString(sqlDR.GetOrdinal("UserUpdate"));

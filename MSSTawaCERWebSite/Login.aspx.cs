@@ -37,8 +37,10 @@ public partial class Login : System.Web.UI.Page
 
             objUsuarioBE = objUsuarioBC.LoginUsuario(userName, password);
 
+            
             if (objUsuarioBE != null)
             {
+                objUsuarioBE = objUsuarioBC.ObtenerUsuario(objUsuarioBE.IdUsuario, 0);
                 if (objUsuarioBE.Estado == "1")
                 {
                     var str = password;

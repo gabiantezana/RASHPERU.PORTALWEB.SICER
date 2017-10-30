@@ -5,9 +5,9 @@ using System.Text;
 
 namespace MSS.TAWA.BE
 {
-    public class DocumentBE
+    public class DocumentoWebBE
     {
-        int _IdDocumento;
+        int _IdDocumentoWeb;
         String _CodigoDocumento;
         int _IdEmpresa;
         int _IdArea;
@@ -18,11 +18,11 @@ namespace MSS.TAWA.BE
         String _IdCentroCostos3;
         String _IdCentroCostos4;
         String _IdCentroCostos5;
-        int _IdMetodoPago;
-        String _MontoInicial;
-        String _MontoGastado;
-        String _MontoActual;
-        String _Moneda;
+        int? _IdMetodoPago;
+        Decimal _MontoInicial;
+        Decimal _MontoGastado;
+        Decimal _MontoActual;
+        Int32 _Moneda;
         String _EsFacturable;
         String _MomentoFacturable;
         String _Asunto;
@@ -36,11 +36,21 @@ namespace MSS.TAWA.BE
         String _UserUpdate;
         DateTime _UpdateDate;
 
-        public int IdDocumento
+
+        public Int32? IdDocumentoWebRendicionReferencia { get; set; }
+        public DocumentoWebBE(TipoDocumentoWeb tipoDocumentoWeb)
         {
-            get { return _IdDocumento; }
-            set { _IdDocumento = value; }
+            TipoDocumentoWeb = tipoDocumentoWeb;
         }
+
+        public int IdDocumentoWeb
+        {
+            get { return _IdDocumentoWeb; }
+            set { _IdDocumentoWeb = value; }
+        }
+
+        public TipoDocumentoWeb TipoDocumentoWeb { get; set; }
+
         public String CodigoDocumento
         {
             get { return _CodigoDocumento; }
@@ -68,50 +78,50 @@ namespace MSS.TAWA.BE
         }
         public String IdCentroCostos1
         {
-            get { return _IdCentroCostos1; }
+            get { return _IdCentroCostos1 == "0" ? null : _IdCentroCostos1; }
             set { _IdCentroCostos1 = value; }
         }
         public String IdCentroCostos2
         {
-            get { return _IdCentroCostos2; }
+            get { return _IdCentroCostos2 == "0" ? null : _IdCentroCostos2; }
             set { _IdCentroCostos2 = value; }
         }
         public String IdCentroCostos3
         {
-            get { return _IdCentroCostos3; }
+            get { return _IdCentroCostos3 == "0" ? null : _IdCentroCostos3; }
             set { _IdCentroCostos3 = value; }
         }
         public String IdCentroCostos4
         {
-            get { return _IdCentroCostos4; }
+            get { return _IdCentroCostos4 == "0" ? null : _IdCentroCostos4; }
             set { _IdCentroCostos4 = value; }
         }
         public String IdCentroCostos5
         {
-            get { return _IdCentroCostos5; }
+            get { return _IdCentroCostos5 == "0" ? null : _IdCentroCostos5; }
             set { _IdCentroCostos5 = value; }
         }
-        public int IdMetodoPago
+        public int? IdMetodoPago
         {
-            get { return _IdMetodoPago; }
+            get { return _IdMetodoPago == 0 ? null : _IdMetodoPago; }
             set { _IdMetodoPago = value; }
         }
-        public String MontoInicial
+        public Decimal MontoInicial
         {
             get { return _MontoInicial; }
             set { _MontoInicial = value; }
         }
-        public String MontoGastado
+        public Decimal MontoGastado
         {
             get { return _MontoGastado; }
             set { _MontoGastado = value; }
         }
-        public String MontoActual
+        public Decimal MontoActual
         {
             get { return _MontoActual; }
             set { _MontoActual = value; }
         }
-        public String Moneda
+        public Int32 Moneda
         {
             get { return _Moneda; }
             set { _Moneda = value; }

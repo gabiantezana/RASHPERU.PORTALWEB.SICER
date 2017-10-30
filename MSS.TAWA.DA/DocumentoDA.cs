@@ -13,7 +13,7 @@ namespace MSS.TAWA.DA
     public class DocumentoDA
     {
         // Listar Documento
-        public List<DocumentoBE> ListarDocumento(int Id, int Tipo)
+        public List<DocumentobBE> ListarDocumento(int Id, int Tipo)
         {
             SqlConnection sqlConn;
             String strConn;
@@ -48,13 +48,13 @@ namespace MSS.TAWA.DA
                 sqlCmd.Connection.Open();
                 sqlDR = sqlCmd.ExecuteReader();
 
-                List<DocumentoBE> lstDocumentoBE;
-                DocumentoBE objDocumentoBE;
-                lstDocumentoBE = new List<DocumentoBE>();
+                List<DocumentobBE> lstDocumentoBE;
+                DocumentobBE objDocumentoBE;
+                lstDocumentoBE = new List<DocumentobBE>();
 
                 while (sqlDR.Read())
                 {
-                    objDocumentoBE = new DocumentoBE();
+                    objDocumentoBE = new DocumentobBE();
                     objDocumentoBE.IdDocumento = sqlDR.GetInt32(sqlDR.GetOrdinal("IdDocumento"));
                     objDocumentoBE.Descripcion = sqlDR.GetString(sqlDR.GetOrdinal("Descripcion"));
                     objDocumentoBE.CodigoSunat = sqlDR.GetString(sqlDR.GetOrdinal("CodigoSunat"));
@@ -80,7 +80,7 @@ namespace MSS.TAWA.DA
         }
 
         // Obtener Documento
-        public DocumentoBE ObtenerDocumento(int Id)
+        public DocumentobBE ObtenerDocumento(int Id)
         {
             SqlConnection sqlConn;
             String strConn;
@@ -107,12 +107,12 @@ namespace MSS.TAWA.DA
                 sqlCmd.Connection.Open();
                 sqlDR = sqlCmd.ExecuteReader();
 
-                DocumentoBE objDocumentoBE;
+                DocumentobBE objDocumentoBE;
                 objDocumentoBE = null;
 
                 while (sqlDR.Read())
                 {
-                    objDocumentoBE = new DocumentoBE();
+                    objDocumentoBE = new DocumentobBE();
                     objDocumentoBE.IdDocumento = sqlDR.GetInt32(sqlDR.GetOrdinal("IdDocumento"));
                     objDocumentoBE.Descripcion = sqlDR.GetString(sqlDR.GetOrdinal("Descripcion"));
                     objDocumentoBE.CodigoSunat = sqlDR.GetString(sqlDR.GetOrdinal("CodigoSunat"));

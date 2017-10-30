@@ -1,4 +1,5 @@
 ﻿using MSS.TAWA.BE;
+using MSS.TAWA.MODEL;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -6,18 +7,684 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Transactions;
 
 namespace MSS.TAWA.DA
 {
-    public class DocumentDA
+    public class DocumentoWebDA
     {
-        TipoDocumentoWeb _TipoDocumentoWeb { get; set; }
-
-        public DocumentDA(TipoDocumentoWeb tipoDocumentoWeb)
+        public List<DocumentoWeb> GetListRendicionesPendientesReembolso(Int32 idUsuario, String moneda)
         {
-            _TipoDocumentoWeb = tipoDocumentoWeb;
+            var dataContext = new SICER_WEBEntities1();
+            List<DocumentoWeb> DocumentosWebQueSePuedenReembolsar = new List<DocumentoWeb>();
+
+            List<DocumentoWeb> documentosDeUsuario = GetListDocumentoWeb(idUsuario, TipoDocumentoWeb.EntregaRendir).Where(x => x.EstadoDocumento != (Int32)EstadoDocumento.Liquidado).ToList();
+            foreach (DocumentoWeb docmento in documentosDeUsuario)
+            {
+                var rendicionesASumar = docmento.DocumentoWebRendicion.ToList().Where(x => x.EstadoRendicion == (Int32)EstadoDocumentoRendicion.Guardado
+                                                                        || x.EstadoRendicion == (Int32)EstadoDocumentoRendicion.Rendido
+                                                                        && x.NumeroRendicion == docmento.NumeroRendicion
+                                                                        && x.IdMonedaDoc == Convert.ToInt32(moneda)
+                                                                        ).ToList();
+
+                decimal totalMontoDocumento = rendicionesASumar.Sum(x => x.MontoTotal);
+                if (totalMontoDocumento > docmento.MontoInicial)
+                    DocumentosWebQueSePuedenReembolsar.Add(docmento);
+            }
+            return DocumentosWebQueSePuedenReembolsar;
         }
 
+        public List<DocumentoWeb> GetListDocumentoWeb(Int32 IdUsuario, TipoDocumentoWeb tipoDocumentoWeb)
+        {
+            SICER_WEBEntities1 dataContext = new SICER_WEBEntities1();
+            Usuario usuario = dataContext.Usuario.Where(x => x.IdUsuario == IdUsuario).FirstOrDefault();
+
+            if (usuario.IdPerfilUsuario == null)
+                throw new Exception("El usuario no tiene ningún perfil asignado. No se pueden listar los documentos.");
+
+
+            Boolean esAdministrador = false;
+            Boolean esCreador = false;
+            Boolean esAprobador = false;
+            Boolean esContador = false;
+            Boolean esSistemas = false;
+            ;
+            switch ((PerfilUsuario)usuario.IdPerfilUsuario)
+            {
+                case PerfilUsuario.AdministradorWeb:
+                    esAdministrador = true;
+                    break;
+                case PerfilUsuario.ContabilidadyCreador_CC_ER_RE:
+                    esCreador = true;
+                    esContador = true;
+                    break;
+                case PerfilUsuario.AprobadoryCreador_CC_ER_RE:
+                    esCreador = true;
+                    esAprobador = true;
+                    break;
+                case PerfilUsuario.Creador_CC_ER_RE:
+                    esCreador = true;
+                    break;
+                case PerfilUsuario.Contabilidad:
+                    esContador = true;
+                    break;
+                case PerfilUsuario.Aprobador_CC_ER_RE:
+                    esAprobador = true;
+                    break;
+                case PerfilUsuario.Creador_CC:
+                    esCreador = true;
+                    break;
+                case PerfilUsuario.Creador_ER:
+                    esCreador = true;
+                    break;
+                case PerfilUsuario.Creador_RE:
+                    esCreador = true;
+                    break;
+                case PerfilUsuario.Creador_ER_RE:
+                    esCreador = true;
+                    break;
+                case PerfilUsuario.ContabilidadyCreador_ER_RE:
+                    esCreador = true;
+                    esContador = true;
+                    break;
+                case PerfilUsuario.AprobadoryCreador_ER_RE:
+                    esCreador = true;
+                    esAprobador = true;
+                    break;
+                case PerfilUsuario.Sistemas:
+                    esSistemas = true;
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+
+            List<DocumentoWeb> documentosCreadosPorUsuario = new List<DocumentoWeb>();
+            List<DocumentoWeb> pendientesAprobarNivelPorUsuario = new List<DocumentoWeb>();
+            List<DocumentoWeb> pendientesPorAprobarContabilidad = new List<DocumentoWeb>();
+            List<DocumentoWeb> documentosDeSistemas = new List<DocumentoWeb>();
+            List<DocumentoWeb> documentosDeAdministradores = new List<DocumentoWeb>();
+
+            if (esSistemas)
+                documentosDeSistemas = dataContext.DocumentoWeb.ToList();
+
+            if (esAdministrador)
+                documentosDeAdministradores = dataContext.DocumentoWeb.ToList();
+
+            if (esCreador)
+                documentosCreadosPorUsuario = dataContext.DocumentoWeb.Where(x => x.IdUsuarioSolicitante == IdUsuario).ToList();
+
+            if (esAprobador)
+            {
+                switch (tipoDocumentoWeb)
+                {
+                    case TipoDocumentoWeb.CajaChica:
+                        pendientesAprobarNivelPorUsuario = dataContext.DocumentoWeb.Where(x =>
+                                     (x.Usuario.IdUsuarioCC1 == IdUsuario && (EstadoDocumento)x.EstadoDocumento == EstadoDocumento.PorAprobarNivel1)
+                                   || (x.Usuario.IdUsuarioCC2 == IdUsuario && (EstadoDocumento)x.EstadoDocumento == EstadoDocumento.PorAprobarNivel2)
+                                   || (x.Usuario.IdUsuarioCC3 == IdUsuario && (EstadoDocumento)x.EstadoDocumento == EstadoDocumento.PorAprobarNivel3)).ToList();
+                        break;
+                    case TipoDocumentoWeb.EntregaRendir:
+                        pendientesAprobarNivelPorUsuario = dataContext.DocumentoWeb.Where(x =>
+                                    (x.Usuario.IdUsuarioER1 == IdUsuario && (EstadoDocumento)x.EstadoDocumento == EstadoDocumento.PorAprobarNivel1)
+                                  || (x.Usuario.IdUsuarioER2 == IdUsuario && (EstadoDocumento)x.EstadoDocumento == EstadoDocumento.PorAprobarNivel2)
+                                  || (x.Usuario.IdUsuarioER3 == IdUsuario && (EstadoDocumento)x.EstadoDocumento == EstadoDocumento.PorAprobarNivel3)).ToList();
+                        break;
+                    case TipoDocumentoWeb.Reembolso:
+                        pendientesAprobarNivelPorUsuario = dataContext.DocumentoWeb.Where(x =>
+                                    (x.Usuario.IdUsuarioRE1 == IdUsuario && (EstadoDocumento)x.EstadoDocumento == EstadoDocumento.PorAprobarNivel1)
+                                  || (x.Usuario.IdUsuarioRE2 == IdUsuario && (EstadoDocumento)x.EstadoDocumento == EstadoDocumento.PorAprobarNivel2)
+                                  || (x.Usuario.IdUsuarioRE3 == IdUsuario && (EstadoDocumento)x.EstadoDocumento == EstadoDocumento.PorAprobarNivel3)).ToList();
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+
+            }
+
+            if (esContador)
+                pendientesPorAprobarContabilidad = dataContext.DocumentoWeb.Where(x => x.EstadoDocumento == (Int32)EstadoDocumento.RendirPorAprobarContabilidad).ToList();
+
+
+            List<DocumentoWeb> listDocumentoWeb = new List<DocumentoWeb>();
+            listDocumentoWeb.AddRange(documentosDeSistemas);
+            listDocumentoWeb.AddRange(documentosDeAdministradores);
+            listDocumentoWeb.AddRange(documentosCreadosPorUsuario);
+            listDocumentoWeb.AddRange(pendientesAprobarNivelPorUsuario);
+            listDocumentoWeb.AddRange(pendientesPorAprobarContabilidad);
+
+            listDocumentoWeb = listDocumentoWeb.Where(x => x.TipoDocumentoWeb == (Int32)tipoDocumentoWeb).Distinct().ToList();
+
+            return listDocumentoWeb?.ToList() ?? new List<DocumentoWeb>();
+        }
+
+        #region DocumentoWeb
+
+        public List<DocumentoWeb> GetListDocumentosPendientesPorUsuario(Int32 IdUsuario, TipoDocumentoWeb tipoDocumentoWeb)
+        {
+            List<EstadoDocumento> listadoEstadosNoPendientes = new List<EstadoDocumento>
+            {
+                EstadoDocumento.Aprobado,
+                EstadoDocumento.Liquidado,
+                EstadoDocumento.Rechazado,
+                EstadoDocumento.RendirAprobado,
+            };
+            var list = GetListDocumentoWeb(IdUsuario, tipoDocumentoWeb).Where(x => !listadoEstadosNoPendientes.Contains((EstadoDocumento)x.EstadoDocumento));
+            return list.ToList();
+        }
+
+        public DocumentoWeb GetDocumentoWeb(Int32? idDocumentoWeb)
+        {
+            var item = new SICER_WEBEntities1().DocumentoWeb.Find(idDocumentoWeb);
+            return item;
+        }
+
+        public void AddUpdateDocumentoWeb(DocumentoWebBE documentoWebBE)
+        {
+            var dataContext = new SICER_WEBEntities1();
+            DocumentoWeb documentoWeb;
+            Boolean isUpdate = dataContext.DocumentoWeb.Find(documentoWebBE.IdDocumentoWeb) == null ? false : true;
+
+            if (!isUpdate)
+            {
+                documentoWeb = new DocumentoWeb();
+                documentoWeb.Codigo = GenerateDocumentCode((TipoDocumentoWeb)documentoWebBE.TipoDocumentoWeb);
+                documentoWeb.EstadoDocumento = (Int32)EstadoDocumento.PorAprobarNivel1;
+                documentoWeb.NumeroRendicion = 1;
+                documentoWeb.CreateDate = DateTime.Now;
+                documentoWeb.IdUsuarioCreacion = Convert.ToInt32(documentoWebBE.IdUsuarioCreador);
+                documentoWeb.IdUsuarioSolicitante = documentoWebBE.IdUsuarioSolicitante;
+                documentoWeb.IdUsuarioModificacion = documentoWeb.IdUsuarioCreacion;
+                documentoWeb.TipoDocumentoWeb = (Int32)documentoWebBE.TipoDocumentoWeb;
+            }
+            else
+            {
+                documentoWeb = dataContext.DocumentoWeb.Find(documentoWebBE.IdDocumentoWeb);
+            }
+
+            documentoWeb.Asunto = documentoWebBE.Asunto;
+            documentoWeb.Comentario = documentoWebBE.Comentario;
+            documentoWeb.IdEmpresa = documentoWebBE.IdEmpresa;
+            documentoWeb.IdDocumentoWebRendicionReferencia = documentoWebBE.IdDocumentoWebRendicionReferencia;
+            documentoWeb.IdMoneda = documentoWebBE.Moneda;
+            documentoWeb.IdUsuarioSolicitante = documentoWebBE.IdUsuarioSolicitante;
+            documentoWeb.MontoInicial = documentoWebBE.MontoInicial;
+            documentoWeb.MotivoDetalle = documentoWebBE.MotivoDetalle;
+            documentoWeb.SAPCodigoCentroCostos1 = documentoWebBE.IdCentroCostos1;
+            documentoWeb.SAPCodigoCentroCostos2 = documentoWebBE.IdCentroCostos2;
+            documentoWeb.SAPCodigoCentroCostos3 = documentoWebBE.IdCentroCostos3;
+            documentoWeb.SAPCodigoCentroCostos4 = documentoWebBE.IdCentroCostos4;
+            documentoWeb.SAPCodigoCentroCostos5 = documentoWebBE.IdCentroCostos5;
+            documentoWeb.IdMetodoPago = documentoWebBE.IdMetodoPago;
+            documentoWeb.FechaContabilizacion = DateTime.Now;
+            documentoWeb.FechaSolicitud = DateTime.Now;
+            documentoWeb.Comentario = documentoWebBE.Comentario;
+
+            if (isUpdate)
+                dataContext.Entry(documentoWeb);
+            else
+                dataContext.DocumentoWeb.Add(documentoWeb);
+            dataContext.SaveChanges();
+        }
+
+        public void AprobarDocumento(CambioEstadoBE cambioEstadoBE)
+        {
+            SICER_WEBEntities1 datacontext = new SICER_WEBEntities1();
+            using (var trx = datacontext.Database.BeginTransaction())
+            {
+                try
+                {
+                    DocumentoWeb documentoWeb = datacontext.DocumentoWeb.Find(cambioEstadoBE.IdDocumentoWeb);
+
+                    EstadoDocumento estadoActualDocumento = (EstadoDocumento)Convert.ToInt32(documentoWeb.EstadoDocumento);
+                    EstadoDocumento nuevoEstado;
+
+                    switch (estadoActualDocumento)
+                    {
+                        case EstadoDocumento.PorAprobarNivel1:
+                            nuevoEstado = EstadoDocumento.PorAprobarNivel2;
+                            break;
+                        case EstadoDocumento.PorAprobarNivel2:
+                            nuevoEstado = EstadoDocumento.Aprobado;
+                            break;
+                        case EstadoDocumento.PorAprobarNivel3:
+                            throw new NotImplementedException();
+                        case EstadoDocumento.Aprobado:
+                            throw new Exception("El documento ya se encuentra aprobado.");
+                        case EstadoDocumento.Rechazado:
+                            nuevoEstado = EstadoDocumento.PorAprobarNivel1;
+                            break;
+                        case EstadoDocumento.RendirPorAprobarJefeArea:
+                            nuevoEstado = EstadoDocumento.RendirPorAprobarContabilidad;
+                            break;
+                        case EstadoDocumento.RendirPorAprobarContabilidad:
+                            nuevoEstado = EstadoDocumento.RendirAprobado;
+                            break;
+                        case EstadoDocumento.RendirAprobado:
+                            throw new Exception("El documento ya se encuentra aprobado.");
+                        case EstadoDocumento.Liquidado:
+                            throw new Exception("El documento ya se encuentra aprobado y liquidado.");
+                        default:
+                            throw new NotImplementedException();
+                    }
+
+                    documentoWeb.EstadoDocumento = (Int32)nuevoEstado;
+                    datacontext.Entry(documentoWeb);
+                    datacontext.SaveChanges();
+
+                    //GUARDA AUDITORÍA
+                    DocumentoWebAuditoria documentoWebAuditoria = new DocumentoWebAuditoria();
+                    documentoWebAuditoria.IdDocumentoWeb = cambioEstadoBE.IdDocumentoWeb;
+                    documentoWebAuditoria.IdUsuario = cambioEstadoBE.IdUsuario;
+                    documentoWebAuditoria.Comentario = cambioEstadoBE.Comentario;
+                    documentoWebAuditoria.EstadoDocumento = documentoWeb.EstadoDocumento;
+                    documentoWebAuditoria.Fecha = DateTime.Now;
+
+                    datacontext.DocumentoWebAuditoria.Add(documentoWebAuditoria);
+                    datacontext.SaveChanges();
+
+                    //SI EL DOCUMENTO WEB ES APROBADO, SE MIGRA A LA BD INTERMEDIA.
+                    if (nuevoEstado == EstadoDocumento.Aprobado)
+                    {
+                        if ((TipoDocumentoWeb)documentoWeb.TipoDocumentoWeb == TipoDocumentoWeb.Reembolso)
+                        {
+                            DocumentoWeb entregaRendirPorLiquidar = datacontext.DocumentoWeb.Find(documentoWeb.IdDocumentoWebRendicionReferencia);
+                            entregaRendirPorLiquidar.EstadoDocumento = (Int32)EstadoDocumento.Liquidado;
+                            datacontext.Entry(entregaRendirPorLiquidar);
+                            datacontext.SaveChanges();
+                        }
+
+                        MigrateToInterDB(documentoWeb);
+                    }
+
+                    //SI LAS RENDICIONES SON APROBADAS, SE MIGRAN LAS RENDICIONES A LA BD INTERMEDIA.
+                    else if (nuevoEstado == EstadoDocumento.RendirAprobado)
+                    {
+                        //MIGRA BUSINESS PARTNERS
+                        MigrateBusinessPartner(documentoWeb.IdDocumentoWeb);
+
+                        List<DocumentoWebRendicion> ListDocumentosGuardados = documentoWeb.DocumentoWebRendicion.Where(x => x.NumeroRendicion == documentoWeb.NumeroRendicion
+                                                                              && x.EstadoRendicion == (Int32)EstadoDocumentoRendicion.Guardado).ToList();
+                        foreach (DocumentoWebRendicion documentoWebRendicion in ListDocumentosGuardados)
+                        {
+                            documentoWebRendicion.EstadoRendicion = (Int32)EstadoDocumentoRendicion.Rendido;
+                            datacontext.Entry(documentoWebRendicion);
+                            datacontext.SaveChanges();
+
+                            //MIGRA RENDICIONES
+                            MigrateToInterDB(documentoWebRendicion);
+                        }
+                    }
+
+                    trx.Commit();
+                    trx.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    trx.Rollback();
+                    throw;
+                }
+
+            }
+        }
+
+        public void RechazarDocumento(CambioEstadoBE cambioEstadoBE)
+        {
+            SICER_WEBEntities1 datacontext = new SICER_WEBEntities1();
+            DocumentoWeb documentoWeb = datacontext.DocumentoWeb.Find(cambioEstadoBE.IdDocumentoWeb);
+            switch ((EstadoDocumento)documentoWeb.EstadoDocumento)
+            {
+                case EstadoDocumento.Aprobado:
+                case EstadoDocumento.Liquidado:
+                case EstadoDocumento.Rechazado:
+                case EstadoDocumento.RendirAprobado:
+                case EstadoDocumento.RendirPorAprobarContabilidad:
+                case EstadoDocumento.RendirPorAprobarJefeArea:
+                    throw new Exception("El documento no se puede rechazar. El estado actual del documento es: " + ((EstadoDocumento)documentoWeb.EstadoDocumento).ToString());
+                default:
+                    break;
+            }
+
+            documentoWeb.EstadoDocumento = (Int32)EstadoDocumento.Rechazado;
+            var rendicionesARechazar = documentoWeb.DocumentoWebRendicion.Where(x => x.NumeroRendicion == documentoWeb.NumeroRendicion && x.EstadoRendicion == (Int32)EstadoDocumentoRendicion.Guardado).ToList();
+
+            foreach (DocumentoWebRendicion documentoRendicion in rendicionesARechazar)
+            {
+                documentoRendicion.EstadoRendicion = (Int32)EstadoDocumentoRendicion.Rechazado;
+                datacontext.Entry(documentoRendicion);
+            }
+
+            datacontext.Entry(documentoWeb);
+
+            //GUARDA AUDITORÍA
+            DocumentoWebAuditoria documentoWebAuditoria = new DocumentoWebAuditoria();
+            documentoWebAuditoria.IdDocumentoWeb = cambioEstadoBE.IdDocumentoWeb;
+            documentoWebAuditoria.IdUsuario = cambioEstadoBE.IdUsuario;
+            documentoWebAuditoria.Comentario = cambioEstadoBE.Comentario;
+            documentoWebAuditoria.EstadoDocumento = documentoWeb.EstadoDocumento;
+            documentoWebAuditoria.Fecha = DateTime.Now;
+            datacontext.DocumentoWebAuditoria.Add(documentoWebAuditoria);
+
+            datacontext.SaveChanges();
+        }
+
+        public void EnviarRendicion(Int32 idDocumentoWeb)
+        {
+            var dataContext = new SICER_WEBEntities1();
+            DocumentoWeb documentoWeb = dataContext.DocumentoWeb.Find(idDocumentoWeb);
+
+            //Cambia estado a pendiente de rendición
+            documentoWeb.EstadoDocumento = ((Int32)EstadoDocumento.RendirPorAprobarJefeArea);
+            dataContext.Entry(documentoWeb);
+
+            dataContext.SaveChanges();
+        }
+
+        public void MigrateBusinessPartner(Int32 idDocumentoWeb)
+        {
+            var list = new SICER_WEBEntities1().Proveedor.Where(x => x.IdProceso == idDocumentoWeb).ToList();
+
+            foreach (var item in list)
+            {
+                MaestroTrabajadores maestroTrabajadores = new MaestroTrabajadores();
+                var proveedor = new SICER_WEBEntities1().Proveedor.Where(x => x.CardCode == item.Documento && x.CardName == item.CardName).FirstOrDefault();
+                if (proveedor == null)
+                {
+
+                    maestroTrabajadores.Code = "001";
+                    maestroTrabajadores.CardCode = item.CardCode;
+                    maestroTrabajadores.CardName = item.CardName;
+                    maestroTrabajadores.CardType = "S";
+                    maestroTrabajadores.LicTradNum = item.Documento;
+                    maestroTrabajadores.GroupCode = 101;
+                    maestroTrabajadores.U_BPP_BPTP = "TPJ";
+                    maestroTrabajadores.U_BPP_BPTD = "6";
+                    maestroTrabajadores.INT_Estado = "A";
+
+                    var datacontext = new SICER_INT_SBOEntities();
+                    datacontext.MaestroTrabajadores.Add(maestroTrabajadores);
+                    datacontext.SaveChanges();
+                }
+            }
+
+        }
+
+        public void AprobarYLiquidarDocumento(CambioEstadoBE cambioEstadoBE)
+        {
+            SICER_WEBEntities1 dataContext = new SICER_WEBEntities1();
+            AprobarDocumento(cambioEstadoBE);
+
+            //Liquida documento
+            DocumentoWeb documentoWeb = dataContext.DocumentoWeb.Find(cambioEstadoBE.IdDocumentoWeb);
+            documentoWeb.EstadoDocumento = (Int32)EstadoDocumento.Liquidado;
+            documentoWeb.NumeroRendicion += 1;
+            dataContext.Entry(documentoWeb);
+
+            //GUARDA AUDITORÍA
+            DocumentoWebAuditoria documentoWebAuditoria = new DocumentoWebAuditoria();
+            documentoWebAuditoria.IdDocumentoWeb = cambioEstadoBE.IdDocumentoWeb;
+            documentoWebAuditoria.IdUsuario = cambioEstadoBE.IdUsuario;
+            documentoWebAuditoria.Comentario = cambioEstadoBE.Comentario;
+            documentoWebAuditoria.EstadoDocumento = documentoWeb.EstadoDocumento;
+            documentoWebAuditoria.Fecha = DateTime.Now;
+            dataContext.DocumentoWebAuditoria.Add(documentoWebAuditoria);
+
+
+            dataContext.SaveChanges();
+        }
+
+        #endregion
+
+        #region DocumentoWebRendicion
+
+        public List<DocumentoWebRendicion> GetListDocumentoWebRendicion(Int32 IdDocumentoWeb)
+        {
+            var list = new SICER_WEBEntities1().DocumentoWebRendicion.Where(x => x.IdDocumentoWeb == IdDocumentoWeb && x.DocumentoWeb.NumeroRendicion == x.NumeroRendicion).ToList();
+            return list;
+        }
+
+        public DocumentoWebRendicion GetDocumentoWebRendicion(Int32? idDocumentoWebRendicion)
+        {
+            return new SICER_WEBEntities1().DocumentoWebRendicion.Find(idDocumentoWebRendicion);
+        }
+
+        public void AddUpdateDocumentoRendicion(DocumentoWebRendicionBE documentoRendicionBE)
+        {
+            var dataContext = new SICER_WEBEntities1();
+            DocumentoWebRendicion documentoWebRendicion;
+            Boolean isUpdate = dataContext.DocumentoWebRendicion.Find(documentoRendicionBE.IdDocumentoWebRendicion) == null ? false : true;
+
+            if (!isUpdate)
+            {
+                documentoWebRendicion = new DocumentoWebRendicion();
+
+                documentoWebRendicion.IdDocumentoWeb = documentoRendicionBE.IdDocumentoWeb;
+                documentoWebRendicion.NumeroRendicion = dataContext.DocumentoWeb.Find(documentoRendicionBE.IdDocumentoWeb).NumeroRendicion;
+                documentoWebRendicion.EstadoRendicion = (Int32)EstadoDocumentoRendicion.Guardado;
+                documentoWebRendicion.CreateDate = DateTime.Now;
+                documentoWebRendicion.IdUsuarioCreacion = documentoRendicionBE.UserCreate.Value;
+                documentoWebRendicion.IdUsuarioModificacion = documentoRendicionBE.UserCreate.Value;
+            }
+            else
+            {
+                documentoWebRendicion = dataContext.DocumentoWebRendicion.Find(documentoRendicionBE.IdDocumentoWebRendicion);
+                documentoWebRendicion.IdUsuarioModificacion = documentoRendicionBE.UserUpdate.Value;
+            }
+
+            documentoWebRendicion.CorrelativoDoc = documentoRendicionBE.CorrelativoDoc;
+            documentoWebRendicion.FechaDoc = documentoRendicionBE.FechaDoc;
+            documentoWebRendicion.IdMonedaDoc = documentoRendicionBE.IdMonedaDoc;
+            documentoWebRendicion.IdProveedor = documentoRendicionBE.IdProveedor;
+            documentoWebRendicion.IdTipoDocSunat = Convert.ToInt32(documentoRendicionBE.TipoDoc);
+            documentoWebRendicion.MontoAfecto = documentoRendicionBE.MontoAfecto;
+            documentoWebRendicion.MontoNoAfecto = documentoRendicionBE.MontoNoAfecto;
+            documentoWebRendicion.MontoTasaCambio = documentoRendicionBE.TasaCambio;
+            documentoWebRendicion.MontoDoc = documentoRendicionBE.MontoDoc;
+            documentoWebRendicion.MontoTotal = documentoRendicionBE.MontoTotal;
+            documentoWebRendicion.MontoIGV = documentoRendicionBE.MontoIGV;
+            documentoWebRendicion.SAPCodigoCentroCostos1 = documentoRendicionBE.IdCentroCostos1;
+            documentoWebRendicion.SAPCodigoCentroCostos2 = documentoRendicionBE.IdCentroCostos2;
+            documentoWebRendicion.SAPCodigoCentroCostos3 = documentoRendicionBE.IdCentroCostos3;
+            documentoWebRendicion.SAPCodigoCentroCostos4 = documentoRendicionBE.IdCentroCostos4;
+            documentoWebRendicion.SAPCodigoCentroCostos5 = documentoRendicionBE.IdCentroCostos5;
+            documentoWebRendicion.SAPCodigoConcepto = documentoRendicionBE.IdConcepto;
+            documentoWebRendicion.SAPCodigoPartidaPresupuestal = documentoRendicionBE.CodigoPartidaPresupuestal;
+            documentoWebRendicion.SerieDoc = documentoRendicionBE.SerieDoc;
+            documentoWebRendicion.SAPCodigoCuentaContableRendicion = documentoRendicionBE.CodigoCuentaContableDevolucion;
+
+            if (isUpdate)
+                dataContext.Entry(documentoWebRendicion);
+            else
+                dataContext.DocumentoWebRendicion.Add(documentoWebRendicion);
+            dataContext.SaveChanges();
+        }
+
+        public void DeleteDocumentoRendicion(Int32 idDocumentoRendicion)
+        {
+            var dataContext = new SICER_WEBEntities1();
+            var document = dataContext.DocumentoWebRendicion.Find(idDocumentoRendicion);
+            dataContext.DocumentoWebRendicion.Remove(document);
+            dataContext.SaveChanges();
+        }
+
+        public void ChangeStateDocumentoWebRendicion(Int32 idDocumentoWebRendicion, EstadoDocumentoRendicion newState)
+        {
+            var dataContext = new SICER_WEBEntities1();
+            DocumentoWebRendicion documentoWebRendicion = dataContext.DocumentoWebRendicion.Find(idDocumentoWebRendicion);
+            documentoWebRendicion.EstadoRendicion = ((Int32)newState);
+            dataContext.Entry(documentoWebRendicion);
+            dataContext.SaveChanges();
+
+        }
+
+        #endregion
+
+        #region MigrateDocument
+
+        public void MigrateToInterDB(DocumentoWeb documentoWeb)
+        {
+            //Migrate Proveedores que estén agregados en el documento
+            String _ControlAccount = new UtilDA().GetControlAccount((TipoDocumentoWeb)documentoWeb.TipoDocumentoWeb, documentoWeb.Moneda.Descripcion);
+            String _AccountCode = new UtilDA().GetAccountCode((TipoDocumentoWeb)documentoWeb.TipoDocumentoWeb, documentoWeb.Moneda.Descripcion);
+
+            if ((TipoDocumentoWeb)documentoWeb.TipoDocumentoWeb == TipoDocumentoWeb.Reembolso)
+                _AccountCode = new UtilDA().GetAccountCode((TipoDocumentoWeb)documentoWeb.TipoDocumentoWeb, documentoWeb.Moneda.Descripcion);
+
+            Int32 _Etapa = 1;
+            Decimal _DocRate = new UtilDA().GetRate(documentoWeb.Moneda.Descripcion);
+
+            String _MetodoPago = null;
+            if (documentoWeb.IdMetodoPago != null)
+                _MetodoPago = new MetodoPagoDA().ObtenerMetodoPago(documentoWeb.IdMetodoPago.Value).PayMethCod;
+
+            Int32 _Series = new UtilDA().GetSeries(TipoDocumentoSunat.ReciboInterno);
+            Int32 _intNumber = Convert.ToInt32(documentoWeb.Codigo.Substring(2, documentoWeb.Codigo.Length - 2));
+
+
+            FacturasWebMigracion facturasWebMigracion = new FacturasWebMigracion();
+            facturasWebMigracion.AccountCode = _AccountCode;
+            facturasWebMigracion.Asunto = documentoWeb.Asunto;
+            facturasWebMigracion.CardCode = documentoWeb.Usuario2.CardCode;
+            facturasWebMigracion.CardName = documentoWeb.Usuario2.CardName;
+            facturasWebMigracion.CntPerson = null;
+            facturasWebMigracion.Code = documentoWeb.Codigo;
+            facturasWebMigracion.ControlAccount = _ControlAccount;
+            facturasWebMigracion.CostingCode = documentoWeb.SAPCodigoCentroCostos1;
+            facturasWebMigracion.CostingCode2 = documentoWeb.SAPCodigoCentroCostos2;
+            facturasWebMigracion.CostingCode3 = documentoWeb.SAPCodigoCentroCostos3;
+            facturasWebMigracion.CostingCode4 = documentoWeb.SAPCodigoCentroCostos4;
+            facturasWebMigracion.CostingCode5 = documentoWeb.SAPCodigoCentroCostos5;
+            facturasWebMigracion.Description = documentoWeb.Codigo;
+            facturasWebMigracion.DocCurrency = documentoWeb.Moneda.Descripcion;
+            facturasWebMigracion.DocDate = documentoWeb.FechaContabilizacion;
+            facturasWebMigracion.DocDueDate = documentoWeb.FechaContabilizacion;
+            facturasWebMigracion.DocEntry = null;
+            facturasWebMigracion.DocRate = _DocRate;
+            facturasWebMigracion.DocSubType = (Int32)DocSubTypeSAP.oPurchaseInvoices;
+            facturasWebMigracion.Etapa = _Etapa;
+            facturasWebMigracion.ExCode = _intNumber;
+            facturasWebMigracion.FolioNum = _intNumber;
+            facturasWebMigracion.FolioPref = ((TipoDocumentoWeb)documentoWeb.TipoDocumentoWeb).GetPrefix();
+            facturasWebMigracion.IdFacturaWeb = documentoWeb.IdDocumentoWeb;
+            facturasWebMigracion.IdFacturaWebRendicion = null;
+            facturasWebMigracion.INT_Error = null;
+            facturasWebMigracion.INT_Estado = null;
+            facturasWebMigracion.INT_Ref1 = null;
+            facturasWebMigracion.JournalMemo = null;
+            facturasWebMigracion.LineTotal = documentoWeb.MontoInicial;
+            facturasWebMigracion.NumAtCard = documentoWeb.Codigo;
+            facturasWebMigracion.PaymentMethod = _MetodoPago;
+            facturasWebMigracion.RendicionesTotales = null;
+            facturasWebMigracion.Series = _Series;
+            facturasWebMigracion.TaxCode = IGVCode.IGV_EXO.ToString();
+            facturasWebMigracion.TaxDate = documentoWeb.FechaSolicitud;
+            facturasWebMigracion.TipoDocumento = documentoWeb.TipoDocumentoWeb;
+            facturasWebMigracion.U_BPP_MDTD = TipoDocumentoSunat.ReciboInterno.GetPrefix();
+            facturasWebMigracion.U_MSS_ORD = null;
+
+            SICER_INT_SBOEntities dataContext = new SICER_INT_SBOEntities();
+            dataContext.FacturasWebMigracion.Add(facturasWebMigracion);
+            dataContext.SaveChanges();
+
+        }
+
+        public void MigrateToInterDB(DocumentoWebRendicion documentoWebRendicion)
+        {
+            String _ControlAccount = new UtilDA().GetControlAccount((TipoDocumentoWeb)documentoWebRendicion.DocumentoWeb.TipoDocumentoWeb, documentoWebRendicion.Moneda.Descripcion);
+
+            String _PartidaPresupuestal = null;
+            if (documentoWebRendicion.SAPCodigoPartidaPresupuestal != null)
+                _PartidaPresupuestal = new UtilDA().GetPartidaPresupuestal(documentoWebRendicion.SAPCodigoPartidaPresupuestal);
+
+            String _AccountCode = null;
+            if ((TipoDocumentoSunat)documentoWebRendicion.IdTipoDocSunat == TipoDocumentoSunat.Devolucion)
+                _AccountCode = new UtilDA().GetAccountCode(documentoWebRendicion.SAPCodigoCuentaContableRendicion, true);
+            else
+                _AccountCode = new UtilDA().GetAccountCode(documentoWebRendicion.SAPCodigoConcepto);
+
+            String _TaxCode = documentoWebRendicion.MontoIGV == 0 ? IGVCode.IGV_EXO.ToString() : IGVCode.IGV.ToString();
+            Int32 _Etapa = 2;
+            String _DocCurrency = documentoWebRendicion.Moneda.Descripcion;
+            Decimal _DocRate = new UtilDA().GetRate(_DocCurrency);
+            Int32 _intNumber = Convert.ToInt32(documentoWebRendicion.DocumentoWeb.Codigo.Substring(2, (documentoWebRendicion.DocumentoWeb.Codigo.Length - 2)));
+            Int32 _Series = new UtilDA().GetSeries((TipoDocumentoSunat)documentoWebRendicion.Documento.IdDocumento);
+
+            FacturasWebMigracion facturasWebMigracion = new FacturasWebMigracion();
+            facturasWebMigracion.AccountCode = _AccountCode;
+            facturasWebMigracion.Asunto = documentoWebRendicion.DocumentoWeb.Asunto;
+
+            if ((TipoDocumentoSunat)documentoWebRendicion.IdTipoDocSunat == TipoDocumentoSunat.Devolucion)
+            {
+                facturasWebMigracion.CardCode = documentoWebRendicion.DocumentoWeb.Usuario2.CardCode;
+                facturasWebMigracion.CardName = documentoWebRendicion.DocumentoWeb.Usuario2.CardName;
+            }
+            else
+            {
+                facturasWebMigracion.CardCode = documentoWebRendicion.Proveedor.CardCode;
+                facturasWebMigracion.CardName = documentoWebRendicion.Proveedor.CardName;
+            }
+
+            facturasWebMigracion.CntPerson = null;
+            facturasWebMigracion.Code = documentoWebRendicion.DocumentoWeb.Codigo;
+            facturasWebMigracion.ControlAccount = _ControlAccount;
+            facturasWebMigracion.CostingCode = documentoWebRendicion.SAPCodigoCentroCostos1;
+            facturasWebMigracion.CostingCode2 = documentoWebRendicion.SAPCodigoCentroCostos2;
+            facturasWebMigracion.CostingCode3 = documentoWebRendicion.SAPCodigoCentroCostos3;
+            facturasWebMigracion.CostingCode4 = documentoWebRendicion.SAPCodigoCentroCostos4;
+            facturasWebMigracion.CostingCode5 = documentoWebRendicion.SAPCodigoCentroCostos5;
+            facturasWebMigracion.Description = null;
+            facturasWebMigracion.DocCurrency = _DocCurrency;
+            facturasWebMigracion.DocDate = documentoWebRendicion.FechaDoc;
+            facturasWebMigracion.DocDueDate = documentoWebRendicion.FechaDoc;
+            facturasWebMigracion.DocEntry = null;
+            facturasWebMigracion.DocRate = _DocRate;
+            facturasWebMigracion.DocSubType = (Int32)DocSubTypeSAP.oPurchaseInvoices;
+            facturasWebMigracion.Etapa = _Etapa;
+            facturasWebMigracion.ExCode = _intNumber;
+            facturasWebMigracion.FolioPref = documentoWebRendicion.SerieDoc;
+            facturasWebMigracion.FolioNum = documentoWebRendicion.CorrelativoDoc;
+            facturasWebMigracion.IdFacturaWeb = documentoWebRendicion.DocumentoWeb.IdDocumentoWeb;
+            facturasWebMigracion.IdFacturaWebRendicion = documentoWebRendicion.IdDocumentoWebRendicion;
+            facturasWebMigracion.INT_Error = null;
+            facturasWebMigracion.INT_Estado = null;
+            facturasWebMigracion.INT_Ref1 = null;
+            facturasWebMigracion.JournalMemo = null;
+            facturasWebMigracion.LineTotal = documentoWebRendicion.MontoTotal - documentoWebRendicion.MontoIGV;
+            facturasWebMigracion.PaymentMethod = null;
+            facturasWebMigracion.NumAtCard = documentoWebRendicion.DocumentoWeb.Codigo;
+            facturasWebMigracion.RendicionesTotales = null;
+            facturasWebMigracion.Series = _Series;
+            facturasWebMigracion.TaxCode = _TaxCode;
+            facturasWebMigracion.TaxDate = documentoWebRendicion.FechaDoc;
+            facturasWebMigracion.TipoDocumento = documentoWebRendicion.DocumentoWeb.TipoDocumentoWeb;
+            facturasWebMigracion.U_BPP_MDTD = documentoWebRendicion.Documento.CodigoSunat;
+            facturasWebMigracion.U_MSS_ORD = _PartidaPresupuestal;
+
+
+            SICER_INT_SBOEntities dataContext = new SICER_INT_SBOEntities();
+            dataContext.FacturasWebMigracion.Add(facturasWebMigracion);
+            dataContext.SaveChanges();
+        }
+
+        #endregion
+
+        private String GenerateDocumentCode(TipoDocumentoWeb tipoDocumentoWeb)
+        {
+            Int32 initialCode = 100000;
+            String finalCode = String.Empty;
+
+            String lastCode = new SICER_WEBEntities1().DocumentoWeb.Where(x => x.TipoDocumentoWeb == (Int32)tipoDocumentoWeb).OrderByDescending(y => y.IdDocumentoWeb).FirstOrDefault()?.Codigo;
+
+            if (String.IsNullOrEmpty(lastCode))
+                lastCode = initialCode.ToString();
+            else
+                lastCode = lastCode.Remove(0, 2);
+
+            finalCode = tipoDocumentoWeb.GetPrefix() + (Convert.ToInt32(lastCode) + 1);
+            return finalCode;
+        }
+
+        /*
+        [Obsolete]
         public List<DocumentBE> ListarDocumentos(int IdUsuario, int Tipo, int Tipo2, String CodigoDocumento, String Dni, String NombreSolicitante, String EsFacturable, String Estado)
         {
             SqlConnection sqlConn;
@@ -1658,5 +2325,7 @@ namespace MSS.TAWA.DA
         }
 
         #endregion
+    */
     }
+
 }

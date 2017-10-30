@@ -13,7 +13,7 @@ namespace MSS.TAWA.DA
     public class MonedaDA
     {
         // Listar Area
-        public List<MonedaBE> ListarMoneda(int Id, int Tipo)
+        public List<MonedaBE> ListarMoneda(int? IdDocumentoWeb = null)
         {
             SqlConnection sqlConn;
             String strConn;
@@ -33,17 +33,11 @@ namespace MSS.TAWA.DA
                 sqlCmd.CommandType = CommandType.StoredProcedure;
 
                 pId = new SqlParameter();
-                pId.ParameterName = "@Id";
+                pId.ParameterName = "@IdDocumentoWeb";
                 pId.SqlDbType = SqlDbType.Int;
-                pId.Value = Id;
-
-                pTipo = new SqlParameter();
-                pTipo.ParameterName = "@Tipo";
-                pTipo.SqlDbType = SqlDbType.Int;
-                pTipo.Value = Tipo;
+                pId.Value = IdDocumentoWeb;
 
                 sqlCmd.Parameters.Add(pId);
-                sqlCmd.Parameters.Add(pTipo);
 
                 sqlCmd.Connection.Open();
                 sqlDR = sqlCmd.ExecuteReader();

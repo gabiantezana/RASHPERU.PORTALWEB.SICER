@@ -7,8 +7,7 @@ namespace MSS.TAWA.BE
 {
     public  class PartidaPresupuestalBE
     {
-        public String U_Codigo { get; set; }
-        public String U_Descripcion { get; set; }
-        public String U_CuentaContable { get; set; }
+        public String Code { get; set; }
+        public String U_MSSP_NIV { get; set; }
     }
 }

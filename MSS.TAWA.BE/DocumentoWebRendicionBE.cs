@@ -5,10 +5,10 @@ using System.Text;
 
 namespace MSS.TAWA.BE
 {
-    public class DocumentDetailBE
+    public class DocumentoWebRendicionBE
     {
-        int _IdDocumentoDetalle;
-        int _IdDocumento;
+        int _IdDocumentoWebRendicion;
+        int _IdDocumentoWeb;
         int _IdProveedor;
         String _IdConcepto;
         String _IdCentroCostos1;
@@ -20,34 +20,36 @@ namespace MSS.TAWA.BE
         /// <summary>
         /// TODO: Partida presupuestal
         /// </summary>
-        String _PartidaPresupuestal;
+        String _codigoPartidaPresupuestal;
+
         String _TipoDoc;
         String _SerieDoc;
-        String _CorrelativoDoc;
+        Int32 _CorrelativoDoc;
         DateTime _FechaDoc;
         int _IdMonedaDoc;
-        String _MontoDoc;
-        String _TasaCambio;
+        Decimal _MontoDoc;
+        Decimal _TasaCambio;
         int _IdMonedaOriginal;
-        String _MontoNoAfecto;
-        String _MontoAfecto;
-        String _MontoIGV;
-        String _MontoTotal;
+        Decimal _MontoNoAfecto;
+        Decimal _MontoAfecto;
+        Decimal _MontoIGV;
+        Decimal _MontoTotal;
         String _Estado;
-        String _UserCreate;
+        Int32? _UserCreate;
         DateTime _CreateDate;
-        String _UserUpdate;
+        Int32? _UserUpdate;
         DateTime _UpdateDate;
+        String _CodigoCuentaContableDevolucion;
 
-        public int IdDocumentoDetalle
+        public int IdDocumentoWebRendicion
         {
-            get { return _IdDocumentoDetalle; }
-            set { _IdDocumentoDetalle = value; }
+            get { return _IdDocumentoWebRendicion; }
+            set { _IdDocumentoWebRendicion = value; }
         }
-        public int IdDocumento
+        public int IdDocumentoWeb
         {
-            get { return _IdDocumento; }
-            set { _IdDocumento = value; }
+            get { return _IdDocumentoWeb; }
+            set { _IdDocumentoWeb = value; }
         }
         public int IdProveedor
         {
@@ -61,27 +63,27 @@ namespace MSS.TAWA.BE
         }
         public String IdCentroCostos1
         {
-            get { return _IdCentroCostos1; }
+            get { return _IdCentroCostos1 == "0" ? null : _IdCentroCostos1; }
             set { _IdCentroCostos1 = value; }
         }
         public String IdCentroCostos2
         {
-            get { return _IdCentroCostos2; }
+            get { return _IdCentroCostos2 == "0" ? null : _IdCentroCostos2; }
             set { _IdCentroCostos2 = value; }
         }
         public String IdCentroCostos3
         {
-            get { return _IdCentroCostos3; }
+            get { return _IdCentroCostos3 == "0" ? null : _IdCentroCostos3; }
             set { _IdCentroCostos3 = value; }
         }
         public String IdCentroCostos4
         {
-            get { return _IdCentroCostos4; }
+            get { return _IdCentroCostos4 == "0" ? null : _IdCentroCostos4; }
             set { _IdCentroCostos4 = value; }
         }
         public String IdCentroCostos5
         {
-            get { return _IdCentroCostos5; }
+            get { return _IdCentroCostos5 == "0" ? null : _IdCentroCostos5; }
             set { _IdCentroCostos5 = value; }
         }
         public int Rendicion
@@ -99,7 +101,7 @@ namespace MSS.TAWA.BE
             get { return _SerieDoc; }
             set { _SerieDoc = value; }
         }
-        public String CorrelativoDoc
+        public Int32 CorrelativoDoc
         {
             get { return _CorrelativoDoc; }
             set { _CorrelativoDoc = value; }
@@ -114,12 +116,12 @@ namespace MSS.TAWA.BE
             get { return _IdMonedaDoc; }
             set { _IdMonedaDoc = value; }
         }
-        public String MontoDoc
+        public Decimal MontoDoc
         {
             get { return _MontoDoc; }
             set { _MontoDoc = value; }
         }
-        public String TasaCambio
+        public Decimal TasaCambio
         {
             get { return _TasaCambio; }
             set { _TasaCambio = value; }
@@ -129,22 +131,22 @@ namespace MSS.TAWA.BE
             get { return _IdMonedaOriginal; }
             set { _IdMonedaOriginal = value; }
         }
-        public String MontoNoAfecto
+        public Decimal MontoNoAfecto
         {
             get { return _MontoNoAfecto; }
             set { _MontoNoAfecto = value; }
         }
-        public String MontoAfecto
+        public Decimal MontoAfecto
         {
             get { return _MontoAfecto; }
             set { _MontoAfecto = value; }
         }
-        public String MontoIGV
+        public Decimal MontoIGV
         {
             get { return _MontoIGV; }
             set { _MontoIGV = value; }
         }
-        public String MontoTotal
+        public Decimal MontoTotal
         {
             get { return _MontoTotal; }
             set { _MontoTotal = value; }
@@ -154,7 +156,7 @@ namespace MSS.TAWA.BE
             get { return _Estado; }
             set { _Estado = value; }
         }
-        public String UserCreate
+        public Int32? UserCreate
         {
             get { return _UserCreate; }
             set { _UserCreate = value; }
@@ -164,7 +166,7 @@ namespace MSS.TAWA.BE
             get { return _CreateDate; }
             set { _CreateDate = value; }
         }
-        public String UserUpdate
+        public Int32? UserUpdate
         {
             get { return _UserUpdate; }
             set { _UserUpdate = value; }
@@ -174,10 +176,16 @@ namespace MSS.TAWA.BE
             get { return _UpdateDate; }
             set { _UpdateDate = value; }
         }
-        public String PartidaPresupuestal
+        public String CodigoPartidaPresupuestal
         {
-            get { return _PartidaPresupuestal; }
-            set { _PartidaPresupuestal = value; }
+            get { return _codigoPartidaPresupuestal == "0" ? null : _codigoPartidaPresupuestal; }
+            set { _codigoPartidaPresupuestal = value; }
+        }
+
+        public String CodigoCuentaContableDevolucion
+        {
+            get { return _CodigoCuentaContableDevolucion; }
+            set { _CodigoCuentaContableDevolucion = value; }
         }
 
     }

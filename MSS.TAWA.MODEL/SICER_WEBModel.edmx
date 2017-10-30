@@ -1,0 +1,1979 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SICER_WEBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SICER_WEB.dbo.Acceso' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Acceso">
+          <Key>
+            <PropertyRef Name="IdLog" />
+          </Key>
+          <Property Name="IdLog" Type="int" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" />
+          <Property Name="Usuario" Type="varchar" MaxLength="15" />
+          <Property Name="Contraseña" Type="varchar" MaxLength="50" />
+          <Property Name="Operacion" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SICER_WEB.dbo.Aprobacion' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Aprobacion">
+          <Key>
+            <PropertyRef Name="IdAprobacion" />
+          </Key>
+          <Property Name="IdAprobacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdUsuarioAprobador" Type="int" />
+          <Property Name="IdDocumento" Type="int" />
+          <Property Name="Tipo" Type="varchar" MaxLength="3" />
+          <Property Name="FechaSolicitud" Type="datetime" />
+          <Property Name="FechaAprobacion" Type="datetime" />
+          <Property Name="Estado" Type="varchar" MaxLength="3" />
+          <Property Name="UserCreate" Type="varchar" MaxLength="20" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserUpdate" Type="varchar" MaxLength="20" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SICER_WEB.dbo.Concepto' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Concepto">
+          <Key>
+            <PropertyRef Name="IdConcepto" />
+          </Key>
+          <Property Name="IdConcepto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="500" />
+          <Property Name="CuentaContable" Type="varchar" MaxLength="50" />
+          <Property Name="UserCreate" Type="varchar" MaxLength="20" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserUpdate" Type="varchar" MaxLength="20" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'SICER_WEB.dbo.ControlContabilidad' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="ControlContabilidad">
+          <Property Name="IdDocumento" Type="int" />
+          <Property Name="CodigoDocumento" Type="varchar" MaxLength="15" />
+          <Property Name="IdUsuario" Type="int" />
+          <Property Name="FechaCreación" Type="datetime" />
+          <Property Name="FechaContabilizacion" Type="datetime" />
+          <Property Name="FechaActual" Type="datetime" />
+          <Property Name="TipoInsert" Type="varchar" MaxLength="10" />
+          <Property Name="Hostname" Type="varchar" MaxLength="50" />
+          <Property Name="Ip" Type="varchar" MaxLength="20" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'SICER_WEB.dbo.Correos' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="Correos">
+          <Property Name="id" Type="int" />
+          <Property Name="correo" Type="varchar" MaxLength="20" />
+          <Property Name="textoCorreo" Type="varchar" MaxLength="200" />
+        </EntityType>-->
+        <EntityType Name="Documento">
+          <Key>
+            <PropertyRef Name="IdDocumento" />
+          </Key>
+          <Property Name="IdDocumento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="500" />
+          <Property Name="CodigoSunat" Type="varchar" MaxLength="500" />
+          <Property Name="UserCreate" Type="varchar" MaxLength="20" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserUpdate" Type="varchar" MaxLength="20" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="DocumentoWeb">
+          <Key>
+            <PropertyRef Name="IdDocumentoWeb" />
+          </Key>
+          <Property Name="IdDocumentoWeb" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Codigo" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="TipoDocumentoWeb" Type="int" Nullable="false" />
+          <Property Name="IdUsuarioSolicitante" Type="int" Nullable="false" />
+          <Property Name="NumeroRendicion" Type="int" Nullable="false" />
+          <Property Name="IdEmpresa" Type="int" />
+          <Property Name="SAPCodigoCentroCostos1" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SAPCodigoCentroCostos2" Type="nvarchar(max)" />
+          <Property Name="SAPCodigoCentroCostos3" Type="nvarchar(max)" />
+          <Property Name="SAPCodigoCentroCostos4" Type="nvarchar(max)" />
+          <Property Name="SAPCodigoCentroCostos5" Type="nvarchar(max)" />
+          <Property Name="IdMetodoPago" Type="int" />
+          <Property Name="MontoInicial" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="IdMoneda" Type="int" Nullable="false" />
+          <Property Name="Asunto" Type="nvarchar(max)" />
+          <Property Name="Comentario" Type="nvarchar(max)" />
+          <Property Name="MotivoDetalle" Type="nvarchar(max)" />
+          <Property Name="FechaSolicitud" Type="datetime" Nullable="false" />
+          <Property Name="FechaContabilizacion" Type="datetime" />
+          <Property Name="EstadoDocumento" Type="int" Nullable="false" />
+          <Property Name="IdDocumentoWebRendicionReferencia" Type="int" />
+          <Property Name="IdUsuarioCreacion" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="IdUsuarioModificacion" Type="int" Nullable="false" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="DocumentoWebAuditoria">
+          <Key>
+            <PropertyRef Name="IdDocumentoWebAuditoria" />
+          </Key>
+          <Property Name="IdDocumentoWebAuditoria" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdDocumentoWeb" Type="int" Nullable="false" />
+          <Property Name="EstadoDocumento" Type="int" Nullable="false" />
+          <Property Name="Comentario" Type="nvarchar(max)" />
+          <Property Name="IdUsuario" Type="int" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" />
+        </EntityType>
+        <EntityType Name="DocumentoWebRendicion">
+          <Key>
+            <PropertyRef Name="IdDocumentoWebRendicion" />
+          </Key>
+          <Property Name="IdDocumentoWebRendicion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdDocumentoWeb" Type="int" Nullable="false" />
+          <Property Name="IdProveedor" Type="int" />
+          <Property Name="NumeroRendicion" Type="int" Nullable="false" />
+          <Property Name="SAPCodigoPartidaPresupuestal" Type="nvarchar(max)" />
+          <Property Name="SAPCodigoConcepto" Type="nvarchar(max)" />
+          <Property Name="SAPCodigoCentroCostos1" Type="nvarchar(max)" />
+          <Property Name="SAPCodigoCentroCostos2" Type="nvarchar(max)" />
+          <Property Name="SAPCodigoCentroCostos3" Type="nvarchar(max)" />
+          <Property Name="SAPCodigoCentroCostos4" Type="nvarchar(max)" />
+          <Property Name="SAPCodigoCentroCostos5" Type="nvarchar(max)" />
+          <Property Name="SAPCodigoCuentaContableRendicion" Type="nvarchar(max)" />
+          <Property Name="IdTipoDocSunat" Type="int" Nullable="false" />
+          <Property Name="SerieDoc" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CorrelativoDoc" Type="int" Nullable="false" />
+          <Property Name="FechaDoc" Type="datetime" Nullable="false" />
+          <Property Name="IdMonedaDoc" Type="int" Nullable="false" />
+          <Property Name="MontoDoc" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="MontoTasaCambio" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="MontoNoAfecto" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="MontoAfecto" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="MontoIGV" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="MontoTotal" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="EstadoRendicion" Type="int" Nullable="false" />
+          <Property Name="IdUsuarioCreacion" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="UserUpdate" Type="int" />
+          <Property Name="IdUsuarioModificacion" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Empresa">
+          <Key>
+            <PropertyRef Name="IdEmpresa" />
+          </Key>
+          <Property Name="IdEmpresa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="500" />
+          <Property Name="UserCreate" Type="varchar" MaxLength="20" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserUpdate" Type="varchar" MaxLength="20" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="CodigoInterno" Type="varchar" MaxLength="4" />
+          <Property Name="MontoRedondeo" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SICER_WEB.dbo.Estado' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Estado">
+          <Key>
+            <PropertyRef Name="EstadoCode" />
+            <PropertyRef Name="EstadoNombre" />
+          </Key>
+          <Property Name="EstadoCode" Type="int" Nullable="false" />
+          <Property Name="EstadoNombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="EstadoDescripcion" Type="varchar(max)" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'SICER_WEB.dbo.Estados' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="Estados">
+          <Property Name="IdTipo" Type="int" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="200" />
+        </EntityType>-->
+        <EntityType Name="MetodoPago">
+          <Key>
+            <PropertyRef Name="IdMetodoPago" />
+          </Key>
+          <Property Name="IdMetodoPago" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdEmpresa" Type="int" Nullable="false" />
+          <Property Name="PayMethCod" Type="varchar" MaxLength="20" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="500" />
+          <Property Name="UserCreate" Type="varchar" MaxLength="20" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserUpdate" Type="varchar" MaxLength="20" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Moneda">
+          <Key>
+            <PropertyRef Name="IdMoneda" />
+          </Key>
+          <Property Name="IdMoneda" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="500" />
+          <Property Name="UserCreate" Type="varchar" MaxLength="20" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserUpdate" Type="varchar" MaxLength="20" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SICER_WEB.dbo.NivelAprobacion' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="NivelAprobacion">
+          <Key>
+            <PropertyRef Name="IdNivel" />
+          </Key>
+          <Property Name="IdNivel" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="500" />
+          <Property Name="Nivel" Type="varchar" MaxLength="3" />
+          <Property Name="Documento" Type="varchar" MaxLength="3" />
+          <Property Name="EsDeMonto" Type="varchar" MaxLength="3" />
+          <Property Name="Monto" Type="varchar" MaxLength="50" />
+          <Property Name="UserCreate" Type="varchar" MaxLength="20" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserUpdate" Type="varchar" MaxLength="20" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SICER_WEB.dbo.PerfilUsuario' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="PerfilUsuario">
+          <Key>
+            <PropertyRef Name="IdPerfilUsuario" />
+          </Key>
+          <Property Name="IdPerfilUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="500" />
+          <Property Name="TipoAprobador" Type="varchar" MaxLength="3" />
+          <Property Name="ModAdministrador" Type="varchar" MaxLength="3" />
+          <Property Name="ModCajaChica" Type="varchar" MaxLength="3" />
+          <Property Name="ModEntregaRendir" Type="varchar" MaxLength="3" />
+          <Property Name="ModReembolso" Type="varchar" MaxLength="3" />
+          <Property Name="CreaCajaChica" Type="varchar" MaxLength="3" />
+          <Property Name="CreaEntregaRendir" Type="varchar" MaxLength="3" />
+          <Property Name="CreaReembolso" Type="varchar" MaxLength="3" />
+          <Property Name="UserCreate" Type="varchar" MaxLength="20" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserUpdate" Type="varchar" MaxLength="20" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Proveedor">
+          <Key>
+            <PropertyRef Name="IdProveedor" />
+          </Key>
+          <Property Name="IdProveedor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CardCode" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="CardName" Type="varchar" MaxLength="100" />
+          <Property Name="TipoDocumento" Type="varchar" MaxLength="3" />
+          <Property Name="Documento" Type="varchar" MaxLength="11" />
+          <Property Name="Proceso" Type="int" />
+          <Property Name="IdProceso" Type="int" />
+          <Property Name="Estado" Type="int" />
+          <Property Name="UserCreate" Type="varchar" MaxLength="20" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserUpdate" Type="varchar" MaxLength="20" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'SICER_WEB.dbo.Seguridad' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="Seguridad">
+          <Property Name="IdNivelSeguridad" Type="int" />
+          <Property Name="NivelSeguridad" Type="varchar" MaxLength="50" />
+          <Property Name="CaracterNumerico" Type="bit" />
+          <Property Name="CaracterMayuscula" Type="bit" />
+          <Property Name="CaracterEspecial" Type="bit" />
+          <Property Name="DiasVencimiento" Type="int" />
+          <Property Name="NoRepetirContrasena" Type="int" />
+          <Property Name="Activo" Type="bit" />
+          <Property Name="NumNumericos" Type="int" />
+          <Property Name="NumMayusculas" Type="int" />
+          <Property Name="NumEspeciales" Type="int" />
+          <Property Name="CarMinContrasena" Type="int" />
+        </EntityType>-->
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CardCode" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Pass" Type="varbinary" MaxLength="200" />
+          <Property Name="CardName" Type="varchar" MaxLength="100" />
+          <Property Name="Tipo" Type="varchar" MaxLength="3" />
+          <Property Name="Phone" Type="varchar" MaxLength="50" />
+          <Property Name="Mail" Type="varchar" MaxLength="50" />
+          <Property Name="CantMaxCC" Type="varchar" MaxLength="10" />
+          <Property Name="CantMaxER" Type="varchar" MaxLength="10" />
+          <Property Name="CantMaxRE" Type="varchar" MaxLength="10" />
+          <Property Name="IdPerfilUsuario" Type="int" />
+          <Property Name="IdArea1" Type="int" />
+          <Property Name="IdArea2" Type="int" />
+          <Property Name="IdArea3" Type="int" />
+          <Property Name="IdArea4" Type="int" />
+          <Property Name="IdArea5" Type="int" />
+          <Property Name="IdCentroCostos1" Type="int" />
+          <Property Name="IdCentroCostos2" Type="int" />
+          <Property Name="IdCentroCostos3" Type="int" />
+          <Property Name="IdCentroCostos4" Type="int" />
+          <Property Name="IdCentroCostos5" Type="int" />
+          <Property Name="IdCentroCostos6" Type="int" />
+          <Property Name="IdCentroCostos7" Type="int" />
+          <Property Name="IdCentroCostos8" Type="int" />
+          <Property Name="IdCentroCostos9" Type="int" />
+          <Property Name="IdUsuarioCC1" Type="int" />
+          <Property Name="IdUsuarioCC2" Type="int" />
+          <Property Name="IdUsuarioCC3" Type="int" />
+          <Property Name="IdUsuarioER1" Type="int" />
+          <Property Name="IdUsuarioER2" Type="int" />
+          <Property Name="IdUsuarioER3" Type="int" />
+          <Property Name="IdUsuarioRE1" Type="int" />
+          <Property Name="IdUsuarioRE2" Type="int" />
+          <Property Name="IdUsuarioRE3" Type="int" />
+          <Property Name="Comentario" Type="varchar" MaxLength="1000" />
+          <Property Name="Estado" Type="varchar" MaxLength="3" />
+          <Property Name="IntentoLogin" Type="varchar" MaxLength="3" />
+          <Property Name="HoraMinutoLogin" Type="datetime" />
+          <Property Name="UserCreate" Type="varchar" MaxLength="20" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserUpdate" Type="varchar" MaxLength="20" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="IdCentroCostos10" Type="int" />
+          <Property Name="IdCentroCostos11" Type="int" />
+          <Property Name="IdCentroCostos12" Type="int" />
+          <Property Name="IdCentroCostos13" Type="int" />
+          <Property Name="IdCentroCostos14" Type="int" />
+          <Property Name="IdCentroCostos15" Type="int" />
+          <Property Name="UsuarioTesoreria" Type="bit" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SICER_WEB.dbo.UsuarioAreaNivel' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="UsuarioAreaNivel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdUsuario" Type="int" />
+          <Property Name="IdArea" Type="int" />
+          <Property Name="IdNivelAprobacion" Type="int" />
+          <Property Name="Estado" Type="varchar" MaxLength="3" />
+          <Property Name="UserCreate" Type="varchar" MaxLength="20" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="UserUpdate" Type="varchar" MaxLength="20" />
+          <Property Name="UpdateDate" Type="datetime" />
+        </EntityType>
+        <Association Name="FK__Documento__IdDoc__5B638405">
+          <End Role="DocumentoWeb" Type="Self.DocumentoWeb" Multiplicity="1" />
+          <End Role="DocumentoWebRendicion" Type="Self.DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DocumentoWeb">
+              <PropertyRef Name="IdDocumentoWeb" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="IdDocumentoWeb" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdDoc__5C57A83E">
+          <End Role="DocumentoWeb" Type="Self.DocumentoWeb" Multiplicity="1" />
+          <End Role="DocumentoWebRendicion" Type="Self.DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DocumentoWeb">
+              <PropertyRef Name="IdDocumentoWeb" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="IdDocumentoWeb" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdDoc__5D4BCC77">
+          <End Role="DocumentoWeb" Type="Self.DocumentoWeb" Multiplicity="1" />
+          <End Role="DocumentoWebRendicion" Type="Self.DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DocumentoWeb">
+              <PropertyRef Name="IdDocumentoWeb" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="IdDocumentoWeb" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdDoc__6E765879">
+          <End Role="DocumentoWeb" Type="Self.DocumentoWeb" Multiplicity="1" />
+          <End Role="DocumentoWebAuditoria" Type="Self.DocumentoWebAuditoria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DocumentoWeb">
+              <PropertyRef Name="IdDocumentoWeb" />
+            </Principal>
+            <Dependent Role="DocumentoWebAuditoria">
+              <PropertyRef Name="IdDocumentoWeb" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdEmp__53C2623D">
+          <End Role="Empresa" Type="Self.Empresa" Multiplicity="0..1" />
+          <End Role="DocumentoWeb" Type="Self.DocumentoWeb" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="IdEmpresa" />
+            </Principal>
+            <Dependent Role="DocumentoWeb">
+              <PropertyRef Name="IdEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdMet__54B68676">
+          <End Role="MetodoPago" Type="Self.MetodoPago" Multiplicity="0..1" />
+          <End Role="DocumentoWeb" Type="Self.DocumentoWeb" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MetodoPago">
+              <PropertyRef Name="IdMetodoPago" />
+            </Principal>
+            <Dependent Role="DocumentoWeb">
+              <PropertyRef Name="IdMetodoPago" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdMon__55AAAAAF">
+          <End Role="Moneda" Type="Self.Moneda" Multiplicity="1" />
+          <End Role="DocumentoWeb" Type="Self.DocumentoWeb" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Moneda">
+              <PropertyRef Name="IdMoneda" />
+            </Principal>
+            <Dependent Role="DocumentoWeb">
+              <PropertyRef Name="IdMoneda" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdMon__5E3FF0B0">
+          <End Role="Moneda" Type="Self.Moneda" Multiplicity="1" />
+          <End Role="DocumentoWebRendicion" Type="Self.DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Moneda">
+              <PropertyRef Name="IdMoneda" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="IdMonedaDoc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdMon__5F3414E9">
+          <End Role="Moneda" Type="Self.Moneda" Multiplicity="1" />
+          <End Role="DocumentoWebRendicion" Type="Self.DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Moneda">
+              <PropertyRef Name="IdMoneda" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="IdMonedaDoc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdMon__60283922">
+          <End Role="Moneda" Type="Self.Moneda" Multiplicity="1" />
+          <End Role="DocumentoWebRendicion" Type="Self.DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Moneda">
+              <PropertyRef Name="IdMoneda" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="IdMonedaDoc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdPro__611C5D5B">
+          <End Role="Proveedor" Type="Self.Proveedor" Multiplicity="0..1" />
+          <End Role="DocumentoWebRendicion" Type="Self.DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proveedor">
+              <PropertyRef Name="IdProveedor" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="IdProveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdPro__62108194">
+          <End Role="Proveedor" Type="Self.Proveedor" Multiplicity="0..1" />
+          <End Role="DocumentoWebRendicion" Type="Self.DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proveedor">
+              <PropertyRef Name="IdProveedor" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="IdProveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdPro__6304A5CD">
+          <End Role="Proveedor" Type="Self.Proveedor" Multiplicity="0..1" />
+          <End Role="DocumentoWebRendicion" Type="Self.DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proveedor">
+              <PropertyRef Name="IdProveedor" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="IdProveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdTip__63F8CA06">
+          <End Role="Documento" Type="Self.Documento" Multiplicity="1" />
+          <End Role="DocumentoWebRendicion" Type="Self.DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Documento">
+              <PropertyRef Name="IdDocumento" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="IdTipoDocSunat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdTip__64ECEE3F">
+          <End Role="Documento" Type="Self.Documento" Multiplicity="1" />
+          <End Role="DocumentoWebRendicion" Type="Self.DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Documento">
+              <PropertyRef Name="IdDocumento" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="IdTipoDocSunat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdTip__65E11278">
+          <End Role="Documento" Type="Self.Documento" Multiplicity="1" />
+          <End Role="DocumentoWebRendicion" Type="Self.DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Documento">
+              <PropertyRef Name="IdDocumento" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="IdTipoDocSunat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdUsu__569ECEE8">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="DocumentoWeb" Type="Self.DocumentoWeb" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="DocumentoWeb">
+              <PropertyRef Name="IdUsuarioSolicitante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdUsu__5792F321">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="DocumentoWeb" Type="Self.DocumentoWeb" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="DocumentoWeb">
+              <PropertyRef Name="IdUsuarioCreacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdUsu__5887175A">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="DocumentoWeb" Type="Self.DocumentoWeb" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="DocumentoWeb">
+              <PropertyRef Name="IdUsuarioModificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdUsu__66D536B1">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="DocumentoWebRendicion" Type="Self.DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="IdUsuarioModificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdUsu__67C95AEA">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="DocumentoWebRendicion" Type="Self.DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="IdUsuarioModificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdUsu__68BD7F23">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="DocumentoWebRendicion" Type="Self.DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="IdUsuarioModificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdUsu__6F6A7CB2">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="DocumentoWebAuditoria" Type="Self.DocumentoWebAuditoria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="DocumentoWebAuditoria">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__UserU__69B1A35C">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="DocumentoWebRendicion" Type="Self.DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="UserUpdate" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__UserU__6AA5C795">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="DocumentoWebRendicion" Type="Self.DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="UserUpdate" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__UserU__6B99EBCE">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="DocumentoWebRendicion" Type="Self.DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="UserUpdate" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SICER_WEBModelStoreContainer">
+          <EntitySet Name="Documento" EntityType="Self.Documento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocumentoWeb" EntityType="Self.DocumentoWeb" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocumentoWebAuditoria" EntityType="Self.DocumentoWebAuditoria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocumentoWebRendicion" EntityType="Self.DocumentoWebRendicion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Empresa" EntityType="Self.Empresa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MetodoPago" EntityType="Self.MetodoPago" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Moneda" EntityType="Self.Moneda" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Proveedor" EntityType="Self.Proveedor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Acceso" EntityType="Self.Acceso" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Acceso].[IdLog] AS [IdLog], 
+    [Acceso].[Fecha] AS [Fecha], 
+    [Acceso].[Usuario] AS [Usuario], 
+    [Acceso].[Contraseña] AS [Contraseña], 
+    [Acceso].[Operacion] AS [Operacion]
+    FROM [dbo].[Acceso] AS [Acceso]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Aprobacion" EntityType="Self.Aprobacion" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Aprobacion].[IdAprobacion] AS [IdAprobacion], 
+    [Aprobacion].[IdUsuarioAprobador] AS [IdUsuarioAprobador], 
+    [Aprobacion].[IdDocumento] AS [IdDocumento], 
+    [Aprobacion].[Tipo] AS [Tipo], 
+    [Aprobacion].[FechaSolicitud] AS [FechaSolicitud], 
+    [Aprobacion].[FechaAprobacion] AS [FechaAprobacion], 
+    [Aprobacion].[Estado] AS [Estado], 
+    [Aprobacion].[UserCreate] AS [UserCreate], 
+    [Aprobacion].[CreateDate] AS [CreateDate], 
+    [Aprobacion].[UserUpdate] AS [UserUpdate], 
+    [Aprobacion].[UpdateDate] AS [UpdateDate]
+    FROM [dbo].[Aprobacion] AS [Aprobacion]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Concepto" EntityType="Self.Concepto" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Concepto].[IdConcepto] AS [IdConcepto], 
+    [Concepto].[Descripcion] AS [Descripcion], 
+    [Concepto].[CuentaContable] AS [CuentaContable], 
+    [Concepto].[UserCreate] AS [UserCreate], 
+    [Concepto].[CreateDate] AS [CreateDate], 
+    [Concepto].[UserUpdate] AS [UserUpdate], 
+    [Concepto].[UpdateDate] AS [UpdateDate]
+    FROM [dbo].[Concepto] AS [Concepto]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Estado" EntityType="Self.Estado" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Estado].[EstadoCode] AS [EstadoCode], 
+    [Estado].[EstadoNombre] AS [EstadoNombre], 
+    [Estado].[EstadoDescripcion] AS [EstadoDescripcion]
+    FROM [dbo].[Estado] AS [Estado]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="NivelAprobacion" EntityType="Self.NivelAprobacion" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [NivelAprobacion].[IdNivel] AS [IdNivel], 
+    [NivelAprobacion].[Descripcion] AS [Descripcion], 
+    [NivelAprobacion].[Nivel] AS [Nivel], 
+    [NivelAprobacion].[Documento] AS [Documento], 
+    [NivelAprobacion].[EsDeMonto] AS [EsDeMonto], 
+    [NivelAprobacion].[Monto] AS [Monto], 
+    [NivelAprobacion].[UserCreate] AS [UserCreate], 
+    [NivelAprobacion].[CreateDate] AS [CreateDate], 
+    [NivelAprobacion].[UserUpdate] AS [UserUpdate], 
+    [NivelAprobacion].[UpdateDate] AS [UpdateDate]
+    FROM [dbo].[NivelAprobacion] AS [NivelAprobacion]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="PerfilUsuario" EntityType="Self.PerfilUsuario" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [PerfilUsuario].[IdPerfilUsuario] AS [IdPerfilUsuario], 
+    [PerfilUsuario].[Descripcion] AS [Descripcion], 
+    [PerfilUsuario].[TipoAprobador] AS [TipoAprobador], 
+    [PerfilUsuario].[ModAdministrador] AS [ModAdministrador], 
+    [PerfilUsuario].[ModCajaChica] AS [ModCajaChica], 
+    [PerfilUsuario].[ModEntregaRendir] AS [ModEntregaRendir], 
+    [PerfilUsuario].[ModReembolso] AS [ModReembolso], 
+    [PerfilUsuario].[CreaCajaChica] AS [CreaCajaChica], 
+    [PerfilUsuario].[CreaEntregaRendir] AS [CreaEntregaRendir], 
+    [PerfilUsuario].[CreaReembolso] AS [CreaReembolso], 
+    [PerfilUsuario].[UserCreate] AS [UserCreate], 
+    [PerfilUsuario].[CreateDate] AS [CreateDate], 
+    [PerfilUsuario].[UserUpdate] AS [UserUpdate], 
+    [PerfilUsuario].[UpdateDate] AS [UpdateDate]
+    FROM [dbo].[PerfilUsuario] AS [PerfilUsuario]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="UsuarioAreaNivel" EntityType="Self.UsuarioAreaNivel" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [UsuarioAreaNivel].[Id] AS [Id], 
+    [UsuarioAreaNivel].[IdUsuario] AS [IdUsuario], 
+    [UsuarioAreaNivel].[IdArea] AS [IdArea], 
+    [UsuarioAreaNivel].[IdNivelAprobacion] AS [IdNivelAprobacion], 
+    [UsuarioAreaNivel].[Estado] AS [Estado], 
+    [UsuarioAreaNivel].[UserCreate] AS [UserCreate], 
+    [UsuarioAreaNivel].[CreateDate] AS [CreateDate], 
+    [UsuarioAreaNivel].[UserUpdate] AS [UserUpdate], 
+    [UsuarioAreaNivel].[UpdateDate] AS [UpdateDate]
+    FROM [dbo].[UsuarioAreaNivel] AS [UsuarioAreaNivel]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__Documento__IdDoc__5B638405" Association="Self.FK__Documento__IdDoc__5B638405">
+            <End Role="DocumentoWeb" EntitySet="DocumentoWeb" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdDoc__5C57A83E" Association="Self.FK__Documento__IdDoc__5C57A83E">
+            <End Role="DocumentoWeb" EntitySet="DocumentoWeb" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdDoc__5D4BCC77" Association="Self.FK__Documento__IdDoc__5D4BCC77">
+            <End Role="DocumentoWeb" EntitySet="DocumentoWeb" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdDoc__6E765879" Association="Self.FK__Documento__IdDoc__6E765879">
+            <End Role="DocumentoWeb" EntitySet="DocumentoWeb" />
+            <End Role="DocumentoWebAuditoria" EntitySet="DocumentoWebAuditoria" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdEmp__53C2623D" Association="Self.FK__Documento__IdEmp__53C2623D">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="DocumentoWeb" EntitySet="DocumentoWeb" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdMet__54B68676" Association="Self.FK__Documento__IdMet__54B68676">
+            <End Role="MetodoPago" EntitySet="MetodoPago" />
+            <End Role="DocumentoWeb" EntitySet="DocumentoWeb" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdMon__55AAAAAF" Association="Self.FK__Documento__IdMon__55AAAAAF">
+            <End Role="Moneda" EntitySet="Moneda" />
+            <End Role="DocumentoWeb" EntitySet="DocumentoWeb" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdMon__5E3FF0B0" Association="Self.FK__Documento__IdMon__5E3FF0B0">
+            <End Role="Moneda" EntitySet="Moneda" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdMon__5F3414E9" Association="Self.FK__Documento__IdMon__5F3414E9">
+            <End Role="Moneda" EntitySet="Moneda" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdMon__60283922" Association="Self.FK__Documento__IdMon__60283922">
+            <End Role="Moneda" EntitySet="Moneda" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdPro__611C5D5B" Association="Self.FK__Documento__IdPro__611C5D5B">
+            <End Role="Proveedor" EntitySet="Proveedor" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdPro__62108194" Association="Self.FK__Documento__IdPro__62108194">
+            <End Role="Proveedor" EntitySet="Proveedor" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdPro__6304A5CD" Association="Self.FK__Documento__IdPro__6304A5CD">
+            <End Role="Proveedor" EntitySet="Proveedor" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdTip__63F8CA06" Association="Self.FK__Documento__IdTip__63F8CA06">
+            <End Role="Documento" EntitySet="Documento" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdTip__64ECEE3F" Association="Self.FK__Documento__IdTip__64ECEE3F">
+            <End Role="Documento" EntitySet="Documento" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdTip__65E11278" Association="Self.FK__Documento__IdTip__65E11278">
+            <End Role="Documento" EntitySet="Documento" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdUsu__569ECEE8" Association="Self.FK__Documento__IdUsu__569ECEE8">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="DocumentoWeb" EntitySet="DocumentoWeb" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdUsu__5792F321" Association="Self.FK__Documento__IdUsu__5792F321">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="DocumentoWeb" EntitySet="DocumentoWeb" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdUsu__5887175A" Association="Self.FK__Documento__IdUsu__5887175A">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="DocumentoWeb" EntitySet="DocumentoWeb" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdUsu__66D536B1" Association="Self.FK__Documento__IdUsu__66D536B1">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdUsu__67C95AEA" Association="Self.FK__Documento__IdUsu__67C95AEA">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdUsu__68BD7F23" Association="Self.FK__Documento__IdUsu__68BD7F23">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdUsu__6F6A7CB2" Association="Self.FK__Documento__IdUsu__6F6A7CB2">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="DocumentoWebAuditoria" EntitySet="DocumentoWebAuditoria" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__UserU__69B1A35C" Association="Self.FK__Documento__UserU__69B1A35C">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__UserU__6AA5C795" Association="Self.FK__Documento__UserU__6AA5C795">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__UserU__6B99EBCE" Association="Self.FK__Documento__UserU__6B99EBCE">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SICER_WEBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="SICER_WEBEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Documento" EntityType="SICER_WEBModel.Documento" />
+          <EntitySet Name="DocumentoWeb" EntityType="SICER_WEBModel.DocumentoWeb" />
+          <EntitySet Name="DocumentoWebAuditoria" EntityType="SICER_WEBModel.DocumentoWebAuditoria" />
+          <EntitySet Name="DocumentoWebRendicion" EntityType="SICER_WEBModel.DocumentoWebRendicion" />
+          <EntitySet Name="Empresa" EntityType="SICER_WEBModel.Empresa" />
+          <EntitySet Name="MetodoPago" EntityType="SICER_WEBModel.MetodoPago" />
+          <EntitySet Name="Moneda" EntityType="SICER_WEBModel.Moneda" />
+          <EntitySet Name="Proveedor" EntityType="SICER_WEBModel.Proveedor" />
+          <EntitySet Name="Usuario" EntityType="SICER_WEBModel.Usuario" />
+          <EntitySet Name="Acceso" EntityType="SICER_WEBModel.Acceso" />
+          <EntitySet Name="Aprobacion" EntityType="SICER_WEBModel.Aprobacion" />
+          <EntitySet Name="Concepto" EntityType="SICER_WEBModel.Concepto" />
+          <EntitySet Name="Estado" EntityType="SICER_WEBModel.Estado" />
+          <EntitySet Name="NivelAprobacion" EntityType="SICER_WEBModel.NivelAprobacion" />
+          <EntitySet Name="PerfilUsuario" EntityType="SICER_WEBModel.PerfilUsuario" />
+          <EntitySet Name="UsuarioAreaNivel" EntityType="SICER_WEBModel.UsuarioAreaNivel" />
+          <AssociationSet Name="FK__Documento__IdTip__63F8CA06" Association="SICER_WEBModel.FK__Documento__IdTip__63F8CA06">
+            <End Role="Documento" EntitySet="Documento" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdTip__64ECEE3F" Association="SICER_WEBModel.FK__Documento__IdTip__64ECEE3F">
+            <End Role="Documento" EntitySet="Documento" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdTip__65E11278" Association="SICER_WEBModel.FK__Documento__IdTip__65E11278">
+            <End Role="Documento" EntitySet="Documento" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdDoc__5B638405" Association="SICER_WEBModel.FK__Documento__IdDoc__5B638405">
+            <End Role="DocumentoWeb" EntitySet="DocumentoWeb" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdDoc__5C57A83E" Association="SICER_WEBModel.FK__Documento__IdDoc__5C57A83E">
+            <End Role="DocumentoWeb" EntitySet="DocumentoWeb" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdDoc__5D4BCC77" Association="SICER_WEBModel.FK__Documento__IdDoc__5D4BCC77">
+            <End Role="DocumentoWeb" EntitySet="DocumentoWeb" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdDoc__6E765879" Association="SICER_WEBModel.FK__Documento__IdDoc__6E765879">
+            <End Role="DocumentoWeb" EntitySet="DocumentoWeb" />
+            <End Role="DocumentoWebAuditoria" EntitySet="DocumentoWebAuditoria" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdEmp__53C2623D" Association="SICER_WEBModel.FK__Documento__IdEmp__53C2623D">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="DocumentoWeb" EntitySet="DocumentoWeb" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdMet__54B68676" Association="SICER_WEBModel.FK__Documento__IdMet__54B68676">
+            <End Role="MetodoPago" EntitySet="MetodoPago" />
+            <End Role="DocumentoWeb" EntitySet="DocumentoWeb" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdMon__55AAAAAF" Association="SICER_WEBModel.FK__Documento__IdMon__55AAAAAF">
+            <End Role="Moneda" EntitySet="Moneda" />
+            <End Role="DocumentoWeb" EntitySet="DocumentoWeb" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdUsu__569ECEE8" Association="SICER_WEBModel.FK__Documento__IdUsu__569ECEE8">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="DocumentoWeb" EntitySet="DocumentoWeb" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdUsu__5792F321" Association="SICER_WEBModel.FK__Documento__IdUsu__5792F321">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="DocumentoWeb" EntitySet="DocumentoWeb" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdUsu__5887175A" Association="SICER_WEBModel.FK__Documento__IdUsu__5887175A">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="DocumentoWeb" EntitySet="DocumentoWeb" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdUsu__6F6A7CB2" Association="SICER_WEBModel.FK__Documento__IdUsu__6F6A7CB2">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="DocumentoWebAuditoria" EntitySet="DocumentoWebAuditoria" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdMon__5E3FF0B0" Association="SICER_WEBModel.FK__Documento__IdMon__5E3FF0B0">
+            <End Role="Moneda" EntitySet="Moneda" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdMon__5F3414E9" Association="SICER_WEBModel.FK__Documento__IdMon__5F3414E9">
+            <End Role="Moneda" EntitySet="Moneda" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdMon__60283922" Association="SICER_WEBModel.FK__Documento__IdMon__60283922">
+            <End Role="Moneda" EntitySet="Moneda" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdPro__611C5D5B" Association="SICER_WEBModel.FK__Documento__IdPro__611C5D5B">
+            <End Role="Proveedor" EntitySet="Proveedor" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdPro__62108194" Association="SICER_WEBModel.FK__Documento__IdPro__62108194">
+            <End Role="Proveedor" EntitySet="Proveedor" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdPro__6304A5CD" Association="SICER_WEBModel.FK__Documento__IdPro__6304A5CD">
+            <End Role="Proveedor" EntitySet="Proveedor" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdUsu__66D536B1" Association="SICER_WEBModel.FK__Documento__IdUsu__66D536B1">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdUsu__67C95AEA" Association="SICER_WEBModel.FK__Documento__IdUsu__67C95AEA">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__IdUsu__68BD7F23" Association="SICER_WEBModel.FK__Documento__IdUsu__68BD7F23">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__UserU__69B1A35C" Association="SICER_WEBModel.FK__Documento__UserU__69B1A35C">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__UserU__6AA5C795" Association="SICER_WEBModel.FK__Documento__UserU__6AA5C795">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Documento__UserU__6B99EBCE" Association="SICER_WEBModel.FK__Documento__UserU__6B99EBCE">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Documento">
+          <Key>
+            <PropertyRef Name="IdDocumento" />
+          </Key>
+          <Property Name="IdDocumento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoSunat" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="UserCreate" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserUpdate" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="DocumentoWebRendicion" Relationship="SICER_WEBModel.FK__Documento__IdTip__63F8CA06" FromRole="Documento" ToRole="DocumentoWebRendicion" />
+          <NavigationProperty Name="DocumentoWebRendicion1" Relationship="SICER_WEBModel.FK__Documento__IdTip__64ECEE3F" FromRole="Documento" ToRole="DocumentoWebRendicion" />
+          <NavigationProperty Name="DocumentoWebRendicion2" Relationship="SICER_WEBModel.FK__Documento__IdTip__65E11278" FromRole="Documento" ToRole="DocumentoWebRendicion" />
+        </EntityType>
+        <EntityType Name="DocumentoWeb">
+          <Key>
+            <PropertyRef Name="IdDocumentoWeb" />
+          </Key>
+          <Property Name="IdDocumentoWeb" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Codigo" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TipoDocumentoWeb" Type="Int32" Nullable="false" />
+          <Property Name="IdUsuarioSolicitante" Type="Int32" Nullable="false" />
+          <Property Name="NumeroRendicion" Type="Int32" Nullable="false" />
+          <Property Name="IdEmpresa" Type="Int32" />
+          <Property Name="SAPCodigoCentroCostos1" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SAPCodigoCentroCostos2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SAPCodigoCentroCostos3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SAPCodigoCentroCostos4" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SAPCodigoCentroCostos5" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IdMetodoPago" Type="Int32" />
+          <Property Name="MontoInicial" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="IdMoneda" Type="Int32" Nullable="false" />
+          <Property Name="Asunto" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Comentario" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MotivoDetalle" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FechaSolicitud" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FechaContabilizacion" Type="DateTime" Precision="3" />
+          <Property Name="EstadoDocumento" Type="Int32" Nullable="false" />
+          <Property Name="IdDocumentoWebRendicionReferencia" Type="Int32" />
+          <Property Name="IdUsuarioCreacion" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="IdUsuarioModificacion" Type="Int32" Nullable="false" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="DocumentoWebRendicion" Relationship="SICER_WEBModel.FK__Documento__IdDoc__5B638405" FromRole="DocumentoWeb" ToRole="DocumentoWebRendicion" />
+          <NavigationProperty Name="DocumentoWebRendicion1" Relationship="SICER_WEBModel.FK__Documento__IdDoc__5C57A83E" FromRole="DocumentoWeb" ToRole="DocumentoWebRendicion" />
+          <NavigationProperty Name="DocumentoWebRendicion2" Relationship="SICER_WEBModel.FK__Documento__IdDoc__5D4BCC77" FromRole="DocumentoWeb" ToRole="DocumentoWebRendicion" />
+          <NavigationProperty Name="DocumentoWebAuditoria" Relationship="SICER_WEBModel.FK__Documento__IdDoc__6E765879" FromRole="DocumentoWeb" ToRole="DocumentoWebAuditoria" />
+          <NavigationProperty Name="Empresa" Relationship="SICER_WEBModel.FK__Documento__IdEmp__53C2623D" FromRole="DocumentoWeb" ToRole="Empresa" />
+          <NavigationProperty Name="MetodoPago" Relationship="SICER_WEBModel.FK__Documento__IdMet__54B68676" FromRole="DocumentoWeb" ToRole="MetodoPago" />
+          <NavigationProperty Name="Moneda" Relationship="SICER_WEBModel.FK__Documento__IdMon__55AAAAAF" FromRole="DocumentoWeb" ToRole="Moneda" />
+          <NavigationProperty Name="Usuario" Relationship="SICER_WEBModel.FK__Documento__IdUsu__569ECEE8" FromRole="DocumentoWeb" ToRole="Usuario" />
+          <NavigationProperty Name="Usuario1" Relationship="SICER_WEBModel.FK__Documento__IdUsu__5792F321" FromRole="DocumentoWeb" ToRole="Usuario" />
+          <NavigationProperty Name="Usuario2" Relationship="SICER_WEBModel.FK__Documento__IdUsu__5887175A" FromRole="DocumentoWeb" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="DocumentoWebAuditoria">
+          <Key>
+            <PropertyRef Name="IdDocumentoWebAuditoria" />
+          </Key>
+          <Property Name="IdDocumentoWebAuditoria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdDocumentoWeb" Type="Int32" Nullable="false" />
+          <Property Name="EstadoDocumento" Type="Int32" Nullable="false" />
+          <Property Name="Comentario" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="DocumentoWeb" Relationship="SICER_WEBModel.FK__Documento__IdDoc__6E765879" FromRole="DocumentoWebAuditoria" ToRole="DocumentoWeb" />
+          <NavigationProperty Name="Usuario" Relationship="SICER_WEBModel.FK__Documento__IdUsu__6F6A7CB2" FromRole="DocumentoWebAuditoria" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="DocumentoWebRendicion">
+          <Key>
+            <PropertyRef Name="IdDocumentoWebRendicion" />
+          </Key>
+          <Property Name="IdDocumentoWebRendicion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdDocumentoWeb" Type="Int32" Nullable="false" />
+          <Property Name="IdProveedor" Type="Int32" />
+          <Property Name="NumeroRendicion" Type="Int32" Nullable="false" />
+          <Property Name="SAPCodigoPartidaPresupuestal" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SAPCodigoConcepto" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SAPCodigoCentroCostos1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SAPCodigoCentroCostos2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SAPCodigoCentroCostos3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SAPCodigoCentroCostos4" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SAPCodigoCentroCostos5" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SAPCodigoCuentaContableRendicion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IdTipoDocSunat" Type="Int32" Nullable="false" />
+          <Property Name="SerieDoc" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CorrelativoDoc" Type="Int32" Nullable="false" />
+          <Property Name="FechaDoc" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IdMonedaDoc" Type="Int32" Nullable="false" />
+          <Property Name="MontoDoc" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="MontoTasaCambio" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="MontoNoAfecto" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="MontoAfecto" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="MontoIGV" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="MontoTotal" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="EstadoRendicion" Type="Int32" Nullable="false" />
+          <Property Name="IdUsuarioCreacion" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UserUpdate" Type="Int32" />
+          <Property Name="IdUsuarioModificacion" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Documento" Relationship="SICER_WEBModel.FK__Documento__IdTip__63F8CA06" FromRole="DocumentoWebRendicion" ToRole="Documento" />
+          <NavigationProperty Name="Documento1" Relationship="SICER_WEBModel.FK__Documento__IdTip__64ECEE3F" FromRole="DocumentoWebRendicion" ToRole="Documento" />
+          <NavigationProperty Name="Documento2" Relationship="SICER_WEBModel.FK__Documento__IdTip__65E11278" FromRole="DocumentoWebRendicion" ToRole="Documento" />
+          <NavigationProperty Name="DocumentoWeb" Relationship="SICER_WEBModel.FK__Documento__IdDoc__5B638405" FromRole="DocumentoWebRendicion" ToRole="DocumentoWeb" />
+          <NavigationProperty Name="DocumentoWeb1" Relationship="SICER_WEBModel.FK__Documento__IdDoc__5C57A83E" FromRole="DocumentoWebRendicion" ToRole="DocumentoWeb" />
+          <NavigationProperty Name="DocumentoWeb2" Relationship="SICER_WEBModel.FK__Documento__IdDoc__5D4BCC77" FromRole="DocumentoWebRendicion" ToRole="DocumentoWeb" />
+          <NavigationProperty Name="Moneda" Relationship="SICER_WEBModel.FK__Documento__IdMon__5E3FF0B0" FromRole="DocumentoWebRendicion" ToRole="Moneda" />
+          <NavigationProperty Name="Moneda1" Relationship="SICER_WEBModel.FK__Documento__IdMon__5F3414E9" FromRole="DocumentoWebRendicion" ToRole="Moneda" />
+          <NavigationProperty Name="Moneda2" Relationship="SICER_WEBModel.FK__Documento__IdMon__60283922" FromRole="DocumentoWebRendicion" ToRole="Moneda" />
+          <NavigationProperty Name="Proveedor" Relationship="SICER_WEBModel.FK__Documento__IdPro__611C5D5B" FromRole="DocumentoWebRendicion" ToRole="Proveedor" />
+          <NavigationProperty Name="Proveedor1" Relationship="SICER_WEBModel.FK__Documento__IdPro__62108194" FromRole="DocumentoWebRendicion" ToRole="Proveedor" />
+          <NavigationProperty Name="Proveedor2" Relationship="SICER_WEBModel.FK__Documento__IdPro__6304A5CD" FromRole="DocumentoWebRendicion" ToRole="Proveedor" />
+          <NavigationProperty Name="Usuario" Relationship="SICER_WEBModel.FK__Documento__IdUsu__66D536B1" FromRole="DocumentoWebRendicion" ToRole="Usuario" />
+          <NavigationProperty Name="Usuario1" Relationship="SICER_WEBModel.FK__Documento__IdUsu__67C95AEA" FromRole="DocumentoWebRendicion" ToRole="Usuario" />
+          <NavigationProperty Name="Usuario2" Relationship="SICER_WEBModel.FK__Documento__IdUsu__68BD7F23" FromRole="DocumentoWebRendicion" ToRole="Usuario" />
+          <NavigationProperty Name="Usuario3" Relationship="SICER_WEBModel.FK__Documento__UserU__69B1A35C" FromRole="DocumentoWebRendicion" ToRole="Usuario" />
+          <NavigationProperty Name="Usuario4" Relationship="SICER_WEBModel.FK__Documento__UserU__6AA5C795" FromRole="DocumentoWebRendicion" ToRole="Usuario" />
+          <NavigationProperty Name="Usuario5" Relationship="SICER_WEBModel.FK__Documento__UserU__6B99EBCE" FromRole="DocumentoWebRendicion" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Empresa">
+          <Key>
+            <PropertyRef Name="IdEmpresa" />
+          </Key>
+          <Property Name="IdEmpresa" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="UserCreate" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserUpdate" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="CodigoInterno" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="MontoRedondeo" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="DocumentoWeb" Relationship="SICER_WEBModel.FK__Documento__IdEmp__53C2623D" FromRole="Empresa" ToRole="DocumentoWeb" />
+        </EntityType>
+        <EntityType Name="MetodoPago">
+          <Key>
+            <PropertyRef Name="IdMetodoPago" />
+          </Key>
+          <Property Name="IdMetodoPago" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdEmpresa" Type="Int32" Nullable="false" />
+          <Property Name="PayMethCod" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="UserCreate" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserUpdate" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="DocumentoWeb" Relationship="SICER_WEBModel.FK__Documento__IdMet__54B68676" FromRole="MetodoPago" ToRole="DocumentoWeb" />
+        </EntityType>
+        <EntityType Name="Moneda">
+          <Key>
+            <PropertyRef Name="IdMoneda" />
+          </Key>
+          <Property Name="IdMoneda" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="UserCreate" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserUpdate" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="DocumentoWeb" Relationship="SICER_WEBModel.FK__Documento__IdMon__55AAAAAF" FromRole="Moneda" ToRole="DocumentoWeb" />
+          <NavigationProperty Name="DocumentoWebRendicion" Relationship="SICER_WEBModel.FK__Documento__IdMon__5E3FF0B0" FromRole="Moneda" ToRole="DocumentoWebRendicion" />
+          <NavigationProperty Name="DocumentoWebRendicion1" Relationship="SICER_WEBModel.FK__Documento__IdMon__5F3414E9" FromRole="Moneda" ToRole="DocumentoWebRendicion" />
+          <NavigationProperty Name="DocumentoWebRendicion2" Relationship="SICER_WEBModel.FK__Documento__IdMon__60283922" FromRole="Moneda" ToRole="DocumentoWebRendicion" />
+        </EntityType>
+        <EntityType Name="Proveedor">
+          <Key>
+            <PropertyRef Name="IdProveedor" />
+          </Key>
+          <Property Name="IdProveedor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CardCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CardName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TipoDocumento" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="Documento" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="Proceso" Type="Int32" />
+          <Property Name="IdProceso" Type="Int32" />
+          <Property Name="Estado" Type="Int32" />
+          <Property Name="UserCreate" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserUpdate" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="DocumentoWebRendicion" Relationship="SICER_WEBModel.FK__Documento__IdPro__611C5D5B" FromRole="Proveedor" ToRole="DocumentoWebRendicion" />
+          <NavigationProperty Name="DocumentoWebRendicion1" Relationship="SICER_WEBModel.FK__Documento__IdPro__62108194" FromRole="Proveedor" ToRole="DocumentoWebRendicion" />
+          <NavigationProperty Name="DocumentoWebRendicion2" Relationship="SICER_WEBModel.FK__Documento__IdPro__6304A5CD" FromRole="Proveedor" ToRole="DocumentoWebRendicion" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CardCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Pass" Type="Binary" MaxLength="200" FixedLength="false" />
+          <Property Name="CardName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Tipo" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Mail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CantMaxCC" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CantMaxER" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CantMaxRE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="IdPerfilUsuario" Type="Int32" />
+          <Property Name="IdArea1" Type="Int32" />
+          <Property Name="IdArea2" Type="Int32" />
+          <Property Name="IdArea3" Type="Int32" />
+          <Property Name="IdArea4" Type="Int32" />
+          <Property Name="IdArea5" Type="Int32" />
+          <Property Name="IdCentroCostos1" Type="Int32" />
+          <Property Name="IdCentroCostos2" Type="Int32" />
+          <Property Name="IdCentroCostos3" Type="Int32" />
+          <Property Name="IdCentroCostos4" Type="Int32" />
+          <Property Name="IdCentroCostos5" Type="Int32" />
+          <Property Name="IdCentroCostos6" Type="Int32" />
+          <Property Name="IdCentroCostos7" Type="Int32" />
+          <Property Name="IdCentroCostos8" Type="Int32" />
+          <Property Name="IdCentroCostos9" Type="Int32" />
+          <Property Name="IdUsuarioCC1" Type="Int32" />
+          <Property Name="IdUsuarioCC2" Type="Int32" />
+          <Property Name="IdUsuarioCC3" Type="Int32" />
+          <Property Name="IdUsuarioER1" Type="Int32" />
+          <Property Name="IdUsuarioER2" Type="Int32" />
+          <Property Name="IdUsuarioER3" Type="Int32" />
+          <Property Name="IdUsuarioRE1" Type="Int32" />
+          <Property Name="IdUsuarioRE2" Type="Int32" />
+          <Property Name="IdUsuarioRE3" Type="Int32" />
+          <Property Name="Comentario" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="IntentoLogin" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="HoraMinutoLogin" Type="DateTime" Precision="3" />
+          <Property Name="UserCreate" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserUpdate" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="IdCentroCostos10" Type="Int32" />
+          <Property Name="IdCentroCostos11" Type="Int32" />
+          <Property Name="IdCentroCostos12" Type="Int32" />
+          <Property Name="IdCentroCostos13" Type="Int32" />
+          <Property Name="IdCentroCostos14" Type="Int32" />
+          <Property Name="IdCentroCostos15" Type="Int32" />
+          <Property Name="UsuarioTesoreria" Type="Boolean" />
+          <NavigationProperty Name="DocumentoWeb" Relationship="SICER_WEBModel.FK__Documento__IdUsu__569ECEE8" FromRole="Usuario" ToRole="DocumentoWeb" />
+          <NavigationProperty Name="DocumentoWeb1" Relationship="SICER_WEBModel.FK__Documento__IdUsu__5792F321" FromRole="Usuario" ToRole="DocumentoWeb" />
+          <NavigationProperty Name="DocumentoWeb2" Relationship="SICER_WEBModel.FK__Documento__IdUsu__5887175A" FromRole="Usuario" ToRole="DocumentoWeb" />
+          <NavigationProperty Name="DocumentoWebAuditoria" Relationship="SICER_WEBModel.FK__Documento__IdUsu__6F6A7CB2" FromRole="Usuario" ToRole="DocumentoWebAuditoria" />
+          <NavigationProperty Name="DocumentoWebRendicion" Relationship="SICER_WEBModel.FK__Documento__IdUsu__66D536B1" FromRole="Usuario" ToRole="DocumentoWebRendicion" />
+          <NavigationProperty Name="DocumentoWebRendicion1" Relationship="SICER_WEBModel.FK__Documento__IdUsu__67C95AEA" FromRole="Usuario" ToRole="DocumentoWebRendicion" />
+          <NavigationProperty Name="DocumentoWebRendicion2" Relationship="SICER_WEBModel.FK__Documento__IdUsu__68BD7F23" FromRole="Usuario" ToRole="DocumentoWebRendicion" />
+          <NavigationProperty Name="DocumentoWebRendicion3" Relationship="SICER_WEBModel.FK__Documento__UserU__69B1A35C" FromRole="Usuario" ToRole="DocumentoWebRendicion" />
+          <NavigationProperty Name="DocumentoWebRendicion4" Relationship="SICER_WEBModel.FK__Documento__UserU__6AA5C795" FromRole="Usuario" ToRole="DocumentoWebRendicion" />
+          <NavigationProperty Name="DocumentoWebRendicion5" Relationship="SICER_WEBModel.FK__Documento__UserU__6B99EBCE" FromRole="Usuario" ToRole="DocumentoWebRendicion" />
+        </EntityType>
+        <EntityType Name="Acceso">
+          <Key>
+            <PropertyRef Name="IdLog" />
+          </Key>
+          <Property Name="IdLog" Type="Int32" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Precision="3" />
+          <Property Name="Usuario" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Contraseña" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Operacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Aprobacion">
+          <Key>
+            <PropertyRef Name="IdAprobacion" />
+          </Key>
+          <Property Name="IdAprobacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdUsuarioAprobador" Type="Int32" />
+          <Property Name="IdDocumento" Type="Int32" />
+          <Property Name="Tipo" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="FechaSolicitud" Type="DateTime" Precision="3" />
+          <Property Name="FechaAprobacion" Type="DateTime" Precision="3" />
+          <Property Name="Estado" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="UserCreate" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserUpdate" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Concepto">
+          <Key>
+            <PropertyRef Name="IdConcepto" />
+          </Key>
+          <Property Name="IdConcepto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CuentaContable" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserCreate" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserUpdate" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Estado">
+          <Key>
+            <PropertyRef Name="EstadoCode" />
+            <PropertyRef Name="EstadoNombre" />
+          </Key>
+          <Property Name="EstadoCode" Type="Int32" Nullable="false" />
+          <Property Name="EstadoNombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EstadoDescripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="NivelAprobacion">
+          <Key>
+            <PropertyRef Name="IdNivel" />
+          </Key>
+          <Property Name="IdNivel" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Nivel" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="Documento" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="EsDeMonto" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="Monto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserCreate" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserUpdate" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="PerfilUsuario">
+          <Key>
+            <PropertyRef Name="IdPerfilUsuario" />
+          </Key>
+          <Property Name="IdPerfilUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="TipoAprobador" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="ModAdministrador" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="ModCajaChica" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="ModEntregaRendir" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="ModReembolso" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="CreaCajaChica" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="CreaEntregaRendir" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="CreaReembolso" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="UserCreate" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserUpdate" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="UsuarioAreaNivel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdUsuario" Type="Int32" />
+          <Property Name="IdArea" Type="Int32" />
+          <Property Name="IdNivelAprobacion" Type="Int32" />
+          <Property Name="Estado" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="UserCreate" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="UserUpdate" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <Association Name="FK__Documento__IdTip__63F8CA06">
+          <End Type="SICER_WEBModel.Documento" Role="Documento" Multiplicity="1" />
+          <End Type="SICER_WEBModel.DocumentoWebRendicion" Role="DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Documento">
+              <PropertyRef Name="IdDocumento" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="IdTipoDocSunat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdTip__64ECEE3F">
+          <End Type="SICER_WEBModel.Documento" Role="Documento" Multiplicity="1" />
+          <End Type="SICER_WEBModel.DocumentoWebRendicion" Role="DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Documento">
+              <PropertyRef Name="IdDocumento" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="IdTipoDocSunat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdTip__65E11278">
+          <End Type="SICER_WEBModel.Documento" Role="Documento" Multiplicity="1" />
+          <End Type="SICER_WEBModel.DocumentoWebRendicion" Role="DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Documento">
+              <PropertyRef Name="IdDocumento" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="IdTipoDocSunat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdDoc__5B638405">
+          <End Type="SICER_WEBModel.DocumentoWeb" Role="DocumentoWeb" Multiplicity="1" />
+          <End Type="SICER_WEBModel.DocumentoWebRendicion" Role="DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DocumentoWeb">
+              <PropertyRef Name="IdDocumentoWeb" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="IdDocumentoWeb" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdDoc__5C57A83E">
+          <End Type="SICER_WEBModel.DocumentoWeb" Role="DocumentoWeb" Multiplicity="1" />
+          <End Type="SICER_WEBModel.DocumentoWebRendicion" Role="DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DocumentoWeb">
+              <PropertyRef Name="IdDocumentoWeb" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="IdDocumentoWeb" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdDoc__5D4BCC77">
+          <End Type="SICER_WEBModel.DocumentoWeb" Role="DocumentoWeb" Multiplicity="1" />
+          <End Type="SICER_WEBModel.DocumentoWebRendicion" Role="DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DocumentoWeb">
+              <PropertyRef Name="IdDocumentoWeb" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="IdDocumentoWeb" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdDoc__6E765879">
+          <End Type="SICER_WEBModel.DocumentoWeb" Role="DocumentoWeb" Multiplicity="1" />
+          <End Type="SICER_WEBModel.DocumentoWebAuditoria" Role="DocumentoWebAuditoria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DocumentoWeb">
+              <PropertyRef Name="IdDocumentoWeb" />
+            </Principal>
+            <Dependent Role="DocumentoWebAuditoria">
+              <PropertyRef Name="IdDocumentoWeb" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdEmp__53C2623D">
+          <End Type="SICER_WEBModel.Empresa" Role="Empresa" Multiplicity="0..1" />
+          <End Type="SICER_WEBModel.DocumentoWeb" Role="DocumentoWeb" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="IdEmpresa" />
+            </Principal>
+            <Dependent Role="DocumentoWeb">
+              <PropertyRef Name="IdEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdMet__54B68676">
+          <End Type="SICER_WEBModel.MetodoPago" Role="MetodoPago" Multiplicity="0..1" />
+          <End Type="SICER_WEBModel.DocumentoWeb" Role="DocumentoWeb" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MetodoPago">
+              <PropertyRef Name="IdMetodoPago" />
+            </Principal>
+            <Dependent Role="DocumentoWeb">
+              <PropertyRef Name="IdMetodoPago" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdMon__55AAAAAF">
+          <End Type="SICER_WEBModel.Moneda" Role="Moneda" Multiplicity="1" />
+          <End Type="SICER_WEBModel.DocumentoWeb" Role="DocumentoWeb" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Moneda">
+              <PropertyRef Name="IdMoneda" />
+            </Principal>
+            <Dependent Role="DocumentoWeb">
+              <PropertyRef Name="IdMoneda" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdUsu__569ECEE8">
+          <End Type="SICER_WEBModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="SICER_WEBModel.DocumentoWeb" Role="DocumentoWeb" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="DocumentoWeb">
+              <PropertyRef Name="IdUsuarioSolicitante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdUsu__5792F321">
+          <End Type="SICER_WEBModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="SICER_WEBModel.DocumentoWeb" Role="DocumentoWeb" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="DocumentoWeb">
+              <PropertyRef Name="IdUsuarioCreacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdUsu__5887175A">
+          <End Type="SICER_WEBModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="SICER_WEBModel.DocumentoWeb" Role="DocumentoWeb" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="DocumentoWeb">
+              <PropertyRef Name="IdUsuarioModificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdUsu__6F6A7CB2">
+          <End Type="SICER_WEBModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="SICER_WEBModel.DocumentoWebAuditoria" Role="DocumentoWebAuditoria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="DocumentoWebAuditoria">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdMon__5E3FF0B0">
+          <End Type="SICER_WEBModel.Moneda" Role="Moneda" Multiplicity="1" />
+          <End Type="SICER_WEBModel.DocumentoWebRendicion" Role="DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Moneda">
+              <PropertyRef Name="IdMoneda" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="IdMonedaDoc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdMon__5F3414E9">
+          <End Type="SICER_WEBModel.Moneda" Role="Moneda" Multiplicity="1" />
+          <End Type="SICER_WEBModel.DocumentoWebRendicion" Role="DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Moneda">
+              <PropertyRef Name="IdMoneda" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="IdMonedaDoc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdMon__60283922">
+          <End Type="SICER_WEBModel.Moneda" Role="Moneda" Multiplicity="1" />
+          <End Type="SICER_WEBModel.DocumentoWebRendicion" Role="DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Moneda">
+              <PropertyRef Name="IdMoneda" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="IdMonedaDoc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdPro__611C5D5B">
+          <End Type="SICER_WEBModel.Proveedor" Role="Proveedor" Multiplicity="0..1" />
+          <End Type="SICER_WEBModel.DocumentoWebRendicion" Role="DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proveedor">
+              <PropertyRef Name="IdProveedor" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="IdProveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdPro__62108194">
+          <End Type="SICER_WEBModel.Proveedor" Role="Proveedor" Multiplicity="0..1" />
+          <End Type="SICER_WEBModel.DocumentoWebRendicion" Role="DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proveedor">
+              <PropertyRef Name="IdProveedor" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="IdProveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdPro__6304A5CD">
+          <End Type="SICER_WEBModel.Proveedor" Role="Proveedor" Multiplicity="0..1" />
+          <End Type="SICER_WEBModel.DocumentoWebRendicion" Role="DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proveedor">
+              <PropertyRef Name="IdProveedor" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="IdProveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdUsu__66D536B1">
+          <End Type="SICER_WEBModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="SICER_WEBModel.DocumentoWebRendicion" Role="DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="IdUsuarioModificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdUsu__67C95AEA">
+          <End Type="SICER_WEBModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="SICER_WEBModel.DocumentoWebRendicion" Role="DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="IdUsuarioModificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__IdUsu__68BD7F23">
+          <End Type="SICER_WEBModel.Usuario" Role="Usuario" Multiplicity="1" />
+          <End Type="SICER_WEBModel.DocumentoWebRendicion" Role="DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="IdUsuarioModificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__UserU__69B1A35C">
+          <End Type="SICER_WEBModel.Usuario" Role="Usuario" Multiplicity="0..1" />
+          <End Type="SICER_WEBModel.DocumentoWebRendicion" Role="DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="UserUpdate" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__UserU__6AA5C795">
+          <End Type="SICER_WEBModel.Usuario" Role="Usuario" Multiplicity="0..1" />
+          <End Type="SICER_WEBModel.DocumentoWebRendicion" Role="DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="UserUpdate" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Documento__UserU__6B99EBCE">
+          <End Type="SICER_WEBModel.Usuario" Role="Usuario" Multiplicity="0..1" />
+          <End Type="SICER_WEBModel.DocumentoWebRendicion" Role="DocumentoWebRendicion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="DocumentoWebRendicion">
+              <PropertyRef Name="UserUpdate" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SICER_WEBModelStoreContainer" CdmEntityContainer="SICER_WEBEntities1">
+          <EntitySetMapping Name="Documento">
+            <EntityTypeMapping TypeName="SICER_WEBModel.Documento">
+              <MappingFragment StoreEntitySet="Documento">
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UserUpdate" ColumnName="UserUpdate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserCreate" ColumnName="UserCreate" />
+                <ScalarProperty Name="CodigoSunat" ColumnName="CodigoSunat" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdDocumento" ColumnName="IdDocumento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocumentoWeb">
+            <EntityTypeMapping TypeName="SICER_WEBModel.DocumentoWeb">
+              <MappingFragment StoreEntitySet="DocumentoWeb">
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="IdUsuarioModificacion" ColumnName="IdUsuarioModificacion" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="IdUsuarioCreacion" ColumnName="IdUsuarioCreacion" />
+                <ScalarProperty Name="IdDocumentoWebRendicionReferencia" ColumnName="IdDocumentoWebRendicionReferencia" />
+                <ScalarProperty Name="EstadoDocumento" ColumnName="EstadoDocumento" />
+                <ScalarProperty Name="FechaContabilizacion" ColumnName="FechaContabilizacion" />
+                <ScalarProperty Name="FechaSolicitud" ColumnName="FechaSolicitud" />
+                <ScalarProperty Name="MotivoDetalle" ColumnName="MotivoDetalle" />
+                <ScalarProperty Name="Comentario" ColumnName="Comentario" />
+                <ScalarProperty Name="Asunto" ColumnName="Asunto" />
+                <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
+                <ScalarProperty Name="MontoInicial" ColumnName="MontoInicial" />
+                <ScalarProperty Name="IdMetodoPago" ColumnName="IdMetodoPago" />
+                <ScalarProperty Name="SAPCodigoCentroCostos5" ColumnName="SAPCodigoCentroCostos5" />
+                <ScalarProperty Name="SAPCodigoCentroCostos4" ColumnName="SAPCodigoCentroCostos4" />
+                <ScalarProperty Name="SAPCodigoCentroCostos3" ColumnName="SAPCodigoCentroCostos3" />
+                <ScalarProperty Name="SAPCodigoCentroCostos2" ColumnName="SAPCodigoCentroCostos2" />
+                <ScalarProperty Name="SAPCodigoCentroCostos1" ColumnName="SAPCodigoCentroCostos1" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="NumeroRendicion" ColumnName="NumeroRendicion" />
+                <ScalarProperty Name="IdUsuarioSolicitante" ColumnName="IdUsuarioSolicitante" />
+                <ScalarProperty Name="TipoDocumentoWeb" ColumnName="TipoDocumentoWeb" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="IdDocumentoWeb" ColumnName="IdDocumentoWeb" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocumentoWebAuditoria">
+            <EntityTypeMapping TypeName="SICER_WEBModel.DocumentoWebAuditoria">
+              <MappingFragment StoreEntitySet="DocumentoWebAuditoria">
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Comentario" ColumnName="Comentario" />
+                <ScalarProperty Name="EstadoDocumento" ColumnName="EstadoDocumento" />
+                <ScalarProperty Name="IdDocumentoWeb" ColumnName="IdDocumentoWeb" />
+                <ScalarProperty Name="IdDocumentoWebAuditoria" ColumnName="IdDocumentoWebAuditoria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocumentoWebRendicion">
+            <EntityTypeMapping TypeName="SICER_WEBModel.DocumentoWebRendicion">
+              <MappingFragment StoreEntitySet="DocumentoWebRendicion">
+                <ScalarProperty Name="IdUsuarioModificacion" ColumnName="IdUsuarioModificacion" />
+                <ScalarProperty Name="UserUpdate" ColumnName="UserUpdate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="IdUsuarioCreacion" ColumnName="IdUsuarioCreacion" />
+                <ScalarProperty Name="EstadoRendicion" ColumnName="EstadoRendicion" />
+                <ScalarProperty Name="MontoTotal" ColumnName="MontoTotal" />
+                <ScalarProperty Name="MontoIGV" ColumnName="MontoIGV" />
+                <ScalarProperty Name="MontoAfecto" ColumnName="MontoAfecto" />
+                <ScalarProperty Name="MontoNoAfecto" ColumnName="MontoNoAfecto" />
+                <ScalarProperty Name="MontoTasaCambio" ColumnName="MontoTasaCambio" />
+                <ScalarProperty Name="MontoDoc" ColumnName="MontoDoc" />
+                <ScalarProperty Name="IdMonedaDoc" ColumnName="IdMonedaDoc" />
+                <ScalarProperty Name="FechaDoc" ColumnName="FechaDoc" />
+                <ScalarProperty Name="CorrelativoDoc" ColumnName="CorrelativoDoc" />
+                <ScalarProperty Name="SerieDoc" ColumnName="SerieDoc" />
+                <ScalarProperty Name="IdTipoDocSunat" ColumnName="IdTipoDocSunat" />
+                <ScalarProperty Name="SAPCodigoCuentaContableRendicion" ColumnName="SAPCodigoCuentaContableRendicion" />
+                <ScalarProperty Name="SAPCodigoCentroCostos5" ColumnName="SAPCodigoCentroCostos5" />
+                <ScalarProperty Name="SAPCodigoCentroCostos4" ColumnName="SAPCodigoCentroCostos4" />
+                <ScalarProperty Name="SAPCodigoCentroCostos3" ColumnName="SAPCodigoCentroCostos3" />
+                <ScalarProperty Name="SAPCodigoCentroCostos2" ColumnName="SAPCodigoCentroCostos2" />
+                <ScalarProperty Name="SAPCodigoCentroCostos1" ColumnName="SAPCodigoCentroCostos1" />
+                <ScalarProperty Name="SAPCodigoConcepto" ColumnName="SAPCodigoConcepto" />
+                <ScalarProperty Name="SAPCodigoPartidaPresupuestal" ColumnName="SAPCodigoPartidaPresupuestal" />
+                <ScalarProperty Name="NumeroRendicion" ColumnName="NumeroRendicion" />
+                <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
+                <ScalarProperty Name="IdDocumentoWeb" ColumnName="IdDocumentoWeb" />
+                <ScalarProperty Name="IdDocumentoWebRendicion" ColumnName="IdDocumentoWebRendicion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Empresa">
+            <EntityTypeMapping TypeName="SICER_WEBModel.Empresa">
+              <MappingFragment StoreEntitySet="Empresa">
+                <ScalarProperty Name="MontoRedondeo" ColumnName="MontoRedondeo" />
+                <ScalarProperty Name="CodigoInterno" ColumnName="CodigoInterno" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UserUpdate" ColumnName="UserUpdate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserCreate" ColumnName="UserCreate" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MetodoPago">
+            <EntityTypeMapping TypeName="SICER_WEBModel.MetodoPago">
+              <MappingFragment StoreEntitySet="MetodoPago">
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UserUpdate" ColumnName="UserUpdate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserCreate" ColumnName="UserCreate" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="PayMethCod" ColumnName="PayMethCod" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="IdMetodoPago" ColumnName="IdMetodoPago" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Moneda">
+            <EntityTypeMapping TypeName="SICER_WEBModel.Moneda">
+              <MappingFragment StoreEntitySet="Moneda">
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UserUpdate" ColumnName="UserUpdate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserCreate" ColumnName="UserCreate" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdMoneda" ColumnName="IdMoneda" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Proveedor">
+            <EntityTypeMapping TypeName="SICER_WEBModel.Proveedor">
+              <MappingFragment StoreEntitySet="Proveedor">
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UserUpdate" ColumnName="UserUpdate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserCreate" ColumnName="UserCreate" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="IdProceso" ColumnName="IdProceso" />
+                <ScalarProperty Name="Proceso" ColumnName="Proceso" />
+                <ScalarProperty Name="Documento" ColumnName="Documento" />
+                <ScalarProperty Name="TipoDocumento" ColumnName="TipoDocumento" />
+                <ScalarProperty Name="CardName" ColumnName="CardName" />
+                <ScalarProperty Name="CardCode" ColumnName="CardCode" />
+                <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="SICER_WEBModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="UsuarioTesoreria" ColumnName="UsuarioTesoreria" />
+                <ScalarProperty Name="IdCentroCostos15" ColumnName="IdCentroCostos15" />
+                <ScalarProperty Name="IdCentroCostos14" ColumnName="IdCentroCostos14" />
+                <ScalarProperty Name="IdCentroCostos13" ColumnName="IdCentroCostos13" />
+                <ScalarProperty Name="IdCentroCostos12" ColumnName="IdCentroCostos12" />
+                <ScalarProperty Name="IdCentroCostos11" ColumnName="IdCentroCostos11" />
+                <ScalarProperty Name="IdCentroCostos10" ColumnName="IdCentroCostos10" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UserUpdate" ColumnName="UserUpdate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserCreate" ColumnName="UserCreate" />
+                <ScalarProperty Name="HoraMinutoLogin" ColumnName="HoraMinutoLogin" />
+                <ScalarProperty Name="IntentoLogin" ColumnName="IntentoLogin" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Comentario" ColumnName="Comentario" />
+                <ScalarProperty Name="IdUsuarioRE3" ColumnName="IdUsuarioRE3" />
+                <ScalarProperty Name="IdUsuarioRE2" ColumnName="IdUsuarioRE2" />
+                <ScalarProperty Name="IdUsuarioRE1" ColumnName="IdUsuarioRE1" />
+                <ScalarProperty Name="IdUsuarioER3" ColumnName="IdUsuarioER3" />
+                <ScalarProperty Name="IdUsuarioER2" ColumnName="IdUsuarioER2" />
+                <ScalarProperty Name="IdUsuarioER1" ColumnName="IdUsuarioER1" />
+                <ScalarProperty Name="IdUsuarioCC3" ColumnName="IdUsuarioCC3" />
+                <ScalarProperty Name="IdUsuarioCC2" ColumnName="IdUsuarioCC2" />
+                <ScalarProperty Name="IdUsuarioCC1" ColumnName="IdUsuarioCC1" />
+                <ScalarProperty Name="IdCentroCostos9" ColumnName="IdCentroCostos9" />
+                <ScalarProperty Name="IdCentroCostos8" ColumnName="IdCentroCostos8" />
+                <ScalarProperty Name="IdCentroCostos7" ColumnName="IdCentroCostos7" />
+                <ScalarProperty Name="IdCentroCostos6" ColumnName="IdCentroCostos6" />
+                <ScalarProperty Name="IdCentroCostos5" ColumnName="IdCentroCostos5" />
+                <ScalarProperty Name="IdCentroCostos4" ColumnName="IdCentroCostos4" />
+                <ScalarProperty Name="IdCentroCostos3" ColumnName="IdCentroCostos3" />
+                <ScalarProperty Name="IdCentroCostos2" ColumnName="IdCentroCostos2" />
+                <ScalarProperty Name="IdCentroCostos1" ColumnName="IdCentroCostos1" />
+                <ScalarProperty Name="IdArea5" ColumnName="IdArea5" />
+                <ScalarProperty Name="IdArea4" ColumnName="IdArea4" />
+                <ScalarProperty Name="IdArea3" ColumnName="IdArea3" />
+                <ScalarProperty Name="IdArea2" ColumnName="IdArea2" />
+                <ScalarProperty Name="IdArea1" ColumnName="IdArea1" />
+                <ScalarProperty Name="IdPerfilUsuario" ColumnName="IdPerfilUsuario" />
+                <ScalarProperty Name="CantMaxRE" ColumnName="CantMaxRE" />
+                <ScalarProperty Name="CantMaxER" ColumnName="CantMaxER" />
+                <ScalarProperty Name="CantMaxCC" ColumnName="CantMaxCC" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="CardName" ColumnName="CardName" />
+                <ScalarProperty Name="Pass" ColumnName="Pass" />
+                <ScalarProperty Name="CardCode" ColumnName="CardCode" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Acceso">
+            <EntityTypeMapping TypeName="SICER_WEBModel.Acceso">
+              <MappingFragment StoreEntitySet="Acceso">
+                <ScalarProperty Name="Operacion" ColumnName="Operacion" />
+                <ScalarProperty Name="Contraseña" ColumnName="Contraseña" />
+                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdLog" ColumnName="IdLog" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Aprobacion">
+            <EntityTypeMapping TypeName="SICER_WEBModel.Aprobacion">
+              <MappingFragment StoreEntitySet="Aprobacion">
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UserUpdate" ColumnName="UserUpdate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserCreate" ColumnName="UserCreate" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="FechaAprobacion" ColumnName="FechaAprobacion" />
+                <ScalarProperty Name="FechaSolicitud" ColumnName="FechaSolicitud" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="IdDocumento" ColumnName="IdDocumento" />
+                <ScalarProperty Name="IdUsuarioAprobador" ColumnName="IdUsuarioAprobador" />
+                <ScalarProperty Name="IdAprobacion" ColumnName="IdAprobacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Concepto">
+            <EntityTypeMapping TypeName="SICER_WEBModel.Concepto">
+              <MappingFragment StoreEntitySet="Concepto">
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UserUpdate" ColumnName="UserUpdate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserCreate" ColumnName="UserCreate" />
+                <ScalarProperty Name="CuentaContable" ColumnName="CuentaContable" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdConcepto" ColumnName="IdConcepto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Estado">
+            <EntityTypeMapping TypeName="SICER_WEBModel.Estado">
+              <MappingFragment StoreEntitySet="Estado">
+                <ScalarProperty Name="EstadoDescripcion" ColumnName="EstadoDescripcion" />
+                <ScalarProperty Name="EstadoNombre" ColumnName="EstadoNombre" />
+                <ScalarProperty Name="EstadoCode" ColumnName="EstadoCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NivelAprobacion">
+            <EntityTypeMapping TypeName="SICER_WEBModel.NivelAprobacion">
+              <MappingFragment StoreEntitySet="NivelAprobacion">
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UserUpdate" ColumnName="UserUpdate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserCreate" ColumnName="UserCreate" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="EsDeMonto" ColumnName="EsDeMonto" />
+                <ScalarProperty Name="Documento" ColumnName="Documento" />
+                <ScalarProperty Name="Nivel" ColumnName="Nivel" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdNivel" ColumnName="IdNivel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PerfilUsuario">
+            <EntityTypeMapping TypeName="SICER_WEBModel.PerfilUsuario">
+              <MappingFragment StoreEntitySet="PerfilUsuario">
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UserUpdate" ColumnName="UserUpdate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserCreate" ColumnName="UserCreate" />
+                <ScalarProperty Name="CreaReembolso" ColumnName="CreaReembolso" />
+                <ScalarProperty Name="CreaEntregaRendir" ColumnName="CreaEntregaRendir" />
+                <ScalarProperty Name="CreaCajaChica" ColumnName="CreaCajaChica" />
+                <ScalarProperty Name="ModReembolso" ColumnName="ModReembolso" />
+                <ScalarProperty Name="ModEntregaRendir" ColumnName="ModEntregaRendir" />
+                <ScalarProperty Name="ModCajaChica" ColumnName="ModCajaChica" />
+                <ScalarProperty Name="ModAdministrador" ColumnName="ModAdministrador" />
+                <ScalarProperty Name="TipoAprobador" ColumnName="TipoAprobador" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdPerfilUsuario" ColumnName="IdPerfilUsuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UsuarioAreaNivel">
+            <EntityTypeMapping TypeName="SICER_WEBModel.UsuarioAreaNivel">
+              <MappingFragment StoreEntitySet="UsuarioAreaNivel">
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UserUpdate" ColumnName="UserUpdate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserCreate" ColumnName="UserCreate" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="IdNivelAprobacion" ColumnName="IdNivelAprobacion" />
+                <ScalarProperty Name="IdArea" ColumnName="IdArea" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

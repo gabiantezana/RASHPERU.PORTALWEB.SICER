@@ -82,7 +82,7 @@
         <li><asp:LinkButton ID="lnkCajaChica" runat="server" Text="Caja Chica" OnClick="lnkCajaChica_Click" /></li>
         <li><asp:LinkButton ID="lnkEntregaRendir" runat="server" Text="Entrega a Rendir" OnClick="lnkEntregaRendir_Click" /></li>
         <li><asp:LinkButton ID="lnkReembolso" runat="server" Text="Reembolso" OnClick="lnkReembolso_Click" /></li>
-        <li><asp:LinkButton ID="lnkReporte" runat="server" Text="Reporte" OnClick="lnkReporte_Click"/></li>
+        <%--<li><asp:LinkButton ID="lnkReporte" runat="server" Text="Reporte" OnClick="lnkReporte_Click"/></li>--%>
       </ul>
      </div>            
     </div>

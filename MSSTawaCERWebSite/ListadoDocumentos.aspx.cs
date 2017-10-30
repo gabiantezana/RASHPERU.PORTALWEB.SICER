@@ -8,31 +8,49 @@ using System.Web.UI.WebControls;
 using MSS.TAWA.BC;
 using MSS.TAWA.BE;
 using MSS.TAWA.HP;
+using System.Web.UI.HtmlControls;
 
 public partial class ListadoDocumentos : System.Web.UI.Page
 {
     TipoDocumentoWeb _TipoDocumentoWeb { get; set; }
+    Int32 _IdDocumentoWeb { get; set; }
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        _TipoDocumentoWeb = (TipoDocumentoWeb)Convert.ToInt32(Request.QueryString[ConstantHelper.Keys.TipoDocumentoWeb].ToString());
-
         if (Session["Usuario"] == null)
             Server.Transfer("~/Login.aspx");
+
+        _TipoDocumentoWeb = (TipoDocumentoWeb)Convert.ToInt32(Request.QueryString[ConstantHelper.Keys.TipoDocumentoWeb].ToString());
 
         if (!this.IsPostBack)
         {
             ListarFiltro();
             ListarEstado();
             ListarUsuario();
-
+            SetearTitulo();
             txtCodigo.Enabled = false;
             txtDni.Enabled = false;
             ddlNombre_Solicitante.Enabled = false;
             ddlEstado.Enabled = false;
             bBuscar.Enabled = false;
-
             ValidarMenu();
+        }
+    }
+
+    private void SetearTitulo()
+    {
+        lblTitle.InnerText = "Listado de ";
+        switch (_TipoDocumentoWeb)
+        {
+            case TipoDocumentoWeb.CajaChica:
+                lblTitle.InnerText += "Caja Chicas";
+                break;
+            case TipoDocumentoWeb.EntregaRendir:
+                lblTitle.InnerText += "Entregas a Rendir";
+                break;
+            case TipoDocumentoWeb.Reembolso:
+                lblTitle.InnerText += "Reembolsos";
+                break;
         }
     }
 
@@ -40,24 +58,25 @@ public partial class ListadoDocumentos : System.Web.UI.Page
     {
         UsuarioBE objUsuarioBE = new UsuarioBE();
         objUsuarioBE = (UsuarioBE)Session["Usuario"];
-        DocumentBC documentBC = new DocumentBC(_TipoDocumentoWeb);
-        gvDocumentos.DataSource = documentBC.ListarDocumentos(objUsuarioBE.IdUsuario, 1, 0, "", "", "", "", "");
+        DocumentoWebBC documentBC = new DocumentoWebBC();
+        gvDocumentos.DataSource = documentBC.GetList(objUsuarioBE.IdUsuario, TipoDocumentoWeb.CajaChica);
         gvDocumentos.DataBind();
     }
 
     private void ListarDocumentos(int idPerfil)
     {
-        UsuarioBE objUsuarioBE = new UsuarioBE();
-        objUsuarioBE = (UsuarioBE)Session["Usuario"];
+        Int32 _IdUsuario = ((UsuarioBE)Session["Usuario"]).IdUsuario;
+        gvDocumentos.DataSource = new DocumentoWebBC().GetList(_IdUsuario, _TipoDocumentoWeb);
+        gvDocumentos.DataBind();
 
-        DocumentBC documentBC = new DocumentBC(_TipoDocumentoWeb);
+        /*
         if (idPerfil != 2
         && idPerfil != 1002
         && idPerfil != 1008)
-            gvDocumentos.DataSource = documentBC.ListarDocumentos(objUsuarioBE.IdUsuario, 1, 0, "", "", "", "", "");
+            gvDocumentos.DataSource = new DocumentoWebBC().GetList(_IdUsuario);
         else
         {
-            ddlFiltro.SelectedIndex = 5;
+            //ddlFiltro.SelectedIndex = 5;
             txtDni.Text = "";
             txtCodigo.Text = "";
             ddlNombre_Solicitante.SelectedIndex = 0;
@@ -68,10 +87,10 @@ public partial class ListadoDocumentos : System.Web.UI.Page
             ddlNombre_Solicitante.Enabled = false;
             ddlEstado.Enabled = true;
             bBuscar.Enabled = true;
-            gvDocumentos.DataSource = documentBC.ListarDocumentos(objUsuarioBE.IdUsuario, 3, 0, "", "", "", "", "17");
+            gvDocumentos.DataSource = documentBC.GetList(objUsuarioBE.IdUsuario);
         }
 
-        gvDocumentos.DataBind();
+        gvDocumentos.DataBind();*/
     }
 
     private void LimpiarDocumento()
@@ -79,7 +98,7 @@ public partial class ListadoDocumentos : System.Web.UI.Page
         UsuarioBE objUsuarioBE = new UsuarioBE();
         objUsuarioBE = (UsuarioBE)Session["Usuario"];
 
-        DocumentBC documentBC = new DocumentBC(_TipoDocumentoWeb);
+        DocumentoWebBC documentBC = new DocumentoWebBC();
         gvDocumentos.DataSource = null;
         gvDocumentos.DataBind();
     }
@@ -191,36 +210,50 @@ public partial class ListadoDocumentos : System.Web.UI.Page
 
     protected void gvDocumentos_RowCommand(object sender, GridViewCommandEventArgs e)
     {
-        int IdDocumento;
-
         try
         {
-            DocumentBC documentBC = new DocumentBC(_TipoDocumentoWeb);
-            DocumentBE documentBE = new DocumentBE();
-            IdDocumento = Convert.ToInt32(e.CommandArgument.ToString());
+            DocumentoWebBC documentBC = new DocumentoWebBC();
+
+            Int32 IdDocumentoWeb = Convert.ToInt32(e.CommandArgument.ToString());
+            //Int32 IdDocumentoRendicion = Convert.ToInt32(commandArgs[1]);
 
             Context.Items.Add(ConstantHelper.Keys.TipoDocumentoWeb, _TipoDocumentoWeb);
-            Context.Items.Add(ConstantHelper.Keys.IdDocumento, IdDocumento);
+            Context.Items.Add(ConstantHelper.Keys.IdDocumentoWeb, IdDocumentoWeb);
 
-            if (e.CommandName.Equals("Aprobacion"))//TODO: Validar en qué circunstancias se puede rendir el documento:
+            if (e.CommandName.Equals("Aprobacion"))
             {
-                documentBE = documentBC.ObtenerDocumento(IdDocumento, 0);
+
+                DocumentoWebBE documentBE = documentBC.GetDocumentoWeb(IdDocumentoWeb);
                 EstadoDocumento estadoDocumento = (EstadoDocumento)Convert.ToInt32(documentBE.Estado);
 
-                if (new ValidationHelper().DocumentoSePuedeRendir(estadoDocumento))
+                switch (estadoDocumento)
                 {
-                    Context.Items.Add(ConstantHelper.Keys.Modo, Modo.Crear);
-                    Server.Transfer("~/DocumentoRendicion.aspx");
+                    case EstadoDocumento.PorAprobarNivel1:
+                    case EstadoDocumento.PorAprobarNivel2:
+                    case EstadoDocumento.PorAprobarNivel3:
+                        Context.Items.Add(ConstantHelper.Keys.Modo, Modo.Editar);
+                        Server.Transfer("~/Documento.aspx");
+                        break;
+                    case EstadoDocumento.Rechazado:
+                    case EstadoDocumento.Liquidado:
+                        throw new NotImplementedException();
+                    case EstadoDocumento.Aprobado:
+                    case EstadoDocumento.RendirPorAprobarJefeArea:
+                    case EstadoDocumento.RendirPorAprobarContabilidad:
+                    case EstadoDocumento.RendirAprobado:
+                        Context.Items.Add(ConstantHelper.Keys.Modo, Modo.Crear);
+                        Server.Transfer("~/DocumentoRendicion.aspx");
+                        break;
+                    default:
+                        throw new NotImplementedException();
                 }
-                else
-                {
-                    Context.Items.Add(ConstantHelper.Keys.Modo, Modo.Editar);
-                    Server.Transfer("~/Documento.aspx");
-                }
+
+
             }
-            if (e.CommandName.Equals("Rendir")) //TODO: Validar en qué circunstancias se puede rendir el documento.
+            if (e.CommandName.Equals("Rendir"))
             {
-                documentBE = documentBC.ObtenerDocumento(IdDocumento, 0);
+
+                DocumentoWebBE documentBE = documentBC.GetDocumentoWeb(IdDocumentoWeb);
                 EstadoDocumento estadoDocumento = (EstadoDocumento)Convert.ToInt32(documentBE.Estado);
 
                 if (new ValidationHelper().DocumentoSePuedeRendir(estadoDocumento))
@@ -349,6 +382,7 @@ public partial class ListadoDocumentos : System.Web.UI.Page
         return texto;
     }
 
+
     public String SetearIdEmpresa(String sId)
     {
         EmpresaBC objEmpresaBC = new EmpresaBC();
@@ -368,10 +402,11 @@ public partial class ListadoDocumentos : System.Web.UI.Page
 
     protected void Buscar_Click(object sender, EventArgs e)
     {
+        /*
         UsuarioBE objUsuarioBE = new UsuarioBE();
         objUsuarioBE = (UsuarioBE)Session["Usuario"];
 
-        DocumentBC documentBC = new DocumentBC(_TipoDocumentoWeb);
+        DocumentoWebBC documentBC = new DocumentoWebBC();
         if (ddlFiltro.SelectedItem.Value == "1")
         {
             gvDocumentos.DataSource = documentBC.ListarDocumentos(objUsuarioBE.IdUsuario, 1, 0, txtCodigo.Text, "", "", "", "");
@@ -397,6 +432,7 @@ public partial class ListadoDocumentos : System.Web.UI.Page
         {
             ListarDocumentosTodo();
         }
+        */
     }
 
     private void Mensaje(String mensaje)

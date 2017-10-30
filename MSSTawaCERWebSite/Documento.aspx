@@ -22,26 +22,31 @@
             <center>
   <table width="800px" style="font-family:Verdana, Arial, Helvetica, sans-serif;"> 
    <tr>
-    <td width="175px" align="left"><label>Id CajaChica?? //TODO:</label></td>
+    <td width="175px" align="left"><label>Id:</label></td>
     <td width="225px" align="left"><asp:TextBox ID="txtIdDocumento" runat="server" Width="95%" Enabled="false" ></asp:TextBox></td>
     <td width="175px" align="left"><label>Codigo</label></td>
     <td width="225px" align="left"><asp:TextBox ID="txtCodigoDocumento" runat="server" Width="95%" Enabled="false" ></asp:TextBox></td>
    </tr>
    <tr>   
     <td align="left"><label>Usuario Solicitante</label></td>
-    <td align="left"><asp:DropDownList ID="ddlIdUsuarioSolicitante" runat="server" AutoPostBack="true" Width="95%" ></asp:DropDownList></td>
+    <td align="left"><asp:DropDownList ID="ddlIdUsuarioSolicitante" runat="server" AutoPostBack="true" Width="95%" OnSelectedIndexChanged="ddlIdUsuarioSolicitante_SelectedIndexChanged" ></asp:DropDownList></td>
     <td align="left"><label>Empresa</label></td>
     <td align="left"><asp:DropDownList ID="ddlIdEmpresa" runat="server" AutoPostBack="true" Width="95%" OnSelectedIndexChanged="ddlIdEmpresa_SelectedIndexChanged1" ></asp:DropDownList></td>
    </tr>
+  
    <tr>
     <td align="left"><label>Moneda</label></td>
-    <td align="left"><asp:DropDownList ID="ddlMoneda" runat="server" Width="95%" ></asp:DropDownList></td>
+    <td align="left"><asp:DropDownList ID="ddlMoneda" AutoPostBack="true" runat="server" Width="95%" OnSelectedIndexChanged="ddlMoneda_SelectedIndexChanged" ></asp:DropDownList></td>
     <td align="left"><label>Monto</label></td>
     <td align="left">
      <asp:TextBox ID="txtMontoInicial" runat="server" Width="95%" MaxLength="20" ></asp:TextBox>
      <ajaxtoolkit:FilteredTextBoxExtender ID="FilteredTextBoxExtender2" TargetControlID="txtMontoInicial" runat="server" Enabled="True" FilterType="Numbers,Custom" ValidChars="." ></ajaxtoolkit:FilteredTextBoxExtender>
     </td>
    </tr>
+          <tr runat="server" id="trEntregaRendir" visible ="False">
+         <td align="left"><label>Entrega a Rendir</label></td>
+    <td align="left"><asp:DropDownList ID="ddlEntregaRendir"  runat="server"  AutoPostBack="true" Width ="95%" OnSelectedIndexChanged="ddlEntregaRendir_SelectedIndexChanged" ></asp:DropDownList></td>
+      </tr>
    <tr>
     <td align="left">&nbsp;</td>
     <td align="left">&nbsp;</td>
@@ -107,8 +112,7 @@
      <asp:Button ID="bAprobar" runat="server" OnClientClick="this.disabled = true; this.value = 'Procesando...';" UseSubmitBehavior="false" OnClick="Aprobar_Click" Text="Aprobar" CssClass="button" />
     </td>
     <td align="center">
-     <asp:Button ID="bObservacion" runat="server" OnClientClick="this.disabled = true; this.value = 'Procesando...';" UseSubmitBehavior="false" OnClick="Observacion_Click" Text="Observacion" CssClass="button" />
-    </td>
+        &nbsp;</td>
     <td align="center">
      <asp:Button ID="bRechazar" runat="server" OnClientClick="this.disabled = true; this.value = 'Procesando...';" UseSubmitBehavior="false" OnClick="Rechazar_Click" Text="Rechazar" CssClass="button" />
     </td>

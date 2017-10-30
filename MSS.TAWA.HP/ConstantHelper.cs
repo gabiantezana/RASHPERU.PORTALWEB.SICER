@@ -13,6 +13,6 @@ public static class ConstantHelper
         public const String TipoDocumentoWeb = "TipoDocumentoWeb";
         public const String Modo = "Modo";
         public const String IdDocumento = "IdDocumento";
-
+        public const String IdDocumentoWeb = "IdDocumentoWeb";
     }
 }

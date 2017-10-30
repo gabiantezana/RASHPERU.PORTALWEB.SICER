@@ -10,8 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MSS.TAWA.BC</RootNamespace>
     <AssemblyName>MSS.TAWA.BC</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,11 +31,13 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,10 +49,10 @@
     <Compile Include="AreaBC.cs" />
     <Compile Include="BancoBC.cs" />
     <Compile Include="CuentaContableBC.cs" />
-    <Compile Include="DocumentBC.cs" />
     <Compile Include="CentroCostosBC.cs" />
     <Compile Include="ClbHelpers.cs" />
     <Compile Include="ConceptoBC.cs" />
+    <Compile Include="DocumentoWebBC.cs" />
     <Compile Include="Helper\ExceptionHelper.cs" />
     <Compile Include="NivelSeguridadBC.cs" />
     <Compile Include="ControlContabilidadBC.cs" />
@@ -61,6 +65,7 @@
     <Compile Include="MonedaBC.cs" />
     <Compile Include="MotivoBC.cs" />
     <Compile Include="NivelAprobacionBC.cs" />
+    <Compile Include="PartidaPresupuestalBC.cs" />
     <Compile Include="PerfilUsuarioBC.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProveedorBC.cs" />
@@ -81,6 +86,10 @@
     <ProjectReference Include="..\MSS.TAWA.HP\MSS.TAWA.HP.csproj">
       <Project>{b1805497-4160-424a-8cb5-ddde29a6a820}</Project>
       <Name>MSS.TAWA.HP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MSS.TAWA.MODEL\MSS.TAWA.MODEL.csproj">
+      <Project>{BD1E54C9-874F-444F-AF34-727C7656BDFA}</Project>
+      <Name>MSS.TAWA.MODEL</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

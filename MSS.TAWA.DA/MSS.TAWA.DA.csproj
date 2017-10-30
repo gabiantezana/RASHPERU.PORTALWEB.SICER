@@ -10,8 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MSS.TAWA.DA</RootNamespace>
     <AssemblyName>MSS.TAWA.DA</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,11 +31,23 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="adodb, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,8 +61,7 @@
     <Compile Include="CentroCostosDA.cs" />
     <Compile Include="ConceptoDA.cs" />
     <Compile Include="CuentasContablesDevolucionDA.cs" />
-    <Compile Include="DocumentDA.cs" />
-    <Compile Include="DocumentDetailDA.cs" />
+    <Compile Include="DocumentoWebDA.cs" />
     <Compile Include="Helper\ExceptionHelper.cs" />
     <Compile Include="NivelSeguridadDA.cs" />
     <Compile Include="ControlContabilidadDA.cs" />
@@ -69,6 +82,7 @@
     <Compile Include="ReporteDA.cs" />
     <Compile Include="UsuarioAreaNivelDA.cs" />
     <Compile Include="UsuarioDA.cs" />
+    <Compile Include="UtilDA.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MSS.TAWA.BE\MSS.TAWA.BE.csproj">
@@ -79,6 +93,14 @@
       <Project>{b1805497-4160-424a-8cb5-ddde29a6a820}</Project>
       <Name>MSS.TAWA.HP</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MSS.TAWA.MODEL\MSS.TAWA.MODEL.csproj">
+      <Project>{bd1e54c9-874f-444f-af34-727c7656bdfa}</Project>
+      <Name>MSS.TAWA.MODEL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

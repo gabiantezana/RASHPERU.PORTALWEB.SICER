@@ -10,7 +10,7 @@ namespace MSS.TAWA.BC
 {
     public class DocumentoBC
     {
-        public List<DocumentoBE> ListarDocumento(int Id, int Tipo)
+        public List<DocumentobBE> ListarDocumento(int Id, int Tipo)
         {
             try
             {
@@ -23,7 +23,7 @@ namespace MSS.TAWA.BC
             }
         }
 
-        public DocumentoBE ObtenerDocumento(int Id)
+        public DocumentobBE ObtenerDocumento(int Id)
         {
             try
             {

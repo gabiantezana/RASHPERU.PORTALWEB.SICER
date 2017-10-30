@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MSS.TAWA.BE
 {
-    public class DocumentoBE
+    public class DocumentobBE
     {
         int _IdDocumento;
         String _Descripcion;
@@ -15,11 +15,13 @@ namespace MSS.TAWA.BE
         String _UserUpdate;
         DateTime _UpdateDate;
 
+
         public int IdDocumento
         {
             get { return _IdDocumento; }
             set { _IdDocumento = value; }
         }
+
         public String Descripcion
         {
             get { return _Descripcion; }

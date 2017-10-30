@@ -11,16 +11,102 @@ namespace MSS.TAWA.DA
 {
     public class PartidaPresupuestalDA
     {
-        [Obsolete]
         public List <PartidaPresupuestalBE> GetListadoPartidasPresupuestales(String codigoCentroCostos)
         {
-            return new List<PartidaPresupuestalBE>();
+            SqlConnection sqlConn;
+            String strConn;
+            SqlCommand sqlCmd;
+            String strSP;
+            SqlDataReader sqlDR;
+
+            try
+            {
+                strConn = ConfigurationManager.ConnectionStrings["SICER"].ConnectionString;
+                sqlConn = new SqlConnection(strConn);
+                strSP = "MSS_WEB_PARTIDAPRESUPUESTAL_GETLIST";
+                sqlCmd = new SqlCommand(strSP, sqlConn);
+                sqlCmd.CommandType = CommandType.StoredProcedure;
+
+                SqlParameter pIdUsuario = new SqlParameter();
+                pIdUsuario.ParameterName = "@CodigoCentroCostos";
+                pIdUsuario.SqlDbType = SqlDbType.NVarChar;
+                pIdUsuario.Value = codigoCentroCostos;
+
+                sqlCmd.Parameters.Add(pIdUsuario);
+
+                sqlCmd.Connection.Open();
+                sqlDR = sqlCmd.ExecuteReader();
+
+                List<PartidaPresupuestalBE>  list = new List<PartidaPresupuestalBE>();
+
+                while (sqlDR.Read())
+                {
+                    PartidaPresupuestalBE partida = new PartidaPresupuestalBE();
+                    partida.Code = sqlDR.GetString(sqlDR.GetOrdinal("Code"));
+                    partida.U_MSSP_NIV = sqlDR.GetString(sqlDR.GetOrdinal("U_MSSP_NIV"));
+                    list.Add(partida);
+                }
+
+                sqlCmd.Connection.Close();
+                sqlCmd.Dispose();
+
+                sqlConn.Close();
+                sqlConn.Dispose();
+
+                return list;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
-        [Obsolete]
-        public PartidaPresupuestalBE GetPartidaPresupuestal(String codigoPartidaPresupuestal)
+        public PartidaPresupuestalBE GetPartidaPresupuestal(String U_MSSP_NIV)
         {
-            return new PartidaPresupuestalBE();
+            SqlConnection sqlConn;
+            String strConn;
+            SqlCommand sqlCmd;
+            String strSP;
+            SqlDataReader sqlDR;
+
+            try
+            {
+                strConn = ConfigurationManager.ConnectionStrings["SICER"].ConnectionString;
+                sqlConn = new SqlConnection(strConn);
+                strSP = "MSS_WEB_PARTIDAPRESUPUESTAL_GET";
+                sqlCmd = new SqlCommand(strSP, sqlConn);
+                sqlCmd.CommandType = CommandType.StoredProcedure;
+
+                SqlParameter pIdUsuario = new SqlParameter();
+                pIdUsuario.ParameterName = "@U_MSSP_NIV";
+                pIdUsuario.SqlDbType = SqlDbType.NVarChar;
+                pIdUsuario.Value = U_MSSP_NIV;
+
+                sqlCmd.Parameters.Add(pIdUsuario);
+
+                sqlCmd.Connection.Open();
+                sqlDR = sqlCmd.ExecuteReader();
+
+                PartidaPresupuestalBE partida = new PartidaPresupuestalBE();
+
+                while (sqlDR.Read())
+                {
+                    partida.Code = sqlDR.GetString(sqlDR.GetOrdinal("Code"));
+                    partida.U_MSSP_NIV = sqlDR.GetString(sqlDR.GetOrdinal("U_MSSP_NIV"));
+                }
+
+                sqlCmd.Connection.Close();
+                sqlCmd.Dispose();
+
+                sqlConn.Close();
+                sqlConn.Dispose();
+
+                return partida;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }

@@ -48,20 +48,20 @@
    <tr>
     <td align="left"><label>Perfil Usuario</label></td>
     <td align="left"><asp:DropDownList ID="ddlPerfilUsuario" runat="server" Width="95%" OnSelectedIndexChanged="ddlPerfilUsuario_SelectedIndexChanged" AutoPostBack="true" ></asp:DropDownList></td>
-    <td align="left"><label>Cantidad de Cajas Chicas </label></td>
-    <td align="left">
+    <td align="left" style="display:none"><label>Cantidad de Cajas Chicas </label></td>
+    <td align="left" style="display:none">
      <asp:TextBox ID="txtCantMaxCC" runat="server" Width="95%" ></asp:TextBox>
      <ajaxtoolkit:FilteredTextBoxExtender ID="FilteredTextBoxExtender4" TargetControlID="txtCantMaxCC" runat="server" Enabled="True" FilterType="Numbers" ></ajaxtoolkit:FilteredTextBoxExtender>
     </td>
-    <td align="left"><label>Cantidad de Entregas a Rendir</label></td>
-    <td align="left">
+    <td align="left" style="display:none"><label>Cantidad de Entregas a Rendir</label></td>
+    <td align="left" style="display:none">
      <asp:TextBox ID="txtCantMaxER" runat="server" Width="95%" ></asp:TextBox>
      <ajaxtoolkit:FilteredTextBoxExtender ID="FilteredTextBoxExtender5" TargetControlID="txtCantMaxER" runat="server" Enabled="True" FilterType="Numbers" ></ajaxtoolkit:FilteredTextBoxExtender>
     </td>
    </tr>
    <tr>
-    <td align="left"><label>Cantidad de Reembolsos</label></td>
-    <td align="left">
+    <td align="left" style="display:none"><label>Cantidad de Reembolsos</label></td>
+    <td align="left" style="display:none">
      <asp:TextBox ID="txtCantMaxRE" runat="server" Width="95%" ></asp:TextBox>
      <ajaxtoolkit:FilteredTextBoxExtender ID="FilteredTextBoxExtender6" TargetControlID="txtCantMaxRE" runat="server" Enabled="True" FilterType="Numbers" ></ajaxtoolkit:FilteredTextBoxExtender>
     </td>
@@ -76,7 +76,7 @@
      <ajaxtoolkit:FilteredTextBoxExtender ID="FilteredTextBoxExtender8" TargetControlID="txtMail" runat="server" Enabled="True" FilterType="Numbers,UppercaseLetters, LowercaseLetters, Custom" ValidChars="@._" ></ajaxtoolkit:FilteredTextBoxExtender>
     </td>
    </tr>
-   <tr>
+   <tr style="display:none">
     <td align="left" valign="top">
      <label>Centro Costos Nivel 3</label>
     </td>

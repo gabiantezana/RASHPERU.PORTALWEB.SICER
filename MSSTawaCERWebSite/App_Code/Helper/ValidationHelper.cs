@@ -13,9 +13,6 @@ public class ValidationHelper
 {
     public ValidationHelper()
     {
-        //
-        // TODO: Add constructor logic here
-        //
     }
     public Boolean ProveedorExiste(String nombreProveedor)
     {
@@ -34,8 +31,17 @@ public class ValidationHelper
             return objProveedorBE.IdProveedor;
     }
 
-    public Double? ObtenerMontoMaximoDeDocumento(Int32 idTipoDocumento, String moneda)
+    public Double? ObtenerMontoMaximoDeDocumento(TipoDocumentoWeb tipoDocumentoWeb, String moneda)
     {
+        switch (tipoDocumentoWeb)
+        {
+            case TipoDocumentoWeb.CajaChica:
+            case TipoDocumentoWeb.EntregaRendir:
+            case TipoDocumentoWeb.Reembolso:
+                break;
+            default:
+                break;
+        }
         Double? montoMaximo = null;
         Int32 idNivelMoneda = 0;
         switch (moneda)
@@ -50,7 +56,7 @@ public class ValidationHelper
                 idNivelMoneda = 2;
                 break;
         }
-        NivelAprobacionBE nivelAprobacion = new NivelAprobacionDA().ObtenerNivelAprobacionV2(idTipoDocumento, idNivelMoneda);
+        NivelAprobacionBE nivelAprobacion = new NivelAprobacionDA().ObtenerNivelAprobacionV2((Int32)tipoDocumentoWeb, idNivelMoneda);
         if (nivelAprobacion != null)
             if (nivelAprobacion.EsDeMonto == "1")
                 montoMaximo = Convert.ToDouble(nivelAprobacion.Monto);
@@ -77,16 +83,17 @@ public class ValidationHelper
         return false;
     }
 
+
     public Boolean UsuarioExcedeCantMaxDocumento(TipoDocumentoWeb tipoDocumento, Int32 idUsuario)
     {
         UsuarioBE objUsuarioBE = new UsuarioBC().ObtenerUsuario(idUsuario, 0);
-        Int32 cantidadActualDocs = 0;
+        Int32 cantidadActualDocsPendientes = 0;
         Int32 cantidadMaximaDocs = 0;
 
-        cantidadActualDocs = new DocumentBC(tipoDocumento).ListarDocumentos(idUsuario, 2, 10, "", "", "", "", "").Count;
+        cantidadActualDocsPendientes = new DocumentoWebDA().GetListDocumentosPendientesPorUsuario(idUsuario, tipoDocumento).Count;
         cantidadMaximaDocs = Convert.ToInt32(objUsuarioBE.CantMaxCC);
 
-        if (cantidadActualDocs < cantidadMaximaDocs)
+        if (cantidadActualDocsPendientes < cantidadMaximaDocs)
             return false;
         return true;
     }
@@ -95,10 +102,6 @@ public class ValidationHelper
     {
         Int32[] estadosEnLosQueSepuedeRendirDocumento = {
                                                         (Int32)EstadoDocumento.Aprobado
-                                                        ,(Int32)EstadoDocumento.RendirPorAprobarJefeArea
-                                                        ,(Int32)EstadoDocumento.RendirObservacionesNivel1
-                                                        ,(Int32)EstadoDocumento.RendirPorAprobarContabilidad
-                                                        ,(Int32)EstadoDocumento.RendirObservacionContabilidad
                                                         ,(Int32)EstadoDocumento.RendirAprobado
         };
         Int32 _estadoDocumento = (Int32)estadoDocumento;

@@ -40,7 +40,6 @@ public partial class SiteMaster : System.Web.UI.MasterPage
             lnkCajaChica.Visible = visible;
             lnkEntregaRendir.Visible = visible;
             lnkReembolso.Visible = visible;
-            lnkReporte.Visible = visible;
         }
         catch (Exception ex)
         {
@@ -71,45 +70,41 @@ public partial class SiteMaster : System.Web.UI.MasterPage
             }
             else
             {
-                if (objUsuarioBE.CardName != "")
-                {
-                    lbBienvenido.Visible = true;
-                    lbBienvenido.Text = "Bienvenido: " + objUsuarioBE.CardName;
-                    lnkLogout.Visible = true;
-                    lnkLogout.Text = "Cerrar Sesion";
+                lbBienvenido.Visible = true;
+                lbBienvenido.Text = "Bienvenido: " + objUsuarioBE.CardName;
+                lnkLogout.Visible = true;
+                lnkLogout.Text = "Cerrar Sesion";
 
-                    lnkBienvenido.Visible = false;
-                    //lnkPerfil.Visible = true;
+                lnkBienvenido.Visible = false;
+                lnkPerfil.Visible = true;
 
-                    PerfilUsuarioBC objPerfilUsuarioBC = new PerfilUsuarioBC();
-                    PerfilUsuarioBE objPerfilUsuarioBE = new PerfilUsuarioBE();
-                    objPerfilUsuarioBE = objPerfilUsuarioBC.ObtenerPerfilUsuario(objUsuarioBE.IdPerfilUsuario);
+                PerfilUsuarioBC objPerfilUsuarioBC = new PerfilUsuarioBC();
+                PerfilUsuarioBE objPerfilUsuarioBE = new PerfilUsuarioBE();
+                objPerfilUsuarioBE = objPerfilUsuarioBC.ObtenerPerfilUsuario(objUsuarioBE.IdPerfilUsuario);
 
-                    if (objPerfilUsuarioBE.ModAdministrador == "1")
-                        lnkAdministrador.Visible = true;
-                    else
-                        lnkAdministrador.Visible = false;
+                if (objPerfilUsuarioBE.ModAdministrador == "1")
+                    lnkAdministrador.Visible = true;
+                else
+                    lnkAdministrador.Visible = false;
 
-                    if (objPerfilUsuarioBE.ModCajaChica == "1" 
-                    || objPerfilUsuarioBE.CreaCajaChica == "1")
-                        lnkCajaChica.Visible = true;
-                    else
-                        lnkCajaChica.Visible = false;
+                if (objPerfilUsuarioBE.ModCajaChica == "1"
+                || objPerfilUsuarioBE.CreaCajaChica == "1")
+                    lnkCajaChica.Visible = true;
+                else
+                    lnkCajaChica.Visible = false;
 
-                    if (objPerfilUsuarioBE.ModEntregaRendir == "1" 
-                    || objPerfilUsuarioBE.CreaEntregaRendir == "1")
-                        lnkEntregaRendir.Visible = true;
-                    else
-                        lnkEntregaRendir.Visible = false;
+                if (objPerfilUsuarioBE.ModEntregaRendir == "1"
+                || objPerfilUsuarioBE.CreaEntregaRendir == "1")
+                    lnkEntregaRendir.Visible = true;
+                else
+                    lnkEntregaRendir.Visible = false;
 
-                    if (objPerfilUsuarioBE.ModReembolso == "1" 
-                    || objPerfilUsuarioBE.CreaReembolso == "1")
-                        lnkReembolso.Visible = true;
-                    else
-                        lnkReembolso.Visible = false;
+                if (objPerfilUsuarioBE.ModReembolso == "1"
+                || objPerfilUsuarioBE.CreaReembolso == "1")
+                    lnkReembolso.Visible = true;
+                else
+                    lnkReembolso.Visible = false;
 
-                    lnkReporte.Visible = true;
-                }
             }
         }
         catch (Exception ex)
@@ -169,20 +164,19 @@ public partial class SiteMaster : System.Web.UI.MasterPage
         Response.Redirect("~/Reporte1.aspx");
     }
 
-    protected void lnkCajaChica_Click(object sender, EventArgs e)//todo: send parameter documentType
+    protected void lnkCajaChica_Click(object sender, EventArgs e)
     {
-        Response.Redirect("~/ListadoDocumentos.aspx"+ "?TipoDocumentoWeb=1");
-        //Response.Redirect("~/CajaChicas.aspx");
+        Response.Redirect("~/ListadoDocumentos.aspx" + "?TipoDocumentoWeb=1");
     }
 
     protected void lnkEntregaRendir_Click(object sender, EventArgs e)
     {
-        Response.Redirect("~/ListadoDocumentos.aspx"+ "?TipoDocumentoWeb=2");
+        Response.Redirect("~/ListadoDocumentos.aspx" + "?TipoDocumentoWeb=2");
     }
 
     protected void lnkReembolso_Click(object sender, EventArgs e)
     {
-        Response.Redirect("~/ListadoDocumentos.aspx"+ "?TipoDocumentoWeb=3");
+        Response.Redirect("~/ListadoDocumentos.aspx" + "?TipoDocumentoWeb=3");
     }
 
     protected void lnkCambiar_Click(object sender, EventArgs e)

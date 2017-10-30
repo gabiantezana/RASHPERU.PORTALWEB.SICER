@@ -23,7 +23,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
 {
     TipoDocumentoWeb _TipoDocumentoWeb;
     Modo _Modo;
-    Int32 _IdDocumento;
+    Int32 _IdDocumentoWeb;
 
     #region OnLoad Page
 
@@ -41,11 +41,11 @@ public partial class DocumentoRendicion : System.Web.UI.Page
             {
                 _TipoDocumentoWeb = (TipoDocumentoWeb)Context.Items[ConstantHelper.Keys.TipoDocumentoWeb];
                 _Modo = (Modo)Context.Items[ConstantHelper.Keys.Modo];
-                _IdDocumento = Convert.ToInt32(Context.Items[ConstantHelper.Keys.IdDocumento].ToString());
+                _IdDocumentoWeb = Convert.ToInt32(Context.Items[ConstantHelper.Keys.IdDocumentoWeb].ToString());
 
                 ViewState[ConstantHelper.Keys.TipoDocumentoWeb] = _TipoDocumentoWeb;
                 ViewState[ConstantHelper.Keys.Modo] = _Modo;
-                ViewState[ConstantHelper.Keys.IdDocumento] = _IdDocumento;
+                ViewState[ConstantHelper.Keys.IdDocumentoWeb] = _IdDocumentoWeb;
 
                 ListarTipoDocumento();
                 //ListarProveedor();
@@ -53,13 +53,13 @@ public partial class DocumentoRendicion : System.Web.UI.Page
                 ListarCentroCostos();
                 ListarConcepto();
                 ListarRendicion();
-                ListarMoneda(_IdDocumento);
+                ListarMoneda(_IdDocumentoWeb);
                 Modalidad(_Modo);
-                SetModalidadBotones(_Modo, _IdDocumento);
-                LlenarCamposCaberaExcel1();
+                SetModalidadBotones(_Modo, _IdDocumentoWeb);
                 ListarCuentasContablesDevoluciones();
+                ListarPartidasPresupuestales(String.Empty);
 
-                DocumentBE objDocumento = new DocumentBC(_TipoDocumentoWeb).ObtenerDocumento(Convert.ToInt32(_IdDocumento), 0);
+                DocumentoWebBE objDocumento = new DocumentoWebBC().GetDocumentoWeb(_IdDocumentoWeb);
 
                 if (objDocumento.Estado == "19") //TODO: ESTADOS
                     txtFechaContabilizacion.Text = (objDocumento.FechaContabilizacion).ToString("dd/MM/yyyy");
@@ -89,7 +89,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
                 case Modo.Editar:
                     //lblCabezera.Text = "Aprobar Caja Chica";
                     //bCrear.Text = "Guardar";
-                    //LlenarCampos(Convert.ToInt32(ViewState["IdDocumento"].ToString()));
+                    //LlenarCampos(Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumentoWeb].ToString()));
                     break;
             }
         }
@@ -110,7 +110,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         PerfilUsuarioBE objPerfilUsuarioBE = new PerfilUsuarioBC().ObtenerPerfilUsuario(objUsuarioSesionBE.IdPerfilUsuario);
         TipoAprobador TipoAprobador = (TipoAprobador)Enum.Parse(typeof(TipoAprobador), new PerfilUsuarioBC().ObtenerPerfilUsuario(objUsuarioSesionBE.IdPerfilUsuario).TipoAprobador);
 
-        DocumentBE objDocumentoBE = new DocumentBC(_TipoDocumentoWeb).ObtenerDocumento(IdDocumento, 0);
+        DocumentoWebBE objDocumentoBE = new DocumentoWebBC().GetDocumentoWeb(IdDocumento);
         UsuarioBE objUsuarioSolicitanteBE = new UsuarioBC().ObtenerUsuario(objDocumentoBE.IdUsuarioSolicitante, 0);
         EstadoDocumento EstadoDocumento = (EstadoDocumento)Enum.Parse(typeof(EstadoDocumento), objDocumentoBE.Estado);
 
@@ -121,6 +121,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         switch (EstadoDocumento)
         {
             case EstadoDocumento.Aprobado:
+            case EstadoDocumento.RendirAprobado:
                 switch (TipoAprobador)
                 {
                     case TipoAprobador.Creador:
@@ -140,19 +141,6 @@ public partial class DocumentoRendicion : System.Web.UI.Page
                         break;
                 }
                 break;
-            case EstadoDocumento.RendirObservacionesNivel1:
-                switch (TipoAprobador)
-                {
-                    case TipoAprobador.Aprobador:
-                    case TipoAprobador.Creador:
-                    case TipoAprobador.AprobadorYCreador:
-                    case TipoAprobador.ContabilidadYCreador:
-                        if (objDocumentoBE.IdUsuarioSolicitante == objUsuarioSesionBE.IdUsuario
-                        || objDocumentoBE.IdUsuarioCreador == objUsuarioSesionBE.IdUsuario)
-                            setAsCreation = true;
-                        break;
-                }
-                break;
             case EstadoDocumento.RendirPorAprobarContabilidad:
                 switch (TipoAprobador)
                 {
@@ -161,10 +149,6 @@ public partial class DocumentoRendicion : System.Web.UI.Page
                         setAsContabilidad = true;
                         break;
                 }
-                break;
-            case EstadoDocumento.RendirObservacionContabilidad:
-                if (objUsuarioSesionBE.IdUsuario == objDocumentoBE.IdUsuarioCreador)
-                    setAsCreation = true;
                 break;
             default:
                 break;
@@ -185,7 +169,6 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         bEnviar.Visible = false;
         bAprobar.Visible = false;
         bLiquidar.Visible = false;
-        bObservacion.Visible = false;
 
         if (setAsCreation)
         {
@@ -208,7 +191,6 @@ public partial class DocumentoRendicion : System.Web.UI.Page
             bMasivo.Visible = true;
             bAgregar2.Visible = true;
             bAprobar.Visible = true;
-            bObservacion.Visible = true;
         }
 
         if (setAsContabilidad)
@@ -222,11 +204,9 @@ public partial class DocumentoRendicion : System.Web.UI.Page
             bAgregar2.Visible = true;
             bAprobar.Visible = true;
             bLiquidar.Visible = true;
-            bObservacion.Visible = true;
             txtFechaContabilizacion.Enabled = true;
         }
     }
-
 
     #endregion
 
@@ -267,30 +247,30 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         {
             CentroCostosBC objCentroCostosBC = new CentroCostosBC();
 
-            Int32 idDocumento = Convert.ToInt32(Context.Items["IdDocumento"].ToString());
-            DocumentBE objDocumentoBE = new DocumentBC(_TipoDocumentoWeb).ObtenerDocumento(idDocumento, 0);
+            Int32 idDocumento = Convert.ToInt32(Context.Items[ConstantHelper.Keys.IdDocumentoWeb].ToString());
+            DocumentoWebBE objDocumentoBE = new DocumentoWebBC().GetDocumentoWeb(idDocumento);
 
-            ddlCentroCostos1.DataSource = objCentroCostosBC.ListarCentroCostos(objDocumentoBE.IdEmpresa, 1);
+            ddlCentroCostos1.DataSource = objCentroCostosBC.ListarCentroCostos(1);
             ddlCentroCostos1.DataTextField = "Descripcion";
             ddlCentroCostos1.DataValueField = "IdCentroCostos";
             ddlCentroCostos1.DataBind();
 
-            ddlCentroCostos2.DataSource = objCentroCostosBC.ListarCentroCostos(objDocumentoBE.IdEmpresa, 2);
+            ddlCentroCostos2.DataSource = objCentroCostosBC.ListarCentroCostos(2);
             ddlCentroCostos2.DataTextField = "Descripcion";
             ddlCentroCostos2.DataValueField = "IdCentroCostos";
             ddlCentroCostos2.DataBind();
 
-            ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(objDocumentoBE.IdEmpresa, 3);
+            ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(3);
             ddlCentroCostos3.DataTextField = "Descripcion";
             ddlCentroCostos3.DataValueField = "IdCentroCostos";
             ddlCentroCostos3.DataBind();
 
-            ddlCentroCostos4.DataSource = objCentroCostosBC.ListarCentroCostos(objDocumentoBE.IdEmpresa, 4);
+            ddlCentroCostos4.DataSource = objCentroCostosBC.ListarCentroCostos(4);
             ddlCentroCostos4.DataTextField = "Descripcion";
             ddlCentroCostos4.DataValueField = "IdCentroCostos";
             ddlCentroCostos4.DataBind();
 
-            ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(objDocumentoBE.IdEmpresa, 5);
+            ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(5);
             ddlCentroCostos5.DataTextField = "Descripcion";
             ddlCentroCostos5.DataValueField = "IdCentroCostos";
             ddlCentroCostos5.DataBind();
@@ -321,43 +301,33 @@ public partial class DocumentoRendicion : System.Web.UI.Page
 
     private void ListarRendicion()
     {
-        Int32 idDocumento = Convert.ToInt32(ViewState["IdDocumento"].ToString());
+        Int32 idDocumento = Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumentoWeb].ToString());
 
-        gvDocumentos.DataSource = new DocumentBC(_TipoDocumentoWeb).ListarDocumentoDetalles(idDocumento, 1, 0);
+        gvDocumentos.DataSource = new DocumentoWebBC().GetList(idDocumento, true);
         gvDocumentos.DataBind();
 
-    }
-
-    private void ListarRendicion2()
-    {
-        _TipoDocumentoWeb = (TipoDocumentoWeb)ViewState[ConstantHelper.Keys.TipoDocumentoWeb];
-        _Modo = (Modo)ViewState[ConstantHelper.Keys.Modo];
-
-        Int32 idDocumento = Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumento]);
-        Int32 idUsuario = ((UsuarioBE)Session["Usuario"]).IdUsuario;
-
-        gvReporte.DataSource = new DocumentBC(_TipoDocumentoWeb).ListarDocumentoDetalles(idDocumento, 3, 0);
-        gvReporte.DataBind();
     }
 
     private void ListarMoneda(int IdDocumento)
     {
         MonedaBC objMonedaBC = new MonedaBC();
 
-        ddlIdMonedaDoc.DataSource = objMonedaBC.ListarMoneda(0, 1);
+        ddlIdMonedaOriginal.DataSource = objMonedaBC.ListarMoneda(IdDocumento);
+        ddlIdMonedaOriginal.DataTextField = "Descripcion";
+        ddlIdMonedaOriginal.DataValueField = "IdMoneda";
+        ddlIdMonedaOriginal.DataBind();
+        ddlIdMonedaOriginal.SelectedValue = new DocumentoWebBC().GetDocumentoWeb(_IdDocumentoWeb).Moneda.ToString();
+
+        ddlIdMonedaDoc.DataSource = objMonedaBC.ListarMoneda();
         ddlIdMonedaDoc.DataTextField = "Descripcion";
         ddlIdMonedaDoc.DataValueField = "IdMoneda";
         ddlIdMonedaDoc.DataBind();
 
-        ddlIdMonedaOriginal.DataSource = objMonedaBC.ListarMoneda(IdDocumento, 2);
-        ddlIdMonedaOriginal.DataTextField = "Descripcion";
-        ddlIdMonedaOriginal.DataValueField = "IdMoneda";
-        ddlIdMonedaOriginal.DataBind();
     }
 
     private void ListarProveedorCrear()
     {
-        String iddocumento = ViewState["IdDocumento"].ToString();
+        String iddocumento = ViewState[ConstantHelper.Keys.IdDocumentoWeb].ToString();
 
         ProveedorBC objProveedorBC = new ProveedorBC();
         gvProveedor.DataSource = objProveedorBC.ListarProveedor(Convert.ToInt32(iddocumento), 2);
@@ -367,7 +337,6 @@ public partial class DocumentoRendicion : System.Web.UI.Page
     private void ListarCuentasContablesDevoluciones()
     {
         ddlCuentaContableDevolucion.DataSource = new CuentaContableBC().GetCuentasContables();
-        String stringToShow =
         ddlCuentaContableDevolucion.DataTextField = "U_Descripcion";
         ddlCuentaContableDevolucion.DataValueField = "U_Codigo";
         ddlCuentaContableDevolucion.DataBind();
@@ -375,7 +344,10 @@ public partial class DocumentoRendicion : System.Web.UI.Page
 
     private void ListarPartidasPresupuestales(String codigoCentroCostos)
     {
-        //TODO:
+        ddlPartidaPresupuestal.DataSource = new PartidaPresupuestalBC().GetList(codigoCentroCostos);
+        ddlPartidaPresupuestal.DataTextField = "U_MSSP_NIV";
+        ddlPartidaPresupuestal.DataValueField = "Code";
+        ddlPartidaPresupuestal.DataBind();
     }
 
     #endregion
@@ -394,9 +366,9 @@ public partial class DocumentoRendicion : System.Web.UI.Page
             {
                 lblIdDocumentoDetalle.Text = idDetalleDocumento.ToString();
 
-                DocumentDetailBE objDocumentoBE = new DocumentBC(_TipoDocumentoWeb).ObtenerDocumentoDetalle(idDetalleDocumento, 0);
+                DocumentoWebRendicionBE objDocumentoBE = new DocumentoWebBC().GetDocumentoWebRendicion(idDetalleDocumento);
                 txtSerie.Text = objDocumentoBE.SerieDoc;
-                txtNumero.Text = objDocumentoBE.CorrelativoDoc;
+                txtNumero.Text = objDocumentoBE.CorrelativoDoc.ToString();
                 txtFecha.Text = objDocumentoBE.FechaDoc.ToString("dd/MM/yyyy");
                 txtMontoTotal.Text = Convert.ToDouble(objDocumentoBE.MontoTotal).ToString("0.00");
                 txtMontoDoc.Text = Convert.ToDouble(objDocumentoBE.MontoDoc).ToString("0.00");
@@ -416,31 +388,35 @@ public partial class DocumentoRendicion : System.Web.UI.Page
 
                 ddlIdMonedaDoc.SelectedValue = objDocumentoBE.IdMonedaDoc.ToString();
                 ddlIdMonedaOriginal.SelectedValue = objDocumentoBE.IdMonedaOriginal.ToString();
-                ddlPartidaPresupuestal.SelectedValue = objDocumentoBE.PartidaPresupuestal.ToString();
 
-                Int32 IdEmpresa = new DocumentBC(_TipoDocumentoWeb).ObtenerDocumento(objDocumentoBE.IdDocumento, 0).IdEmpresa;
 
-                ddlCentroCostos1.DataSource = new CentroCostosBC().ListarCentroCostos(IdEmpresa, 1);
+                ListarPartidasPresupuestales(objDocumentoBE.IdCentroCostos1);
+                if (objDocumentoBE.CodigoPartidaPresupuestal != null)
+                    ddlPartidaPresupuestal.SelectedValue = objDocumentoBE.CodigoPartidaPresupuestal.ToString();
+
+                Int32 IdEmpresa = new DocumentoWebBC().GetDocumentoWeb(objDocumentoBE.IdDocumentoWeb).IdEmpresa;
+
+                ddlCentroCostos1.DataSource = new CentroCostosBC().ListarCentroCostos(1);
                 ddlCentroCostos1.DataTextField = "Descripcion";
                 ddlCentroCostos1.DataValueField = "IdCentroCostos";
                 ddlCentroCostos1.DataBind();
 
-                ddlCentroCostos2.DataSource = new CentroCostosBC().ListarCentroCostos(IdEmpresa, 2);
+                ddlCentroCostos2.DataSource = new CentroCostosBC().ListarCentroCostos(2);
                 ddlCentroCostos2.DataTextField = "Descripcion";
                 ddlCentroCostos2.DataValueField = "IdCentroCostos";
                 ddlCentroCostos2.DataBind();
 
-                ddlCentroCostos3.DataSource = new CentroCostosBC().ListarCentroCostos(IdEmpresa, 3);
+                ddlCentroCostos3.DataSource = new CentroCostosBC().ListarCentroCostos(3);
                 ddlCentroCostos3.DataTextField = "Descripcion";
                 ddlCentroCostos3.DataValueField = "IdCentroCostos";
                 ddlCentroCostos3.DataBind();
 
-                ddlCentroCostos4.DataSource = new CentroCostosBC().ListarCentroCostos(IdEmpresa, 4);
+                ddlCentroCostos4.DataSource = new CentroCostosBC().ListarCentroCostos(4);
                 ddlCentroCostos4.DataTextField = "Descripcion";
                 ddlCentroCostos4.DataValueField = "IdCentroCostos";
                 ddlCentroCostos4.DataBind();
 
-                ddlCentroCostos5.DataSource = new CentroCostosBC().ListarCentroCostos(IdEmpresa, 5);
+                ddlCentroCostos5.DataSource = new CentroCostosBC().ListarCentroCostos(5);
                 ddlCentroCostos5.DataTextField = "Descripcion";
                 ddlCentroCostos5.DataValueField = "IdCentroCostos";
                 ddlCentroCostos5.DataBind();
@@ -450,19 +426,26 @@ public partial class DocumentoRendicion : System.Web.UI.Page
                 ddlConcepto.DataValueField = "IdConcepto";
                 ddlConcepto.DataBind();
 
-                ddlCentroCostos1.SelectedValue = objDocumentoBE.IdCentroCostos1.ToString();
-                ddlCentroCostos2.SelectedValue = objDocumentoBE.IdCentroCostos2.ToString();
-                ddlCentroCostos3.SelectedValue = objDocumentoBE.IdCentroCostos3.ToString();
-                ddlCentroCostos4.SelectedValue = objDocumentoBE.IdCentroCostos4.ToString();
-                ddlCentroCostos5.SelectedValue = objDocumentoBE.IdCentroCostos5.ToString();
+                if (objDocumentoBE.IdCentroCostos1 != null)
+                    ddlCentroCostos1.SelectedValue = objDocumentoBE.IdCentroCostos1.ToString();
+                if (objDocumentoBE.IdCentroCostos2 != null)
+                    ddlCentroCostos2.SelectedValue = objDocumentoBE.IdCentroCostos2.ToString();
+                if (objDocumentoBE.IdCentroCostos3 != null)
+                    ddlCentroCostos3.SelectedValue = objDocumentoBE.IdCentroCostos3.ToString();
+                if (objDocumentoBE.IdCentroCostos4 != null)
+                    ddlCentroCostos4.SelectedValue = objDocumentoBE.IdCentroCostos4.ToString();
+                if (objDocumentoBE.IdCentroCostos5 != null)
+                    ddlCentroCostos5.SelectedValue = objDocumentoBE.IdCentroCostos5.ToString();
+
                 ddlConcepto.SelectedValue = objDocumentoBE.IdConcepto.ToString();
 
                 bAgregar.Visible = false;
                 bGuardar.Visible = true;
             }
+
             if (e.CommandName.Equals("Eliminar"))
             {
-                new DocumentBC(_TipoDocumentoWeb).EliminarDocumentoDetalle(idDetalleDocumento);
+                new DocumentoWebBC().EliminarDocumentoDetalle(idDetalleDocumento);
                 ListarRendicion();
             }
         }
@@ -481,20 +464,24 @@ public partial class DocumentoRendicion : System.Web.UI.Page
 
     private void LlenarCabecera()
     {
-        Int32 idDocumento = Convert.ToInt32(ViewState["IdDocumento"].ToString());
-        DocumentBE objDocumentoBE = new DocumentBC(_TipoDocumentoWeb).ObtenerDocumento(idDocumento, 0);
+        Int32 idDocumentoWeb = Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumentoWeb].ToString());
+        DocumentoWebBE objDocumentoBE = new DocumentoWebBC().GetDocumentoWeb(idDocumentoWeb);
 
-        DocumentDetailBE objDocumentoDetalleBE = new DocumentBC(_TipoDocumentoWeb).ObtenerDocumentoDetalle(Convert.ToInt32(idDocumento), 1);
+        DocumentoWebRendicionBE objDocumentoDetalleBE = new DocumentoWebBC().GetDocumentoWebRendicion(null, idDocumentoWeb);
         string montoCCD = "0.00";
         if (objDocumentoDetalleBE != null)
-            montoCCD = objDocumentoDetalleBE.MontoTotal;
+            montoCCD = objDocumentoDetalleBE.MontoTotal.ToString();
 
-        lblCabezera.Text = _TipoDocumentoWeb.GetName() + ": " + objDocumentoBE.CodigoDocumento + " - Monto: " + montoCCD + "/" + Convert.ToDouble(objDocumentoBE.MontoInicial).ToString("0.00");
+        lblCabezera.Text = _TipoDocumentoWeb.GetName() + ": "
+                            + objDocumentoBE.CodigoDocumento
+                            + " - Monto: " + new MonedaBC().ObtenerMoneda(objDocumentoBE.Moneda).Descripcion + " " + objDocumentoBE.MontoActual.ToString("0.00")
+                            + "/" + Convert.ToDouble(objDocumentoBE.MontoInicial).ToString("0.00");
 
         if (objDocumentoBE.Estado == "19")
             txtFechaContabilizacion.Text = txtFechaContabilizacion.Text = (objDocumentoBE.FechaContabilizacion).ToString("dd/MM/yyyy");
         else
             txtFechaContabilizacion.Text = txtFechaContabilizacion.Text = (DateTime.Today).ToString("dd/MM/yyyy");
+
     }
 
     private void LimpiarCampos()
@@ -549,14 +536,14 @@ public partial class DocumentoRendicion : System.Web.UI.Page
             GridViewRow row = (GridViewRow)checkbox.NamingContainer;
             int Id = Convert.ToInt32(gvDocumentos.Rows[row.DataItemIndex].Cells[2].Text);
 
-            DocumentDetailBE objDetalleDocumentoBE = new DocumentBC(_TipoDocumentoWeb).ObtenerDocumentoDetalle(Id, 0);
+            DocumentoWebRendicionBE objDetalleDocumentoBE = new DocumentoWebBC().GetDocumentoWebRendicion(Id);
 
             if (checkbox.Checked == true)
                 objDetalleDocumentoBE.Estado = "1";
             else
                 objDetalleDocumentoBE.Estado = "2";
 
-            new DocumentBC(_TipoDocumentoWeb).ModificarDocumentoDetalle(objDetalleDocumentoBE);
+            new DocumentoWebBC().AddUpdateDocumentoWebRendicion(objDetalleDocumentoBE);
             LlenarCabecera();
         }
     }
@@ -565,11 +552,12 @@ public partial class DocumentoRendicion : System.Web.UI.Page
 
     #region Listado Helpers
 
-    public String SetearTipo(String sId)
+    public String SetearTipo(Int32 idTipoDoc)
     {
         DocumentoBC objDocumentoBC = new DocumentoBC();
-        DocumentoBE objDocumentoBE = new DocumentoBE();
-        objDocumentoBE = objDocumentoBC.ObtenerDocumento(Convert.ToInt32(sId));
+        DocumentobBE objDocumentoBE = new DocumentobBE();
+
+        objDocumentoBE = objDocumentoBC.ObtenerDocumento(idTipoDoc);
         if (objDocumentoBE != null) return objDocumentoBE.Descripcion;
         else return "";
     }
@@ -610,13 +598,35 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         else return "";
     }
 
-    public String SetearMoneda(String sId)
+    public String SetearMoneda(Int32 idMoneda)
     {
         MonedaBC objMonedaBC = new MonedaBC();
         MonedaBE objMonedaBE = new MonedaBE();
-        objMonedaBE = objMonedaBC.ObtenerMoneda(Convert.ToInt32(sId));
+        objMonedaBE = objMonedaBC.ObtenerMoneda(idMoneda);
         if (objMonedaBE != null) return objMonedaBE.Descripcion;
         else return "";
+    }
+
+    public String SetearPartidaPresupuestal(String U_MSSP_NIV)
+    {
+        PartidaPresupuestalBC bc = new PartidaPresupuestalBC();
+        PartidaPresupuestalBE be = new PartidaPresupuestalBE();
+        be = bc.GetPartidaPresupuestal(U_MSSP_NIV);
+        if (be != null)
+            return be.U_MSSP_NIV;
+        else
+            return "";
+    }
+
+    public String SetearCuentaContableDevolucion(String code)
+    {
+        CuentaContableBC bc = new CuentaContableBC();
+        CuentaContableDevolucionBE be = new CuentaContableDevolucionBE();
+        be = bc.GetCuentaContable(code);
+        if (be != null)
+            return be.U_Descripcion;
+        else
+            return "";
     }
 
     public bool SetearCheck(String sId)
@@ -629,7 +639,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
 
     #region Envio Correos
 
-    private void EnviarMensajeParaAprobador(int IdDocumento, string Documento, string Asunto, string codigoDocumento, string UsuarioSolicitante, string estado, int IdUsuarioSolicitante)
+    private void EnviarMensajeParaAprobador(int IdDocumento, string Documento, string Asunto, string codigoDocumento, string UsuarioSolicitante, string estado, int? IdUsuarioSolicitante)
     {
         UsuarioBC objUsuarioBC = new UsuarioBC();
         List<UsuarioBE> lstUsuarioBE = new List<UsuarioBE>();
@@ -652,7 +662,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         }
     }
 
-    private void EnviarMensajeAprobado(int iddocumento, string Documento, string Asunto, string codigoDocumento, string UsuarioSolicitante, string estado, int IdUsuarioSolicitante)
+    private void EnviarMensajeAprobado(int iddocumento, string Documento, string Asunto, string codigoDocumento, string UsuarioSolicitante, string estado, int? IdUsuarioSolicitante)
     {
         UsuarioBC objUsuarioBC = new UsuarioBC();
         List<UsuarioBE> lstUsuarioBE = new List<UsuarioBE>();
@@ -670,9 +680,9 @@ public partial class DocumentoRendicion : System.Web.UI.Page
             MensajeMail("La " + Documento + " Codigo: " + codigoDocumento + " fue Aprobada", Asunto + " Aprobada", objUsuarioBE.Mail);
 
 
-            Int32 idDocumento = Convert.ToInt32(ViewState["IdDocumento"].ToString());
+            Int32 idDocumento = Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumentoWeb].ToString());
 
-            DocumentBE objDocumentoBE = new DocumentBC(_TipoDocumentoWeb).ObtenerDocumento(idDocumento, 0);
+            DocumentoWebBE objDocumentoBE = new DocumentoWebBC().GetDocumentoWeb(idDocumento);
 
             List<UsuarioBE> lstUsuarioTesoreriaBE = new List<UsuarioBE>();
             lstUsuarioTesoreriaBE = objUsuarioBC.ListarUsuarioCorreosTesoreria();
@@ -716,7 +726,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         }
     }
 
-    private void EnviarMensajeObservacion(int IdDocumento, string Documento, string Asunto, string CodigoDocumento, string UsuarioAprobador, string estado, int IdUsuarioSolicitante)
+    private void EnviarMensajeObservacion(int IdDocumento, string Documento, string Asunto, string CodigoDocumento, string UsuarioAprobador, string estado, int? IdUsuarioSolicitante)
     {
         UsuarioBC objUsuarioBC = new UsuarioBC();
         UsuarioBE objUsuarioBE = new UsuarioBE();
@@ -782,7 +792,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
             _TipoDocumentoWeb = (TipoDocumentoWeb)ViewState[ConstantHelper.Keys.TipoDocumentoWeb];
             _Modo = (Modo)ViewState[ConstantHelper.Keys.Modo];
 
-            Int32 idDocumento = Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumento]);
+            _IdDocumentoWeb = Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumentoWeb]);
             Int32 idUsuario = ((UsuarioBE)Session["Usuario"]).IdUsuario;
 
             //----------------------VALIDA-------------------------------
@@ -795,31 +805,40 @@ public partial class DocumentoRendicion : System.Web.UI.Page
 
             bAprobar.Enabled = false;
 
-            DocumentBE objDocumentoBE = new DocumentBC(_TipoDocumentoWeb).ObtenerDocumento(idDocumento, 0);
-            String estado = objDocumentoBE.Estado;
-            EstadoDocumento _estado = (EstadoDocumento)Enum.Parse(typeof(EstadoDocumento), objDocumentoBE.Estado);
-
-
-            if (_estado == EstadoDocumento.RendirPorAprobarJefeArea)
+            CambioEstadoBE cambioEstadoBE = new CambioEstadoBE()
             {
-                objDocumentoBE.Estado = EstadoDocumento.RendirPorAprobarContabilidad.IdToString();
-                objDocumentoBE.Comentario = String.Empty;
-                new DocumentBC(_TipoDocumentoWeb).ModificarDocumento(objDocumentoBE);
-            }
+                IdDocumentoWeb = _IdDocumentoWeb,
+                Comentario = txtComentario.Text,
+                IdUsuario = idUsuario
+            };
 
-            else if (_estado == EstadoDocumento.RendirPorAprobarContabilidad)
-            {
-                objDocumentoBE.FechaContabilizacion = DateTime.ParseExact(txtFechaContabilizacion.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                objDocumentoBE.Estado = EstadoDocumento.RendirAprobado.IdToString();
+            new DocumentoWebBC().AprobarDocumento(cambioEstadoBE);
 
-                DocumentDetailBE objDocumentoDetalleBE = new DocumentBC(_TipoDocumentoWeb).ObtenerDocumentoDetalle(idDocumento, 1);
-                objDocumentoBE.MontoGastado = objDocumentoDetalleBE.MontoTotal;
-                objDocumentoBE.MontoActual = (Convert.ToDouble(objDocumentoBE.MontoInicial) - Convert.ToDouble(objDocumentoDetalleBE.MontoTotal)).ToString("0.00");
-                objDocumentoBE.Comentario = String.Empty;
-                new DocumentBC(_TipoDocumentoWeb).ModificarDocumento(objDocumentoBE);
-            }
+            //DocumentoWebBE objDocumentoBE = new DocumentoWebBC().GetDocument(idDocumento);
+            //String estado = objDocumentoBE.Estado;
+            //EstadoDocumento _estado = (EstadoDocumento)Enum.Parse(typeof(EstadoDocumento), objDocumentoBE.Estado);
 
-            EnviarMensajeAprobado(objDocumentoBE.IdDocumento, _TipoDocumentoWeb.GetName(), "Rendicion " + _TipoDocumentoWeb.GetName() + objDocumentoBE.CodigoDocumento, objDocumentoBE.CodigoDocumento, new UsuarioBC().ObtenerUsuario(objDocumentoBE.IdUsuarioSolicitante, 0).CardName, estado, objDocumentoBE.IdUsuarioSolicitante);
+
+            //if (_estado == EstadoDocumento.RendirPorAprobarJefeArea)
+            //{
+            //    objDocumentoBE.Estado = EstadoDocumento.RendirPorAprobarContabilidad.IdToString();
+            //    objDocumentoBE.Comentario = String.Empty;
+            //    new DocumentoWebBC().AddUpdateDocumento(objDocumentoBE);
+            //}
+
+            //else if (_estado == EstadoDocumento.RendirPorAprobarContabilidad)
+            //{
+            //    objDocumentoBE.FechaContabilizacion = DateTime.ParseExact(txtFechaContabilizacion.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            //    objDocumentoBE.Estado = EstadoDocumento.RendirAprobado.IdToString();
+
+            //    DocumentoWebRendicionBE objDocumentoDetalleBE = new DocumentoWebBC().GetDocumentRendicion(idDocumento);
+            //    objDocumentoBE.MontoGastado = objDocumentoDetalleBE.MontoTotal;
+            //    objDocumentoBE.MontoActual = (objDocumentoBE.MontoInicial - objDocumentoDetalleBE.MontoTotal);
+            //    objDocumentoBE.Comentario = String.Empty;
+            //    new DocumentoWebBC().AddUpdateDocumento(objDocumentoBE);
+            //}
+
+            //EnviarMensajeAprobado(objDocumentoBE.IdDocumentoWeb, _TipoDocumentoWeb.GetName(), "Rendicion " + _TipoDocumentoWeb.GetName() + objDocumentoBE.CodigoDocumento, objDocumentoBE.CodigoDocumento, new UsuarioBC().ObtenerUsuario(objDocumentoBE.IdUsuarioSolicitante, 0).CardName, estado, objDocumentoBE.IdUsuarioSolicitante);
 
         }
 
@@ -840,6 +859,10 @@ public partial class DocumentoRendicion : System.Web.UI.Page
     {
         try
         {
+            _TipoDocumentoWeb = (TipoDocumentoWeb)ViewState[ConstantHelper.Keys.TipoDocumentoWeb];
+            _Modo = (Modo)ViewState[ConstantHelper.Keys.Modo];
+
+            _IdDocumentoWeb = Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumentoWeb]);
             GuardarDocumento(Modo.Crear);
         }
         catch (Exception ex)
@@ -861,7 +884,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
             _TipoDocumentoWeb = (TipoDocumentoWeb)ViewState[ConstantHelper.Keys.TipoDocumentoWeb];
             _Modo = (Modo)ViewState[ConstantHelper.Keys.Modo];
 
-            Int32 idDocumento = Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumento]);
+            _IdDocumentoWeb = Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumentoWeb]);
             Int32 idUsuario = ((UsuarioBE)Session["Usuario"]).IdUsuario;
 
             bAgregar2.Enabled = false;
@@ -879,10 +902,8 @@ public partial class DocumentoRendicion : System.Web.UI.Page
                     objProveedorBE.CardName = txtCardName.Text;
                     objProveedorBE.TipoDocumento = "6";
                     objProveedorBE.Documento = txtDocumento.Text;
-
-
+                    objProveedorBE.IdProceso = _IdDocumentoWeb;
                     objProveedorBE.Proceso = 1;
-                    objProveedorBE.IdProceso = idDocumento;
                     objProveedorBE.Estado = 1;
 
                     if (Session["Usuario"] == null)
@@ -930,7 +951,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
             _TipoDocumentoWeb = (TipoDocumentoWeb)ViewState[ConstantHelper.Keys.TipoDocumentoWeb];
             _Modo = (Modo)ViewState[ConstantHelper.Keys.Modo];
 
-            Int32 idDocumento = Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumento]);
+            Int32 idDocumento = Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumentoWeb]);
             Int32 idUsuario = ((UsuarioBE)Session["Usuario"]).IdUsuario;
 
             string mensajeError = "";
@@ -1018,12 +1039,12 @@ public partial class DocumentoRendicion : System.Web.UI.Page
 
             if (validacion)
             {
-                DocumentDetailBE objDocumentoBE;
+                DocumentoWebRendicionBE objDocumentoBE;
 
                 for (int i = 0; i < GridView1.Rows.Count; i++)
                 {
-                    objDocumentoBE = new DocumentDetailBE();
-                    objDocumentoBE.IdDocumento = Convert.ToInt32(idDocumento);
+                    objDocumentoBE = new DocumentoWebRendicionBE();
+                    objDocumentoBE.IdDocumentoWeb = Convert.ToInt32(idDocumento);
                     objDocumentoBE.IdProveedor = Convert.ToInt32(sIdProveedor[i]);
                     objDocumentoBE.IdConcepto = GridView1.Rows[i].Cells[6].Text;
                     objDocumentoBE.IdCentroCostos3 = ddlCentroCostos3.SelectedItem.Value;
@@ -1031,16 +1052,16 @@ public partial class DocumentoRendicion : System.Web.UI.Page
                     objDocumentoBE.IdCentroCostos5 = ddlCentroCostos5.SelectedItem.Value;
                     objDocumentoBE.TipoDoc = GridView1.Rows[i].Cells[0].Text;
                     objDocumentoBE.SerieDoc = GridView1.Rows[i].Cells[1].Text;
-                    objDocumentoBE.CorrelativoDoc = GridView1.Rows[i].Cells[2].Text;
+                    objDocumentoBE.CorrelativoDoc = Convert.ToInt32(GridView1.Rows[i].Cells[2].Text);
                     objDocumentoBE.FechaDoc = Convert.ToDateTime(GridView1.Rows[i].Cells[3].Text);
                     objDocumentoBE.IdMonedaOriginal = Convert.ToInt32(ddlIdMonedaOriginal.SelectedItem.Value);
                     objDocumentoBE.IdMonedaDoc = Convert.ToInt32(GridView1.Rows[i].Cells[7].Text);
-                    objDocumentoBE.TasaCambio = Convert.ToDouble(GridView1.Rows[i].Cells[8].Text).ToString("0.0000");
-                    objDocumentoBE.MontoNoAfecto = Convert.ToDouble(GridView1.Rows[i].Cells[9].Text).ToString("0.00");
-                    objDocumentoBE.MontoAfecto = Convert.ToDouble(GridView1.Rows[i].Cells[10].Text).ToString("0.00");
-                    objDocumentoBE.MontoIGV = Convert.ToDouble(GridView1.Rows[i].Cells[11].Text).ToString("0.00");
-                    objDocumentoBE.MontoTotal = Convert.ToDouble(GridView1.Rows[i].Cells[12].Text).ToString("0.00");
-                    objDocumentoBE.MontoDoc = Convert.ToDouble(GridView1.Rows[i].Cells[13].Text).ToString("0.00");
+                    objDocumentoBE.TasaCambio = Convert.ToDecimal(GridView1.Rows[i].Cells[8].Text);
+                    objDocumentoBE.MontoNoAfecto = Convert.ToDecimal(GridView1.Rows[i].Cells[9].Text);
+                    objDocumentoBE.MontoAfecto = Convert.ToDecimal(GridView1.Rows[i].Cells[10].Text);
+                    objDocumentoBE.MontoIGV = Convert.ToDecimal(GridView1.Rows[i].Cells[11].Text);
+                    objDocumentoBE.MontoTotal = Convert.ToDecimal(GridView1.Rows[i].Cells[12].Text);
+                    objDocumentoBE.MontoDoc = Convert.ToDecimal(GridView1.Rows[i].Cells[13].Text);
                     objDocumentoBE.Estado = "1";
 
                     if (Session["Usuario"] == null)
@@ -1054,12 +1075,12 @@ public partial class DocumentoRendicion : System.Web.UI.Page
                         objUsuarioBE = (UsuarioBE)Session["Usuario"];
                         objUsuarioBE = objUsuarioBC.ObtenerUsuario(objUsuarioBE.IdUsuario, 0);
 
-                        objDocumentoBE.UserCreate = Convert.ToString(objUsuarioBE.IdUsuario);
+                        objDocumentoBE.UserCreate = objUsuarioBE.IdUsuario;
                         objDocumentoBE.CreateDate = DateTime.Now;
-                        objDocumentoBE.UserUpdate = Convert.ToString(objUsuarioBE.IdUsuario);
+                        objDocumentoBE.UserUpdate = objUsuarioBE.IdUsuario;
                         objDocumentoBE.UpdateDate = DateTime.Now;
                     }
-                    new DocumentBC(_TipoDocumentoWeb).InsertarDocumentoDetalle(objDocumentoBE);
+                    new DocumentoWebBC().AddUpdateDocumentoWebRendicion(objDocumentoBE);
                 }
 
                 ListarRendicion();
@@ -1102,7 +1123,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
                 bAgregar.Visible = true;
                 bGuardar.Visible = false;
 
-                String estadoDocumento = new DocumentBC(_TipoDocumentoWeb).ObtenerDocumento(Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumento].ToString()), 0).Estado;
+                String estadoDocumento = new DocumentoWebBC().GetDocumentoWeb(Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumentoWeb])).Estado;
                 if (estadoDocumento == EstadoDocumento.Aprobado.IdToString())
                     bEnviar.Visible = true;
                 else
@@ -1128,7 +1149,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
             _TipoDocumentoWeb = (TipoDocumentoWeb)ViewState[ConstantHelper.Keys.TipoDocumentoWeb];
             _Modo = (Modo)ViewState[ConstantHelper.Keys.Modo];
 
-            Int32 idDocumento = Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumento]);
+            Int32 idDocumento = Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumentoWeb]);
             Int32 idUsuario = ((UsuarioBE)Session["Usuario"]).IdUsuario;
 
             bGuardar2.Enabled = false;
@@ -1192,7 +1213,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         _TipoDocumentoWeb = (TipoDocumentoWeb)ViewState[ConstantHelper.Keys.TipoDocumentoWeb];
         _Modo = (Modo)ViewState[ConstantHelper.Keys.Modo];
 
-        Int32 idDocumento = Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumento]);
+        Int32 idDocumento = Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumentoWeb]);
         Int32 idUsuario = ((UsuarioBE)Session["Usuario"]).IdUsuario;
         Response.Redirect("~/ListadoDocumentos.aspx?TipoDocumentoWeb=" + (Int32)_TipoDocumentoWeb);
 
@@ -1221,36 +1242,15 @@ public partial class DocumentoRendicion : System.Web.UI.Page
             _TipoDocumentoWeb = (TipoDocumentoWeb)ViewState[ConstantHelper.Keys.TipoDocumentoWeb];
             _Modo = (Modo)ViewState[ConstantHelper.Keys.Modo];
 
-            Int32 idDocumento = Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumento]);
+            _IdDocumentoWeb = Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumentoWeb]);
             Int32 idUsuario = ((UsuarioBE)Session["Usuario"]).IdUsuario;
 
             bEnviar.Enabled = false;
 
             if (gvDocumentos.Rows.Count > 0)
             {
-                DocumentDetailBE objDocumentoDetalle = new DocumentBC(_TipoDocumentoWeb).ObtenerDocumentoDetalle(idDocumento, 2);
-
-                if (objDocumentoDetalle == null)
-                {
-                    DocumentBE objDocumentoBE = new DocumentBC(_TipoDocumentoWeb).ObtenerDocumento(idDocumento, 0);
-                    String estado = objDocumentoBE.Estado;
-
-                    if (objDocumentoBE.Estado == EstadoDocumento.Aprobado.IdToString())
-                        objDocumentoBE.Estado = EstadoDocumento.RendirPorAprobarJefeArea.IdToString();
-
-                    if (objDocumentoBE.Estado == EstadoDocumento.RendirObservacionesNivel1.IdToString())
-                        objDocumentoBE.Estado = EstadoDocumento.RendirPorAprobarJefeArea.IdToString();
-
-                    if (objDocumentoBE.Estado == EstadoDocumento.RendirObservacionContabilidad.IdToString())
-                        objDocumentoBE.Estado = EstadoDocumento.RendirPorAprobarContabilidad.IdToString();
-
-
-                    new DocumentBC(_TipoDocumentoWeb).ModificarDocumento(objDocumentoBE);
-                    EnviarMensajeParaAprobador(objDocumentoBE.IdDocumento, _TipoDocumentoWeb.GetName(), "Rendicion " + _TipoDocumentoWeb.GetName() + objDocumentoBE.CodigoDocumento, objDocumentoBE.CodigoDocumento, new UsuarioBC().ObtenerUsuario(objDocumentoBE.IdUsuarioSolicitante, 0).CardName, estado, objDocumentoBE.IdUsuarioSolicitante);
-                    Response.Redirect("~/ListadoDocumentos.aspx?TipoDocumentoWeb=" + (Int32)_TipoDocumentoWeb);
-                }
-                else
-                    Mensaje("El documento Serie: " + objDocumentoDetalle.SerieDoc + " Numero: " + objDocumentoDetalle.CorrelativoDoc + " presenta la fecha de documento: " + objDocumentoDetalle.FechaDoc + " la cual aun no existe SAP y su tasa de cambio tampoco. Por favor contactarse con Contabilidad y/o Sistemas.");
+                new DocumentoWebBC().EnviarRendicion(_IdDocumentoWeb);
+                Response.Redirect("~/ListadoDocumentos.aspx?TipoDocumentoWeb=" + (Int32)_TipoDocumentoWeb);
             }
             else
                 Mensaje("Aun no se ah rendido ningun documento.");
@@ -1266,135 +1266,6 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         }
     }
 
-    protected void Observacion_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            _TipoDocumentoWeb = (TipoDocumentoWeb)ViewState[ConstantHelper.Keys.TipoDocumentoWeb];
-            _Modo = (Modo)ViewState[ConstantHelper.Keys.Modo];
-
-            Int32 idDocumento = Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumento]);
-            Int32 idUsuario = ((UsuarioBE)Session["Usuario"]).IdUsuario;
-
-            bObservacion.Enabled = false;
-
-            //-------------------------VALIDA---------------------------------
-            if (String.IsNullOrEmpty(txtComentario.Text))
-            {
-                Mensaje("Ingrese una observación.");
-                return;
-            }
-            //-------------------------VALIDA---------------------------------
-
-
-            DocumentBE objDocumentoBE = new DocumentBC(_TipoDocumentoWeb).ObtenerDocumento(idDocumento, 0);
-            String estado = objDocumentoBE.Estado;
-
-            if (objDocumentoBE.Estado == EstadoDocumento.RendirPorAprobarJefeArea.IdToString())
-                objDocumentoBE.Estado = EstadoDocumento.RendirObservacionesNivel1.IdToString();
-            else if (objDocumentoBE.Estado == EstadoDocumento.RendirPorAprobarContabilidad.IdToString())
-                objDocumentoBE.Estado = EstadoDocumento.RendirObservacionContabilidad.IdToString();
-
-            objDocumentoBE.Comentario = txtComentario.Text;
-
-            new DocumentBC(_TipoDocumentoWeb).ModificarDocumento(objDocumentoBE);
-            EnviarMensajeObservacion(objDocumentoBE.IdDocumento, _TipoDocumentoWeb.GetName(), "Rendicion " + _TipoDocumentoWeb.GetName() + objDocumentoBE.CodigoDocumento, objDocumentoBE.CodigoDocumento, new UsuarioBC().ObtenerUsuario(objDocumentoBE.IdUsuarioSolicitante, 0).CardName, estado, objDocumentoBE.IdUsuarioSolicitante);
-
-
-        }
-        catch (Exception ex)
-        {
-            ExceptionHelper.LogException(ex);
-            Mensaje("Ocurrió un error: " + ex.Message);
-        }
-        finally
-        {
-            Response.Redirect("~/ListadoDocumentos.aspx?TipoDocumentoWeb=" + (Int32)_TipoDocumentoWeb);
-            bObservacion.Enabled = true;
-        }
-    }
-
-    protected void Masivo_Click(object sender, EventArgs e)
-    {
-        blbResultadoMasivo.Visible = true;
-        txtCopied.Visible = true;
-        GridView1.Visible = true;
-        //bAgregar4.Visible = true;
-        bPreliminar4.Visible = true;
-        bCancelar4.Visible = true;
-        bMasivo.Visible = false;
-    }
-
-    protected void Preliminar4_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            DataTable dt = new DataTable();
-            dt.Columns.AddRange(new DataColumn[14] {
-        new DataColumn("Tipo_Documento", typeof(int)),
-        new DataColumn("Serie", typeof(string)),
-        new DataColumn("Numero",typeof(Int32)),
-        new DataColumn("Fecha",typeof(DateTime)),
-        new DataColumn("Ruc",typeof(string)),
-        new DataColumn("Razon_Social",typeof(string)),
-        new DataColumn("Concepto",typeof(int)),
-        new DataColumn("Moneda_Documento",typeof(int)),
-        new DataColumn("Tasa_Cambio",typeof(decimal)),
-        new DataColumn("No_Afecta",typeof(decimal)),
-        new DataColumn("Afecta",typeof(decimal)),
-        new DataColumn("IGV",typeof(decimal)),
-        new DataColumn("Total_Documento",typeof(decimal)),
-        new DataColumn("Total_Moneda_Origen",typeof(decimal))  });
-
-            string copiedContent = Request.Form[txtCopied.UniqueID];
-            foreach (string row in copiedContent.Split('\n'))
-            {
-                if (!string.IsNullOrEmpty(row))
-                {
-                    dt.Rows.Add();
-                    int i = 0;
-                    foreach (string cell in row.Split('\t'))
-                    {
-
-                        if (i == 4)
-                        {
-                            if (cell.Length > 11)
-                                throw new Exception("El RUC Contiene mas de 11 caracteres en la fila :" + row.ToString());
-
-                            long ruc = 0;
-                            bool resultado = long.TryParse(cell, out ruc);
-
-                            if (!resultado)
-                                throw new Exception("El RUC contiene caracteres no numericos");
-
-                        }
-
-                        dt.Rows[dt.Rows.Count - 1][i] = cell;
-                        i++;
-
-                    }
-                }
-            }
-
-
-            GridView1.DataSource = dt;
-            GridView1.DataBind();
-            txtCopied.Text = "";
-            blbResultadoMasivo.Text = "Vista Preliminar cargada correctamente.";
-
-            bAgregar4.Visible = true;
-            bPreliminar4.Visible = false;
-        }
-        catch (Exception ex)
-        {
-            //Mensaje("Ocurrió un error: (Prueba): " + ex.Message);
-            ExceptionHelper.LogException(ex);
-            blbResultadoMasivo.Text = "Ocurrió un error: (Prueba): " + ex.Message;
-        }
-    }
-
-
-
     //Arturo Rodriguez Liquidar
     protected void bLiquidar_Click(object sender, EventArgs e)
     {
@@ -1403,7 +1274,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
             _TipoDocumentoWeb = (TipoDocumentoWeb)ViewState[ConstantHelper.Keys.TipoDocumentoWeb];
             _Modo = (Modo)ViewState[ConstantHelper.Keys.Modo];
 
-            Int32 idDocumento = Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumento]);
+            _IdDocumentoWeb = Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumentoWeb]);
             Int32 idUsuario = ((UsuarioBE)Session["Usuario"]).IdUsuario;
 
             //----------------------VALIDA-------------------------------
@@ -1416,38 +1287,48 @@ public partial class DocumentoRendicion : System.Web.UI.Page
 
             bLiquidar.Enabled = false;
 
-            DocumentBE ojbDocumentoBE = new DocumentBC(_TipoDocumentoWeb).ObtenerDocumento(Convert.ToInt32(idDocumento), 0);
-            String estado = ojbDocumentoBE.Estado;
-            EstadoDocumento _estado = (EstadoDocumento)Enum.Parse(typeof(EstadoDocumento), ojbDocumentoBE.Estado);
-
-            if (ojbDocumentoBE.Estado == EstadoDocumento.RendirPorAprobarJefeArea.IdToString())
-                ojbDocumentoBE.Estado = EstadoDocumento.RendirPorAprobarContabilidad.IdToString();
-
-            else if (ojbDocumentoBE.Estado == EstadoDocumento.RendirPorAprobarJefeArea.IdToString())
+            CambioEstadoBE cambioEstadoBE = new CambioEstadoBE()
             {
-                DocumentDetailBE objDocumentoDetalle = new DocumentBC(_TipoDocumentoWeb).ObtenerDocumentoDetalle(Convert.ToInt32(idDocumento), 1);
-                if (ojbDocumentoBE.MontoInicial == objDocumentoDetalle.MontoTotal)
-                {
-                    ojbDocumentoBE.FechaContabilizacion = DateTime.ParseExact(txtFechaContabilizacion.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                    ojbDocumentoBE.Estado = EstadoDocumento.RendirAprobado.IdToString();
-                    ojbDocumentoBE.MontoGastado = objDocumentoDetalle.MontoTotal;
-                    ojbDocumentoBE.MontoActual = (Convert.ToDouble(ojbDocumentoBE.MontoInicial) - Convert.ToDouble(objDocumentoDetalle.MontoTotal)).ToString("0.00");
-                }
-                else
-                {
-                    Mensaje("El documento aún cuenta con saldo.");
-                    return;
-                }
-            }
+                IdDocumentoWeb = _IdDocumentoWeb,
+                Comentario = txtComentario.Text,
+                IdUsuario = idUsuario
+            };
 
-            ojbDocumentoBE.Comentario = String.Empty;
-            new DocumentBC(_TipoDocumentoWeb).ModificarDocumento(ojbDocumentoBE);
+            new DocumentoWebBC().AprobarYLiquidarDocumento(cambioEstadoBE);
+            Response.Redirect("~/ListadoDocumentos.aspx?TipoDocumentoWeb=" + (Int32)_TipoDocumentoWeb);
 
-            if (estado == EstadoDocumento.RendirPorAprobarContabilidad.IdToString())
-            {
-                ojbDocumentoBE.Estado = EstadoDocumento.Liquidado.IdToString(); //setear estado a liquidada
-                new DocumentBC(_TipoDocumentoWeb).ModificarDocumento(ojbDocumentoBE);
-            }
+            //DocumentoWebBE ojbDocumentoBE = new DocumentoWebBC().GetDocumentoWeb(idDocumento);
+            //String estado = ojbDocumentoBE.Estado;
+            //EstadoDocumento _estado = (EstadoDocumento)Enum.Parse(typeof(EstadoDocumento), ojbDocumentoBE.Estado);
+
+            //if (ojbDocumentoBE.Estado == EstadoDocumento.RendirPorAprobarJefeArea.IdToString())
+            //    ojbDocumentoBE.Estado = EstadoDocumento.RendirPorAprobarContabilidad.IdToString();
+
+            //else if (ojbDocumentoBE.Estado == EstadoDocumento.RendirPorAprobarJefeArea.IdToString())
+            //{
+            //    DocumentoWebRendicionBE objDocumentoDetalle = new DocumentoWebBC().GetDocumentRendicion(idDocumento);
+            //    if (ojbDocumentoBE.MontoInicial == objDocumentoDetalle.MontoTotal)
+            //    {
+            //        ojbDocumentoBE.FechaContabilizacion = DateTime.ParseExact(txtFechaContabilizacion.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            //        ojbDocumentoBE.Estado = EstadoDocumento.RendirAprobado.IdToString();
+            //        ojbDocumentoBE.MontoGastado = objDocumentoDetalle.MontoTotal;
+            //        ojbDocumentoBE.MontoActual = ojbDocumentoBE.MontoInicial - objDocumentoDetalle.MontoTotal;
+            //    }
+            //    else
+            //    {
+            //        Mensaje("El documento aún cuenta con saldo.");
+            //        return;
+            //    }
+            //}
+
+            //ojbDocumentoBE.Comentario = String.Empty;
+            //new DocumentoWebBC().AddUpdateDocumento(ojbDocumentoBE);
+
+            //if (estado == EstadoDocumento.RendirPorAprobarContabilidad.IdToString())
+            //{
+            //    ojbDocumentoBE.Estado = EstadoDocumento.Liquidado.IdToString(); //setear estado a liquidada
+            //    new DocumentoWebBC().AddUpdateDocumento(ojbDocumentoBE);
+            //}
         }
 
 
@@ -1458,7 +1339,6 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         }
         finally
         {
-            Response.Redirect("~/ListadoDocumentos.aspx?TipoDocumentoWeb=" + (Int32)_TipoDocumentoWeb);
             bLiquidar.Enabled = true;
         }
 
@@ -1467,6 +1347,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
 
     public Boolean GuardarDocumento(Modo modoGuardado)
     {
+        _IdDocumentoWeb = Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumentoWeb]);
         String errorMessage;
         CamposSonValidos(out errorMessage);
         if (!String.IsNullOrEmpty(errorMessage))
@@ -1483,19 +1364,18 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         _TipoDocumentoWeb = (TipoDocumentoWeb)ViewState[ConstantHelper.Keys.TipoDocumentoWeb];
         _Modo = (Modo)ViewState[ConstantHelper.Keys.Modo];
 
-        Int32 idDocumento = Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumento]);
         Int32 idUsuario = ((UsuarioBE)Session["Usuario"]).IdUsuario;
 
-        DocumentDetailBE documentDetailBE = new DocumentDetailBE();
-        documentDetailBE.IdDocumento = idDocumento;
-        documentDetailBE.IdDocumentoDetalle = Convert.ToInt32(lblIdDocumentoDetalle.Text);
+        DocumentoWebRendicionBE documentDetailBE = new DocumentoWebRendicionBE();
+        documentDetailBE.IdDocumentoWeb = _IdDocumentoWeb;
+        documentDetailBE.IdDocumentoWebRendicion = Convert.ToInt32(lblIdDocumentoDetalle.Text);
         documentDetailBE.TipoDoc = ddlTipoDocumentoWeb.SelectedItem.Value;
         documentDetailBE.SerieDoc = txtSerie.Text;
-        documentDetailBE.CorrelativoDoc = txtNumero.Text;
+        documentDetailBE.CorrelativoDoc = Convert.ToInt32(txtNumero.Text);
         documentDetailBE.FechaDoc = DateTime.ParseExact(txtFecha.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
         documentDetailBE.IdProveedor = new ValidationHelper().GetIDProveedor(txtProveedor.Text);
         documentDetailBE.IdConcepto = ddlConcepto.SelectedItem.Value;
-        documentDetailBE.PartidaPresupuestal = "//TODO:";
+        documentDetailBE.CodigoPartidaPresupuestal = ddlPartidaPresupuestal.SelectedItem.Value;
         documentDetailBE.IdCentroCostos1 = ddlCentroCostos1.SelectedItem.Value;
         documentDetailBE.IdCentroCostos2 = ddlCentroCostos2.SelectedItem.Value;
         documentDetailBE.IdCentroCostos3 = ddlCentroCostos3.SelectedItem.Value;
@@ -1503,38 +1383,30 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         documentDetailBE.IdCentroCostos5 = ddlCentroCostos5.SelectedItem.Value;
         documentDetailBE.IdMonedaOriginal = Convert.ToInt32(ddlIdMonedaOriginal.SelectedItem.Value);
         documentDetailBE.IdMonedaDoc = Convert.ToInt32(ddlIdMonedaDoc.SelectedItem.Value);
-        documentDetailBE.MontoAfecto = Convert.ToDouble(txtMontoAfecta.Text).ToString("0.00");
-        documentDetailBE.MontoNoAfecto = Convert.ToDouble(txtMontoNoAfecta.Text).ToString("0.00");
-        documentDetailBE.MontoIGV = Convert.ToDouble(txtMontoIGV.Text).ToString("0.00");
-        documentDetailBE.MontoDoc = Convert.ToDouble(txtMontoDoc.Text).ToString("0.00");
-        documentDetailBE.MontoTotal = Convert.ToDouble(txtMontoTotal.Text).ToString("0.00");
-        documentDetailBE.Estado = EstadoDocumento.PorAprobarNivel1.IdToString();
+        documentDetailBE.MontoAfecto = Convert.ToDecimal(txtMontoAfecta.Text);
+        documentDetailBE.MontoNoAfecto = Convert.ToDecimal(txtMontoNoAfecta.Text);
+        documentDetailBE.MontoIGV = Convert.ToDecimal(txtMontoIGV.Text);
+        documentDetailBE.MontoDoc = Convert.ToDecimal(txtMontoDoc.Text);
+        documentDetailBE.MontoTotal = Convert.ToDecimal(txtMontoTotal.Text);
+        documentDetailBE.CodigoCuentaContableDevolucion = ddlCuentaContableDevolucion.SelectedItem.Value;
+        documentDetailBE.UserUpdate = idUsuario;
 
         if (ddlIdMonedaOriginal.SelectedValue == ddlIdMonedaDoc.SelectedValue)
-            documentDetailBE.TasaCambio = "1.0000";
+            documentDetailBE.TasaCambio = 1;
         else
-            documentDetailBE.TasaCambio = Convert.ToDouble(txtTasaCambio.Text).ToString("0.0000");
+            documentDetailBE.TasaCambio = Convert.ToDecimal(txtTasaCambio.Text);
 
         if (Session["Usuario"] == null)
             Response.Redirect("~/Login.aspx");
         else
         {
-            documentDetailBE.UserCreate = Convert.ToString(idUsuario);
-            documentDetailBE.UserUpdate = Convert.ToString(idUsuario);
+            documentDetailBE.UserCreate = idUsuario;
+            documentDetailBE.UserUpdate = idUsuario;
             documentDetailBE.CreateDate = DateTime.Now;
             documentDetailBE.UpdateDate = DateTime.Now;
         }
 
-        switch (modoGuardado)
-        {
-            case Modo.Crear:
-                new DocumentBC(_TipoDocumentoWeb).InsertarDocumentoDetalle(documentDetailBE);
-                break;
-            case Modo.Editar:
-                new DocumentBC(_TipoDocumentoWeb).ModificarDocumentoDetalle(documentDetailBE);
-                break;
-        }
-
+        new DocumentoWebBC().AddUpdateDocumentoWebRendicion(documentDetailBE);
         ListarRendicion();
         LlenarCabecera();
         LimpiarCampos();
@@ -1575,19 +1447,23 @@ public partial class DocumentoRendicion : System.Web.UI.Page
             errorMessage = "Debe ingresar el numero.";
         else if (String.IsNullOrWhiteSpace(txtFecha.Text))
             errorMessage = "Debe ingresar la fecha.";
-        else if (String.IsNullOrWhiteSpace(txtProveedor.Text))
+
+        else if ((TipoDocumentoSunat)Convert.ToInt32(ddlTipoDocumentoWeb.SelectedValue) != TipoDocumentoSunat.Devolucion
+              && String.IsNullOrWhiteSpace(txtProveedor.Text))
             errorMessage = "Debe ingresar el RUC.";
-        else if (!new ValidationHelper().ProveedorExiste(txtProveedor.Text))
+        else if ((TipoDocumentoSunat)Convert.ToInt32(ddlTipoDocumentoWeb.SelectedValue) != TipoDocumentoSunat.Devolucion
+                && !new ValidationHelper().ProveedorExiste(txtProveedor.Text))
             errorMessage = "El proveedor no existe";
-        else if (indexNoValidos.Contains(ddlConcepto.SelectedIndex))
-            errorMessage = "Debe ingresar el concepto.";
-        else if (ddlTipoDocumentoWeb.SelectedValue == TipoDocumentoSunat.Devolucion.GetPrefix()
-         && indexNoValidos.Contains(ddlCuentaContableDevolucion.SelectedIndex))
+        else if ((TipoDocumentoSunat)Convert.ToInt32(ddlTipoDocumentoWeb.SelectedValue) != TipoDocumentoSunat.Devolucion
+                && indexNoValidos.Contains(ddlConcepto.SelectedIndex))
+            errorMessage = "Debe ingresar concepto.";
+        else if (new DocumentoBC().ObtenerDocumento(Convert.ToInt32(ddlTipoDocumentoWeb.SelectedValue)).CodigoSunat == TipoDocumentoSunat.Devolucion.GetPrefix()
+                && indexNoValidos.Contains(ddlCuentaContableDevolucion.SelectedIndex))
             errorMessage = "Debe ingresar la cuenta contable.";
         else if (indexNoValidos.Contains(ddlCentroCostos1.SelectedIndex))
             errorMessage = "Debe ingresar el centro de costo nivel 1";
-        //else if (indexNoValidos.Contains(ddlPartidaPresupuestal.SelectedIndex))//TODO:
-        //    errorMessage = "Debe ingresar la partida presupuestal.";
+        else if (indexNoValidos.Contains(ddlPartidaPresupuestal.SelectedIndex)) //TODO: EN PROD
+            errorMessage = "Debe ingresar la partida presupuestal.";
         else if (indexNoValidos.Contains(ddlIdMonedaDoc.SelectedIndex))
             errorMessage = "Debe ingresar la  moneda del documento.";
         else if (String.IsNullOrWhiteSpace(txtMontoAfecta.Text) && String.IsNullOrWhiteSpace(txtMontoNoAfecta.Text))
@@ -1606,8 +1482,8 @@ public partial class DocumentoRendicion : System.Web.UI.Page
                 + Convert.ToDouble(txtMontoAfecta.Text)
                 + Convert.ToDouble(txtMontoNoAfecta.Text), 2))
             errorMessage = "La suma del IGV, Afecta y NoAfecta no es igual al Total.";
-        else if (Convert.ToDouble(txtMontoTotal.Text) > new ValidationHelper().ObtenerMontoMaximoDeDocumento(1, ddlIdMonedaDoc.SelectedItem.Text))
-            errorMessage = "El monto total del documento excede al monto máximo permitido: " + new ValidationHelper().ObtenerMontoMaximoDeDocumento(1, ddlIdMonedaDoc.SelectedItem.Text);
+        else if (Convert.ToDouble(txtMontoDoc.Text) > new ValidationHelper().ObtenerMontoMaximoDeDocumento(_TipoDocumentoWeb, ddlIdMonedaDoc.SelectedItem.Text))
+            errorMessage = "El monto total del documento excede al monto máximo permitido: " + new ValidationHelper().ObtenerMontoMaximoDeDocumento(_TipoDocumentoWeb, ddlIdMonedaDoc.SelectedItem.Text);
 
         if (!String.IsNullOrEmpty(errorMessage))
             return false;
@@ -1615,26 +1491,6 @@ public partial class DocumentoRendicion : System.Web.UI.Page
             return true;
         /*-------------------------------------FIN VALIDA CAMPOS REQUERIDOS----------------------------------------------*/
 
-    }
-
-    private bool ValidarDatosExcel(List<DocumentDetailBE> lstDocumentoDetalle)
-    {
-        for (int i = 0; i <= lstDocumentoDetalle.Count - 1; i++)
-        {
-            if (lstDocumentoDetalle[i].TipoDoc.Trim() == "" ||
-               lstDocumentoDetalle[i].SerieDoc.Trim() == "" ||
-               lstDocumentoDetalle[i].CorrelativoDoc.Trim() == "" ||
-               lstDocumentoDetalle[i].TasaCambio.Trim() == "" ||
-               lstDocumentoDetalle[i].MontoDoc.Trim() == "" ||
-               lstDocumentoDetalle[i].MontoIGV.Trim() == "" ||
-               lstDocumentoDetalle[i].MontoAfecto.Trim() == "" ||
-               lstDocumentoDetalle[i].MontoNoAfecto.Trim() == "" ||
-               lstDocumentoDetalle[i].MontoTotal.Trim() == ""
-                )
-                return false;
-        }
-
-        return true;
     }
 
     protected void Validar_Click(object sender, EventArgs e)
@@ -1780,104 +1636,6 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         ListarProveedorCrear();
     }
 
-    protected void lnkExportarReporte_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            ListarRendicion2();
-            LlenarCamposCaberaExcel2();
-
-            //HttpResponse responsePage = new HttpResponse();
-            //responsePage= Response;
-            StringWriter sw = new StringWriter();
-            HtmlTextWriter htw = new HtmlTextWriter(sw);
-            Page pageToRender = new Page();
-            HtmlForm form = new HtmlForm();
-            form.Controls.Add(gvReporte);
-            pageToRender.Controls.Add(form);
-            String nameReport = Label9.Text;
-            Response.Clear();
-            Response.Buffer = true;
-            Response.ContentType = "application/vnd.ms-excel";
-            Response.AppendHeader("Pragma", "no-cache");
-            Response.AddHeader("Content-Disposition", "attachment;filename=" + nameReport + ".xls");
-            Response.Charset = "UTF-8";
-            Response.ContentEncoding = Encoding.Default;
-            pageToRender.RenderControl(htw);
-
-            string headerTable = @"<table width='100%'><tr><td></td><td></td></tr>";
-            headerTable = headerTable + @"<tr><td><b>Empresa:</b></td><td colspan=4>" + Label1.Text + "</td></tr>";
-            headerTable = headerTable + @"<tr><td><b>Nombre:</b></td><td colspan=4>" + Label2.Text + "</td></tr>";
-            headerTable = headerTable + @"<tr><td><b>Motivo:</b></td><td colspan=4>" + Label3.Text + "</td></tr>";
-            headerTable = headerTable + @"<tr><td><b>Fecha Solicitud:</b></td><td colspan=4>" + Label4.Text + "</td></tr>";
-            headerTable = headerTable + @"<tr><td><b>Fecha Liquidacion:</b></td><td colspan=4>" + Label5.Text + "</td></tr>";
-            headerTable = headerTable + @"<tr><td><b>Moneda:</b></td><td colspan=4>" + Label6.Text + "</td></tr>";
-            headerTable = headerTable + @"<tr><td><b>Total Documento:</b></td><td colspan=4>" + Label7.Text + "</td></tr>";
-            headerTable = headerTable + @"<tr><td><b>Total Gastado:</b></td><td colspan=4>" + Label8.Text + "</td></tr>";
-            headerTable = headerTable + @"<tr><td><b>Documento:</b></td><td colspan=4>" + Label9.Text + "</td></tr>";
-            headerTable = headerTable + @"</table>";
-            string footerTable = @"<table width='100%'><tr>";
-            footerTable = footerTable + @"<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>Total</td>";
-            footerTable = footerTable + @"<td>" + Label10.Text + "</td>";
-            footerTable = footerTable + @"<td></td>";
-            footerTable = footerTable + @"<td>" + Label11.Text + "</td>";
-            footerTable = footerTable + @"<td>" + Label12.Text + "</td>";
-            footerTable = footerTable + @"<td>" + Label13.Text + "</td>";
-            footerTable = footerTable + @"<td>" + Label14.Text + "</td>";
-            footerTable = footerTable + @"</tr></table>";
-            Response.Write(headerTable);
-            Response.Write(sw.ToString().Normalize());
-            Response.Write(footerTable);
-            Response.End();
-        }
-        catch (Exception ex)
-        {
-            ExceptionHelper.LogException(ex);
-            Mensaje("El Excel a guardar no debe estar abierto: " + ex.Message);
-        }
-    }
-
-    private void LlenarCamposCaberaExcel1()
-    {
-        Int32 idDocumento = Convert.ToInt32(ViewState["IdDocumento"].ToString());
-        DocumentBE objDocumentoBE = new DocumentBC(_TipoDocumentoWeb).ObtenerDocumento(idDocumento, 0);
-
-        EmpresaBC objEmpresaBC = new EmpresaBC();
-        EmpresaBE objEmpresaBE = new EmpresaBE();
-        objEmpresaBE = objEmpresaBC.ObtenerEmpresa(objDocumentoBE.IdEmpresa);
-
-        UsuarioBC objUsuarioBC = new UsuarioBC();
-        UsuarioBE objUsuarioBE = new UsuarioBE();
-        objUsuarioBE = objUsuarioBC.ObtenerUsuario(objDocumentoBE.IdUsuarioSolicitante, 0);
-
-        MonedaBC objMonedaBC = new MonedaBC();
-        MonedaBE objMonedaBE = new MonedaBE();
-        objMonedaBE = objMonedaBC.ObtenerMoneda(Convert.ToInt32(objDocumentoBE.Moneda));
-
-        Label1.Text = objEmpresaBE.Descripcion;
-        Label2.Text = objUsuarioBE.CardName;
-        Label4.Text = (objDocumentoBE.FechaSolicitud).ToString("dd/MM/yyyy");
-        Label5.Text = (objDocumentoBE.UpdateDate).ToString("dd/MM/yyyy");
-        Label6.Text = objMonedaBE.Descripcion;
-        Label7.Text = objDocumentoBE.MontoInicial;
-        Label8.Text = "";
-        Label9.Text = objDocumentoBE.CodigoDocumento;
-    }
-
-    private void LlenarCamposCaberaExcel2()
-    {
-        Int32 idDocumento = Convert.ToInt32(ViewState["IdDocumento"].ToString());
-        List<DocumentDetailBE> lstDocumentoDetalleBE = new DocumentBC(_TipoDocumentoWeb).ListarDocumentoDetalles(Convert.ToInt32(idDocumento), 4, 0);
-
-        Label8.Text = lstDocumentoDetalleBE[0].MontoTotal;
-        Label10.Text = lstDocumentoDetalleBE[0].MontoTotal;
-        Label11.Text = lstDocumentoDetalleBE[0].MontoNoAfecto;
-        Label12.Text = lstDocumentoDetalleBE[0].MontoAfecto;
-        Label13.Text = lstDocumentoDetalleBE[0].MontoIGV;
-        Label14.Text = lstDocumentoDetalleBE[0].MontoDoc;
-    }
-
-
     protected void ddlConcepto_SelectedIndexChanged(object sender, EventArgs e)
     {
 
@@ -1885,12 +1643,35 @@ public partial class DocumentoRendicion : System.Web.UI.Page
 
     protected void ddlTipoDocumentoWeb_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if (ddlTipoDocumentoWeb.SelectedValue == TipoDocumentoSunat.Devolucion.GetPrefix())
+        if (new DocumentoBC().ObtenerDocumento(Convert.ToInt32(ddlTipoDocumentoWeb.SelectedValue)).CodigoSunat == TipoDocumentoSunat.Devolucion.GetPrefix())
         {
             ddlCuentaContableDevolucion.Enabled = true;
+
+            _IdDocumentoWeb = Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumentoWeb]);
+            Int32 idUsuarioDueñoDocumento = new DocumentoWebBC().GetDocumentoWeb(_IdDocumentoWeb).IdUsuarioSolicitante;
+            UsuarioBE usuario = new UsuarioBC().ObtenerUsuario(idUsuarioDueñoDocumento, 0);
+
+            if (usuario != null)
+            {
+                lblProveedor.Text = usuario.CardName;
+                txtProveedor.Enabled = false;
+                ddlConcepto.Enabled = false;
+                btnValidar.Visible = false;
+                txtMontoAfecta.Text = "0";
+                txtMontoAfecta.Enabled = false;
+            }
+            else
+                throw new Exception("No se encontraron datos de usuario.");
         }
         else
         {
+            lblProveedor.Text = "";
+            ddlConcepto.Enabled = true;
+            txtProveedor.Enabled = true;
+            lblProveedor.Text = String.Empty;
+            btnValidar.Visible = true;
+            txtMontoAfecta.Enabled = true;
+
             ddlCuentaContableDevolucion.SelectedValue = "0";
             ddlCuentaContableDevolucion.Enabled = false;
         }
@@ -1898,7 +1679,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
 
     protected void ddlCentroCostos1_SelectedIndexChanged(object sender, EventArgs e)
     {
-        //ListarPartidasPresupuestales();//TODO:
+        ListarPartidasPresupuestales(ddlCentroCostos1.SelectedItem.Value);
     }
 }
 

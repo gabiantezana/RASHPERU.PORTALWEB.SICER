@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ADODB;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +9,11 @@ using System.Web;
 /// </summary>
 public static class ConvertHelper
 {
+    public static Field Item(this Fields fields, String item)
+    {
+        return fields[item];
+    }
+
     public static Boolean IsNumeric(this String value)
     {
         Decimal decimalParsed = 0;
@@ -36,24 +42,22 @@ public static class ConvertHelper
     {
         switch (tipoDocumentoSunat)
         {
-            case TipoDocumentoSunat.Facturas:
+            case TipoDocumentoSunat.Factura:
                 return "01";
-            case TipoDocumentoSunat.Boletas:
+            case TipoDocumentoSunat.Boleta:
                 return "02";
-            case TipoDocumentoSunat.ReciboHonorarios:
-                return "02";
+            case TipoDocumentoSunat.ReciboDeHonorarios:
+                return "03";
             case TipoDocumentoSunat.Tickets:
-                return "";
+                return "12";
             case TipoDocumentoSunat.ReciboInterno:
                 return "DI";
             case TipoDocumentoSunat.PlanillaMovilidad:
                 return "PM";
-            case TipoDocumentoSunat.RecibosPublicos:
-                return "";
+            case TipoDocumentoSunat.ReciboPublicos:
+                return "14";
             case TipoDocumentoSunat.NotaCredito:
                 return "07";
-            case TipoDocumentoSunat.NotaDebito:
-                return "08";
             case TipoDocumentoSunat.Devolucion:
                 return "DV";
             default:

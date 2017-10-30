@@ -156,7 +156,7 @@ public partial class Reporte1 : System.Web.UI.Page
         if (ddlCentroCostos3.SelectedValue != "0")
         {
             CentroCostosBC objConceptoBC = new CentroCostosBC();
-            ddlCentroCostos4.DataSource = objConceptoBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 4);
+            //ddlCentroCostos4.DataSource = objConceptoBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 4);
             ddlCentroCostos4.DataTextField = "Descripcion";
             ddlCentroCostos4.DataValueField = "IdCentroCostos";
             ddlCentroCostos4.DataBind();
@@ -177,7 +177,7 @@ public partial class Reporte1 : System.Web.UI.Page
         if (ddlCentroCostos4.SelectedValue != "0")
         {
             CentroCostosBC objCentroCostosBC = new CentroCostosBC();
-            ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 4);
+            //ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(Convert.ToInt32(ddlIdEmpresa.SelectedValue), 4);
             ddlCentroCostos5.DataTextField = "Descripcion";
             ddlCentroCostos5.DataValueField = "IdCentroCostos";
             ddlCentroCostos5.DataBind();

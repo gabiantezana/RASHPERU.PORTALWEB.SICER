@@ -226,92 +226,92 @@ public partial class Usuario : System.Web.UI.Page
 
     private void ListarCentroCostos()
     {
-        try
-        {
-            CentroCostosBC objCentroCostosBC = new CentroCostosBC();
-            List<CentroCostosBE> lstCentroCostosBE = new List<CentroCostosBE>();
-            lstCentroCostosBE = objCentroCostosBC.ListarCentroCostos(0, 0);
+        //try
+        //{
+        //    CentroCostosBC objCentroCostosBC = new CentroCostosBC();
+        //    List<CentroCostosBE> lstCentroCostosBE = new List<CentroCostosBE>();
+        //    lstCentroCostosBE = objCentroCostosBC.ListarCentroCostos();
 
-            ddlCentroCostos1.DataSource = lstCentroCostosBE;
-            ddlCentroCostos1.DataTextField = "Descripcion";
-            ddlCentroCostos1.DataValueField = "IdCentroCostos";
-            ddlCentroCostos1.DataBind();
+        //    ddlCentroCostos1.DataSource = lstCentroCostosBE;
+        //    ddlCentroCostos1.DataTextField = "Descripcion";
+        //    ddlCentroCostos1.DataValueField = "IdCentroCostos";
+        //    ddlCentroCostos1.DataBind();
 
-            ddlCentroCostos2.DataSource = lstCentroCostosBE;
-            ddlCentroCostos2.DataTextField = "Descripcion";
-            ddlCentroCostos2.DataValueField = "IdCentroCostos";
-            ddlCentroCostos2.DataBind();
+        //    ddlCentroCostos2.DataSource = lstCentroCostosBE;
+        //    ddlCentroCostos2.DataTextField = "Descripcion";
+        //    ddlCentroCostos2.DataValueField = "IdCentroCostos";
+        //    ddlCentroCostos2.DataBind();
 
-            ddlCentroCostos3.DataSource = lstCentroCostosBE;
-            ddlCentroCostos3.DataTextField = "Descripcion";
-            ddlCentroCostos3.DataValueField = "IdCentroCostos";
-            ddlCentroCostos3.DataBind();
+        //    ddlCentroCostos3.DataSource = lstCentroCostosBE;
+        //    ddlCentroCostos3.DataTextField = "Descripcion";
+        //    ddlCentroCostos3.DataValueField = "IdCentroCostos";
+        //    ddlCentroCostos3.DataBind();
 
-            ddlCentroCostos4.DataSource = lstCentroCostosBE;
-            ddlCentroCostos4.DataTextField = "Descripcion";
-            ddlCentroCostos4.DataValueField = "IdCentroCostos";
-            ddlCentroCostos4.DataBind();
+        //    ddlCentroCostos4.DataSource = lstCentroCostosBE;
+        //    ddlCentroCostos4.DataTextField = "Descripcion";
+        //    ddlCentroCostos4.DataValueField = "IdCentroCostos";
+        //    ddlCentroCostos4.DataBind();
 
-            ddlCentroCostos5.DataSource = lstCentroCostosBE;
-            ddlCentroCostos5.DataTextField = "Descripcion";
-            ddlCentroCostos5.DataValueField = "IdCentroCostos";
-            ddlCentroCostos5.DataBind();
+        //    ddlCentroCostos5.DataSource = lstCentroCostosBE;
+        //    ddlCentroCostos5.DataTextField = "Descripcion";
+        //    ddlCentroCostos5.DataValueField = "IdCentroCostos";
+        //    ddlCentroCostos5.DataBind();
 
-            ddlCentroCostos6.DataSource = lstCentroCostosBE;
-            ddlCentroCostos6.DataTextField = "Descripcion";
-            ddlCentroCostos6.DataValueField = "IdCentroCostos";
-            ddlCentroCostos6.DataBind();
+        //    ddlCentroCostos6.DataSource = lstCentroCostosBE;
+        //    ddlCentroCostos6.DataTextField = "Descripcion";
+        //    ddlCentroCostos6.DataValueField = "IdCentroCostos";
+        //    ddlCentroCostos6.DataBind();
 
-            ddlCentroCostos7.DataSource = lstCentroCostosBE;
-            ddlCentroCostos7.DataTextField = "Descripcion";
-            ddlCentroCostos7.DataValueField = "IdCentroCostos";
-            ddlCentroCostos7.DataBind();
+        //    ddlCentroCostos7.DataSource = lstCentroCostosBE;
+        //    ddlCentroCostos7.DataTextField = "Descripcion";
+        //    ddlCentroCostos7.DataValueField = "IdCentroCostos";
+        //    ddlCentroCostos7.DataBind();
 
-            ddlCentroCostos8.DataSource = lstCentroCostosBE;
-            ddlCentroCostos8.DataTextField = "Descripcion";
-            ddlCentroCostos8.DataValueField = "IdCentroCostos";
-            ddlCentroCostos8.DataBind();
+        //    ddlCentroCostos8.DataSource = lstCentroCostosBE;
+        //    ddlCentroCostos8.DataTextField = "Descripcion";
+        //    ddlCentroCostos8.DataValueField = "IdCentroCostos";
+        //    ddlCentroCostos8.DataBind();
 
-            ddlCentroCostos9.DataSource = lstCentroCostosBE;
-            ddlCentroCostos9.DataTextField = "Descripcion";
-            ddlCentroCostos9.DataValueField = "IdCentroCostos";
-            ddlCentroCostos9.DataBind();
+        //    ddlCentroCostos9.DataSource = lstCentroCostosBE;
+        //    ddlCentroCostos9.DataTextField = "Descripcion";
+        //    ddlCentroCostos9.DataValueField = "IdCentroCostos";
+        //    ddlCentroCostos9.DataBind();
 
-            ddlCentroCostos10.DataSource = lstCentroCostosBE;
-            ddlCentroCostos10.DataTextField = "Descripcion";
-            ddlCentroCostos10.DataValueField = "IdCentroCostos";
-            ddlCentroCostos10.DataBind();
+        //    ddlCentroCostos10.DataSource = lstCentroCostosBE;
+        //    ddlCentroCostos10.DataTextField = "Descripcion";
+        //    ddlCentroCostos10.DataValueField = "IdCentroCostos";
+        //    ddlCentroCostos10.DataBind();
 
-            ddlCentroCostos11.DataSource = lstCentroCostosBE;
-            ddlCentroCostos11.DataTextField = "Descripcion";
-            ddlCentroCostos11.DataValueField = "IdCentroCostos";
-            ddlCentroCostos11.DataBind();
+        //    ddlCentroCostos11.DataSource = lstCentroCostosBE;
+        //    ddlCentroCostos11.DataTextField = "Descripcion";
+        //    ddlCentroCostos11.DataValueField = "IdCentroCostos";
+        //    ddlCentroCostos11.DataBind();
 
-            ddlCentroCostos12.DataSource = lstCentroCostosBE;
-            ddlCentroCostos12.DataTextField = "Descripcion";
-            ddlCentroCostos12.DataValueField = "IdCentroCostos";
-            ddlCentroCostos12.DataBind();
+        //    ddlCentroCostos12.DataSource = lstCentroCostosBE;
+        //    ddlCentroCostos12.DataTextField = "Descripcion";
+        //    ddlCentroCostos12.DataValueField = "IdCentroCostos";
+        //    ddlCentroCostos12.DataBind();
 
-            ddlCentroCostos13.DataSource = lstCentroCostosBE;
-            ddlCentroCostos13.DataTextField = "Descripcion";
-            ddlCentroCostos13.DataValueField = "IdCentroCostos";
-            ddlCentroCostos13.DataBind();
+        //    ddlCentroCostos13.DataSource = lstCentroCostosBE;
+        //    ddlCentroCostos13.DataTextField = "Descripcion";
+        //    ddlCentroCostos13.DataValueField = "IdCentroCostos";
+        //    ddlCentroCostos13.DataBind();
 
-            ddlCentroCostos14.DataSource = lstCentroCostosBE;
-            ddlCentroCostos14.DataTextField = "Descripcion";
-            ddlCentroCostos14.DataValueField = "IdCentroCostos";
-            ddlCentroCostos14.DataBind();
+        //    ddlCentroCostos14.DataSource = lstCentroCostosBE;
+        //    ddlCentroCostos14.DataTextField = "Descripcion";
+        //    ddlCentroCostos14.DataValueField = "IdCentroCostos";
+        //    ddlCentroCostos14.DataBind();
 
-            ddlCentroCostos15.DataSource = lstCentroCostosBE;
-            ddlCentroCostos15.DataTextField = "Descripcion";
-            ddlCentroCostos15.DataValueField = "IdCentroCostos";
-            ddlCentroCostos15.DataBind();
-        }
-        catch (Exception ex)
-        {
-            Mensaje("Ocurrió un error (Usuario): " + ex.Message);
-            ExceptionHelper.LogException(ex);
-        }
+        //    ddlCentroCostos15.DataSource = lstCentroCostosBE;
+        //    ddlCentroCostos15.DataTextField = "Descripcion";
+        //    ddlCentroCostos15.DataValueField = "IdCentroCostos";
+        //    ddlCentroCostos15.DataBind();
+        //}
+        //catch (Exception ex)
+        //{
+        //    Mensaje("Ocurrió un error (Usuario): " + ex.Message);
+        //    ExceptionHelper.LogException(ex);
+        //}
     }
 
     private void ListarUsuarioAprobador()
@@ -664,18 +664,19 @@ public partial class Usuario : System.Web.UI.Page
 
             if (bCrear.Text == "Crear")
             {
-
-                if (objUsarioBC.VerificarUsuario(txtCardCode.Text) == 0)
-                {
-                    throw new Exception("DNI no pertenece a la nomina..validar");
-                }
+                //if (objUsarioBC.VerificarUsuario(txtCardCode.Text) == 0)
+                //{
+                //    throw new Exception("DNI no pertenece a la nomina..validar");
+                //}
             }
 
 
-            if (ddlEstado.SelectedItem.Value != "0" && ddlTipoUsuario.SelectedItem.Value != "0" && txtCardCode.Text.Trim() != "" &&
-                /*txtPass.Text.Trim() != "" &&*/ txtCardName.Text.Trim() != "" && ddlPerfilUsuario.SelectedItem.Value != "0" &&
-                txtCantMaxCC.Text.Trim() != "" && txtCantMaxER.Text.Trim() != "" && txtCantMaxRE.Text.Trim() != "" && /*txtMail.Text.Trim() != "" &&*/
-                ValidarAreaNivel() && lstUsarioBE.Count == 0)
+            if (ddlEstado.SelectedItem.Value != "0" 
+                && ddlTipoUsuario.SelectedItem.Value != "0"
+                && txtCardCode.Text.Trim() != ""
+                && txtCardName.Text.Trim() != ""
+                && ddlPerfilUsuario.SelectedItem.Value != "0" 
+                && ValidarAreaNivel() && lstUsarioBE.Count == 0)
             {
                 UsuarioBE ObjUsuarioBE = new UsuarioBE();
                 UsuarioBC objUsuarioBC = new UsuarioBC();
@@ -691,21 +692,21 @@ public partial class Usuario : System.Web.UI.Page
                 ObjUsuarioBE.IdArea3 = 0;//Convert.ToInt32(ddlArea3.SelectedItem.Value);
                 ObjUsuarioBE.IdArea4 = 0;//Convert.ToInt32(ddlArea4.SelectedItem.Value);
                 ObjUsuarioBE.IdArea5 = 0;//Convert.ToInt32(ddlArea5.SelectedItem.Value);
-                ObjUsuarioBE.IdCentroCostos1 = Convert.ToInt32(ddlCentroCostos1.SelectedItem.Value);
-                ObjUsuarioBE.IdCentroCostos2 = Convert.ToInt32(ddlCentroCostos2.SelectedItem.Value);
-                ObjUsuarioBE.IdCentroCostos3 = Convert.ToInt32(ddlCentroCostos3.SelectedItem.Value);
-                ObjUsuarioBE.IdCentroCostos4 = Convert.ToInt32(ddlCentroCostos4.SelectedItem.Value);
-                ObjUsuarioBE.IdCentroCostos5 = Convert.ToInt32(ddlCentroCostos5.SelectedItem.Value);
-                ObjUsuarioBE.IdCentroCostos6 = Convert.ToInt32(ddlCentroCostos6.SelectedItem.Value);
-                ObjUsuarioBE.IdCentroCostos7 = Convert.ToInt32(ddlCentroCostos7.SelectedItem.Value);
-                ObjUsuarioBE.IdCentroCostos8 = Convert.ToInt32(ddlCentroCostos8.SelectedItem.Value);
-                ObjUsuarioBE.IdCentroCostos9 = Convert.ToInt32(ddlCentroCostos9.SelectedItem.Value);
-                ObjUsuarioBE.IdCentroCostos10 = Convert.ToInt32(ddlCentroCostos10.SelectedItem.Value);
-                ObjUsuarioBE.IdCentroCostos11 = Convert.ToInt32(ddlCentroCostos11.SelectedItem.Value);
-                ObjUsuarioBE.IdCentroCostos12 = Convert.ToInt32(ddlCentroCostos12.SelectedItem.Value);
-                ObjUsuarioBE.IdCentroCostos13 = Convert.ToInt32(ddlCentroCostos13.SelectedItem.Value);
-                ObjUsuarioBE.IdCentroCostos14 = Convert.ToInt32(ddlCentroCostos14.SelectedItem.Value);
-                ObjUsuarioBE.IdCentroCostos15 = Convert.ToInt32(ddlCentroCostos15.SelectedItem.Value);
+                ObjUsuarioBE.IdCentroCostos1 = 0;/*Convert.ToInt32(ddlCentroCostos1.SelectedItem.Value);*/
+                ObjUsuarioBE.IdCentroCostos2 = 0; /*Convert.ToInt32(ddlCentroCostos2.SelectedItem.Value);*/
+                ObjUsuarioBE.IdCentroCostos3 = 0;/*Convert.ToInt32(ddlCentroCostos3.SelectedItem.Value);*/
+                ObjUsuarioBE.IdCentroCostos4 = 0;/*Convert.ToInt32(ddlCentroCostos4.SelectedItem.Value);*/
+                ObjUsuarioBE.IdCentroCostos5 = 0;/*Convert.ToInt32(ddlCentroCostos5.SelectedItem.Value);*/
+                ObjUsuarioBE.IdCentroCostos6 = 0;/*Convert.ToInt32(ddlCentroCostos6.SelectedItem.Value);*/
+                ObjUsuarioBE.IdCentroCostos7 = 0;/*Convert.ToInt32(ddlCentroCostos7.SelectedItem.Value);*/
+                ObjUsuarioBE.IdCentroCostos8 = 0;/*Convert.ToInt32(ddlCentroCostos8.SelectedItem.Value);*/
+                ObjUsuarioBE.IdCentroCostos9 = 0;/*Convert.ToInt32(ddlCentroCostos9.SelectedItem.Value);*/
+                ObjUsuarioBE.IdCentroCostos10 = 0;/*Convert.ToInt32(ddlCentroCostos10.SelectedItem.Value);*/
+                ObjUsuarioBE.IdCentroCostos11 = 0;/*Convert.ToInt32(ddlCentroCostos11.SelectedItem.Value);*/
+                ObjUsuarioBE.IdCentroCostos12 = 0;/*Convert.ToInt32(ddlCentroCostos12.SelectedItem.Value);*/
+                ObjUsuarioBE.IdCentroCostos13 = 0;/*Convert.ToInt32(ddlCentroCostos13.SelectedItem.Value);*/
+                ObjUsuarioBE.IdCentroCostos14 = 0;/*Convert.ToInt32(ddlCentroCostos14.SelectedItem.Value);*/
+                ObjUsuarioBE.IdCentroCostos15 = 0;/*Convert.ToInt32(ddlCentroCostos15.SelectedItem.Value);*/
                 ObjUsuarioBE.IdUsuarioCC1 = Convert.ToInt32(ddlIdUsuarioCC1.SelectedItem.Value);
                 ObjUsuarioBE.IdUsuarioCC2 = Convert.ToInt32(ddlIdUsuarioCC2.SelectedItem.Value);
                 ObjUsuarioBE.IdUsuarioCC3 = 0;//Convert.ToInt32(ddlIdUsuarioCC3.SelectedItem.Value);

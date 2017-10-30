@@ -12,7 +12,7 @@ public partial class Documento : System.Web.UI.Page
 {
     private TipoDocumentoWeb _TipoDocumentoWeb { get; set; }
     private Modo _Modo { get; set; }
-    private Int32 _IdDocumento { get; set; }
+    private Int32 _IdDocumentoWeb { get; set; }
 
     #region On Load Page
 
@@ -27,12 +27,12 @@ public partial class Documento : System.Web.UI.Page
                 //Get from context
                 _TipoDocumentoWeb = (TipoDocumentoWeb)Context.Items[ConstantHelper.Keys.TipoDocumentoWeb];
                 _Modo = (Modo)Context.Items[ConstantHelper.Keys.Modo];
-                _IdDocumento = Convert.ToInt32(Context.Items[ConstantHelper.Keys.IdDocumento]);
+                _IdDocumentoWeb = Convert.ToInt32(Context.Items[ConstantHelper.Keys.IdDocumentoWeb]);
 
                 //Set to viewState
                 ViewState[ConstantHelper.Keys.TipoDocumentoWeb] = _TipoDocumentoWeb;
                 ViewState[ConstantHelper.Keys.Modo] = _Modo;
-                ViewState[ConstantHelper.Keys.IdDocumento] = _IdDocumento;
+                ViewState[ConstantHelper.Keys.IdDocumentoWeb] = _IdDocumentoWeb;
 
                 SetCrearOEditar();
             }
@@ -48,6 +48,12 @@ public partial class Documento : System.Web.UI.Page
     {
         try
         {
+            if (_TipoDocumentoWeb == TipoDocumentoWeb.Reembolso)
+            {
+                txtMontoInicial.Enabled = false;
+                trEntregaRendir.Visible = true;
+            }
+
             ListarUsuarioSolicitante();
             ListarMoneda();
             ListarEmpresa();
@@ -111,7 +117,6 @@ public partial class Documento : System.Web.UI.Page
                     bCrear.Visible = true;
                     bCancelar.Visible = true;
                     bAprobar.Visible = false;
-                    bObservacion.Visible = false;
                     bRechazar.Visible = false;
                     bCancelar2.Visible = false;
 
@@ -130,7 +135,7 @@ public partial class Documento : System.Web.UI.Page
                     Boolean habilitarBotonesDeAprobacion = false;
                     Boolean habilitarOBservacion = false;
 
-                    DocumentBE objDocumentoBE = new DocumentBC(_TipoDocumentoWeb).ObtenerDocumento(_IdDocumento, 0);
+                    DocumentoWebBE objDocumentoBE = new DocumentoWebBC().GetDocumentoWeb(_IdDocumentoWeb);
                     UsuarioBE objUsuarioSolicitanteBE = new UsuarioBC().ObtenerUsuario(objDocumentoBE.IdUsuarioSolicitante, 0);
                     PerfilUsuarioBE objPerfilUsuarioBE = new PerfilUsuarioBC().ObtenerPerfilUsuario(objUsuarioSesionBE.IdPerfilUsuario);
 
@@ -149,19 +154,11 @@ public partial class Documento : System.Web.UI.Page
                                     break;
                             }
                             break;
-                        case EstadoDocumento.ObservacionNivel1:
-                        case EstadoDocumento.ObservacionNivel2:
-                        case EstadoDocumento.ObservacionNivel3:
-                            if (objDocumentoBE.IdUsuarioSolicitante == objUsuarioSesionBE.IdUsuario
-                                || objDocumentoBE.IdUsuarioCreador == objUsuarioSesionBE.IdUsuario)
-                                habilitarOBservacion = true;
-                            break;
                     }
 
                     bCrear.Visible = false;
                     bCancelar.Visible = false;
                     bAprobar.Visible = false;
-                    bObservacion.Visible = false;
                     bRechazar.Visible = false;
                     bCancelar2.Visible = true;
                     txtComentario.Enabled = true;
@@ -169,7 +166,6 @@ public partial class Documento : System.Web.UI.Page
                     if (habilitarBotonesDeAprobacion)
                     {
                         bAprobar.Visible = true;
-                        bObservacion.Visible = true;
                         bRechazar.Visible = true;
                     }
                     if (habilitarOBservacion)
@@ -193,27 +189,45 @@ public partial class Documento : System.Web.UI.Page
 
     private void EditarDocumento_Fill()
     {
-        DocumentBE objDocumentoBE = new DocumentBC(_TipoDocumentoWeb).ObtenerDocumento(_IdDocumento, 0);
+        DocumentoWebBE objDocumentoBE = new DocumentoWebBC().GetDocumentoWeb(_IdDocumentoWeb);
 
         ListarCentroCostos(objDocumentoBE.IdEmpresa);
         ListarMetodosPago(objDocumentoBE.IdEmpresa);
 
-        txtIdDocumento.Text = objDocumentoBE.IdDocumento.ToString();
+        txtIdDocumento.Text = objDocumentoBE.IdDocumentoWeb.ToString();
         txtCodigoDocumento.Text = objDocumentoBE.CodigoDocumento;
         txtAsunto.Text = objDocumentoBE.Asunto;
-        txtMontoInicial.Text = objDocumentoBE.MontoInicial;
+        txtMontoInicial.Text = objDocumentoBE.MontoInicial.ToString();
         txtComentario.Text = objDocumentoBE.Comentario;
         txtMotivoDetalle.Text = objDocumentoBE.MotivoDetalle;
 
         ddlIdEmpresa.SelectedValue = objDocumentoBE.IdEmpresa.ToString();
         ddlIdUsuarioSolicitante.SelectedValue = objDocumentoBE.IdUsuarioSolicitante.ToString();
         ddlMoneda.SelectedValue = objDocumentoBE.Moneda.ToString();
-        ddlCentroCostos1.SelectedValue = objDocumentoBE.IdCentroCostos1.ToString();
-        ddlCentroCostos2.SelectedValue = objDocumentoBE.IdCentroCostos2.ToString();
-        ddlCentroCostos3.SelectedValue = objDocumentoBE.IdCentroCostos3.ToString();
-        ddlCentroCostos4.SelectedValue = objDocumentoBE.IdCentroCostos4.ToString();
-        ddlCentroCostos5.SelectedValue = objDocumentoBE.IdCentroCostos5.ToString();
-        ddlIdMetodoPago.SelectedValue = objDocumentoBE.IdMetodoPago.ToString();
+
+        if (objDocumentoBE.IdCentroCostos1 != null)
+            ddlCentroCostos1.SelectedValue = objDocumentoBE.IdCentroCostos1.ToString();
+        if (objDocumentoBE.IdCentroCostos2 != null)
+            ddlCentroCostos2.SelectedValue = objDocumentoBE.IdCentroCostos2.ToString();
+        if (objDocumentoBE.IdCentroCostos3 != null)
+            ddlCentroCostos3.SelectedValue = objDocumentoBE.IdCentroCostos3.ToString();
+        if (objDocumentoBE.IdCentroCostos4 != null)
+            ddlCentroCostos4.SelectedValue = objDocumentoBE.IdCentroCostos4.ToString();
+        if (objDocumentoBE.IdCentroCostos5 != null)
+            ddlCentroCostos5.SelectedValue = objDocumentoBE.IdCentroCostos5.ToString();
+        if (objDocumentoBE.IdMetodoPago != null)
+            ddlIdMetodoPago.SelectedValue = objDocumentoBE.IdMetodoPago.ToString();
+
+        if (_TipoDocumentoWeb == TipoDocumentoWeb.Reembolso)
+        {
+            trEntregaRendir.Visible = true;
+            txtMontoInicial.Enabled = false;
+        }
+        else
+        {
+            trEntregaRendir.Visible = false;
+            txtMontoInicial.Enabled = true;
+        }
     }
 
     #endregion
@@ -231,11 +245,11 @@ public partial class Documento : System.Web.UI.Page
             if (_Modo == Modo.Crear)
             {
                 objUsuarioBE = (UsuarioBE)Session["Usuario"];
-                lstUsuarioBE = objUsuarioBC.ListarUsuario(1, objUsuarioBE.IdUsuario, 0);
+                lstUsuarioBE = objUsuarioBC.ListarUsuario(0, objUsuarioBE.IdUsuario, 0);
             }
             else
             {
-                DocumentBE objDocumentoBE = new DocumentBC(_TipoDocumentoWeb).ObtenerDocumento(_IdDocumento, 0);
+                DocumentoWebBE objDocumentoBE = new DocumentoWebBC().GetDocumentoWeb(_IdDocumentoWeb);
                 lstUsuarioBE = objUsuarioBC.ListarUsuario(1, objDocumentoBE.IdUsuarioCreador, 0);
             }
 
@@ -256,7 +270,7 @@ public partial class Documento : System.Web.UI.Page
         try
         {
             MonedaBC objMonedaBC = new MonedaBC();
-            ddlMoneda.DataSource = objMonedaBC.ListarMoneda(0, 1);
+            ddlMoneda.DataSource = objMonedaBC.ListarMoneda();
             ddlMoneda.DataTextField = "Descripcion";
             ddlMoneda.DataValueField = "IdMoneda";
             ddlMoneda.DataBind();
@@ -291,34 +305,34 @@ public partial class Documento : System.Web.UI.Page
     private void ListarCentroCostos(int idEmpresa)
     {
         CentroCostosBC objCentroCostosBC = new CentroCostosBC();
-        ddlCentroCostos1.DataSource = objCentroCostosBC.ListarCentroCostos(idEmpresa, 1);
+        ddlCentroCostos1.DataSource = objCentroCostosBC.ListarCentroCostos(1);
         ddlCentroCostos1.DataTextField = "Descripcion";
         ddlCentroCostos1.DataValueField = "IdCentroCostos";
         ddlCentroCostos1.DataBind();
         ddlCentroCostos1.Enabled = true;
 
-        ddlCentroCostos2.DataSource = objCentroCostosBC.ListarCentroCostos(idEmpresa, 2);
+        ddlCentroCostos2.DataSource = objCentroCostosBC.ListarCentroCostos(2);
         ddlCentroCostos2.DataTextField = "Descripcion";
         ddlCentroCostos2.DataValueField = "IdCentroCostos";
         ddlCentroCostos2.DataBind();
         ddlCentroCostos2.Enabled = true;
 
         objCentroCostosBC = new CentroCostosBC();
-        ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(idEmpresa, 3);
+        ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(3);
         ddlCentroCostos3.DataTextField = "Descripcion";
         ddlCentroCostos3.DataValueField = "IdCentroCostos";
         ddlCentroCostos3.DataBind();
         ddlCentroCostos3.Enabled = true;
 
         objCentroCostosBC = new CentroCostosBC();
-        ddlCentroCostos4.DataSource = objCentroCostosBC.ListarCentroCostos(idEmpresa, 4);
+        ddlCentroCostos4.DataSource = objCentroCostosBC.ListarCentroCostos(4);
         ddlCentroCostos4.DataTextField = "Descripcion";
         ddlCentroCostos4.DataValueField = "IdCentroCostos";
         ddlCentroCostos4.DataBind();
         ddlCentroCostos4.Enabled = true;
 
         objCentroCostosBC = new CentroCostosBC();
-        ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(idEmpresa, 5);
+        ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(5);
         ddlCentroCostos5.DataTextField = "Descripcion";
         ddlCentroCostos5.DataValueField = "IdCentroCostos";
         ddlCentroCostos5.DataBind();
@@ -335,6 +349,18 @@ public partial class Documento : System.Web.UI.Page
         ddlIdMetodoPago.Enabled = true;
     }
 
+    private void ListarEntregasRendir()
+    {
+        Int32 idUsuario = Convert.ToInt32(ddlIdUsuarioSolicitante.SelectedValue);
+        String moneda = ddlMoneda.SelectedValue.ToString();
+        ddlEntregaRendir.DataSource = new DocumentoWebBC().GetListRendicionesPendientesReembolso(idUsuario, moneda);
+        ddlEntregaRendir.DataTextField = "CodigoDocumento";
+        ddlEntregaRendir.DataValueField = "IdDocumentoWeb";
+        ddlEntregaRendir.DataBind();
+        ddlEntregaRendir.Enabled = true;
+
+    }
+
     #endregion
 
     #region Submit Buttons
@@ -343,9 +369,8 @@ public partial class Documento : System.Web.UI.Page
     {
         Int32[] indexNoValidos = { 0, -1 };
         errorMessage = String.Empty;
-        if (indexNoValidos.Contains(ddlIdUsuarioSolicitante.SelectedIndex))
-            errorMessage = "Debe ingresar el usuario solicitante";
-        else if (indexNoValidos.Contains(ddlIdEmpresa.SelectedIndex))
+
+        if (indexNoValidos.Contains(ddlIdEmpresa.SelectedIndex))
             errorMessage = "Debe ingresar la empresa";
         else if (indexNoValidos.Contains(ddlMoneda.SelectedIndex))
             errorMessage = "Debe ingresar la  moneda";
@@ -360,7 +385,7 @@ public partial class Documento : System.Web.UI.Page
         else if (String.IsNullOrWhiteSpace(txtMotivoDetalle.Text))
             errorMessage = "Debe ingresar el motivo";
         else if (new ValidationHelper().UsuarioExcedeCantMaxDocumento(_TipoDocumentoWeb, Convert.ToInt32(ddlIdUsuarioSolicitante.SelectedItem.Value)))
-            errorMessage = "El usuario ha excedido la cantidad máxima de documentos.";
+            errorMessage = "El usuario ha excedido la cantidad máxima de documentos pendientes.";
 
         if (!String.IsNullOrEmpty(errorMessage))
             return false;
@@ -378,7 +403,7 @@ public partial class Documento : System.Web.UI.Page
             _TipoDocumentoWeb = (TipoDocumentoWeb)ViewState[ConstantHelper.Keys.TipoDocumentoWeb];
             _Modo = (Modo)ViewState[ConstantHelper.Keys.Modo];
 
-            Int32 idDocumento = Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumento]);
+            _IdDocumentoWeb = Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumentoWeb]);
             Int32 idUsuario = ((UsuarioBE)Session["Usuario"]).IdUsuario;
 
             String errorMessage;
@@ -389,7 +414,7 @@ public partial class Documento : System.Web.UI.Page
                 return;
             }
 
-            DocumentBE objDocumentoBE = new DocumentBE();
+            DocumentoWebBE objDocumentoBE = new DocumentoWebBE(_TipoDocumentoWeb);
             objDocumentoBE.CodigoDocumento = String.Empty;
             objDocumentoBE.IdUsuarioSolicitante = Convert.ToInt32(ddlIdUsuarioSolicitante.SelectedItem.Value);
             objDocumentoBE.IdEmpresa = Convert.ToInt32(ddlIdEmpresa.SelectedItem.Value);
@@ -401,11 +426,11 @@ public partial class Documento : System.Web.UI.Page
             objDocumentoBE.IdMetodoPago = Convert.ToInt32(ddlIdMetodoPago.SelectedItem.Value);
             objDocumentoBE.IdArea = 0;
             objDocumentoBE.Asunto = txtAsunto.Text;
-            objDocumentoBE.MontoInicial = Convert.ToDouble(txtMontoInicial.Text).ToString("0.00");
-            objDocumentoBE.MontoGastado = "0.00";
-            objDocumentoBE.MontoActual = Convert.ToDouble(txtMontoInicial.Text).ToString("0.00");
-            objDocumentoBE.Moneda = ddlMoneda.SelectedItem.Value;
-            objDocumentoBE.Comentario = "";
+            objDocumentoBE.MontoInicial = Convert.ToDecimal(txtMontoInicial.Text);
+            objDocumentoBE.MontoGastado = 0;
+            objDocumentoBE.MontoActual = Convert.ToDecimal(txtMontoInicial.Text);
+            objDocumentoBE.Moneda = Convert.ToInt32(ddlMoneda.SelectedItem.Value);
+            objDocumentoBE.Comentario = null;
             objDocumentoBE.MotivoDetalle = txtMotivoDetalle.Text;
             objDocumentoBE.FechaSolicitud = DateTime.Now;
             objDocumentoBE.FechaContabilizacion = DateTime.Now;
@@ -415,22 +440,12 @@ public partial class Documento : System.Web.UI.Page
             objDocumentoBE.CreateDate = DateTime.Now;
             objDocumentoBE.UserUpdate = idUsuario.ToString();
             objDocumentoBE.UpdateDate = DateTime.Now;
+            objDocumentoBE.Comentario = txtComentario.Text;
 
+            if (ddlEntregaRendir.SelectedValue != null && ddlEntregaRendir.SelectedValue != "0" && ddlEntregaRendir.SelectedValue != "-1")
+                objDocumentoBE.IdDocumentoWebRendicionReferencia = Convert.ToInt32(ddlEntregaRendir.SelectedValue);
 
-            DocumentBC objDocumentoBC = new DocumentBC(_TipoDocumentoWeb);
-            switch (_Modo)
-            {
-                case Modo.Crear:
-                    Int32 idDocumentoInsertado = objDocumentoBC.InsertarDocumento(objDocumentoBE);
-                    DocumentBE documentoInsertado = objDocumentoBC.ObtenerDocumento(idDocumentoInsertado, 0);
-                    EnviarMensajeParaAprobar(idDocumentoInsertado, _TipoDocumentoWeb.GetName(), documentoInsertado.MontoGastado, txtAsunto.Text, documentoInsertado.CodigoDocumento, ddlIdUsuarioSolicitante.SelectedItem.Text, EstadoDocumento.PorAprobarNivel1.IdToString(), documentoInsertado.IdEmpresa);
-                    break;
-
-                case Modo.Editar:
-                    objDocumentoBE.IdDocumento = idDocumento;
-                    objDocumentoBC.ModificarDocumento(objDocumentoBE);
-                    break;
-            }
+            new DocumentoWebBC().AddUpdateDocumento(objDocumentoBE);
 
             Response.Redirect("~/ListadoDocumentos.aspx?TipoDocumentoWeb=" + (Int32)_TipoDocumentoWeb);
         }
@@ -443,6 +458,7 @@ public partial class Documento : System.Web.UI.Page
 
     protected void Cancelar_Click(object sender, EventArgs e)
     {
+        _TipoDocumentoWeb = (TipoDocumentoWeb)ViewState[ConstantHelper.Keys.TipoDocumentoWeb];
         Response.Redirect("~/ListadoDocumentos.aspx?TipoDocumentoWeb=" + (Int32)_TipoDocumentoWeb);
     }
 
@@ -455,13 +471,24 @@ public partial class Documento : System.Web.UI.Page
         {
             _TipoDocumentoWeb = (TipoDocumentoWeb)ViewState[ConstantHelper.Keys.TipoDocumentoWeb];
             _Modo = (Modo)ViewState[ConstantHelper.Keys.Modo];
-            _IdDocumento = (Int32)base.ViewState[ConstantHelper.Keys.IdDocumento];
+            _IdDocumentoWeb = (Int32)base.ViewState[ConstantHelper.Keys.IdDocumentoWeb];
+            Int32 idUsuario = ((UsuarioBE)Session["Usuario"]).IdUsuario;
 
+            CambioEstadoBE cambioEstadoBE = new CambioEstadoBE()
+            {
+                IdDocumentoWeb = _IdDocumentoWeb,
+                Comentario = txtComentario.Text,
+                IdUsuario = idUsuario
+            };
+
+            new DocumentoWebBC().AprobarDocumento(cambioEstadoBE);
+
+            /*
             Int32 idUsuario = ((UsuarioBE)Session["Usuario"]).IdUsuario;
 
             bAprobar.Enabled = false;
 
-            DocumentBE objDocumentoBE = new DocumentBC(_TipoDocumentoWeb).ObtenerDocumento(_IdDocumento, 0);
+            DocumentBE objDocumentoBE = new DocumentoWebBC().GetDocument(_IdDocumento);
 
             String estado = String.Empty;
             if (objDocumentoBE.Estado == EstadoDocumento.ObservacionNivel1.IdToString()
@@ -484,9 +511,9 @@ public partial class Documento : System.Web.UI.Page
                 }
             }
 
-            new DocumentBC(_TipoDocumentoWeb).ModificarDocumento(objDocumentoBE);
+            new DocumentoWebBC().AddUpdateDocumento(objDocumentoBE);
             EnviarMensajeParaAprobar(objDocumentoBE.IdDocumento, _TipoDocumentoWeb.GetName(), objDocumentoBE.MontoGastado, txtAsunto.Text, objDocumentoBE.CodigoDocumento, ddlIdUsuarioSolicitante.SelectedItem.Text, objDocumentoBE.Estado, objDocumentoBE.IdEmpresa);
-
+            */
             Response.Redirect("~/ListadoDocumentos.aspx?TipoDocumentoWeb=" + (Int32)_TipoDocumentoWeb);
 
         }
@@ -507,34 +534,18 @@ public partial class Documento : System.Web.UI.Page
         {
             _TipoDocumentoWeb = (TipoDocumentoWeb)ViewState[ConstantHelper.Keys.TipoDocumentoWeb];
             _Modo = (Modo)ViewState[ConstantHelper.Keys.Modo];
-            _IdDocumento = (Int32)base.ViewState[ConstantHelper.Keys.IdDocumento];
-
+            _IdDocumentoWeb = (Int32)base.ViewState[ConstantHelper.Keys.IdDocumentoWeb];
             Int32 idUsuario = ((UsuarioBE)Session["Usuario"]).IdUsuario;
 
-            bRechazar.Enabled = true;
-
-            UsuarioBE objUsuarioBE = new UsuarioBE();
-            DocumentBE objDocumentoBC = new DocumentBC(_TipoDocumentoWeb).ObtenerDocumento(Convert.ToInt32(_IdDocumento), 0);
-
-            objDocumentoBC.Estado = EstadoDocumento.Rechazado.IdToString();
-            objDocumentoBC.Comentario = txtComentario.Text;
-            if (Session["Usuario"] == null)
+            CambioEstadoBE cambioEstadoBE = new CambioEstadoBE()
             {
-                Response.Redirect("~/Login.aspx");
-            }
-            else
-            {
-                objUsuarioBE = (UsuarioBE)Session["Usuario"];
-                objDocumentoBC.UserCreate = Convert.ToString(objUsuarioBE.IdUsuario);
-                objDocumentoBC.CreateDate = DateTime.Now;
-                objDocumentoBC.UserUpdate = Convert.ToString(objUsuarioBE.IdUsuario);
-                objDocumentoBC.UpdateDate = DateTime.Now;
-            }
-
-            new DocumentBC(_TipoDocumentoWeb).ModificarDocumento(objDocumentoBC);
+                IdDocumentoWeb = _IdDocumentoWeb,
+                Comentario = txtComentario.Text,
+                IdUsuario = idUsuario
+            };
+            new DocumentoWebBC().RechazarDocumento(cambioEstadoBE);
 
             Response.Redirect("~/ListadoDocumentos.aspx?TipoDocumentoWeb=" + (Int32)_TipoDocumentoWeb);
-
         }
         catch (Exception ex)
         {
@@ -544,77 +555,6 @@ public partial class Documento : System.Web.UI.Page
         finally
         {
             bRechazar.Enabled = true;
-        }
-    }
-
-    protected void Observacion_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            _TipoDocumentoWeb = (TipoDocumentoWeb)ViewState[ConstantHelper.Keys.TipoDocumentoWeb];
-            _Modo = (Modo)ViewState[ConstantHelper.Keys.Modo];
-            _IdDocumento = (Int32)ViewState[ConstantHelper.Keys.IdDocumento];
-
-            Int32 idUsuario = ((UsuarioBE)Session["Usuario"]).IdUsuario;
-
-            bObservacion.Enabled = false;
-
-            String estado = "";
-
-            UsuarioBE objUsuarioBE = new UsuarioBE();
-            DocumentBE objDocumentoBE = new DocumentBC(_TipoDocumentoWeb).ObtenerDocumento(Convert.ToInt32(_IdDocumento), 0);
-
-            objDocumentoBE.Asunto = txtAsunto.Text;
-            objDocumentoBE.Moneda = ddlMoneda.SelectedItem.Value;
-            objDocumentoBE.MontoInicial = Convert.ToDouble(txtMontoInicial.Text).ToString("0.000000");
-            objDocumentoBE.MontoGastado = "0";
-            objDocumentoBE.MontoActual = Convert.ToDouble(txtMontoInicial.Text).ToString("0.000000");
-            objDocumentoBE.IdEmpresa = Convert.ToInt32(ddlIdEmpresa.SelectedItem.Value);
-            objDocumentoBE.IdArea = 0;//Convert.ToInt32(ddlIdArea.SelectedItem.Value);
-            objDocumentoBE.IdCentroCostos3 = ddlCentroCostos3.SelectedItem.Value;
-            objDocumentoBE.IdCentroCostos4 = ddlCentroCostos4.SelectedItem.Value;
-            objDocumentoBE.IdCentroCostos5 = ddlCentroCostos5.SelectedItem.Value;
-
-            estado = objDocumentoBE.Estado;
-            if (Convert.ToInt32(estado) > 3)
-            {
-                estado = Convert.ToString(Convert.ToInt32(estado) - 7 - 1);
-                objDocumentoBE.Estado = Convert.ToString(Convert.ToInt32(objDocumentoBE.Estado) - 1);
-            }
-            else
-                objDocumentoBE.Estado = Convert.ToString(Convert.ToInt32(objDocumentoBE.Estado) + 7);
-
-            objDocumentoBE.Comentario = txtComentario.Text;
-            if (Session["Usuario"] == null)
-            {
-                Response.Redirect("~/Login.aspx");
-            }
-            else
-            {
-                objUsuarioBE = (UsuarioBE)Session["Usuario"];
-                objDocumentoBE.UserCreate = Convert.ToString(objUsuarioBE.IdUsuario);
-                objDocumentoBE.CreateDate = DateTime.Now;
-                objDocumentoBE.UserUpdate = Convert.ToString(objUsuarioBE.IdUsuario);
-                objDocumentoBE.UpdateDate = DateTime.Now;
-            }
-
-            new DocumentBC(_TipoDocumentoWeb).ModificarDocumento(objDocumentoBE);
-            EnviarMensajeObservacion(objUsuarioBE.IdUsuario, objDocumentoBE.IdDocumento, objDocumentoBE.IdUsuarioSolicitante, objDocumentoBE.IdUsuarioCreador, _TipoDocumentoWeb.GetName(), txtAsunto.Text, objDocumentoBE.CodigoDocumento, objUsuarioBE.CardName, estado);
-
-            Response.Redirect("~/ListadoDocumentos.aspx?TipoDocumentoWeb=" + (Int32)_TipoDocumentoWeb);
-
-        }
-        catch (Exception ex)
-        {
-            Mensaje("Ocurrió un error: " + ex.Message);
-            ExceptionHelper.LogException(ex);
-        }
-        finally
-        {
-            Response.Redirect("~/ListadoDocumentos.aspx?TipoDocumentoWeb=" + (Int32)_TipoDocumentoWeb);
-
-            bObservacion.Enabled = true;
-
         }
     }
 
@@ -627,7 +567,7 @@ public partial class Documento : System.Web.UI.Page
 
     #region Envio Correos
 
-    private void EnviarMensajeParaAprobar(int IdDocumento, string Documento, String Monto, string Asunto, string codigoDocumento, string UsuarioSolicitante, string estado, int IdEmpresa)
+    private void EnviarMensajeParaAprobar(int IdDocumento, string Documento, Decimal Monto, string Asunto, string codigoDocumento, string UsuarioSolicitante, string estado, int IdEmpresa)
     {
         UsuarioBC objUsuarioBC = new UsuarioBC();
         List<UsuarioBE> lstUsuarioBE = new List<UsuarioBE>();
@@ -641,7 +581,7 @@ public partial class Documento : System.Web.UI.Page
                 lstUsuarioBE = objUsuarioBC.ListarUsuario(4, IdDocumento, Convert.ToInt32(estado) - 7);
             else //4
             {
-                DocumentBE objDocumentoBE = new DocumentBC(_TipoDocumentoWeb).ObtenerDocumento(IdDocumento, 0);
+                DocumentoWebBE objDocumentoBE = new DocumentoWebBC().GetDocumentoWeb(IdDocumento);
                 objUsuarioBE = objUsuarioBC.ObtenerUsuario(objDocumentoBE.IdUsuarioSolicitante, 0);
                 objUsuarioBE2 = objUsuarioBC.ObtenerUsuario(objDocumentoBE.IdUsuarioCreador, 0);
             }
@@ -747,7 +687,7 @@ public partial class Documento : System.Web.UI.Page
         }
     }
 
-    private void EnviarMensajeObservacion(int IdUsuarioAprobador, int idDocumento, int IdUsuarioSolicitante, int IdUsuarioCreador, string Documento, string Asunto, string codigoDocumento, string UsuarioAprobador, string estado)
+    private void EnviarMensajeObservacion(int IdUsuarioAprobador, int idDocumento, int? IdUsuarioSolicitante, int IdUsuarioCreador, string Documento, string Asunto, string codigoDocumento, string UsuarioAprobador, string estado)
     {
         UsuarioBC objUsuarioBC = new UsuarioBC();
         UsuarioBE objUsuarioBE = new UsuarioBE();
@@ -892,4 +832,21 @@ public partial class Documento : System.Web.UI.Page
     }
 
     #endregion
+
+    protected void ddlEntregaRendir_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        Int32 codigo = Convert.ToInt32(ddlEntregaRendir.SelectedValue.ToString());
+        Decimal num = new DocumentoWebBC().GetDocumentoWeb(codigo).MontoActual * -1;
+        txtMontoInicial.Text = num.ToString();
+    }
+
+    protected void ddlIdUsuarioSolicitante_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ListarEntregasRendir();
+    }
+
+    protected void ddlMoneda_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ListarEntregasRendir();
+    }
 }

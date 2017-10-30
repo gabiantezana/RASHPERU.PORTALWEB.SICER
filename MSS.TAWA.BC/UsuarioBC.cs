@@ -129,7 +129,7 @@ namespace MSS.TAWA.BC
             }
         }
 
-        public UsuarioBE ObtenerUsuario(int Id, int Tipo)
+        public UsuarioBE ObtenerUsuario(int? Id, int Tipo)
         {
             try
             {

@@ -11,7 +11,7 @@
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent" EnableEventValidation="false">
 
-    <ajaxToolkit:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server"></ajaxToolkit:ToolkitScriptManager>
+    <ajaxtoolkit:toolkitscriptmanager ID="ToolkitScriptManager1" runat="server"></ajaxtoolkit:toolkitscriptmanager>
 
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>
@@ -195,7 +195,7 @@
                             <%-- TOTAL MONEDA --%>
                             <tr>
                                 <td>
-                                    <label>Total moneda</label></td>
+                                    <label>Total S/</label></td>
                                 <td width="100px">
                                     <asp:TextBox ID="txtMontoTotal" runat="server" Width="95%" Enabled="false"></asp:TextBox>
                                     <ajaxToolkit:FilteredTextBoxExtender ID="FilteredTextBoxExtender6" TargetControlID="txtMontoTotal" runat="server" Enabled="True" FilterType="Numbers,Custom" ValidChars="."></ajaxToolkit:FilteredTextBoxExtender>
@@ -204,7 +204,7 @@
                             <%-- TOTAL DOCUMENTO --%>
                             <tr>
                                 <td>
-                                    <label>Total documento</label></td>
+                                    <label>Total moneda doc.</label></td>
                                 <td width="100px">
                                     <asp:TextBox ID="txtMontoDoc" runat="server" Width="95%" Enabled="false"></asp:TextBox>
                                     <ajaxToolkit:FilteredTextBoxExtender ID="FilteredTextBoxExtender1" TargetControlID="txtMontoDoc" runat="server" Enabled="True" FilterType="Numbers,Custom" ValidChars="."></ajaxToolkit:FilteredTextBoxExtender>
@@ -268,7 +268,7 @@
                                     <label>Partida pres.</label>
                                 </td>
                                 <td>
-                                    <asp:DropDownList ID="ddlPartidaPresupuestal" runat="server" Width="95%" Enabled="false"></asp:DropDownList>
+                                    <asp:DropDownList ID="ddlPartidaPresupuestal" runat="server" Width="95%" ></asp:DropDownList>
                                 </td>
                             </tr>
                         </table>
@@ -318,9 +318,9 @@
                             <br />
                             <asp:Label ID="blbResultadoMasivo" runat="server"></asp:Label>
                             <br />
-                            <asp:Button ID="bMasivo" runat="server" OnClientClick="this.disabled = true; this.value = 'Procesando...';" UseSubmitBehavior="false" Text="Subir Masivamente" CssClass="button" OnClick="Masivo_Click" />
-                            <asp:Button ID="bPreliminar4" runat="server" Visible="false" OnClientClick="this.disabled = true; this.value = 'Procesando...';" UseSubmitBehavior="false" Text="Vista Preliminar" CssClass="button" OnClick="Preliminar4_Click" />
-                            <asp:Button ID="bAgregar4" runat="server" Visible="false" OnClientClick="this.disabled = true; this.value = 'Procesando...';" UseSubmitBehavior="false" Text="Agregar" CssClass="button" OnClick="Agregar4_Click" />
+                            <asp:Button ID="bMasivo" runat="server" OnClientClick="this.disabled = true; this.value = 'Procesando...';" UseSubmitBehavior="false" Text="Subir Masivamente" CssClass="button"  />
+                            <asp:Button ID="bPreliminar4" runat="server" Visible="false" OnClientClick="this.disabled = true; this.value = 'Procesando...';" UseSubmitBehavior="false" Text="Vista Preliminar" CssClass="button"  />
+                            <asp:Button ID="bAgregar4" runat="server" Visible="false" OnClientClick="this.disabled = true; this.value = 'Procesando...';" UseSubmitBehavior="false" Text="Agregar" CssClass="button" />
                             <asp:Button ID="bCancelar4" runat="server" Visible="false" Text="Cancelar" CssClass="button" OnClick="Cancelar4_Click" />
                         </td>
                     </tr>
@@ -401,7 +401,7 @@
             <table width="1008px" style="display: none">
                 <tr>
                     <td align="center">
-                        <asp:LinkButton ID="lnkExportarReporte" runat="server" Font-Underline="false" OnClick="lnkExportarReporte_Click"> 
+                        <asp:LinkButton ID="lnkExportarReporte" runat="server" Font-Underline="false"> 
      <img src="img/excel.png" alt="Exportar Reporte" width="50px"/><br />Exportar Reporte 
                         </asp:LinkButton>
                     </td>
@@ -442,17 +442,17 @@
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Editar" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
-                                        <asp:LinkButton ID="lnkEditar" runat="server" CommandName="Editar" CommandArgument='<%#Eval("IdDocumentoDetalle")%>'> <img src="img/edit.png" alt="Editar" width="20px" /></asp:LinkButton>
+                                        <asp:LinkButton ID="lnkEditar" runat="server" CommandName="Editar" CommandArgument='<%#Eval("IdDocumentoWebRendicion")%>'> <img src="img/edit.png" alt="Editar" width="20px" /></asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Eliminar" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
-                                        <asp:LinkButton ID="lnkEliminar" runat="server" CommandName="Eliminar" CommandArgument='<%#Eval("IdDocumentoDetalle")%>'> <img src="img/delete.png" alt="Editar" width="20px" /></asp:LinkButton>
+                                        <asp:LinkButton ID="lnkEliminar" runat="server" CommandName="Eliminar" CommandArgument='<%#Eval("IdDocumentoWebRendicion")%>'> <img src="img/delete.png" alt="Editar" width="20px" /></asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:BoundField DataField="IdDocumentoDetalle" HeaderText="Id" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
+                                <asp:BoundField DataField="IdDocumentoWebRendicion" HeaderText="Id" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
                                 <asp:TemplateField HeaderText="Tipo" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
-                                    <ItemTemplate><%# SetearTipo(Convert.ToString(Eval("TipoDoc")))%></ItemTemplate>
+                                    <ItemTemplate><%# SetearTipo(Convert.ToInt32(Eval("TipoDoc")))%></ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="SerieDoc" HeaderText="Serie" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="CorrelativoDoc" HeaderText="Numero" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
@@ -474,7 +474,7 @@
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="MontoTotal" HeaderText="Total" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
                                 <asp:TemplateField HeaderText="Moneda" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
-                                    <ItemTemplate><%# SetearMoneda(Convert.ToString(Eval("IdMonedaDoc")))%></ItemTemplate>
+                                    <ItemTemplate><%# SetearMoneda(Convert.ToInt32(Eval("IdMonedaDoc")))%></ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="MontoNoAfecto" HeaderText="No Afecto" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="MontoAfecto" HeaderText="Afecto" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
@@ -513,7 +513,6 @@
                 <tr>
                     <td align="center">
                         <asp:Button ID="bAprobar" runat="server" OnClick="Aprobar_Click" OnClientClick="javascript: return ConfirmacionContabilizacion();" Text="Aprobar" CssClass="button" />
-                        <asp:Button ID="bObservacion" runat="server" OnClientClick="this.disabled = true; this.value = 'Procesando...';" UseSubmitBehavior="false" Text="Observacion" CssClass="button" OnClick="Observacion_Click" />
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <asp:Button ID="bLiquidar" runat="server" OnClick="bLiquidar_Click" OnClientClick="javascript: return ConfirmacionLiquidarCC();" Text="Aprobar y Liquidar" CssClass="button" />
                     </td>
@@ -548,7 +547,7 @@
                 <Columns>
 
                     <asp:TemplateField HeaderText="Tipo" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
-                        <ItemTemplate><%# SetearTipo(Convert.ToString(Eval("TipoDoc")))%></ItemTemplate>
+                        <ItemTemplate><%# SetearTipo(Convert.ToInt32(Eval("TipoDoc")))%></ItemTemplate>
                     </asp:TemplateField>
                     <asp:BoundField DataField="SerieDoc" HeaderText="Serie" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
                     <asp:BoundField DataField="CorrelativoDoc" HeaderText="Numero" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
@@ -567,7 +566,7 @@
                     </asp:TemplateField>
                     <asp:BoundField DataField="MontoTotal" HeaderText="Total" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
                     <asp:TemplateField HeaderText="Moneda" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
-                        <ItemTemplate><%# SetearMoneda(Convert.ToString(Eval("IdMonedaDoc")))%></ItemTemplate>
+                        <ItemTemplate><%# SetearMoneda(Convert.ToInt32(Eval("IdMonedaDoc")))%></ItemTemplate>
                     </asp:TemplateField>
                     <asp:BoundField DataField="MontoNoAfecto" HeaderText="No Afecto" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
                     <asp:BoundField DataField="MontoAfecto" HeaderText="Afecto" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
