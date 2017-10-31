@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 using MSS.TAWA.BC;
 using MSS.TAWA.BE;
 using System.Web.Security;
+using System.Configuration;
 
 public partial class SiteMaster : System.Web.UI.MasterPage
 {
@@ -19,6 +20,7 @@ public partial class SiteMaster : System.Web.UI.MasterPage
         {
             if (!this.IsPostBack)
             {
+                SetEmpresaInterna();
                 MenuVisible(false);
                 Revisar_Menus();
             }
@@ -27,6 +29,20 @@ public partial class SiteMaster : System.Web.UI.MasterPage
         {
             Mensaje("Ocurrió un error: " + ex.Message);
             MSS.TAWA.HP.ExceptionHelper.LogException(ex);
+        }
+    }
+
+    private void SetEmpresaInterna()
+    {
+        try
+        {
+
+        Int32 IdEmpresaEnterna = Convert.ToInt32(ConfigurationManager.AppSettings[ConstantHelper.Keys.IdEmpresaInterna].ToString());
+        Session.Add(ConstantHelper.Keys.IdEmpresaInterna, (EmpresasSICER)IdEmpresaEnterna);
+        }
+        catch(Exception ex)
+        {
+            Mensaje("Ocurrió un error al obtener el id de la empresa actual: " + ex.Message);
         }
     }
 

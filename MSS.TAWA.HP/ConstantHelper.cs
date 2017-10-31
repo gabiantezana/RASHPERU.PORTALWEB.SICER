@@ -14,5 +14,6 @@ public static class ConstantHelper
         public const String Modo = "Modo";
         public const String IdDocumento = "IdDocumento";
         public const String IdDocumentoWeb = "IdDocumentoWeb";
+        public const String IdEmpresaInterna = "IdEmpresaInterna";
     }
 }

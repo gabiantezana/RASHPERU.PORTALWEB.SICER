@@ -67,6 +67,12 @@ public partial class DocumentoRendicion : System.Web.UI.Page
                     txtFechaContabilizacion.Text = (DateTime.Today).ToString("dd/MM/yyyy");
 
                 txtComentario.Text = objDocumento.Comentario;
+
+                if ((EmpresasSICER)Session[ConstantHelper.Keys.IdEmpresaInterna] == EmpresasSICER.IIMP)
+                {
+                    TrPartidaPresupuestal.Attributes.Add("style", "display:normal");
+                }
+
             }
         }
         catch (Exception ex)
@@ -1447,7 +1453,6 @@ public partial class DocumentoRendicion : System.Web.UI.Page
             errorMessage = "Debe ingresar el numero.";
         else if (String.IsNullOrWhiteSpace(txtFecha.Text))
             errorMessage = "Debe ingresar la fecha.";
-
         else if ((TipoDocumentoSunat)Convert.ToInt32(ddlTipoDocumentoWeb.SelectedValue) != TipoDocumentoSunat.Devolucion
               && String.IsNullOrWhiteSpace(txtProveedor.Text))
             errorMessage = "Debe ingresar el RUC.";
@@ -1457,13 +1462,13 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         else if ((TipoDocumentoSunat)Convert.ToInt32(ddlTipoDocumentoWeb.SelectedValue) != TipoDocumentoSunat.Devolucion
                 && indexNoValidos.Contains(ddlConcepto.SelectedIndex))
             errorMessage = "Debe ingresar concepto.";
-        else if (new DocumentoBC().ObtenerDocumento(Convert.ToInt32(ddlTipoDocumentoWeb.SelectedValue)).CodigoSunat == TipoDocumentoSunat.Devolucion.GetPrefix()
+        else if (new DocumentoBC().ObtenerDocumento(Convert.ToInt32(ddlTipoDocumentoWeb.SelectedValue)).CodigoSunat == TipoDocumentoSunat.Devolucion.GetCodigoSunat()
                 && indexNoValidos.Contains(ddlCuentaContableDevolucion.SelectedIndex))
             errorMessage = "Debe ingresar la cuenta contable.";
         else if (indexNoValidos.Contains(ddlCentroCostos1.SelectedIndex))
             errorMessage = "Debe ingresar el centro de costo nivel 1";
-        else if (indexNoValidos.Contains(ddlPartidaPresupuestal.SelectedIndex)) //TODO: EN PROD
-            errorMessage = "Debe ingresar la partida presupuestal.";
+        //else if (indexNoValidos.Contains(ddlPartidaPresupuestal.SelectedIndex)) //TODO: EN PROD
+        //    errorMessage = "Debe ingresar la partida presupuestal.";
         else if (indexNoValidos.Contains(ddlIdMonedaDoc.SelectedIndex))
             errorMessage = "Debe ingresar la  moneda del documento.";
         else if (String.IsNullOrWhiteSpace(txtMontoAfecta.Text) && String.IsNullOrWhiteSpace(txtMontoNoAfecta.Text))
@@ -1643,7 +1648,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
 
     protected void ddlTipoDocumentoWeb_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if (new DocumentoBC().ObtenerDocumento(Convert.ToInt32(ddlTipoDocumentoWeb.SelectedValue)).CodigoSunat == TipoDocumentoSunat.Devolucion.GetPrefix())
+        if (new DocumentoBC().ObtenerDocumento(Convert.ToInt32(ddlTipoDocumentoWeb.SelectedValue)).CodigoSunat == TipoDocumentoSunat.Devolucion.GetCodigoSunat())
         {
             ddlCuentaContableDevolucion.Enabled = true;
 

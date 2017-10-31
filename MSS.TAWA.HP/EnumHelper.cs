@@ -21,6 +21,12 @@ public enum Modo
     Editar = 2,
 }
 
+public enum EmpresasInternas
+{
+    IIMP = 1,
+    RASH = 2,
+}
+
 public enum TipoDocumentoWeb
 {
     CajaChica = 1,
@@ -120,6 +126,7 @@ public enum DocSubTypeSAP
 
 public enum EmpresasSICER
 {
-    MINAS = 0,
+    IIMP = 0,
+    RASH = 1,
 
 }

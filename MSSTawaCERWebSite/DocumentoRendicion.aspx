@@ -263,7 +263,7 @@
                                 </td>
                             </tr>
                             <%-- PARTIDA PRESUPUESTAL --%>
-                            <tr>
+                            <tr id ="TrPartidaPresupuestal"  style="display:normal" runat="server">
                                 <td>
                                     <label>Partida pres.</label>
                                 </td>

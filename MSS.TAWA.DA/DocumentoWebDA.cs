@@ -473,7 +473,9 @@ namespace MSS.TAWA.DA
             documentoWebRendicion.CorrelativoDoc = documentoRendicionBE.CorrelativoDoc;
             documentoWebRendicion.FechaDoc = documentoRendicionBE.FechaDoc;
             documentoWebRendicion.IdMonedaDoc = documentoRendicionBE.IdMonedaDoc;
-            documentoWebRendicion.IdProveedor = documentoRendicionBE.IdProveedor;
+            if (documentoRendicionBE.IdProveedor != 0)
+                documentoWebRendicion.IdProveedor = documentoRendicionBE.IdProveedor;
+
             documentoWebRendicion.IdTipoDocSunat = Convert.ToInt32(documentoRendicionBE.TipoDoc);
             documentoWebRendicion.MontoAfecto = documentoRendicionBE.MontoAfecto;
             documentoWebRendicion.MontoNoAfecto = documentoRendicionBE.MontoNoAfecto;
@@ -527,7 +529,7 @@ namespace MSS.TAWA.DA
             String _AccountCode = new UtilDA().GetAccountCode((TipoDocumentoWeb)documentoWeb.TipoDocumentoWeb, documentoWeb.Moneda.Descripcion);
 
             if ((TipoDocumentoWeb)documentoWeb.TipoDocumentoWeb == TipoDocumentoWeb.Reembolso)
-                _AccountCode = new UtilDA().GetAccountCode((TipoDocumentoWeb)documentoWeb.TipoDocumentoWeb, documentoWeb.Moneda.Descripcion);
+                _AccountCode = new SICER_INT_SBOEntities().FacturasWebMigracion.Where(x => x.IdFacturaWeb == documentoWeb.IdDocumentoWebRendicionReferencia).FirstOrDefault().AccountCode;
 
             Int32 _Etapa = 1;
             Decimal _DocRate = new UtilDA().GetRate(documentoWeb.Moneda.Descripcion);
@@ -578,7 +580,7 @@ namespace MSS.TAWA.DA
             facturasWebMigracion.TaxCode = IGVCode.IGV_EXO.ToString();
             facturasWebMigracion.TaxDate = documentoWeb.FechaSolicitud;
             facturasWebMigracion.TipoDocumento = documentoWeb.TipoDocumentoWeb;
-            facturasWebMigracion.U_BPP_MDTD = TipoDocumentoSunat.ReciboInterno.GetPrefix();
+            facturasWebMigracion.U_BPP_MDTD = TipoDocumentoSunat.ReciboInterno.GetCodigoSunat();
             facturasWebMigracion.U_MSS_ORD = null;
 
             SICER_INT_SBOEntities dataContext = new SICER_INT_SBOEntities();

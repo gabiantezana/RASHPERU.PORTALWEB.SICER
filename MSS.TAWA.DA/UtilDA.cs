@@ -53,7 +53,7 @@ namespace MSS.TAWA.DA
             throw new Exception("ControlAccount not found. Query: " + strSP);
         }
 
-        //Detalle
+       //cabecera
         public String GetAccountCode(TipoDocumentoWeb tipoDocumentoWeb, String docCurrency)
         {
             /*--------------------------------------GET CONTROL ACCOUNT/* cabecera--------------------------------------*/

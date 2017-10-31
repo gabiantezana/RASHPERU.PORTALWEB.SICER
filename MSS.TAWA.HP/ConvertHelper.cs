@@ -38,7 +38,7 @@ public static class ConvertHelper
         }
     }
 
-    public static String GetPrefix(this TipoDocumentoSunat tipoDocumentoSunat)
+    public static String GetCodigoSunat(this TipoDocumentoSunat tipoDocumentoSunat)
     {
         switch (tipoDocumentoSunat)
         {
@@ -58,6 +58,33 @@ public static class ConvertHelper
                 return "14";
             case TipoDocumentoSunat.NotaCredito:
                 return "07";
+            case TipoDocumentoSunat.Devolucion:
+                return "DV";
+            default:
+                throw new NotImplementedException();
+        }
+    }
+
+    public static String GetPrefixName(this TipoDocumentoSunat tipoDocumentoSunat)
+    {
+        switch (tipoDocumentoSunat)
+        {
+            case TipoDocumentoSunat.Factura:
+                return "FA";
+            case TipoDocumentoSunat.Boleta:
+                return "BL";
+            case TipoDocumentoSunat.ReciboDeHonorarios:
+                return "RH";
+            case TipoDocumentoSunat.Tickets:
+                return "TK";
+            case TipoDocumentoSunat.ReciboInterno:
+                return "RI";
+            case TipoDocumentoSunat.PlanillaMovilidad:
+                return "PM";
+            case TipoDocumentoSunat.ReciboPublicos:
+                return "RP";
+            case TipoDocumentoSunat.NotaCredito:
+                return "NC";
             case TipoDocumentoSunat.Devolucion:
                 return "DV";
             default:

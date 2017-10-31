@@ -41,5 +41,6 @@ namespace MSS.TAWA.MODEL
         public virtual DbSet<NivelAprobacion> NivelAprobacion { get; set; }
         public virtual DbSet<PerfilUsuario> PerfilUsuario { get; set; }
         public virtual DbSet<UsuarioAreaNivel> UsuarioAreaNivel { get; set; }
+        public virtual DbSet<EmpresasSICER> EmpresasSICER { get; set; }
     }
 }

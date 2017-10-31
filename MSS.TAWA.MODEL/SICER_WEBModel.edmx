@@ -168,6 +168,15 @@ warning 6013: The table/view 'SICER_WEB.dbo.Correos' does not have a primary key
           <Property Name="CodigoInterno" Type="varchar" MaxLength="4" />
           <Property Name="MontoRedondeo" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
+        <EntityType Name="EmpresasSICER">
+          <Key>
+            <PropertyRef Name="IdEmpresaSICER" />
+          </Key>
+          <Property Name="IdEmpresaSICER" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdInterno" Type="int" Nullable="false" />
+          <Property Name="Codigo" Type="nvarchar(max)" />
+          <Property Name="RazonSocial" Type="nvarchar(max)" />
+        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'SICER_WEB.dbo.Estado' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Estado">
@@ -668,6 +677,7 @@ warning 6002: The table/view 'SICER_WEB.dbo.UsuarioAreaNivel' does not have a pr
           <EntitySet Name="DocumentoWebAuditoria" EntityType="Self.DocumentoWebAuditoria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocumentoWebRendicion" EntityType="Self.DocumentoWebRendicion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Empresa" EntityType="Self.Empresa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmpresasSICER" EntityType="Self.EmpresasSICER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MetodoPago" EntityType="Self.MetodoPago" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Moneda" EntityType="Self.Moneda" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Proveedor" EntityType="Self.Proveedor" Schema="dbo" store:Type="Tables" />
@@ -989,6 +999,7 @@ warning 6002: The table/view 'SICER_WEB.dbo.UsuarioAreaNivel' does not have a pr
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="DocumentoWebRendicion" EntitySet="DocumentoWebRendicion" />
           </AssociationSet>
+          <EntitySet Name="EmpresasSICER" EntityType="SICER_WEBModel.EmpresasSICER" />
         </EntityContainer>
         <EntityType Name="Documento">
           <Key>
@@ -1643,6 +1654,15 @@ warning 6002: The table/view 'SICER_WEB.dbo.UsuarioAreaNivel' does not have a pr
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="EmpresasSICER">
+          <Key>
+            <PropertyRef Name="IdEmpresaSICER" />
+          </Key>
+          <Property Name="IdEmpresaSICER" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdInterno" Type="Int32" Nullable="false" />
+          <Property Name="Codigo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RazonSocial" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1950,6 +1970,16 @@ warning 6002: The table/view 'SICER_WEB.dbo.UsuarioAreaNivel' does not have a pr
                 <ScalarProperty Name="IdArea" ColumnName="IdArea" />
                 <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmpresasSICER">
+            <EntityTypeMapping TypeName="SICER_WEBModel.EmpresasSICER">
+              <MappingFragment StoreEntitySet="EmpresasSICER">
+                <ScalarProperty Name="RazonSocial" ColumnName="RazonSocial" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="IdInterno" ColumnName="IdInterno" />
+                <ScalarProperty Name="IdEmpresaSICER" ColumnName="IdEmpresaSICER" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

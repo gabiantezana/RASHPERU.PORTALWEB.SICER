@@ -34,10 +34,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -76,6 +76,9 @@
       <DependentUpon>SICER_WEBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Empresa.cs">
+      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmpresasSICER.cs">
       <DependentUpon>SICER_WEBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Estado.cs">
@@ -262,7 +265,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <None Include="packages.config" />
     <EntityDeploy Include="SICER_WEBModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>SICER_WEBModel.Designer.cs</LastGenOutput>
@@ -271,6 +273,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>SICER_INT_SBOModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="packages.config" />
     <None Include="SICER_INT_SBOModel.edmx.diagram">
       <DependentUpon>SICER_INT_SBOModel.edmx</DependentUpon>
     </None>
