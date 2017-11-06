@@ -1,8 +1,10 @@
 ﻿using ADODB;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
+using MSS.TAWA.HP;
 
 /// <summary>
 /// Summary description for ConvertHelper
@@ -105,5 +107,34 @@ public static class ConvertHelper
             default:
                 throw new NotImplementedException();
         }
+    }
+
+    public static String GetIGVCode(this IGVCode igvCode)
+    {
+        Int32 IdEmpresaEnterna = Convert.ToInt32(ConfigurationManager.AppSettings[ConstantHelper.Keys.IdEmpresaInterna].ToString());
+        ExceptionHelper.LogException(new Exception(IdEmpresaEnterna.ToString()));
+        switch ((EmpresaInterna)IdEmpresaEnterna)
+        {
+            case EmpresaInterna.RASH:
+                switch (igvCode)
+                {
+                    case IGVCode.IGV:
+                        return "IGV_18";
+                    case IGVCode.IGV_EXO:
+                        return "IGV_EXE";
+                }
+                break;
+
+            case EmpresaInterna.IIMP:
+                switch (igvCode)
+                {
+                    case IGVCode.IGV:
+                        return "IGV";
+                    case IGVCode.IGV_EXO:
+                        return "IGV_EXO";
+                }
+                break;
+        }
+        throw new NotImplementedException();
     }
 }

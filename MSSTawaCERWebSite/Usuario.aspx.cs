@@ -672,11 +672,11 @@ public partial class Usuario : System.Web.UI.Page
 
 
             if (ddlEstado.SelectedItem.Value != "0" 
-                && ddlTipoUsuario.SelectedItem.Value != "0"
+                //&& ddlTipoUsuario.SelectedItem.Value != "0"
                 && txtCardCode.Text.Trim() != ""
                 && txtCardName.Text.Trim() != ""
                 && ddlPerfilUsuario.SelectedItem.Value != "0" 
-                && ValidarAreaNivel() && lstUsarioBE.Count == 0)
+                 )
             {
                 UsuarioBE ObjUsuarioBE = new UsuarioBE();
                 UsuarioBC objUsuarioBC = new UsuarioBC();
@@ -742,14 +742,11 @@ public partial class Usuario : System.Web.UI.Page
                 if (Modo == 1)
                 {
                     Id = objUsuarioBC.InsertarUsuario(ObjUsuarioBE, 0, 0);
-                    InsertarAreaNivelAprobacion(ObjUsuarioBE);
                 }
                 else
                 {
                     ObjUsuarioBE.IdUsuario = idUsuario;
                     objUsuarioBC.ModificarUsuario(ObjUsuarioBE);
-                    ModificarAreaNivelAprobacion(ObjUsuarioBE);
-                    EliminarUsuarioAreaNivel(ObjUsuarioBE.IdUsuario);
                 }
 
                 Response.Redirect("Usuarios.aspx");
@@ -766,245 +763,7 @@ public partial class Usuario : System.Web.UI.Page
         }
     }
 
-    private void InsertarAreaNivelAprobacion(UsuarioBE ObjUsuarioBE)
-    {
-        /*
-        UsuarioAreaNivelBC objUsuarioAreaNivelBC = new UsuarioAreaNivelBC();
-        UsuarioAreaNivelBE objUsuarioAreaNivelBE = new UsuarioAreaNivelBE();
-
-        int IdNivelAprobacion = 0;
-        int Id = 0;
-        for (int i = 0; i < cblArea.Items.Count; i++)
-        {
-            if (cblArea.Items[i].Selected == true)
-            {
-                //caja chica
-                if (cblCC1.Items.Count > 0) if (cblCC1.Items[i].Selected == true) IdNivelAprobacion = Convert.ToInt32(cblCC1.Items[i].Value);
-                if (cblCC2.Items.Count > 0) if (cblCC2.Items[i].Selected == true) IdNivelAprobacion = Convert.ToInt32(cblCC2.Items[i].Value);
-                if (cblCC3.Items.Count > 0) if (cblCC3.Items[i].Selected == true) IdNivelAprobacion = Convert.ToInt32(cblCC3.Items[i].Value);
-
-                if (IdNivelAprobacion != 0)
-                {
-                    objUsuarioAreaNivelBE.Id = 0;
-                    objUsuarioAreaNivelBE.IdUsuario = ObjUsuarioBE.IdUsuario;
-                    objUsuarioAreaNivelBE.IdArea = Convert.ToInt32(cblArea.Items[i].Value);
-                    objUsuarioAreaNivelBE.IdNivelAprobacion = IdNivelAprobacion;
-
-                    UsuarioBE objUsuarioSesionBE = new UsuarioBE();
-                    objUsuarioSesionBE = (UsuarioBE)Session["Usuario"];
-                    objUsuarioAreaNivelBE.UserCreate = Convert.ToString(objUsuarioSesionBE.IdUsuario);
-                    objUsuarioAreaNivelBE.CreateDate = DateTime.Now;
-                    objUsuarioAreaNivelBE.UserUpdate = Convert.ToString(objUsuarioSesionBE.IdUsuario);
-                    objUsuarioAreaNivelBE.UpdateDate = DateTime.Now;
-
-                    Id = objUsuarioAreaNivelBC.InsertarUsuarioAreaNivel(objUsuarioAreaNivelBE);
-                    IdNivelAprobacion = 0;
-                }
-
-                //entrega a rendir
-                if (cblER1.Items.Count > 0) if (cblER1.Items[i].Selected == true) IdNivelAprobacion = Convert.ToInt32(cblER1.Items[i].Value);
-                if (cblER2.Items.Count > 0) if (cblER2.Items[i].Selected == true) IdNivelAprobacion = Convert.ToInt32(cblER2.Items[i].Value);
-                if (cblER3.Items.Count > 0) if (cblER3.Items[i].Selected == true) IdNivelAprobacion = Convert.ToInt32(cblER3.Items[i].Value);
-
-                if (IdNivelAprobacion != 0)
-                {
-                    objUsuarioAreaNivelBE.Id = 0;
-                    objUsuarioAreaNivelBE.IdUsuario = ObjUsuarioBE.IdUsuario;
-                    objUsuarioAreaNivelBE.IdArea = Convert.ToInt32(cblArea.Items[i].Value);
-                    objUsuarioAreaNivelBE.IdNivelAprobacion = IdNivelAprobacion;
-
-                    UsuarioBE objUsuarioSesionBE = new UsuarioBE();
-                    objUsuarioSesionBE = (UsuarioBE)Session["Usuario"];
-                    objUsuarioAreaNivelBE.UserCreate = Convert.ToString(objUsuarioSesionBE.IdUsuario);
-                    objUsuarioAreaNivelBE.CreateDate = DateTime.Now;
-                    objUsuarioAreaNivelBE.UserUpdate = Convert.ToString(objUsuarioSesionBE.IdUsuario);
-                    objUsuarioAreaNivelBE.UpdateDate = DateTime.Now;
-
-                    Id = objUsuarioAreaNivelBC.InsertarUsuarioAreaNivel(objUsuarioAreaNivelBE);
-                    IdNivelAprobacion = 0;
-                }
-
-                //reembolso
-                if (cblRE1.Items.Count > 0) if (cblRE1.Items[i].Selected == true) IdNivelAprobacion = Convert.ToInt32(cblRE1.Items[i].Value);
-                if (cblRE2.Items.Count > 0) if (cblRE2.Items[i].Selected == true) IdNivelAprobacion = Convert.ToInt32(cblRE2.Items[i].Value);
-                if (cblRE3.Items.Count > 0) if (cblRE3.Items[i].Selected == true) IdNivelAprobacion = Convert.ToInt32(cblRE3.Items[i].Value);
-
-                if (IdNivelAprobacion != 0)
-                {
-                    objUsuarioAreaNivelBE.Id = 0;
-                    objUsuarioAreaNivelBE.IdUsuario = ObjUsuarioBE.IdUsuario;
-                    objUsuarioAreaNivelBE.IdArea = Convert.ToInt32(cblArea.Items[i].Value);
-                    objUsuarioAreaNivelBE.IdNivelAprobacion = IdNivelAprobacion;
-
-                    UsuarioBE objUsuarioSesionBE = new UsuarioBE();
-                    objUsuarioSesionBE = (UsuarioBE)Session["Usuario"];
-                    objUsuarioAreaNivelBE.UserCreate = Convert.ToString(objUsuarioSesionBE.IdUsuario);
-                    objUsuarioAreaNivelBE.CreateDate = DateTime.Now;
-                    objUsuarioAreaNivelBE.UserUpdate = Convert.ToString(objUsuarioSesionBE.IdUsuario);
-                    objUsuarioAreaNivelBE.UpdateDate = DateTime.Now;
-
-                    Id = objUsuarioAreaNivelBC.InsertarUsuarioAreaNivel(objUsuarioAreaNivelBE);
-                    IdNivelAprobacion = 0;
-                }
-            }
-        }
-        */
-    }
-
-    private bool ValidarAreaNivel()
-    {
-        bool retorno = true;
-
-        //int checkCC = 0, checkER = 0, checkRE = 0;
-        //for (int i = 0; i < cblArea.Items.Count; i++)
-        //{
-        //    if (cblArea.Items[i].Selected == true)
-        //    {
-        //        if (cblCC1.Items.Count > 0) if (cblCC1.Items[i].Selected == true) checkCC++;
-        //        if (cblCC2.Items.Count > 0) if (cblCC2.Items[i].Selected == true) checkCC++;
-        //        if (cblCC3.Items.Count > 0) if (cblCC3.Items[i].Selected == true) checkCC++;
-        //        if (cblER1.Items.Count > 0) if (cblER1.Items[i].Selected == true) checkER++;
-        //        if (cblER2.Items.Count > 0) if (cblER2.Items[i].Selected == true) checkER++;
-        //        if (cblER3.Items.Count > 0) if (cblER3.Items[i].Selected == true) checkER++;
-        //        if (cblRE1.Items.Count > 0) if (cblRE1.Items[i].Selected == true) checkRE++;
-        //        if (cblRE2.Items.Count > 0) if (cblRE2.Items[i].Selected == true) checkRE++;
-        //        if (cblRE3.Items.Count > 0) if (cblRE3.Items[i].Selected == true) checkRE++;
-
-        //        if (checkCC > 1 && checkER > 1 && checkRE > 1) return false;
-
-        //        if (checkCC == 1)
-        //        {
-        //            if (checkER == 1 || checkER == 0)
-        //            {
-        //                if (checkRE == 1 || checkER == 0) retorno = true;
-        //                else return false;
-        //            }
-        //            else
-        //                return false;
-        //        }
-        //        else
-        //        {
-        //            if (checkER == 1)
-        //            {
-        //                if (checkCC == 1 || checkCC == 0)
-        //                {
-        //                    if (checkRE == 1 || checkRE == 0) retorno = true;
-        //                    else return false;
-        //                }
-        //                else
-        //                    return false;
-        //            }
-        //            else
-        //            {
-        //                if (checkRE == 1)
-        //                {
-        //                    if (checkCC == 1 || checkCC == 0)
-        //                    {
-        //                        if (checkER == 1 || checkER == 0) retorno = true;
-        //                        else return false;
-        //                    }
-        //                    else
-        //                        return false;
-        //                }
-        //            }
-        //        }
-
-        //        checkCC = 0; checkER = 0; checkRE = 0;
-        //    }
-        //}
-
-        return retorno;
-    }
-
-    private void ModificarAreaNivelAprobacion(UsuarioBE ObjUsuarioBE)
-    {
-        /*
-        UsuarioAreaNivelBC objUsuarioAreaNivelBC = new UsuarioAreaNivelBC();
-        UsuarioAreaNivelBE objUsuarioAreaNivelBE = new UsuarioAreaNivelBE();
-
-        int IdNivelAprobacion = 0;
-        for (int i = 0; i < cblArea.Items.Count; i++)
-        {
-            if (cblArea.Items[i].Selected == true)
-            {
-                //caja chica
-                if (cblCC1.Items.Count > 0) if (cblCC1.Items[i].Selected == true) IdNivelAprobacion = Convert.ToInt32(cblCC1.Items[i].Value);
-                if (cblCC2.Items.Count > 0) if (cblCC2.Items[i].Selected == true) IdNivelAprobacion = Convert.ToInt32(cblCC2.Items[i].Value);
-                if (cblCC3.Items.Count > 0) if (cblCC3.Items[i].Selected == true) IdNivelAprobacion = Convert.ToInt32(cblCC3.Items[i].Value);
-
-                if (IdNivelAprobacion != 0)
-                {
-                    objUsuarioAreaNivelBE.Id = 0;
-                    objUsuarioAreaNivelBE.IdUsuario = ObjUsuarioBE.IdUsuario;
-                    objUsuarioAreaNivelBE.IdArea = Convert.ToInt32(cblArea.Items[i].Value);
-                    objUsuarioAreaNivelBE.IdNivelAprobacion = IdNivelAprobacion;
-
-                    UsuarioBE objUsuarioSesionBE = new UsuarioBE();
-                    objUsuarioSesionBE = (UsuarioBE)Session["Usuario"];
-                    objUsuarioAreaNivelBE.UserCreate = Convert.ToString(objUsuarioSesionBE.IdUsuario);
-                    objUsuarioAreaNivelBE.CreateDate = DateTime.Now;
-                    objUsuarioAreaNivelBE.UserUpdate = Convert.ToString(objUsuarioSesionBE.IdUsuario);
-                    objUsuarioAreaNivelBE.UpdateDate = DateTime.Now;
-
-                    objUsuarioAreaNivelBC.ModificarUsuarioAreaNivel(objUsuarioAreaNivelBE);
-                    IdNivelAprobacion = 0;
-                }
-
-                //entrega a rendir
-                if (cblER1.Items.Count > 0) if (cblER1.Items[i].Selected == true) IdNivelAprobacion = Convert.ToInt32(cblER1.Items[i].Value);
-                if (cblER2.Items.Count > 0) if (cblER2.Items[i].Selected == true) IdNivelAprobacion = Convert.ToInt32(cblER2.Items[i].Value);
-                if (cblER3.Items.Count > 0) if (cblER3.Items[i].Selected == true) IdNivelAprobacion = Convert.ToInt32(cblER3.Items[i].Value);
-
-                if (IdNivelAprobacion != 0)
-                {
-                    objUsuarioAreaNivelBE.Id = 0;
-                    objUsuarioAreaNivelBE.IdUsuario = ObjUsuarioBE.IdUsuario;
-                    objUsuarioAreaNivelBE.IdArea = Convert.ToInt32(cblArea.Items[i].Value);
-                    objUsuarioAreaNivelBE.IdNivelAprobacion = IdNivelAprobacion;
-
-                    UsuarioBE objUsuarioSesionBE = new UsuarioBE();
-                    objUsuarioSesionBE = (UsuarioBE)Session["Usuario"];
-                    objUsuarioAreaNivelBE.UserCreate = Convert.ToString(objUsuarioSesionBE.IdUsuario);
-                    objUsuarioAreaNivelBE.CreateDate = DateTime.Now;
-                    objUsuarioAreaNivelBE.UserUpdate = Convert.ToString(objUsuarioSesionBE.IdUsuario);
-                    objUsuarioAreaNivelBE.UpdateDate = DateTime.Now;
-
-                    objUsuarioAreaNivelBC.ModificarUsuarioAreaNivel(objUsuarioAreaNivelBE);
-                    IdNivelAprobacion = 0;
-                }
-
-                //reembolso
-                if (cblRE1.Items.Count > 0) if (cblRE1.Items[i].Selected == true) IdNivelAprobacion = Convert.ToInt32(cblRE1.Items[i].Value);
-                if (cblRE2.Items.Count > 0) if (cblRE2.Items[i].Selected == true) IdNivelAprobacion = Convert.ToInt32(cblRE2.Items[i].Value);
-                if (cblRE3.Items.Count > 0) if (cblRE3.Items[i].Selected == true) IdNivelAprobacion = Convert.ToInt32(cblRE3.Items[i].Value);
-
-                if (IdNivelAprobacion != 0)
-                {
-                    objUsuarioAreaNivelBE.Id = 0;
-                    objUsuarioAreaNivelBE.IdUsuario = ObjUsuarioBE.IdUsuario;
-                    objUsuarioAreaNivelBE.IdArea = Convert.ToInt32(cblArea.Items[i].Value);
-                    objUsuarioAreaNivelBE.IdNivelAprobacion = IdNivelAprobacion;
-
-                    UsuarioBE objUsuarioSesionBE = new UsuarioBE();
-                    objUsuarioSesionBE = (UsuarioBE)Session["Usuario"];
-                    objUsuarioAreaNivelBE.UserCreate = Convert.ToString(objUsuarioSesionBE.IdUsuario);
-                    objUsuarioAreaNivelBE.CreateDate = DateTime.Now;
-                    objUsuarioAreaNivelBE.UserUpdate = Convert.ToString(objUsuarioSesionBE.IdUsuario);
-                    objUsuarioAreaNivelBE.UpdateDate = DateTime.Now;
-
-                    objUsuarioAreaNivelBC.ModificarUsuarioAreaNivel(objUsuarioAreaNivelBE);
-                    IdNivelAprobacion = 0;
-                }
-            }
-        }
-        */
-    }
-
-    private void EliminarUsuarioAreaNivel(int IdUsuario)
-    {
-        UsuarioAreaNivelBC objUsuarioAreaNivelBC = new UsuarioAreaNivelBC();
-        objUsuarioAreaNivelBC.EliminarUsuarioAreaNivel(IdUsuario);
-    }
+ 
 
     protected void Cancelar_Click(object sender, EventArgs e)
     {
@@ -1527,14 +1286,11 @@ public partial class Usuario : System.Web.UI.Page
                     if (Modo == 1)
                     {
                         id = objUsuarioBC.InsertarUsuario(ObjUsuarioBE, 0, 0);
-                        InsertarAreaNivelAprobacion(ObjUsuarioBE);
                     }
                     else
                     {
                         ObjUsuarioBE.IdUsuario = idUsuario;
                         objUsuarioBC.ModificarUsuario(ObjUsuarioBE);
-                        ModificarAreaNivelAprobacion(ObjUsuarioBE);
-                        EliminarUsuarioAreaNivel(ObjUsuarioBE.IdUsuario);
                     }
                 }
 

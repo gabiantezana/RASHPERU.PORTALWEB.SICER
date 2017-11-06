@@ -52,33 +52,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AprobacionBC.cs" />
-    <Compile Include="AreaBC.cs" />
-    <Compile Include="BancoBC.cs" />
     <Compile Include="CuentaContableBC.cs" />
     <Compile Include="CentroCostosBC.cs" />
-    <Compile Include="ClbHelpers.cs" />
     <Compile Include="ConceptoBC.cs" />
     <Compile Include="DocumentoWebBC.cs" />
-    <Compile Include="Helper\ExceptionHelper.cs" />
-    <Compile Include="NivelSeguridadBC.cs" />
-    <Compile Include="ControlContabilidadBC.cs" />
-    <Compile Include="CorreosBC.cs" />
-    <Compile Include="EstadoBC.cs" />
     <Compile Include="DocumentoBC.cs" />
     <Compile Include="EmpresaBC.cs" />
-    <Compile Include="GrupoTrabajoBC.cs" />
     <Compile Include="MetodoPagoBC.cs" />
     <Compile Include="MonedaBC.cs" />
-    <Compile Include="MotivoBC.cs" />
     <Compile Include="NivelAprobacionBC.cs" />
     <Compile Include="PartidaPresupuestalBC.cs" />
     <Compile Include="PerfilUsuarioBC.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProveedorBC.cs" />
-    <Compile Include="RendicionBC.cs" />
-    <Compile Include="ReporteBC.cs" />
-    <Compile Include="UsuarioAreaNivelBC.cs" />
     <Compile Include="UsuarioBC.cs" />
   </ItemGroup>
   <ItemGroup>

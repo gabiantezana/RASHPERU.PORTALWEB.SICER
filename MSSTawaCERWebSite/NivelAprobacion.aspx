@@ -42,7 +42,7 @@
    <tr>
     <td align="left"><label>Monto</label></td>
     <td align="center">
-     <asp:TextBox ID="txtMonto" runat="server" Width="100%" Enabled="false" ></asp:TextBox>
+     <asp:TextBox ID="txtMonto" runat="server" Width="100%"></asp:TextBox>
      <ajaxtoolkit:FilteredTextBoxExtender ID="FilteredTextBoxExtender2" TargetControlID="txtMonto" runat="server" Enabled="True" FilterType="Numbers,Custom" ValidChars="." ></ajaxtoolkit:FilteredTextBoxExtender>
     </td>
    </tr>

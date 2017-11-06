@@ -1,24 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using MSS.TAWA.BE;
-using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
+using MSS.TAWA.BE;
 
 namespace MSS.TAWA.DA
 {
     public class UsuarioDA
     {
         // Login Usuario
-        public UsuarioBE LoginUsuario(String Username, String Password)
+        public UsuarioBE LoginUsuario(string Username, string Password)
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
             SqlDataReader sqlDR;
 
             SqlParameter pCardCode;
@@ -118,16 +115,15 @@ namespace MSS.TAWA.DA
             {
                 throw;
             }
-
         }
 
         // Listar Usuario
         public List<UsuarioBE> ListarUsuario(int Tipo2, int IdUsuario2, int Tipo3)
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
             SqlDataReader sqlDR;
 
             SqlParameter pTipo2;
@@ -140,6 +136,7 @@ namespace MSS.TAWA.DA
                 sqlConn = new SqlConnection(strConn);
                 strSP = "MSS_WEB_UsuarioListar";
                 sqlCmd = new SqlCommand(strSP, sqlConn);
+
                 sqlCmd.CommandType = CommandType.StoredProcedure;
 
                 pTipo2 = new SqlParameter();
@@ -169,11 +166,8 @@ namespace MSS.TAWA.DA
                 lstUsuarioBE = new List<UsuarioBE>();
 
                 while (sqlDR.Read())
-                {
                     try
                     {
-
-
                         objUsuarioBE = new UsuarioBE();
                         objUsuarioBE.IdUsuario = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuario"));
                         objUsuarioBE.CardCode = sqlDR.GetString(sqlDR.GetOrdinal("CardCode"));
@@ -225,10 +219,9 @@ namespace MSS.TAWA.DA
                         objUsuarioBE.UpdateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("UpdateDate"));
                         lstUsuarioBE.Add(objUsuarioBE);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                     }
-                }
 
                 sqlCmd.Connection.Close();
                 sqlCmd.Dispose();
@@ -245,12 +238,12 @@ namespace MSS.TAWA.DA
         }
 
         // Listar Usuario 2
-        public List<UsuarioBE> ListarUsuario2(int Tipo2, int Tipo3, int Tipo4, String Palabra)
+        public List<UsuarioBE> ListarUsuario2(int Tipo2, int Tipo3, int Tipo4, string Palabra)
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
             SqlDataReader sqlDR;
 
             SqlParameter pTipo2;
@@ -367,12 +360,12 @@ namespace MSS.TAWA.DA
             }
         }
 
-        public bool ModificarContrasena(int CardCode, String Pass)
+        public bool ModificarContrasena(int CardCode, string Pass)
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
 
             SqlParameter pCardCode;
             SqlParameter pPass;
@@ -416,23 +409,20 @@ namespace MSS.TAWA.DA
                 {
                     return false;
                 }
-
-
-
             }
             catch (Exception ex)
             {
                 throw;
             }
-
         }
 
-        public String VerificarContrasena(String Pass, String Usuario, int CuentaNumerico, int CuentaMayusculas, int CuentaEspeciales)
+        public string VerificarContrasena(string Pass, string Usuario, int CuentaNumerico, int CuentaMayusculas,
+            int CuentaEspeciales)
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
             SqlDataReader sqlDR;
 
             SqlParameter pPass;
@@ -442,18 +432,17 @@ namespace MSS.TAWA.DA
             SqlParameter pCuentaEspeciales;
 
 
-            int Mayuscula = 0;
-            int Numerico = 0;
-            int Especial = 0;
+            var Mayuscula = 0;
+            var Numerico = 0;
+            var Especial = 0;
 
-            int Repeticion = 0;
-            int NumeroRepeticion = 0;
-            int DiasVencimiento = 0;
-            int NumNumericos = 0;
-            int NumMayusculas = 0;
-            int NumEspeciales = 0;
-            int CarMinContrasena = 0;
-
+            var Repeticion = 0;
+            var NumeroRepeticion = 0;
+            var DiasVencimiento = 0;
+            var NumNumericos = 0;
+            var NumMayusculas = 0;
+            var NumEspeciales = 0;
+            var CarMinContrasena = 0;
 
 
             try
@@ -500,7 +489,6 @@ namespace MSS.TAWA.DA
                 sqlDR = sqlCmd.ExecuteReader();
 
 
-
                 while (sqlDR.Read())
                 {
                     Mayuscula = Convert.ToInt32(sqlDR.GetInt32(sqlDR.GetOrdinal("Mayusculas")));
@@ -513,7 +501,6 @@ namespace MSS.TAWA.DA
                     NumMayusculas = Convert.ToInt32(sqlDR.GetValue(sqlDR.GetOrdinal("NumMayusculas")));
                     NumEspeciales = Convert.ToInt32(sqlDR.GetValue(sqlDR.GetOrdinal("NumEspeciales")));
                     CarMinContrasena = Convert.ToInt32(sqlDR.GetValue(sqlDR.GetOrdinal("CarMinContrasena")));
-
                 }
 
 
@@ -527,48 +514,41 @@ namespace MSS.TAWA.DA
                     return "La Contraseña ha caducado, por favor cambiar la contraseña";
 
                 if (Repeticion != 1)
-                    return "La contraseña no puede ser igual a las " + NumeroRepeticion.ToString() + " ultimas contraseñas";
+                    return "La contraseña no puede ser igual a las " + NumeroRepeticion + " ultimas contraseñas";
 
                 if (NumNumericos != 0)
-                    return "Le contraseña debe tener minimo " + NumNumericos.ToString() + " caracteres numericos";
+                    return "Le contraseña debe tener minimo " + NumNumericos + " caracteres numericos";
 
                 if (NumMayusculas != 0)
-                    return "Le contraseña debe tener minimo " + NumMayusculas.ToString() + " caracteres mayuscula";
+                    return "Le contraseña debe tener minimo " + NumMayusculas + " caracteres mayuscula";
 
                 if (NumEspeciales != 0)
-                    return "Le contraseña debe tener minimo " + NumEspeciales.ToString() + " caracteres especiales";
+                    return "Le contraseña debe tener minimo " + NumEspeciales + " caracteres especiales";
 
                 if (CarMinContrasena != 0)
-                    return "Le contraseña debe tener minimo " + CarMinContrasena.ToString() + " caracteres";
+                    return "Le contraseña debe tener minimo " + CarMinContrasena + " caracteres";
 
                 if (Mayuscula == 1 && Numerico == 1 && Especial == 1)
                     return "Correcto";
-                else
-                    return "Error";
-
-
-
+                return "Error";
             }
             catch (Exception ex)
             {
                 throw;
             }
-
-
-
-
         }
+
         // Obtener Usuario
-        public int VerificarUsuario(String CardCode)
+        public int VerificarUsuario(string CardCode)
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
             SqlDataReader sqlDR;
 
             SqlParameter pCardCode;
-            int Resultado = 0;
+            var Resultado = 0;
             try
             {
                 strConn = ConfigurationManager.ConnectionStrings["SICER"].ConnectionString;
@@ -589,11 +569,8 @@ namespace MSS.TAWA.DA
                 sqlDR = sqlCmd.ExecuteReader();
 
 
-
                 while (sqlDR.Read())
-                {
                     Resultado = Convert.ToInt32(sqlDR.GetInt32(sqlDR.GetOrdinal("CardCode")));
-                }
 
 
                 sqlDR.Close();
@@ -608,20 +585,19 @@ namespace MSS.TAWA.DA
             {
                 throw;
             }
-
         }
 
-        public int VerificarUsuario2(int CardCode, String Mail)
+        public int VerificarUsuario2(int CardCode, string Mail)
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
             SqlDataReader sqlDR;
 
             SqlParameter pCardCode;
             SqlParameter pMail;
-            int Resultado = 0;
+            var Resultado = 0;
             try
             {
                 strConn = ConfigurationManager.ConnectionStrings["SICER"].ConnectionString;
@@ -648,11 +624,8 @@ namespace MSS.TAWA.DA
                 sqlDR = sqlCmd.ExecuteReader();
 
 
-
                 while (sqlDR.Read())
-                {
                     Resultado = Convert.ToInt32(sqlDR.GetInt32(sqlDR.GetOrdinal("Resultado")));
-                }
 
 
                 sqlDR.Close();
@@ -667,19 +640,18 @@ namespace MSS.TAWA.DA
             {
                 throw;
             }
-
         }
 
         public int VerificarUsuarioExiste(int CardCode)
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
             SqlDataReader sqlDR;
 
             SqlParameter pCardCode;
-            int Resultado = 0;
+            var Resultado = 0;
             try
             {
                 strConn = ConfigurationManager.ConnectionStrings["SICER"].ConnectionString;
@@ -701,11 +673,8 @@ namespace MSS.TAWA.DA
                 sqlDR = sqlCmd.ExecuteReader();
 
 
-
                 while (sqlDR.Read())
-                {
                     Resultado = Convert.ToInt32(sqlDR.GetInt32(sqlDR.GetOrdinal("Existe")));
-                }
 
 
                 sqlDR.Close();
@@ -720,16 +689,15 @@ namespace MSS.TAWA.DA
             {
                 throw;
             }
-
         }
 
         // Listar Usuario
         public List<UsuarioBE> ListarUsuarioCorreosTesoreria()
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
             SqlDataReader sqlDR;
 
             try
@@ -772,9 +740,9 @@ namespace MSS.TAWA.DA
         public UsuarioBE ObtenerUsuario(int? Id, int Tipo)
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
             SqlDataReader sqlDR;
 
             SqlParameter pIdUsuario;
@@ -872,16 +840,15 @@ namespace MSS.TAWA.DA
             {
                 throw;
             }
-
         }
 
         // Insertar Usuario / Grupo Trabajo
         public int InsertarUsuario(UsuarioBE objBE, int Tipo2, int IdUsuario2)
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
 
             SqlParameter pIdUsuario;
             SqlParameter pCardCode;
@@ -1262,12 +1229,12 @@ namespace MSS.TAWA.DA
             }
         }
 
-        public bool InsertarAcceso(int IdLog, DateTime Fecha, String Usuario, String Contraseña, String Operacion)
+        public bool InsertarAcceso(int IdLog, DateTime Fecha, string Usuario, string Contraseña, string Operacion)
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
 
             SqlParameter pIdLog;
             SqlParameter pFecha;
@@ -1340,13 +1307,14 @@ namespace MSS.TAWA.DA
                 throw;
             }
         }
+
         // Modificar Usuario
         public void ModificarUsuario(UsuarioBE objBE)
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
 
             SqlParameter pIdUsuario;
             SqlParameter pCardCode;
@@ -1702,7 +1670,6 @@ namespace MSS.TAWA.DA
 
                 sqlConn.Close();
                 sqlConn.Dispose();
-
             }
             catch (Exception ex)
             {
@@ -1714,9 +1681,9 @@ namespace MSS.TAWA.DA
         public void EliminarUsuario(int Tipo, int IdUsuario)
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
             SqlDataReader sqlDR;
 
             SqlParameter pTipo;

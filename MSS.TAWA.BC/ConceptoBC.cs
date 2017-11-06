@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using MSS.TAWA.BE;
 using MSS.TAWA.DA;
 
@@ -14,7 +11,7 @@ namespace MSS.TAWA.BC
         {
             try
             {
-                ConceptoDA objDA = new ConceptoDA();
+                var objDA = new ConceptoDA();
                 return objDA.ListarConcepto();
             }
             catch (Exception ex)
@@ -23,11 +20,11 @@ namespace MSS.TAWA.BC
             }
         }
 
-        public ConceptoBE ObtenerConcepto(String codigo)
+        public ConceptoBE ObtenerConcepto(string codigo)
         {
             try
             {
-                ConceptoDA objDA = new ConceptoDA();
+                var objDA = new ConceptoDA();
                 return objDA.ObtenerConcepto(codigo);
             }
             catch (Exception ex)

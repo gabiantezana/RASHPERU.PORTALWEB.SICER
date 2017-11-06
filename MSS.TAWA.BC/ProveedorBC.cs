@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using MSS.TAWA.BE;
 using MSS.TAWA.DA;
 
@@ -14,7 +11,7 @@ namespace MSS.TAWA.BC
         {
             try
             {
-                ProveedorDA objDA = new ProveedorDA();
+                var objDA = new ProveedorDA();
                 return objDA.ListarProveedor(Id, Tipo);
             }
             catch (Exception ex)
@@ -27,7 +24,7 @@ namespace MSS.TAWA.BC
         {
             try
             {
-                ProveedorDA objDA = new ProveedorDA();
+                var objDA = new ProveedorDA();
                 return objDA.ObtenerProveedor(Id, Tipo, Nombre);
             }
             catch (Exception ex)
@@ -40,7 +37,7 @@ namespace MSS.TAWA.BC
         {
             try
             {
-                ProveedorDA objDA = new ProveedorDA();
+                var objDA = new ProveedorDA();
                 return objDA.InsertarProveedor(objBE);
             }
             catch (Exception ex)
@@ -53,7 +50,7 @@ namespace MSS.TAWA.BC
         {
             try
             {
-                ProveedorDA objDA = new ProveedorDA();
+                var objDA = new ProveedorDA();
                 objDA.ModificarProveedor(objBE);
             }
             catch (Exception ex)

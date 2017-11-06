@@ -185,13 +185,13 @@ public partial class Usuarios : System.Web.UI.Page
 
     public String SetearArea(String sId)
     {
-        String Tipo = "";
-        AreaBC objAreaBC = new AreaBC();
-        AreaBE objAreaBE = new AreaBE();
-        objAreaBE = objAreaBC.ObtenerArea(Convert.ToInt32(sId));
-        if (objAreaBE != null) Tipo = objAreaBE.Descripcion;
-        else Tipo = "";
-        return Tipo;
+        //String Tipo = "";
+        //AreaBC objAreaBC = new AreaBC();
+        //AreaBE objAreaBE = new AreaBE();
+        //objAreaBE = objAreaBC.ObtenerArea(Convert.ToInt32(sId));
+        //if (objAreaBE != null) Tipo = objAreaBE.Descripcion;
+        //else Tipo = "";
+        return "";
     }
 
     public String SetearCargoUsuario(String sId)

@@ -1,22 +1,20 @@
-﻿using MSS.TAWA.BE;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
+using MSS.TAWA.BE;
 
 namespace MSS.TAWA.DA
 {
     public class PartidaPresupuestalDA
     {
-        public List <PartidaPresupuestalBE> GetListadoPartidasPresupuestales(String codigoCentroCostos)
+        public List<PartidaPresupuestalBE> GetListadoPartidasPresupuestales(string codigoCentroCostos)
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
             SqlDataReader sqlDR;
 
             try
@@ -27,7 +25,7 @@ namespace MSS.TAWA.DA
                 sqlCmd = new SqlCommand(strSP, sqlConn);
                 sqlCmd.CommandType = CommandType.StoredProcedure;
 
-                SqlParameter pIdUsuario = new SqlParameter();
+                var pIdUsuario = new SqlParameter();
                 pIdUsuario.ParameterName = "@CodigoCentroCostos";
                 pIdUsuario.SqlDbType = SqlDbType.NVarChar;
                 pIdUsuario.Value = codigoCentroCostos;
@@ -37,11 +35,11 @@ namespace MSS.TAWA.DA
                 sqlCmd.Connection.Open();
                 sqlDR = sqlCmd.ExecuteReader();
 
-                List<PartidaPresupuestalBE>  list = new List<PartidaPresupuestalBE>();
+                var list = new List<PartidaPresupuestalBE>();
 
                 while (sqlDR.Read())
                 {
-                    PartidaPresupuestalBE partida = new PartidaPresupuestalBE();
+                    var partida = new PartidaPresupuestalBE();
                     partida.Code = sqlDR.GetString(sqlDR.GetOrdinal("Code"));
                     partida.U_MSSP_NIV = sqlDR.GetString(sqlDR.GetOrdinal("U_MSSP_NIV"));
                     list.Add(partida);
@@ -61,12 +59,12 @@ namespace MSS.TAWA.DA
             }
         }
 
-        public PartidaPresupuestalBE GetPartidaPresupuestal(String U_MSSP_NIV)
+        public PartidaPresupuestalBE GetPartidaPresupuestal(string U_MSSP_NIV)
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
             SqlDataReader sqlDR;
 
             try
@@ -77,7 +75,7 @@ namespace MSS.TAWA.DA
                 sqlCmd = new SqlCommand(strSP, sqlConn);
                 sqlCmd.CommandType = CommandType.StoredProcedure;
 
-                SqlParameter pIdUsuario = new SqlParameter();
+                var pIdUsuario = new SqlParameter();
                 pIdUsuario.ParameterName = "@U_MSSP_NIV";
                 pIdUsuario.SqlDbType = SqlDbType.NVarChar;
                 pIdUsuario.Value = U_MSSP_NIV;
@@ -87,7 +85,7 @@ namespace MSS.TAWA.DA
                 sqlCmd.Connection.Open();
                 sqlDR = sqlCmd.ExecuteReader();
 
-                PartidaPresupuestalBE partida = new PartidaPresupuestalBE();
+                var partida = new PartidaPresupuestalBE();
 
                 while (sqlDR.Read())
                 {

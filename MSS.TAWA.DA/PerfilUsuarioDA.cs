@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using MSS.TAWA.BE;
-using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
+using MSS.TAWA.BE;
 
 namespace MSS.TAWA.DA
 {
@@ -16,9 +13,9 @@ namespace MSS.TAWA.DA
         public List<PerfilUsuarioBE> ListarPerfilUsuario()
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
             SqlDataReader sqlDR;
 
             try
@@ -74,9 +71,9 @@ namespace MSS.TAWA.DA
         public PerfilUsuarioBE ObtenerPerfilUsuario(int Id)
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
             SqlDataReader sqlDR;
 
             SqlParameter pIdArea;
@@ -138,9 +135,9 @@ namespace MSS.TAWA.DA
         public int InsertarPerfilUsuario(PerfilUsuarioBE objBE)
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
 
             SqlParameter pIdPerfilUsuario;
             SqlParameter pDescripcion;
@@ -284,9 +281,9 @@ namespace MSS.TAWA.DA
         public void ModificarPerfilUsuario(PerfilUsuarioBE objBE)
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
 
             SqlParameter pIdPerfilUsuario;
             SqlParameter pDescripcion;
@@ -392,7 +389,7 @@ namespace MSS.TAWA.DA
                 pUpdateDate.ParameterName = "@UpdateDate";
                 pUpdateDate.SqlDbType = SqlDbType.DateTime;
                 pUpdateDate.Value = objBE.UpdateDate;
-                
+
                 sqlCmd.Parameters.Add(pIdPerfilUsuario);
                 sqlCmd.Parameters.Add(pDescripcion);
                 sqlCmd.Parameters.Add(pModAdministrador);
@@ -416,7 +413,6 @@ namespace MSS.TAWA.DA
 
                 sqlConn.Close();
                 sqlConn.Dispose();
-
             }
             catch (Exception ex)
             {

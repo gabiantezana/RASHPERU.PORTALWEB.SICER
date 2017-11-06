@@ -1,24 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using MSS.TAWA.BE;
-using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
+using MSS.TAWA.BE;
 
 namespace MSS.TAWA.DA
 {
     public class CentroCostosDA
     {
         // Listar CentroCostosNivel5
-        public List<CentroCostosBE> ListarCentroCostos(Int32 Nivel)
+        public List<CentroCostosBE> ListarCentroCostos(int Nivel)
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
             SqlDataReader sqlDR;
 
             SqlParameter pId;
@@ -62,7 +59,7 @@ namespace MSS.TAWA.DA
                     if (!sqlDR.IsDBNull(sqlDR.GetOrdinal("Descripcion")))
                         objCentroCostosBE.Descripcion = sqlDR.GetString(sqlDR.GetOrdinal("Descripcion"));
                     else
-                        objCentroCostosBE.Descripcion = String.Empty;
+                        objCentroCostosBE.Descripcion = string.Empty;
                     objCentroCostosBE.IdEmpresa = sqlDR.GetInt32(sqlDR.GetOrdinal("IdEmpresa"));
                     //objCentroCostosBE.Concepto = sqlDR.GetString(sqlDR.GetOrdinal("Concepto"));
                     //objCentroCostosBE.UserCreate = sqlDR.GetString(sqlDR.GetOrdinal("UserCreate"));
@@ -87,12 +84,12 @@ namespace MSS.TAWA.DA
         }
 
         // Obtener CentroCostosNivel5
-        public CentroCostosBE ObtenerCentroCostos(String CodigoSAP)
+        public CentroCostosBE ObtenerCentroCostos(string CodigoSAP)
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
             SqlDataReader sqlDR;
 
             SqlParameter pId;

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using MSS.TAWA.BE;
 using MSS.TAWA.DA;
 
@@ -14,7 +11,7 @@ namespace MSS.TAWA.BC
         {
             try
             {
-                PerfilUsuarioDA objDA = new PerfilUsuarioDA();
+                var objDA = new PerfilUsuarioDA();
                 return objDA.ListarPerfilUsuario();
             }
             catch (Exception ex)
@@ -27,7 +24,7 @@ namespace MSS.TAWA.BC
         {
             try
             {
-                PerfilUsuarioDA objDA = new PerfilUsuarioDA();
+                var objDA = new PerfilUsuarioDA();
                 return objDA.ObtenerPerfilUsuario(Id);
             }
             catch (Exception ex)
@@ -40,7 +37,7 @@ namespace MSS.TAWA.BC
         {
             try
             {
-                PerfilUsuarioDA objDA = new PerfilUsuarioDA();
+                var objDA = new PerfilUsuarioDA();
                 return objDA.InsertarPerfilUsuario(objBE);
             }
             catch (Exception ex)
@@ -53,7 +50,7 @@ namespace MSS.TAWA.BC
         {
             try
             {
-                PerfilUsuarioDA objDA = new PerfilUsuarioDA();
+                var objDA = new PerfilUsuarioDA();
                 objDA.ModificarPerfilUsuario(objBE);
             }
             catch (Exception ex)

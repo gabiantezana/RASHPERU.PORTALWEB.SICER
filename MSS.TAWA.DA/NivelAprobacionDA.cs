@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using MSS.TAWA.BE;
-using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
+using MSS.TAWA.BE;
 
 namespace MSS.TAWA.DA
 {
@@ -16,9 +13,9 @@ namespace MSS.TAWA.DA
         public List<NivelAprobacionBE> ListarNivelAprobacion()
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
             SqlDataReader sqlDR;
 
             try
@@ -41,7 +38,7 @@ namespace MSS.TAWA.DA
                     objNivelAprobacionBE = new NivelAprobacionBE();
                     objNivelAprobacionBE.IdNivel = sqlDR.GetInt32(sqlDR.GetOrdinal("IdNivel"));
                     objNivelAprobacionBE.Descripcion = sqlDR.GetString(sqlDR.GetOrdinal("Descripcion"));
-                    objNivelAprobacionBE.Nivel = sqlDR.GetString(sqlDR.GetOrdinal("Nivel"));                    
+                    objNivelAprobacionBE.Nivel = sqlDR.GetString(sqlDR.GetOrdinal("Nivel"));
                     objNivelAprobacionBE.Documento = sqlDR.GetString(sqlDR.GetOrdinal("Documento"));
                     objNivelAprobacionBE.EsDeMonto = sqlDR.GetString(sqlDR.GetOrdinal("EsDeMonto"));
                     objNivelAprobacionBE.Monto = sqlDR.GetString(sqlDR.GetOrdinal("Monto"));
@@ -70,9 +67,9 @@ namespace MSS.TAWA.DA
         public NivelAprobacionBE ObtenerNivelAprobacion(int Id, int Tipo)
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
             SqlDataReader sqlDR;
 
             SqlParameter pIdNivel;
@@ -138,9 +135,9 @@ namespace MSS.TAWA.DA
         public NivelAprobacionBE ObtenerNivelAprobacionV2(int idTipoDocumento, int? idNivelMoneda)
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
             SqlDataReader sqlDR;
 
             SqlParameter pIdNivel;
@@ -206,9 +203,9 @@ namespace MSS.TAWA.DA
         public int InsertarNivelAprobacion(NivelAprobacionBE objBE)
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
 
             SqlParameter pIdNivel;
             SqlParameter pDescripcion;
@@ -320,9 +317,9 @@ namespace MSS.TAWA.DA
         public void ModificarNivelAprobacion(NivelAprobacionBE objBE)
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
 
             SqlParameter pIdNivel;
             SqlParameter pDescripcion;
@@ -420,7 +417,6 @@ namespace MSS.TAWA.DA
 
                 sqlConn.Close();
                 sqlConn.Dispose();
-
             }
             catch (Exception ex)
             {

@@ -21,12 +21,6 @@ public enum Modo
     Editar = 2,
 }
 
-public enum EmpresasInternas
-{
-    IIMP = 1,
-    RASH = 2,
-}
-
 public enum TipoDocumentoWeb
 {
     CajaChica = 1,
@@ -36,6 +30,7 @@ public enum TipoDocumentoWeb
 
 public enum IGVCode
 {
+    //IIMP
     IGV = 1,
     IGV_EXO = 2
 }
@@ -124,7 +119,7 @@ public enum DocSubTypeSAP
     oPurchaseCreditNotes = 19,
 }
 
-public enum EmpresasSICER
+public enum EmpresaInterna
 {
     IIMP = 0,
     RASH = 1,

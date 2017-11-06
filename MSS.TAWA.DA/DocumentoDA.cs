@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using MSS.TAWA.BE;
-using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
+using MSS.TAWA.BE;
 
 namespace MSS.TAWA.DA
 {
@@ -16,9 +13,9 @@ namespace MSS.TAWA.DA
         public List<DocumentobBE> ListarDocumento(int Id, int Tipo)
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
             SqlDataReader sqlDR;
 
             SqlParameter pId;
@@ -83,9 +80,9 @@ namespace MSS.TAWA.DA
         public DocumentobBE ObtenerDocumento(int Id)
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
             SqlDataReader sqlDR;
 
             SqlParameter pIdDocumento;

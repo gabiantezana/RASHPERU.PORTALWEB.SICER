@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using MSS.TAWA.BE;
 using MSS.TAWA.DA;
 
@@ -14,7 +11,7 @@ namespace MSS.TAWA.BC
         {
             try
             {
-                MetodoPagoDA objDA = new MetodoPagoDA();
+                var objDA = new MetodoPagoDA();
                 return objDA.ListarMetodoPago(Id, Tipo, Tipo2);
             }
             catch (Exception ex)
@@ -27,7 +24,7 @@ namespace MSS.TAWA.BC
         {
             try
             {
-                MetodoPagoDA objDA = new MetodoPagoDA();
+                var objDA = new MetodoPagoDA();
                 return objDA.ObtenerMetodoPago(Id);
             }
             catch (Exception ex)

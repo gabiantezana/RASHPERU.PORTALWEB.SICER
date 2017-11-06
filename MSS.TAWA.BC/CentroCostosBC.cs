@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using MSS.TAWA.BE;
 using MSS.TAWA.DA;
 
@@ -10,11 +7,11 @@ namespace MSS.TAWA.BC
 {
     public class CentroCostosBC
     {
-        public List<CentroCostosBE> ListarCentroCostos(Int32 nivel)
+        public List<CentroCostosBE> ListarCentroCostos(int nivel)
         {
             try
             {
-                CentroCostosDA objDA = new CentroCostosDA();
+                var objDA = new CentroCostosDA();
                 return objDA.ListarCentroCostos(nivel);
             }
             catch (Exception ex)
@@ -23,11 +20,11 @@ namespace MSS.TAWA.BC
             }
         }
 
-        public CentroCostosBE ObtenerCentroCostos(String CodigoSAP)
+        public CentroCostosBE ObtenerCentroCostos(string CodigoSAP)
         {
             try
             {
-                CentroCostosDA objDA = new CentroCostosDA();
+                var objDA = new CentroCostosDA();
                 return objDA.ObtenerCentroCostos(CodigoSAP);
             }
             catch (Exception ex)

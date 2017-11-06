@@ -55,32 +55,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AprobacionDA.cs" />
-    <Compile Include="AreaDA.cs" />
-    <Compile Include="BancoDA.cs" />
     <Compile Include="CentroCostosDA.cs" />
     <Compile Include="ConceptoDA.cs" />
     <Compile Include="CuentasContablesDevolucionDA.cs" />
     <Compile Include="DocumentoWebDA.cs" />
-    <Compile Include="Helper\ExceptionHelper.cs" />
-    <Compile Include="NivelSeguridadDA.cs" />
-    <Compile Include="ControlContabilidadDA.cs" />
-    <Compile Include="CorreosDA.cs" />
-    <Compile Include="EstadoDA.cs" />
     <Compile Include="DocumentoDA.cs" />
     <Compile Include="EmpresaDA.cs" />
-    <Compile Include="GrupoTrabajoDA.cs" />
     <Compile Include="MetodoPagoDA.cs" />
     <Compile Include="MonedaDA.cs" />
-    <Compile Include="MotivoDA.cs" />
     <Compile Include="NivelAprobacionDA.cs" />
     <Compile Include="PartidaPresupuestalDA.cs" />
     <Compile Include="PerfilUsuarioDA.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProveedorDA.cs" />
-    <Compile Include="RendicionDA.cs" />
-    <Compile Include="ReporteDA.cs" />
-    <Compile Include="UsuarioAreaNivelDA.cs" />
     <Compile Include="UsuarioDA.cs" />
     <Compile Include="UtilDA.cs" />
   </ItemGroup>

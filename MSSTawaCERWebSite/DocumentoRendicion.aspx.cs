@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -18,6 +19,7 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Globalization;
 using MSS.TAWA.HP;
+using MSS.TAWA.MODEL;
 
 public partial class DocumentoRendicion : System.Web.UI.Page
 {
@@ -68,7 +70,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
 
                 txtComentario.Text = objDocumento.Comentario;
 
-                if ((EmpresasSICER)Session[ConstantHelper.Keys.IdEmpresaInterna] == EmpresasSICER.IIMP)
+                if ((EmpresaInterna)Session[ConstantHelper.Keys.IdEmpresaInterna] == EmpresaInterna.IIMP)
                 {
                     TrPartidaPresupuestal.Attributes.Add("style", "display:normal");
                 }
@@ -350,10 +352,14 @@ public partial class DocumentoRendicion : System.Web.UI.Page
 
     private void ListarPartidasPresupuestales(String codigoCentroCostos)
     {
-        ddlPartidaPresupuestal.DataSource = new PartidaPresupuestalBC().GetList(codigoCentroCostos);
-        ddlPartidaPresupuestal.DataTextField = "U_MSSP_NIV";
-        ddlPartidaPresupuestal.DataValueField = "Code";
-        ddlPartidaPresupuestal.DataBind();
+        Int32 IdEmpresaEnterna = Convert.ToInt32(ConfigurationManager.AppSettings[ConstantHelper.Keys.IdEmpresaInterna].ToString());
+        if ((EmpresaInterna)IdEmpresaEnterna == EmpresaInterna.IIMP)
+        {
+            ddlPartidaPresupuestal.DataSource = new PartidaPresupuestalBC().GetList(codigoCentroCostos);
+            ddlPartidaPresupuestal.DataTextField = "U_MSSP_NIV";
+            ddlPartidaPresupuestal.DataValueField = "Code";
+            ddlPartidaPresupuestal.DataBind();
+        }
     }
 
     #endregion
@@ -615,13 +621,19 @@ public partial class DocumentoRendicion : System.Web.UI.Page
 
     public String SetearPartidaPresupuestal(String U_MSSP_NIV)
     {
-        PartidaPresupuestalBC bc = new PartidaPresupuestalBC();
-        PartidaPresupuestalBE be = new PartidaPresupuestalBE();
-        be = bc.GetPartidaPresupuestal(U_MSSP_NIV);
-        if (be != null)
-            return be.U_MSSP_NIV;
-        else
-            return "";
+        Int32 IdEmpresaEnterna = Convert.ToInt32(ConfigurationManager.AppSettings[ConstantHelper.Keys.IdEmpresaInterna].ToString());
+        if ((EmpresaInterna)IdEmpresaEnterna == EmpresaInterna.IIMP)
+        {
+
+            PartidaPresupuestalBC bc = new PartidaPresupuestalBC();
+            PartidaPresupuestalBE be = new PartidaPresupuestalBE();
+            be = bc.GetPartidaPresupuestal(U_MSSP_NIV);
+            if (be != null)
+                return be.U_MSSP_NIV;
+            else
+                return "";
+        }
+        return "";
     }
 
     public String SetearCuentaContableDevolucion(String code)
@@ -640,152 +652,6 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         if (sId == "1") return true;
         else return false;
     }
-
-    #endregion
-
-    #region Envio Correos
-
-    private void EnviarMensajeParaAprobador(int IdDocumento, string Documento, string Asunto, string codigoDocumento, string UsuarioSolicitante, string estado, int? IdUsuarioSolicitante)
-    {
-        UsuarioBC objUsuarioBC = new UsuarioBC();
-        List<UsuarioBE> lstUsuarioBE = new List<UsuarioBE>();
-
-        if (estado == "4" || estado == "12")
-        {
-            lstUsuarioBE = objUsuarioBC.ListarUsuario(4, IdDocumento, 1);
-            for (int i = 0; i < lstUsuarioBE.Count; i++)
-            {
-                MensajeMail("El usuario " + UsuarioSolicitante + " a realizado la rendicion de una " + Documento + " Codigo: " + codigoDocumento, Asunto, lstUsuarioBE[i].Mail);
-            }
-        }
-        else
-        {
-            lstUsuarioBE = objUsuarioBC.ListarUsuario(3, 0, 0);
-            for (int i = 0; i < lstUsuarioBE.Count; i++)
-            {
-                MensajeMail("El usuario " + UsuarioSolicitante + " a realizado la rendicion de una " + Documento + " Codigo: " + codigoDocumento, Asunto, lstUsuarioBE[i].Mail);
-            }
-        }
-    }
-
-    private void EnviarMensajeAprobado(int iddocumento, string Documento, string Asunto, string codigoDocumento, string UsuarioSolicitante, string estado, int? IdUsuarioSolicitante)
-    {
-        UsuarioBC objUsuarioBC = new UsuarioBC();
-        List<UsuarioBE> lstUsuarioBE = new List<UsuarioBE>();
-        if (estado == "11")
-        {
-            lstUsuarioBE = objUsuarioBC.ListarUsuario(3, 0, 0);
-            for (int i = 0; i < lstUsuarioBE.Count; i++)
-            {
-                MensajeMail("El usuario " + UsuarioSolicitante + " a realizado la rendicion de una " + Documento + " Codigo: " + codigoDocumento, Asunto, lstUsuarioBE[i].Mail);
-            }
-        }
-        if (estado == EstadoDocumento.RendirPorAprobarContabilidad.IdToString())
-        {
-            UsuarioBE objUsuarioBE = objUsuarioBC.ObtenerUsuario(IdUsuarioSolicitante, 0);
-            MensajeMail("La " + Documento + " Codigo: " + codigoDocumento + " fue Aprobada", Asunto + " Aprobada", objUsuarioBE.Mail);
-
-
-            Int32 idDocumento = Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumentoWeb].ToString());
-
-            DocumentoWebBE objDocumentoBE = new DocumentoWebBC().GetDocumentoWeb(idDocumento);
-
-            List<UsuarioBE> lstUsuarioTesoreriaBE = new List<UsuarioBE>();
-            lstUsuarioTesoreriaBE = objUsuarioBC.ListarUsuarioCorreosTesoreria();
-
-            CorreosBE objCorreoBE = new CorreosBE();
-            CorreosBC objCorreosBC = new CorreosBC();
-            List<CorreosBE> lstCorreosBE = new List<CorreosBE>();
-
-            String moneda = "";
-            if (objDocumentoBE.Moneda.ToString() == "1")
-                moneda = "S/. ";
-            else
-                moneda = "USD. ";
-
-            for (int x = 0; x < lstUsuarioTesoreriaBE.Count; x++)
-            {
-                if (lstUsuarioTesoreriaBE[x].Mail.ToString() != "")
-                {
-                    lstCorreosBE = objCorreosBC.ObtenerCorreos(1);
-                    MensajeMail(lstCorreosBE[0].TextoCorreo.ToString() + ": La " + Documento + " con Codigo: " + codigoDocumento + "<br/>" + "<br/>"
-                    // + "Empresa: " + objEmpresaBE.Descripcion + "<br/>"
-                    + "Beneficiario :" + objUsuarioBE.CardCode + " - " + objUsuarioBE.CardName + "<br/>"
-                    + "Importe a Pagar :" + moneda + objDocumentoBE.MontoGastado + "<br/>"
-                    + lstCorreosBE[0].TextoCorreo.ToString() + "<br/>"
-                    , _TipoDocumentoWeb.GetName() + codigoDocumento, lstUsuarioTesoreriaBE[x].Mail.ToString());
-                }
-
-            }
-
-        }
-    }
-
-    private void EnviarMensajeReembolso(int idDocumento, string Documento, string Asunto, string codigoDocumento, string UsuarioSolicitante, string estado, int IdUsuarioSolicitante)
-    {
-        UsuarioBC objUsuarioBC = new UsuarioBC();
-        List<UsuarioBE> lstUsuarioBE = new List<UsuarioBE>();
-        lstUsuarioBE = objUsuarioBC.ListarUsuario(4, idDocumento, 1);
-        for (int i = 0; i < lstUsuarioBE.Count; i++)
-        {
-            MensajeMail("El usuario " + UsuarioSolicitante + " a solicitado el Reembolso de una " + Documento + " Codigo: " + codigoDocumento, Asunto, lstUsuarioBE[i].Mail);
-        }
-    }
-
-    private void EnviarMensajeObservacion(int IdDocumento, string Documento, string Asunto, string CodigoDocumento, string UsuarioAprobador, string estado, int? IdUsuarioSolicitante)
-    {
-        UsuarioBC objUsuarioBC = new UsuarioBC();
-        UsuarioBE objUsuarioBE = new UsuarioBE();
-        List<UsuarioBE> lstUsuarioBE = new List<UsuarioBE>();
-
-        if (estado == "11")
-        {
-            objUsuarioBE = objUsuarioBC.ObtenerUsuario(IdUsuarioSolicitante, 0);
-            MensajeMail("El Usuario " + UsuarioAprobador + " a colocado una Observacion en la aprobacion de una " + Documento + " Codigo: " + CodigoDocumento, Asunto + " Observacion", objUsuarioBE.Mail);
-        }
-
-        if (estado == "13")
-        {
-            objUsuarioBE = objUsuarioBC.ObtenerUsuario(IdUsuarioSolicitante, 0);
-            MensajeMail("El Usuario " + UsuarioAprobador + " a colocado una Observacion en la aprobacion de una " + Documento + " Codigo: " + CodigoDocumento, Asunto + " Observacion", objUsuarioBE.Mail);
-
-            lstUsuarioBE = objUsuarioBC.ListarUsuario(4, IdDocumento, 1);
-            for (int i = 0; i < lstUsuarioBE.Count; i++)
-            {
-                MensajeMail("El Usuario " + UsuarioAprobador + " a colocado una Observacion en la aprobacion de una " + Documento + " Codigo: " + CodigoDocumento, Asunto + " Observacion", lstUsuarioBE[i].Mail);
-            }
-        }
-    }
-
-    private void MensajeMail(string Cuerpo, string Asunto, string Destino)
-    {
-        if (Destino.Trim() != "")
-        {
-            System.Net.Mail.MailMessage correo = new System.Net.Mail.MailMessage();
-            String email_body = "";
-            correo.From = new System.Net.Mail.MailAddress("procesos.peru@tawa.com.pe");
-            correo.To.Add(Destino.Trim());
-            correo.Subject = Asunto;
-            email_body = Cuerpo + ". Por favor ingresar al Portal Web para continuar con el proceso si fuera necesario.";
-            correo.Body = email_body;
-            correo.IsBodyHtml = true;
-            correo.Priority = System.Net.Mail.MailPriority.Normal;
-            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient();
-            smtp.Host = "mailhost1.tawa.com.pe";
-            smtp.EnableSsl = false;
-
-            try
-            {
-                smtp.Send(correo);
-            }
-            catch (System.Net.Mail.SmtpException ex)
-            {
-                ExceptionHelper.LogException(ex);
-                Mensaje("Ocurrió un error: " + ex.Message);
-            }
-        }
-    }
-
 
     #endregion
 
@@ -1381,7 +1247,8 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         documentDetailBE.FechaDoc = DateTime.ParseExact(txtFecha.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
         documentDetailBE.IdProveedor = new ValidationHelper().GetIDProveedor(txtProveedor.Text);
         documentDetailBE.IdConcepto = ddlConcepto.SelectedItem.Value;
-        documentDetailBE.CodigoPartidaPresupuestal = ddlPartidaPresupuestal.SelectedItem.Value;
+        if (ddlPartidaPresupuestal.SelectedItem != null)
+            documentDetailBE.CodigoPartidaPresupuestal = ddlPartidaPresupuestal.SelectedItem.Value;
         documentDetailBE.IdCentroCostos1 = ddlCentroCostos1.SelectedItem.Value;
         documentDetailBE.IdCentroCostos2 = ddlCentroCostos2.SelectedItem.Value;
         documentDetailBE.IdCentroCostos3 = ddlCentroCostos3.SelectedItem.Value;

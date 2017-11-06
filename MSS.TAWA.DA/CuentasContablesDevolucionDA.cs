@@ -1,23 +1,21 @@
-﻿using MSS.TAWA.BE;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
+using MSS.TAWA.BE;
 
 namespace MSS.TAWA.DA
 {
-   public class CuentasContablesDevolucionDA
+    public class CuentasContablesDevolucionDA
     {
         // Listar Concepto
         public List<CuentaContableDevolucionBE> ListarCuentas()
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
             SqlDataReader sqlDR;
 
             try
@@ -40,7 +38,7 @@ namespace MSS.TAWA.DA
                     objCuentasBE = new CuentaContableDevolucionBE();
                     objCuentasBE.U_Codigo = sqlDR.GetString(sqlDR.GetOrdinal("U_Codigo"));
                     objCuentasBE.U_Descripcion = sqlDR.GetString(sqlDR.GetOrdinal("U_Descripcion"));
-                    objCuentasBE.U_CuentaContable= sqlDR.GetString(sqlDR.GetOrdinal("U_CuentaContable"));
+                    objCuentasBE.U_CuentaContable = sqlDR.GetString(sqlDR.GetOrdinal("U_CuentaContable"));
                     lstCuentasBE.Add(objCuentasBE);
                 }
 
@@ -59,12 +57,12 @@ namespace MSS.TAWA.DA
         }
 
         // Obtener Concepto
-        public CuentaContableDevolucionBE ObtenerCuentaContable(String codigo)
+        public CuentaContableDevolucionBE ObtenerCuentaContable(string codigo)
         {
             SqlConnection sqlConn;
-            String strConn;
+            string strConn;
             SqlCommand sqlCmd;
-            String strSP;
+            string strSP;
             SqlDataReader sqlDR;
 
             SqlParameter pId;
@@ -93,7 +91,7 @@ namespace MSS.TAWA.DA
                 {
                     cuentaContableBE = new CuentaContableDevolucionBE();
                     cuentaContableBE.U_Codigo = sqlDR.GetString(sqlDR.GetOrdinal("U_Codigo"));
-                    cuentaContableBE.U_Descripcion= sqlDR.GetString(sqlDR.GetOrdinal("U_Descripcion"));
+                    cuentaContableBE.U_Descripcion = sqlDR.GetString(sqlDR.GetOrdinal("U_Descripcion"));
                     cuentaContableBE.U_CuentaContable = sqlDR.GetString(sqlDR.GetOrdinal("U_CuentaContable"));
                 }
 

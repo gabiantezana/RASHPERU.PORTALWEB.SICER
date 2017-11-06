@@ -24,8 +24,8 @@
     <td width="150px" align="left"><asp:TextBox ID="txtIdUsuario" runat="server" Width="95%" Enabled="false" ></asp:TextBox></td>
     <td width="175px" align="left"><label>Estado</label></td>
     <td width="150px" align="left"><asp:DropDownList ID="ddlEstado" runat="server" Width="95%" ></asp:DropDownList></td>
-    <td width="175px" align="left"><label>Tipo Usuario</label></td>
-    <td width="150px" align="left"><asp:DropDownList ID="ddlTipoUsuario" runat="server" Width="95%" OnSelectedIndexChanged="ddlTipoUsuario_SelectedIndexChanged" AutoPostBack="true" ></asp:DropDownList></td>
+    <td style="display:none" width="175px" align="left"><label>Tipo Usuario</label></td>
+    <td style="display:none" width="150px" align="left"><asp:DropDownList ID="ddlTipoUsuario" runat="server" Width="95%" OnSelectedIndexChanged="ddlTipoUsuario_SelectedIndexChanged" AutoPostBack="true" ></asp:DropDownList></td>
    </tr>
    <tr>
     <td align="left"><label>Codigo Usuario</label></td>
@@ -220,7 +220,7 @@
     <br />
     <asp:Label ID="blbResultadoMasivo" runat="server" ></asp:Label>
     <br />
-    <asp:Button ID="bMasivo" runat="server" OnClientClick="this.disabled = true; this.value = 'Procesando...';" UseSubmitBehavior="false" Text="Subir Masivamente" CssClass="button" onclick="Masivo_Click" />
+    <asp:Button Visible="False"  ID="bMasivo" runat="server" OnClientClick="this.disabled = true; this.value = 'Procesando...';" UseSubmitBehavior="false" Text="Subir Masivamente" CssClass="button" onclick="Masivo_Click" />
     <asp:Button ID="bPreliminar4" runat="server" Visible="false" OnClientClick="this.disabled = true; this.value = 'Procesando...';" UseSubmitBehavior="false" Text="Vista Preliminar" CssClass="button" onclick="Preliminar4_Click" />
     <asp:Button ID="bAgregar4" runat="server" Visible="false" OnClientClick="this.disabled = true; this.value = 'Procesando...';" UseSubmitBehavior="false" Text="Agregar" CssClass="button" onclick="Agregar4_Click" />
     <asp:Button ID="bCancelar4" runat="server" Visible="false" Text="Cancelar" CssClass="button" onclick="Cancelar4_Click" />

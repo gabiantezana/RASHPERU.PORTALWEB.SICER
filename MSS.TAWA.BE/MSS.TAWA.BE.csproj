@@ -50,36 +50,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AprobacionBE.cs" />
-    <Compile Include="AreaBE.cs" />
-    <Compile Include="BancoBE.cs" />
     <Compile Include="CambioEstadoBE.cs" />
     <Compile Include="CuentaContableDevolucionBE.cs" />
     <Compile Include="DocumentoWebBE.cs" />
     <Compile Include="DocumentoWebRendicionBE.cs" />
     <Compile Include="CentroCostosBE.cs" />
     <Compile Include="ConceptoBE.cs" />
-    <Compile Include="Helper\ExceptionHelper.cs" />
-    <Compile Include="NivelSeguridadBE.cs" />
-    <Compile Include="ControlContabilidadBE.cs" />
-    <Compile Include="CorreosBE.cs" />
-    <Compile Include="EstadoBE.cs" />
     <Compile Include="DocumentoBE.cs" />
     <Compile Include="EmpresaBE.cs" />
-    <Compile Include="GrupoTrabajoBE.cs" />
     <Compile Include="MetodoPagoBE.cs" />
     <Compile Include="MonedaBE.cs" />
-    <Compile Include="MotivoBE.cs" />
     <Compile Include="NivelAprobacionBE.cs" />
     <Compile Include="PartidaPresupuestalBE.cs" />
     <Compile Include="PerfilUsuarioBE.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProveedorBE.cs" />
-    <Compile Include="RendicionBE.cs" />
-    <Compile Include="ReporteBE.cs" />
     <Compile Include="UsuarioAreaNivelBE.cs" />
     <Compile Include="UsuarioBE.cs" />
-    <Compile Include="UtilBE.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MSS.TAWA.HP\MSS.TAWA.HP.csproj">

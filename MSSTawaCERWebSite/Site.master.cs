@@ -38,7 +38,7 @@ public partial class SiteMaster : System.Web.UI.MasterPage
         {
 
         Int32 IdEmpresaEnterna = Convert.ToInt32(ConfigurationManager.AppSettings[ConstantHelper.Keys.IdEmpresaInterna].ToString());
-        Session.Add(ConstantHelper.Keys.IdEmpresaInterna, (EmpresasSICER)IdEmpresaEnterna);
+        Session.Add(ConstantHelper.Keys.IdEmpresaInterna, (EmpresaInterna)IdEmpresaEnterna);
         }
         catch(Exception ex)
         {

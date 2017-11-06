@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using MSS.TAWA.BE;
 using MSS.TAWA.DA;
+
 //using System.ServiceProcess;
 //using System.Diagnostics;
 
@@ -12,11 +10,11 @@ namespace MSS.TAWA.BC
 {
     public class UsuarioBC
     {
-        public UsuarioBE LoginUsuario(String username, String password)
+        public UsuarioBE LoginUsuario(string username, string password)
         {
             try
             {
-                UsuarioDA objDA = new UsuarioDA();
+                var objDA = new UsuarioDA();
                 return objDA.LoginUsuario(username, password);
             }
             catch (Exception ex)
@@ -29,7 +27,7 @@ namespace MSS.TAWA.BC
         {
             try
             {
-                UsuarioDA objDA = new UsuarioDA();
+                var objDA = new UsuarioDA();
                 return objDA.ListarUsuario(Tipo2, IdUsuario2, Tipo3);
             }
             catch (Exception ex)
@@ -38,11 +36,11 @@ namespace MSS.TAWA.BC
             }
         }
 
-        public List<UsuarioBE> ListarUsuario2(int Tipo2, int Tipo3, int Tipo4, String Palabra)
+        public List<UsuarioBE> ListarUsuario2(int Tipo2, int Tipo3, int Tipo4, string Palabra)
         {
             try
             {
-                UsuarioDA objDA = new UsuarioDA();
+                var objDA = new UsuarioDA();
                 return objDA.ListarUsuario2(Tipo2, Tipo3, Tipo4, Palabra);
             }
             catch (Exception ex)
@@ -51,24 +49,25 @@ namespace MSS.TAWA.BC
             }
         }
 
-        public String VerificarContrasena(String Pass, String Usuario, int CuentaNumerico, int CuentaMayusculas, int CuentaEspeciales)
+        public string VerificarContrasena(string Pass, string Usuario, int CuentaNumerico, int CuentaMayusculas,
+            int CuentaEspeciales)
         {
             try
             {
-
-                UsuarioDA objDA = new UsuarioDA();
-                return objDA.VerificarContrasena(Pass, Usuario,CuentaNumerico,CuentaMayusculas,CuentaEspeciales );
+                var objDA = new UsuarioDA();
+                return objDA.VerificarContrasena(Pass, Usuario, CuentaNumerico, CuentaMayusculas, CuentaEspeciales);
             }
             catch (Exception ex)
             {
                 throw;
             }
         }
-        public bool ModificarContrasena(int CardCode,String Pass)
+
+        public bool ModificarContrasena(int CardCode, string Pass)
         {
             try
             {
-                UsuarioDA objDA = new UsuarioDA();
+                var objDA = new UsuarioDA();
                 return objDA.ModificarContrasena(CardCode, Pass);
             }
             catch (Exception ex)
@@ -77,11 +76,11 @@ namespace MSS.TAWA.BC
             }
         }
 
-        public int VerificarUsuario(String CardCode)
+        public int VerificarUsuario(string CardCode)
         {
             try
             {
-                UsuarioDA objDA = new UsuarioDA();
+                var objDA = new UsuarioDA();
                 return objDA.VerificarUsuario(CardCode);
             }
             catch (Exception ex)
@@ -94,7 +93,7 @@ namespace MSS.TAWA.BC
         {
             try
             {
-                UsuarioDA objDA = new UsuarioDA();
+                var objDA = new UsuarioDA();
                 return objDA.VerificarUsuarioExiste(CardCode);
             }
             catch (Exception ex)
@@ -103,12 +102,12 @@ namespace MSS.TAWA.BC
             }
         }
 
-        public int VerificarUsuario2(int CardCode,String mail)
+        public int VerificarUsuario2(int CardCode, string mail)
         {
             try
             {
-                UsuarioDA objDA = new UsuarioDA();
-                return objDA.VerificarUsuario2(CardCode,mail);
+                var objDA = new UsuarioDA();
+                return objDA.VerificarUsuario2(CardCode, mail);
             }
             catch (Exception ex)
             {
@@ -120,7 +119,7 @@ namespace MSS.TAWA.BC
         {
             try
             {
-                UsuarioDA objDA = new UsuarioDA();
+                var objDA = new UsuarioDA();
                 return objDA.ListarUsuarioCorreosTesoreria();
             }
             catch (Exception ex)
@@ -133,7 +132,7 @@ namespace MSS.TAWA.BC
         {
             try
             {
-                UsuarioDA objDA = new UsuarioDA();
+                var objDA = new UsuarioDA();
                 return objDA.ObtenerUsuario(Id, Tipo);
             }
             catch (Exception ex)
@@ -146,7 +145,7 @@ namespace MSS.TAWA.BC
         {
             try
             {
-                UsuarioDA objDA = new UsuarioDA();
+                var objDA = new UsuarioDA();
                 return objDA.InsertarUsuario(objBE, Tipo2, IdUsuario2);
             }
             catch (Exception ex)
@@ -155,11 +154,11 @@ namespace MSS.TAWA.BC
             }
         }
 
-public bool InsertarAcceso(int IdLog, DateTime Fecha,String Usuario,String Contraseña,String Operacion)
+        public bool InsertarAcceso(int IdLog, DateTime Fecha, string Usuario, string Contraseña, string Operacion)
         {
             try
             {
-                UsuarioDA objDA = new UsuarioDA();
+                var objDA = new UsuarioDA();
                 return objDA.InsertarAcceso(IdLog, Fecha, Usuario, Contraseña, Operacion);
             }
             catch (Exception ex)
@@ -167,11 +166,12 @@ public bool InsertarAcceso(int IdLog, DateTime Fecha,String Usuario,String Contr
                 throw;
             }
         }
+
         public void ModificarUsuario(UsuarioBE objBE)
         {
             try
             {
-                UsuarioDA objDA = new UsuarioDA();
+                var objDA = new UsuarioDA();
                 objDA.ModificarUsuario(objBE);
             }
             catch (Exception ex)
@@ -184,7 +184,7 @@ public bool InsertarAcceso(int IdLog, DateTime Fecha,String Usuario,String Contr
         {
             try
             {
-                UsuarioDA objDA = new UsuarioDA();
+                var objDA = new UsuarioDA();
                 objDA.EliminarUsuario(Tipo, IdUsuario);
             }
             catch (Exception ex)

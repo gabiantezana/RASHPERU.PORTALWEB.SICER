@@ -63,20 +63,20 @@ public class ValidationHelper
         return montoMaximo;
     }
 
-    public Boolean UsuarioPuedeAprobarDocumento(EstadoDocumento estadoDocumento, UsuarioBE usuario)
+    public Boolean UsuarioPuedeAprobarDocumento(EstadoDocumento estadoDocumento, UsuarioBE usuarioSolicitante, Int32 IdUsuarioActual)
     {
         switch (estadoDocumento)
         {
             case EstadoDocumento.PorAprobarNivel1:
-                if (usuario.IdUsuarioCC1 == usuario.IdUsuario)
+                if (usuarioSolicitante.IdUsuarioCC1 == IdUsuarioActual)
                     return true;
                 break;
             case EstadoDocumento.PorAprobarNivel2:
-                if (usuario.IdUsuarioCC2 == usuario.IdUsuario)
+                if (usuarioSolicitante.IdUsuarioCC2 == IdUsuarioActual)
                     return true;
                 break;
             case EstadoDocumento.PorAprobarNivel3:
-                if (usuario.IdUsuarioCC3 == usuario.IdUsuario)
+                if (usuarioSolicitante.IdUsuarioCC3 == IdUsuarioActual)
                     return true;
                 break;
         }

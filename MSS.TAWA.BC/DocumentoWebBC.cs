@@ -1,48 +1,42 @@
-﻿using MSS.TAWA.BE;
-using MSS.TAWA.DA;
-using MSS.TAWA.MODEL;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Transactions;
+using MSS.TAWA.BE;
+using MSS.TAWA.DA;
 
 namespace MSS.TAWA.BC
 {
     public class DocumentoWebBC
     {
-        public List<DocumentoWebBE> GetListRendicionesPendientesReembolso(Int32 idUsuario, String moneda)
+        public List<DocumentoWebBE> GetListRendicionesPendientesReembolso(int idUsuario, string moneda)
         {
-            List<DocumentoWeb> _list = new DocumentoWebDA().GetListRendicionesPendientesReembolso(idUsuario, moneda);
-            List<DocumentoWebBE> list = new List<DocumentoWebBE>();
+            var _list = new DocumentoWebDA().GetListRendicionesPendientesReembolso(idUsuario, moneda);
+            var list = new List<DocumentoWebBE>();
 
 
-            DocumentoWebBE documentoParaSeleccionar = new DocumentoWebBE(TipoDocumentoWeb.EntregaRendir)
+            var documentoParaSeleccionar = new DocumentoWebBE(TipoDocumentoWeb.EntregaRendir)
             {
                 IdDocumentoWeb = -1,
-                CodigoDocumento = "Seleccionar",
+                CodigoDocumento = "Seleccionar"
             };
 
             list.Add(documentoParaSeleccionar);
 
             foreach (var doc in _list)
-            {
                 list.Add(GetDocumentoWeb(doc.IdDocumentoWeb));
-            }
             return list;
         }
 
-        public List<DocumentoWebBE> GetList(Int32 idUsuario, TipoDocumentoWeb tipoDocumentoWeb)
+        public List<DocumentoWebBE> GetList(int idUsuario, TipoDocumentoWeb tipoDocumentoWeb)
         {
             try
             {
-                List<DocumentoWeb> _list = new DocumentoWebDA().GetListDocumentoWeb(idUsuario, tipoDocumentoWeb);
-                List<DocumentoWebBE> list = new List<DocumentoWebBE>();
+                var _list = new DocumentoWebDA().GetListDocumentoWeb(idUsuario, tipoDocumentoWeb);
+                var list = new List<DocumentoWebBE>();
 
                 foreach (var doc in _list)
-                {
                     list.Add(GetDocumentoWeb(doc.IdDocumentoWeb));
-                }
                 return list;
             }
             catch (Exception ex)
@@ -55,8 +49,8 @@ namespace MSS.TAWA.BC
         {
             try
             {
-                DocumentoWeb item = new DocumentoWebDA().GetDocumentoWeb(IdDocumento);
-                DocumentoWebBE documentoBE = new DocumentoWebBE((TipoDocumentoWeb)item.TipoDocumentoWeb);
+                var item = new DocumentoWebDA().GetDocumentoWeb(IdDocumento);
+                var documentoBE = new DocumentoWebBE((TipoDocumentoWeb) item.TipoDocumentoWeb);
                 documentoBE.IdDocumentoWeb = item.IdDocumentoWeb;
                 documentoBE.Asunto = item.Asunto;
                 documentoBE.CodigoDocumento = item.Codigo;
@@ -77,7 +71,8 @@ namespace MSS.TAWA.BC
                 documentoBE.IdUsuarioSolicitante = item.IdUsuarioSolicitante;
                 documentoBE.Moneda = item.IdMoneda;
                 documentoBE.MontoInicial = item.MontoInicial;
-                documentoBE.MontoGastado = item.DocumentoWebRendicion.Where(x => x.NumeroRendicion == item.NumeroRendicion).ToList().Sum(x => x.MontoTotal);
+                documentoBE.MontoGastado = item.DocumentoWebRendicion
+                    .Where(x => x.NumeroRendicion == item.NumeroRendicion).ToList().Sum(x => x.MontoTotal);
                 documentoBE.MontoActual = documentoBE.MontoInicial - documentoBE.MontoGastado;
                 documentoBE.MotivoDetalle = item.MotivoDetalle;
                 documentoBE.UpdateDate = item.UpdateDate ?? DateTime.Now;
@@ -108,14 +103,15 @@ namespace MSS.TAWA.BC
 
         public void AprobarYLiquidarDocumento(CambioEstadoBE cambioEstadoBEo)
         {
-            DocumentoWeb documentoWeb = new DocumentoWebDA().GetDocumentoWeb(cambioEstadoBEo.IdDocumentoWeb);
-            if (documentoWeb.DocumentoWebRendicion.Where(x => x.NumeroRendicion == documentoWeb.NumeroRendicion).ToList().Sum(x => x.MontoTotal) < documentoWeb.MontoInicial)
+            var documentoWeb = new DocumentoWebDA().GetDocumentoWeb(cambioEstadoBEo.IdDocumentoWeb);
+            if (documentoWeb.DocumentoWebRendicion.Where(x => x.NumeroRendicion == documentoWeb.NumeroRendicion)
+                    .ToList().Sum(x => x.MontoTotal) < documentoWeb.MontoInicial)
                 throw new Exception("No se puede liquidar. El documento aún cuenta con saldo.");
 
             new DocumentoWebDA().AprobarYLiquidarDocumento(cambioEstadoBEo);
         }
 
-        public void EnviarRendicion(Int32 idDocumentoWeb)
+        public void EnviarRendicion(int idDocumentoWeb)
         {
             new DocumentoWebDA().EnviarRendicion(idDocumentoWeb);
         }
@@ -123,20 +119,18 @@ namespace MSS.TAWA.BC
 
         #region DocumentoRendicion
 
-        public List<DocumentoWebRendicionBE> GetList(Int32 idDocumentoWeb, Boolean ListarSoloEstadoGuardado)
+        public List<DocumentoWebRendicionBE> GetList(int idDocumentoWeb, bool ListarSoloEstadoGuardado)
         {
             try
             {
-                List<DocumentoWebRendicion> _list = new DocumentoWebDA().GetListDocumentoWebRendicion(idDocumentoWeb);
+                var _list = new DocumentoWebDA().GetListDocumentoWebRendicion(idDocumentoWeb);
                 if (ListarSoloEstadoGuardado)
-                    _list = _list.Where(x => x.EstadoRendicion == (Int32)EstadoDocumentoRendicion.Guardado).ToList();
+                    _list = _list.Where(x => x.EstadoRendicion == (int) EstadoDocumentoRendicion.Guardado).ToList();
 
-                List<DocumentoWebRendicionBE> list = new List<DocumentoWebRendicionBE>();
+                var list = new List<DocumentoWebRendicionBE>();
 
                 foreach (var doc in _list)
-                {
                     list.Add(GetDocumentoWebRendicion(doc.IdDocumentoWebRendicion, idDocumentoWeb));
-                }
                 return list;
             }
             catch (Exception ex)
@@ -145,12 +139,13 @@ namespace MSS.TAWA.BC
             }
         }
 
-        public DocumentoWebRendicionBE GetDocumentoWebRendicion(Int32? IdDocumentoWebRendicion, Int32? idDocumentoWeb = null)
+        public DocumentoWebRendicionBE GetDocumentoWebRendicion(int? IdDocumentoWebRendicion,
+            int? idDocumentoWeb = null)
         {
             try
             {
-                DocumentoWebRendicionBE documentoBE = new DocumentoWebRendicionBE();
-                DocumentoWebRendicion item = new DocumentoWebDA().GetDocumentoWebRendicion(IdDocumentoWebRendicion);
+                var documentoBE = new DocumentoWebRendicionBE();
+                var item = new DocumentoWebDA().GetDocumentoWebRendicion(IdDocumentoWebRendicion);
 
                 if (item != null)
                 {
@@ -187,14 +182,13 @@ namespace MSS.TAWA.BC
                 }
                 else
                 {
-                    DocumentoWeb documentoWeb = new DocumentoWebDA().GetDocumentoWeb(idDocumentoWeb);
+                    var documentoWeb = new DocumentoWebDA().GetDocumentoWeb(idDocumentoWeb);
                     if (documentoWeb == null)
-                        throw new Exception("No se encontró el documento principal.");
-                    else
                     {
-                        documentoBE.IdDocumentoWeb = documentoWeb.IdDocumentoWeb;
-                        documentoBE.IdMonedaOriginal = documentoWeb.IdMoneda;
+                        throw new Exception("No se encontró el documento principal.");
                     }
+                    documentoBE.IdDocumentoWeb = documentoWeb.IdDocumentoWeb;
+                    documentoBE.IdMonedaOriginal = documentoWeb.IdMoneda;
                 }
 
                 return documentoBE;
@@ -207,19 +201,20 @@ namespace MSS.TAWA.BC
 
         public void AddUpdateDocumentoWebRendicion(DocumentoWebRendicionBE objBE)
         {
-            using (TransactionScope trx = new TransactionScope())
+            using (var trx = new TransactionScope())
             {
                 new DocumentoWebDA().AddUpdateDocumentoRendicion(objBE);
-                DocumentoWeb documentoWeb = new DocumentoWebDA().GetDocumentoWeb(objBE.IdDocumentoWeb);
+                var documentoWeb = new DocumentoWebDA().GetDocumentoWeb(objBE.IdDocumentoWeb);
 
                 //Valida si rendición excede el monto inicial del documento principal.
-                if ((TipoDocumentoWeb)documentoWeb.TipoDocumentoWeb == TipoDocumentoWeb.EntregaRendir
-                    && objBE.TipoDoc == ((Int32)TipoDocumentoSunat.Devolucion).ToString()
-                    || (TipoDocumentoWeb)documentoWeb.TipoDocumentoWeb == TipoDocumentoWeb.CajaChica
-                    || (TipoDocumentoWeb)documentoWeb.TipoDocumentoWeb == TipoDocumentoWeb.Reembolso
-                    )
+                if ((TipoDocumentoWeb) documentoWeb.TipoDocumentoWeb == TipoDocumentoWeb.EntregaRendir
+                    && objBE.TipoDoc == ((int) TipoDocumentoSunat.Devolucion).ToString()
+                    || (TipoDocumentoWeb) documentoWeb.TipoDocumentoWeb == TipoDocumentoWeb.CajaChica
+                    || (TipoDocumentoWeb) documentoWeb.TipoDocumentoWeb == TipoDocumentoWeb.Reembolso
+                )
                 {
-                    Decimal montoGastadoTotal = documentoWeb.DocumentoWebRendicion.Where(x => x.NumeroRendicion == documentoWeb.NumeroRendicion).ToList().Sum(x => x.MontoTotal);
+                    var montoGastadoTotal = documentoWeb.DocumentoWebRendicion
+                        .Where(x => x.NumeroRendicion == documentoWeb.NumeroRendicion).ToList().Sum(x => x.MontoTotal);
                     if (montoGastadoTotal > documentoWeb.MontoInicial)
                         throw new Exception("El monto que desea agregar supera al monto inicial del documento");
                 }

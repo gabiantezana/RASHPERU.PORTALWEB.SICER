@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using MSS.TAWA.BE;
 using MSS.TAWA.DA;
 
@@ -14,7 +11,7 @@ namespace MSS.TAWA.BC
         {
             try
             {
-                EmpresaDA objDA = new EmpresaDA();
+                var objDA = new EmpresaDA();
                 return objDA.ListarEmpresa();
             }
             catch (Exception ex)
@@ -27,7 +24,7 @@ namespace MSS.TAWA.BC
         {
             try
             {
-                EmpresaDA objDA = new EmpresaDA();
+                var objDA = new EmpresaDA();
                 return objDA.ObtenerEmpresa(Id);
             }
             catch (Exception ex)

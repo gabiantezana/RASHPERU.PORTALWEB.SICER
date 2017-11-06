@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using MSS.TAWA.BE;
 using MSS.TAWA.DA;
 
@@ -14,7 +11,7 @@ namespace MSS.TAWA.BC
         {
             try
             {
-                NivelAprobacionDA objDA = new NivelAprobacionDA();
+                var objDA = new NivelAprobacionDA();
                 return objDA.ListarNivelAprobacion();
             }
             catch (Exception ex)
@@ -27,7 +24,7 @@ namespace MSS.TAWA.BC
         {
             try
             {
-                NivelAprobacionDA objDA = new NivelAprobacionDA();
+                var objDA = new NivelAprobacionDA();
                 return objDA.ObtenerNivelAprobacion(Id, Tipo);
             }
             catch (Exception ex)
@@ -40,7 +37,7 @@ namespace MSS.TAWA.BC
         {
             try
             {
-                NivelAprobacionDA objDA = new NivelAprobacionDA();
+                var objDA = new NivelAprobacionDA();
                 return objDA.InsertarNivelAprobacion(objBE);
             }
             catch (Exception ex)
@@ -53,7 +50,7 @@ namespace MSS.TAWA.BC
         {
             try
             {
-                NivelAprobacionDA objDA = new NivelAprobacionDA();
+                var objDA = new NivelAprobacionDA();
                 objDA.ModificarNivelAprobacion(objBE);
             }
             catch (Exception ex)

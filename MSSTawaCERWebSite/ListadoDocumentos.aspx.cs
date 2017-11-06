@@ -304,10 +304,11 @@ public partial class ListadoDocumentos : System.Web.UI.Page
 
     public String SetearIdArea(String sId)
     {
-        AreaBC objAreaBC = new AreaBC();
-        AreaBE objAreaBE = new AreaBE();
-        objAreaBE = objAreaBC.ObtenerArea(Convert.ToInt32(sId));
-        return objAreaBE.Descripcion;
+        //AreaBC objAreaBC = new AreaBC();
+        //AreaBE objAreaBE = new AreaBE();
+        //objAreaBE = objAreaBC.ObtenerArea(Convert.ToInt32(sId));
+        //return objAreaBE.Descripcion;
+        return "";
     }
 
     public String SetearMoneda(String sId)
