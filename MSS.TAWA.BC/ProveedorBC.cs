@@ -20,6 +20,12 @@ namespace MSS.TAWA.BC
             }
         }
 
+        public string GetCardNameProveedor(string Nombre)
+        {
+            var objDA = new ProveedorDA();
+            return objDA.ObtenerProveedorDeSAP(Nombre);
+        }
+
         public ProveedorBE ObtenerProveedor(int Id, int Tipo, string Nombre)
         {
             try

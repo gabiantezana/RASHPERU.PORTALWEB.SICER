@@ -26,8 +26,11 @@ namespace MSS.TAWA.HP
             sw.WriteLine(exc.GetType().ToString());
             sw.WriteLine("Exception: " + exc.Message);
             sw.WriteLine("Stack Trace: ");
+            sw.WriteLine("Inner Exception 1 : " + exc.InnerException?.InnerException?.ToString());
+            sw.WriteLine("Inner Exception 2: " + exc.InnerException?.InnerException?.InnerException?.ToString());
             if (exc.InnerException != null)
             {
+                sw.Write(exc.InnerException.InnerException?.InnerException?.ToString());
                 sw.Write("Inner Exception Type: ");
                 sw.WriteLine(exc.InnerException.GetType().ToString());
                 sw.Write("Inner Exception: ");

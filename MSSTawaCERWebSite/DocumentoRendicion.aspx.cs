@@ -1323,9 +1323,9 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         else if ((TipoDocumentoSunat)Convert.ToInt32(ddlTipoDocumentoWeb.SelectedValue) != TipoDocumentoSunat.Devolucion
               && String.IsNullOrWhiteSpace(txtProveedor.Text))
             errorMessage = "Debe ingresar el RUC.";
-        else if ((TipoDocumentoSunat)Convert.ToInt32(ddlTipoDocumentoWeb.SelectedValue) != TipoDocumentoSunat.Devolucion
-                && !new ValidationHelper().ProveedorExiste(txtProveedor.Text))
-            errorMessage = "El proveedor no existe";
+        //else if ((TipoDocumentoSunat)Convert.ToInt32(ddlTipoDocumentoWeb.SelectedValue) != TipoDocumentoSunat.Devolucion
+        //        && !new ValidationHelper().ProveedorExiste(txtProveedor.Text))
+        //    errorMessage = "El proveedor no existe";
         else if ((TipoDocumentoSunat)Convert.ToInt32(ddlTipoDocumentoWeb.SelectedValue) != TipoDocumentoSunat.Devolucion
                 && indexNoValidos.Contains(ddlConcepto.SelectedIndex))
             errorMessage = "Debe ingresar concepto.";
@@ -1367,14 +1367,12 @@ public partial class DocumentoRendicion : System.Web.UI.Page
 
     protected void Validar_Click(object sender, EventArgs e)
     {
-        ProveedorBC objProveedorBC = new ProveedorBC();
-        ProveedorBE objProveedorBE = new ProveedorBE();
-
-        objProveedorBE = objProveedorBC.ObtenerProveedor(0, 1, txtProveedor.Text);
-        if (objProveedorBE != null)
-            lblProveedor.Text = objProveedorBE.CardName;
+        lblProveedor.Text = "Validando...";
+        var cardName = new ProveedorBC().GetCardNameProveedor(txtProveedor.Text);
+        if (string.IsNullOrEmpty(cardName))
+            lblProveedor.Text = "Proveedor no existe en SAP.";
         else
-            lblProveedor.Text = "Proveedor no existe.";
+            lblProveedor.Text = cardName;
     }
 
     protected void ValidarImporte_Click(object sender, EventArgs e)
@@ -1471,7 +1469,6 @@ public partial class DocumentoRendicion : System.Web.UI.Page
     }
 
     #endregion
-
 
     protected void gvProveedor_RowCommand(object sender, GridViewCommandEventArgs e)
     {

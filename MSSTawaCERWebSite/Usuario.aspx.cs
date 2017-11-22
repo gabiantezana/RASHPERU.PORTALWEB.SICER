@@ -681,7 +681,7 @@ public partial class Usuario : System.Web.UI.Page
                 UsuarioBE ObjUsuarioBE = new UsuarioBE();
                 UsuarioBC objUsuarioBC = new UsuarioBC();
 
-                ObjUsuarioBE.Tipo = Convert.ToString(ddlTipoUsuario.SelectedItem.Value);
+                ObjUsuarioBE.Tipo = "1";//Convert.ToString(ddlTipoUsuario.SelectedItem.Value);
                 ObjUsuarioBE.Estado = Convert.ToString(ddlEstado.SelectedItem.Value);
                 ObjUsuarioBE.CardCode = txtCardCode.Text;
                 ObjUsuarioBE.Pass = txtPass.Text;

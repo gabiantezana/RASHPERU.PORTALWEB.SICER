@@ -211,8 +211,8 @@ namespace MSS.TAWA.DA
                         objUsuarioBE.IdUsuarioRE3 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioRE3"));
                         objUsuarioBE.Comentario = sqlDR.GetString(sqlDR.GetOrdinal("Comentario"));
                         objUsuarioBE.Estado = sqlDR.GetString(sqlDR.GetOrdinal("Estado"));
-                        objUsuarioBE.IntentoLogin = sqlDR.GetString(sqlDR.GetOrdinal("IntentoLogin"));
-                        objUsuarioBE.HoraMinutoLogin = sqlDR.GetDateTime(sqlDR.GetOrdinal("HoraMinutoLogin"));
+                        //objUsuarioBE.IntentoLogin = sqlDR.GetString(sqlDR.GetOrdinal("IntentoLogin"));
+                        //objUsuarioBE.HoraMinutoLogin = sqlDR.GetDateTime(sqlDR.GetOrdinal("HoraMinutoLogin"));
                         objUsuarioBE.UserCreate = sqlDR.GetString(sqlDR.GetOrdinal("UserCreate"));
                         objUsuarioBE.CreateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("CreateDate"));
                         objUsuarioBE.UserUpdate = sqlDR.GetString(sqlDR.GetOrdinal("UserUpdate"));

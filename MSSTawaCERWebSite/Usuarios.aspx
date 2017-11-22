@@ -58,11 +58,11 @@
       <asp:BoundField DataField="CardCode" HeaderText="Usuario" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
       <asp:BoundField DataField="CardName" HeaderText="Nombre" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
       <asp:BoundField DataField="Mail" HeaderText="Mail" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
-      <asp:TemplateField  HeaderText="Tipo de Usuario" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
+     <%-- <asp:TemplateField  HeaderText="Tipo de Usuario" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
        <ItemTemplate>
         <%# SetearTipo(Convert.ToString(Eval("Tipo")))%>
        </ItemTemplate>
-      </asp:TemplateField>
+      </asp:TemplateField>--%>
       <asp:TemplateField  HeaderText="Perfil Usuario" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
        <ItemTemplate>
         <%# SetearPerfilUsuario(Convert.ToString(Eval("IdPerfilUsuario")))%>
@@ -73,11 +73,11 @@
            <%# SetearEstado(Convert.ToString(Eval("Estado")))%>
          </ItemTemplate>
        </asp:TemplateField>
-       <asp:TemplateField  HeaderText="Usuario a Cargo" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
+      <%-- <asp:TemplateField  HeaderText="Usuario a Cargo" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
         <ItemTemplate>
          <%# SetearCargoUsuario(Convert.ToString(Eval("IdUsuario")))%>
         </ItemTemplate>
-       </asp:TemplateField>
+       </asp:TemplateField>--%>
        <asp:TemplateField HeaderText="Editar" ItemStyle-HorizontalAlign="Center">
          <ItemTemplate>
            <asp:LinkButton ID="lnkEditar" runat="server" CommandName="Editar" CommandArgument='<%#Eval("IdUsuario")%>' >
@@ -85,13 +85,13 @@
            </asp:LinkButton>
          </ItemTemplate>
        </asp:TemplateField> 
-       <asp:TemplateField HeaderText="Grupo Trabajo" ItemStyle-HorizontalAlign="Center">
+    <%--   <asp:TemplateField HeaderText="Grupo Trabajo" ItemStyle-HorizontalAlign="Center">
          <ItemTemplate>
            <asp:LinkButton ID="lnkGrupoTrabajo" runat="server" CommandName="GrupoTrabajo" CommandArgument='<%#Eval("IdUsuario")%>' >
             <img src="img/group.png" alt="Editar" width="20px" />
            </asp:LinkButton>
          </ItemTemplate>
-       </asp:TemplateField> 
+       </asp:TemplateField> --%>
 
      </Columns>
     </asp:GridView>

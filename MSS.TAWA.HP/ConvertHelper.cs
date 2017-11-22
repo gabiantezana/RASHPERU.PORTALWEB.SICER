@@ -116,6 +116,7 @@ public static class ConvertHelper
         switch ((EmpresaInterna)IdEmpresaEnterna)
         {
             case EmpresaInterna.RASH:
+            case EmpresaInterna.DESARROLLADORA:
                 switch (igvCode)
                 {
                     case IGVCode.IGV:

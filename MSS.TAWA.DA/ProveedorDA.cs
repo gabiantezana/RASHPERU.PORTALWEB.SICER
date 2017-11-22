@@ -159,6 +159,36 @@ namespace MSS.TAWA.DA
             }
         }
 
+        //OBTENER PROVEEDOR DE SAP
+        public string ObtenerProveedorDeSAP(string ruc)
+        {
+            string sp = "OBTENERPROVEEDORDESAP";
+
+            var strConn = ConfigurationManager.ConnectionStrings["SICER"].ConnectionString;
+            var sqlConn = new SqlConnection(strConn);
+            var sqlCmd = new SqlCommand(sp, sqlConn);
+            sqlCmd.CommandType = CommandType.StoredProcedure;
+
+            var parameter = new SqlParameter();
+            parameter.ParameterName = "@ruc";
+            parameter.SqlDbType = SqlDbType.NVarChar;
+            parameter.Value = ruc;
+
+
+            sqlCmd.Parameters.Add(parameter);
+
+            sqlCmd.Connection.Open();
+            var sqlDR = sqlCmd.ExecuteReader();
+
+
+            string cardname = string.Empty;
+            while (sqlDR.Read())
+            {
+                cardname = sqlDR.GetString(sqlDR.GetOrdinal("CardName"));
+            }
+            return cardname;
+        }
+
         // Insertar Proveedor
         public int InsertarProveedor(ProveedorBE objBE)
         {

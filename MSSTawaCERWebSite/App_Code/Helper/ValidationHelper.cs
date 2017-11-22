@@ -86,16 +86,17 @@ public class ValidationHelper
 
     public Boolean UsuarioExcedeCantMaxDocumento(TipoDocumentoWeb tipoDocumento, Int32 idUsuario)
     {
-        UsuarioBE objUsuarioBE = new UsuarioBC().ObtenerUsuario(idUsuario, 0);
-        Int32 cantidadActualDocsPendientes = 0;
-        Int32 cantidadMaximaDocs = 0;
+        return false;
+        //UsuarioBE objUsuarioBE = new UsuarioBC().ObtenerUsuario(idUsuario, 0);
+        //Int32 cantidadActualDocsPendientes = 0;
+        //Int32 cantidadMaximaDocs = 0;
 
-        cantidadActualDocsPendientes = new DocumentoWebDA().GetListDocumentosPendientesPorUsuario(idUsuario, tipoDocumento).Count;
-        cantidadMaximaDocs = Convert.ToInt32(objUsuarioBE.CantMaxCC);
+        //cantidadActualDocsPendientes = new DocumentoWebDA().GetListDocumentosPendientesPorUsuario(idUsuario, tipoDocumento).Count;
+        //cantidadMaximaDocs = Convert.ToInt32(objUsuarioBE.CantMaxCC);
 
-        if (cantidadActualDocsPendientes < cantidadMaximaDocs)
-            return false;
-        return true;
+        //if (cantidadActualDocsPendientes < cantidadMaximaDocs)
+        //    return false;
+        //return true;
     }
 
     public Boolean DocumentoSePuedeRendir(EstadoDocumento estadoDocumento)
