@@ -531,9 +531,9 @@ namespace MSS.TAWA.DA
             documentoWebRendicion.CorrelativoDoc = documentoRendicionBE.CorrelativoDoc;
             documentoWebRendicion.FechaDoc = documentoRendicionBE.FechaDoc;
             documentoWebRendicion.IdMonedaDoc = documentoRendicionBE.IdMonedaDoc;
-            if (documentoRendicionBE.IdProveedor != 0)
-                documentoWebRendicion.IdProveedor = documentoRendicionBE.IdProveedor;
-
+            if (string.IsNullOrEmpty(documentoRendicionBE.SAPProveedor))
+                throw new Exception("Error al obtener el proveedor de SAP");
+            documentoWebRendicion.SAPProveedor = documentoRendicionBE.SAPProveedor;
             documentoWebRendicion.IdTipoDocSunat = Convert.ToInt32(documentoRendicionBE.TipoDoc);
             documentoWebRendicion.MontoAfecto = documentoRendicionBE.MontoAfecto;
             documentoWebRendicion.MontoNoAfecto = documentoRendicionBE.MontoNoAfecto;
@@ -683,8 +683,8 @@ namespace MSS.TAWA.DA
             }
             else
             {
-                facturasWebMigracion.CardCode = documentoWebRendicion.Proveedor.CardCode;
-                facturasWebMigracion.CardName = documentoWebRendicion.Proveedor.CardName;
+                facturasWebMigracion.CardCode = documentoWebRendicion.SAPProveedor;
+                facturasWebMigracion.CardName = string.Empty;//TODO:?
             }
 
             facturasWebMigracion.CntPerson = null;

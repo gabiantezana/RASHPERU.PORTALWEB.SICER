@@ -165,7 +165,7 @@ namespace MSS.TAWA.BC
                     documentoBE.IdDocumentoWebRendicion = item.IdDocumentoWebRendicion;
                     documentoBE.IdMonedaDoc = item.IdMonedaDoc;
                     documentoBE.IdMonedaOriginal = item.DocumentoWeb.IdMoneda;
-                    documentoBE.IdProveedor = item.IdProveedor ?? 0;
+                    documentoBE.SAPProveedor = item.SAPProveedor;
                     documentoBE.MontoAfecto = item.MontoAfecto;
                     documentoBE.MontoDoc = item.MontoDoc;
                     documentoBE.MontoIGV = item.MontoIGV;

@@ -10,9 +10,8 @@
 namespace MSS.TAWA.MODEL
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Proveedor
+    public partial class MSS_WEB_ProveedorListar_Result
     {
         public int IdProveedor { get; set; }
         public string CardCode { get; set; }
@@ -23,8 +22,8 @@ namespace MSS.TAWA.MODEL
         public Nullable<int> IdProceso { get; set; }
         public Nullable<int> Estado { get; set; }
         public string UserCreate { get; set; }
-        public Nullable<System.DateTime> CreateDate { get; set; }
+        public System.DateTime CreateDate { get; set; }
         public string UserUpdate { get; set; }
-        public Nullable<System.DateTime> UpdateDate { get; set; }
+        public System.DateTime UpdateDate { get; set; }
     }
 }

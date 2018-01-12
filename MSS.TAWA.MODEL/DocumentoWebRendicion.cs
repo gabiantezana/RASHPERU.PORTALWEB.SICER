@@ -16,8 +16,8 @@ namespace MSS.TAWA.MODEL
     {
         public int IdDocumentoWebRendicion { get; set; }
         public int IdDocumentoWeb { get; set; }
-        public Nullable<int> IdProveedor { get; set; }
         public int NumeroRendicion { get; set; }
+        public string SAPProveedor { get; set; }
         public string SAPCodigoPartidaPresupuestal { get; set; }
         public string SAPCodigoConcepto { get; set; }
         public string SAPCodigoCentroCostos1 { get; set; }
@@ -52,9 +52,6 @@ namespace MSS.TAWA.MODEL
         public virtual Moneda Moneda { get; set; }
         public virtual Moneda Moneda1 { get; set; }
         public virtual Moneda Moneda2 { get; set; }
-        public virtual Proveedor Proveedor { get; set; }
-        public virtual Proveedor Proveedor1 { get; set; }
-        public virtual Proveedor Proveedor2 { get; set; }
         public virtual Usuario Usuario { get; set; }
         public virtual Usuario Usuario1 { get; set; }
         public virtual Usuario Usuario2 { get; set; }

@@ -17,10 +17,10 @@ namespace MSS.TAWA.MODEL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public DocumentoWeb()
         {
+            this.DocumentoWebAuditoria = new HashSet<DocumentoWebAuditoria>();
             this.DocumentoWebRendicion = new HashSet<DocumentoWebRendicion>();
             this.DocumentoWebRendicion1 = new HashSet<DocumentoWebRendicion>();
             this.DocumentoWebRendicion2 = new HashSet<DocumentoWebRendicion>();
-            this.DocumentoWebAuditoria = new HashSet<DocumentoWebAuditoria>();
         }
     
         public int IdDocumentoWeb { get; set; }
@@ -50,13 +50,13 @@ namespace MSS.TAWA.MODEL
         public Nullable<System.DateTime> UpdateDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DocumentoWebAuditoria> DocumentoWebAuditoria { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DocumentoWebRendicion> DocumentoWebRendicion { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DocumentoWebRendicion> DocumentoWebRendicion1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DocumentoWebRendicion> DocumentoWebRendicion2 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DocumentoWebAuditoria> DocumentoWebAuditoria { get; set; }
         public virtual Empresa Empresa { get; set; }
         public virtual MetodoPago MetodoPago { get; set; }
         public virtual Moneda Moneda { get; set; }

@@ -395,8 +395,8 @@ public partial class DocumentoRendicion : System.Web.UI.Page
                     txtTasaCambio.Enabled = false;
                 ddlTipoDocumentoWeb.SelectedValue = objDocumentoBE.TipoDoc.ToString();
 
-                txtProveedor.Text = new ProveedorBC().ObtenerProveedor(objDocumentoBE.IdProveedor, 0, "").Documento;
-                lblProveedor.Text = new ProveedorBC().ObtenerProveedor(objDocumentoBE.IdProveedor, 0, "").CardName;
+                txtProveedor.Text = objDocumentoBE.SAPProveedor;
+                lblProveedor.Text = new ProveedorBC().GetCardNameProveedorSAP(objDocumentoBE.SAPProveedor);
 
                 ddlIdMonedaDoc.SelectedValue = objDocumentoBE.IdMonedaDoc.ToString();
                 ddlIdMonedaOriginal.SelectedValue = objDocumentoBE.IdMonedaOriginal.ToString();
@@ -587,9 +587,26 @@ public partial class DocumentoRendicion : System.Web.UI.Page
     {
         ProveedorBC objProveedorBC = new ProveedorBC();
         ProveedorBE objProveedorBE = new ProveedorBE();
+        //BUSCA PROVEEDOR EN SAP:
+        string cardName = objProveedorBC.GetCardNameProveedorSAP(sId);
+        if (!string.IsNullOrEmpty(cardName))
+        {
+            return cardName;
+        }
+        //BUSCA PROVEEDOR EN BASE DE DATOS SICER:
+        else
+        {
+            var proveedorFromSICER = objProveedorBC.ObtenerProveedor(0, 1, sId);
+            if(proveedorFromSICER != null)
+                if (!string.IsNullOrEmpty(proveedorFromSICER.CardName))
+                    return proveedorFromSICER.CardName;
+        }
+        return string.Empty;
+
+        /*
         objProveedorBE = objProveedorBC.ObtenerProveedor(Convert.ToInt32(sId), 0, "");
         if (objProveedorBE != null) return objProveedorBE.CardName;
-        else return "";
+        else return "";*/
     }
 
     public String SetearConcepto(String sId)
@@ -917,7 +934,9 @@ public partial class DocumentoRendicion : System.Web.UI.Page
                 {
                     objDocumentoBE = new DocumentoWebRendicionBE();
                     objDocumentoBE.IdDocumentoWeb = Convert.ToInt32(idDocumento);
-                    objDocumentoBE.IdProveedor = Convert.ToInt32(sIdProveedor[i]);
+
+                    //objDocumentoBE.IdProveedor = Convert.ToInt32(sIdProveedor[i]);
+                    objDocumentoBE.SAPProveedor = GridView1.Rows[i].Cells[4].Text;
                     objDocumentoBE.IdConcepto = GridView1.Rows[i].Cells[6].Text;
                     objDocumentoBE.IdCentroCostos3 = ddlCentroCostos3.SelectedItem.Value;
                     objDocumentoBE.IdCentroCostos4 = ddlCentroCostos4.SelectedItem.Value;
@@ -1245,7 +1264,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         documentDetailBE.SerieDoc = txtSerie.Text;
         documentDetailBE.CorrelativoDoc = Convert.ToInt32(txtNumero.Text);
         documentDetailBE.FechaDoc = DateTime.ParseExact(txtFecha.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-        documentDetailBE.IdProveedor = new ValidationHelper().GetIDProveedor(txtProveedor.Text);
+        documentDetailBE.SAPProveedor = txtProveedor.Text;
         documentDetailBE.IdConcepto = ddlConcepto.SelectedItem.Value;
         if (ddlPartidaPresupuestal.SelectedItem != null)
             documentDetailBE.CodigoPartidaPresupuestal = ddlPartidaPresupuestal.SelectedItem.Value;
@@ -1368,9 +1387,23 @@ public partial class DocumentoRendicion : System.Web.UI.Page
     protected void Validar_Click(object sender, EventArgs e)
     {
         lblProveedor.Text = "Validando...";
-        var cardName = new ProveedorBC().GetCardNameProveedor(txtProveedor.Text);
+        var cardName = new ProveedorBC().GetCardNameProveedorSAP(txtProveedor.Text);
         if (string.IsNullOrEmpty(cardName))
+        {
+            var proveedorBDSICER = new ProveedorBC().ObtenerProveedor(0,1, txtProveedor.Text);
+            if (proveedorBDSICER != null)
+            {
+                if (!string.IsNullOrEmpty(proveedorBDSICER.CardName))
+                {
+                    cardName = proveedorBDSICER.CardName;
+                }
+            }
+        }
+        if (string.IsNullOrEmpty(cardName))
+        {
             lblProveedor.Text = "Proveedor no existe en SAP.";
+
+        }
         else
             lblProveedor.Text = cardName;
     }

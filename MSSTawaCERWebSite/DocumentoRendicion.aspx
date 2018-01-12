@@ -458,7 +458,7 @@
                                 <asp:BoundField DataField="CorrelativoDoc" HeaderText="Numero" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="FechaDoc" HeaderText="Fecha" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" DataFormatString="{0:dd/MM/yyyy}" />
                                 <asp:TemplateField HeaderText="Proveedor" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
-                                    <ItemTemplate><%# SetearProveedor(Convert.ToString(Eval("IdProveedor")))%></ItemTemplate>
+                                    <ItemTemplate><%# SetearProveedor(Convert.ToString(Eval("SAPProveedor")))%></ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Concepto" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
                                     <ItemTemplate><%# SetearConcepto(Convert.ToString(Eval("IdConcepto")))%></ItemTemplate>

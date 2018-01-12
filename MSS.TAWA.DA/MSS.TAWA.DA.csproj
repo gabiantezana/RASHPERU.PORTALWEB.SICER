@@ -64,7 +64,6 @@
     <Compile Include="MetodoPagoDA.cs" />
     <Compile Include="MonedaDA.cs" />
     <Compile Include="NivelAprobacionDA.cs" />
-    <Compile Include="PartidaPresupuestalDA.cs" />
     <Compile Include="PerfilUsuarioDA.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProveedorDA.cs" />

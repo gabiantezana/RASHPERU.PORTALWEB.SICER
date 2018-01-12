@@ -147,6 +147,90 @@
     <Compile Include="MSS_SP_SICER_WEBUDOINVOICES_Result.cs">
       <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="MSS_WEB_CentroCostosListar_Result.cs">
+      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MSS_WEB_CentroCostosObtener_Result.cs">
+      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MSS_WEB_ConceptoListar_Result.cs">
+      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MSS_WEB_ConceptoObtener_Result.cs">
+      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MSS_WEB_CuentaContableDevolucionObtener_Result.cs">
+      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MSS_WEB_CuentasContablesDevolucionListar_Result.cs">
+      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MSS_WEB_DocumentoListar_Result.cs">
+      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MSS_WEB_DocumentoObtener_Result.cs">
+      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MSS_WEB_EmpresaListar_Result.cs">
+      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MSS_WEB_EmpresaObtener_Result.cs">
+      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MSS_WEB_MetodoPagoListar_Result.cs">
+      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MSS_WEB_MetodoPagoObtener_Result.cs">
+      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MSS_WEB_MonedaListar_Result.cs">
+      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MSS_WEB_MonedaObtener_Result.cs">
+      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MSS_WEB_NivelAprobacionListar_Result.cs">
+      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MSS_WEB_NivelAprobacionObtenerV2_Result.cs">
+      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MSS_WEB_NivelAprobacionObtener_Result.cs">
+      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MSS_WEB_NivelSeguridadContraseña_Result.cs">
+      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MSS_WEB_PARTIDAPRESUPUESTAL_GETLIST_Result.cs">
+      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MSS_WEB_PARTIDAPRESUPUESTAL_GET_Result.cs">
+      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MSS_WEB_PerfilUsuarioListar_Result.cs">
+      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MSS_WEB_PerfilUsuarioObtener_Result.cs">
+      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MSS_WEB_ProveedorListar_Result.cs">
+      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MSS_WEB_ProveedorObtener_Result.cs">
+      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MSS_WEB_UsuarioListar2_Result.cs">
+      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MSS_WEB_UsuarioListar_Result.cs">
+      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MSS_WEB_UsuarioLogin_Result.cs">
+      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MSS_WEB_UsuarioObtener_Result.cs">
+      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="NivelAprobacion.cs">
       <DependentUpon>SICER_WEBModel.tt</DependentUpon>
     </Compile>

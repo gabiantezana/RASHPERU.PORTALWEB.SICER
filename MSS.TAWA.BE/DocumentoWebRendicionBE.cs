@@ -10,6 +10,7 @@ namespace MSS.TAWA.BE
         int _IdDocumentoWebRendicion;
         int _IdDocumentoWeb;
         int _IdProveedor;
+        string _SAPProveedor;
         String _IdConcepto;
         String _IdCentroCostos1;
         String _IdCentroCostos2;
@@ -41,6 +42,11 @@ namespace MSS.TAWA.BE
         DateTime _UpdateDate;
         String _CodigoCuentaContableDevolucion;
 
+        public string SAPProveedor
+        {
+            get { return _SAPProveedor; }
+            set { _SAPProveedor = value; }
+        }
         public int IdDocumentoWebRendicion
         {
             get { return _IdDocumentoWebRendicion; }
@@ -51,11 +57,12 @@ namespace MSS.TAWA.BE
             get { return _IdDocumentoWeb; }
             set { _IdDocumentoWeb = value; }
         }
+        /*
         public int IdProveedor
         {
             get { return _IdProveedor; }
             set { _IdProveedor = value; }
-        }
+        }*/
         public String IdConcepto
         {
             get { return _IdConcepto; }
