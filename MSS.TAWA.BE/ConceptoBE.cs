@@ -25,11 +25,14 @@ namespace MSS.TAWA.BE
             get { return _Descripcion; }
             set { _Descripcion = value; }
         }
+
+
         public String CuentaContable
         {
             get { return _CuentaContable; }
             set { _CuentaContable = value; }
         }
+        /*
         public String UserCreate
         {
             get { return _UserCreate; }
@@ -49,6 +52,6 @@ namespace MSS.TAWA.BE
         {
             get { return _UpdateDate; }
             set { _UpdateDate = value; }
-        }
+        }*/
     }
 }

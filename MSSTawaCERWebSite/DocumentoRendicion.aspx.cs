@@ -253,35 +253,43 @@ public partial class DocumentoRendicion : System.Web.UI.Page
     {
         try
         {
+            var listCentroCostos = new CentroCostosBC().ListarCentroCostos(0);
+
+
+
             CentroCostosBC objCentroCostosBC = new CentroCostosBC();
-
-            Int32 idDocumento = Convert.ToInt32(Context.Items[ConstantHelper.Keys.IdDocumentoWeb].ToString());
-            DocumentoWebBE objDocumentoBE = new DocumentoWebBC().GetDocumentoWeb(idDocumento);
-
-            ddlCentroCostos1.DataSource = objCentroCostosBC.ListarCentroCostos(1);
+            ddlCentroCostos1.DataSource = listCentroCostos.Where(x => x.Nivel == 1).ToList();
             ddlCentroCostos1.DataTextField = "Descripcion";
             ddlCentroCostos1.DataValueField = "IdCentroCostos";
             ddlCentroCostos1.DataBind();
+            ddlCentroCostos1.Enabled = true;
 
-            ddlCentroCostos2.DataSource = objCentroCostosBC.ListarCentroCostos(2);
+            ddlCentroCostos2.DataSource = listCentroCostos.Where(x => x.Nivel == 2).ToList();
             ddlCentroCostos2.DataTextField = "Descripcion";
             ddlCentroCostos2.DataValueField = "IdCentroCostos";
             ddlCentroCostos2.DataBind();
+            ddlCentroCostos2.Enabled = true;
 
-            ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(3);
+            objCentroCostosBC = new CentroCostosBC();
+            ddlCentroCostos3.DataSource = listCentroCostos.Where(x => x.Nivel == 3).ToList();
             ddlCentroCostos3.DataTextField = "Descripcion";
             ddlCentroCostos3.DataValueField = "IdCentroCostos";
             ddlCentroCostos3.DataBind();
+            ddlCentroCostos3.Enabled = true;
 
-            ddlCentroCostos4.DataSource = objCentroCostosBC.ListarCentroCostos(4);
+            objCentroCostosBC = new CentroCostosBC();
+            ddlCentroCostos4.DataSource = listCentroCostos.Where(x => x.Nivel == 4).ToList();
             ddlCentroCostos4.DataTextField = "Descripcion";
             ddlCentroCostos4.DataValueField = "IdCentroCostos";
             ddlCentroCostos4.DataBind();
+            ddlCentroCostos4.Enabled = true;
 
-            ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(5);
+            objCentroCostosBC = new CentroCostosBC();
+            ddlCentroCostos5.DataSource = listCentroCostos.Where(x => x.Nivel == 5).ToList();
             ddlCentroCostos5.DataTextField = "Descripcion";
             ddlCentroCostos5.DataValueField = "IdCentroCostos";
             ddlCentroCostos5.DataBind();
+            ddlCentroCostos5.Enabled = true;
         }
         catch (Exception ex)
         {
@@ -597,7 +605,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         else
         {
             var proveedorFromSICER = objProveedorBC.ObtenerProveedor(0, 1, sId);
-            if(proveedorFromSICER != null)
+            if (proveedorFromSICER != null)
                 if (!string.IsNullOrEmpty(proveedorFromSICER.CardName))
                     return proveedorFromSICER.CardName;
         }
@@ -1307,6 +1315,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
 
     private void Mensaje(String mensaje)
     {
+        var message = mensaje.Replace("'", " \"\"");
         ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "MessageBox", "alert('" + mensaje + "')", true);
     }
 
@@ -1330,8 +1339,8 @@ public partial class DocumentoRendicion : System.Web.UI.Page
     {
         /*---------------------------------------VALIDA CAMPOS REQUERIDOS------------------------------------------------*/
         errorMessage = String.Empty;
-        Int32[] indexNoValidos = { 0, -1 };
-        if (indexNoValidos.Contains(ddlTipoDocumentoWeb.SelectedIndex))
+        var indexNoValidos = new []{ "0", "-1" };
+        if (indexNoValidos.Contains(ddlTipoDocumentoWeb.SelectedValue))
             errorMessage = "Debe ingresar el Tipo.";
         else if (String.IsNullOrWhiteSpace(txtSerie.Text))
             errorMessage = "Debe ingresar la serie.";
@@ -1346,16 +1355,16 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         //        && !new ValidationHelper().ProveedorExiste(txtProveedor.Text))
         //    errorMessage = "El proveedor no existe";
         else if ((TipoDocumentoSunat)Convert.ToInt32(ddlTipoDocumentoWeb.SelectedValue) != TipoDocumentoSunat.Devolucion
-                && indexNoValidos.Contains(ddlConcepto.SelectedIndex))
+                && indexNoValidos.Contains(ddlConcepto.SelectedValue))
             errorMessage = "Debe ingresar concepto.";
         else if (new DocumentoBC().ObtenerDocumento(Convert.ToInt32(ddlTipoDocumentoWeb.SelectedValue)).CodigoSunat == TipoDocumentoSunat.Devolucion.GetCodigoSunat()
-                && indexNoValidos.Contains(ddlCuentaContableDevolucion.SelectedIndex))
+                && indexNoValidos.Contains(ddlCuentaContableDevolucion.SelectedValue))
             errorMessage = "Debe ingresar la cuenta contable.";
-        else if (indexNoValidos.Contains(ddlCentroCostos1.SelectedIndex))
+        else if (indexNoValidos.Contains(ddlCentroCostos1.SelectedValue))
             errorMessage = "Debe ingresar el centro de costo nivel 1";
         //else if (indexNoValidos.Contains(ddlPartidaPresupuestal.SelectedIndex)) //TODO: EN PROD
         //    errorMessage = "Debe ingresar la partida presupuestal.";
-        else if (indexNoValidos.Contains(ddlIdMonedaDoc.SelectedIndex))
+        else if (indexNoValidos.Contains(ddlIdMonedaDoc.SelectedValue))
             errorMessage = "Debe ingresar la  moneda del documento.";
         else if (String.IsNullOrWhiteSpace(txtMontoAfecta.Text) && String.IsNullOrWhiteSpace(txtMontoNoAfecta.Text))
             errorMessage = "Debe ingresar los importes";
@@ -1386,26 +1395,37 @@ public partial class DocumentoRendicion : System.Web.UI.Page
 
     protected void Validar_Click(object sender, EventArgs e)
     {
-        lblProveedor.Text = "Validando...";
-        var cardName = new ProveedorBC().GetCardNameProveedorSAP(txtProveedor.Text);
-        if (string.IsNullOrEmpty(cardName))
+        try
         {
-            var proveedorBDSICER = new ProveedorBC().ObtenerProveedor(0,1, txtProveedor.Text);
-            if (proveedorBDSICER != null)
+            lblProveedor.Text = "Validando...";
+            var cardName = new ProveedorBC().GetCardNameProveedorSAP(txtProveedor.Text);
+            if (string.IsNullOrEmpty(cardName))
             {
-                if (!string.IsNullOrEmpty(proveedorBDSICER.CardName))
+                var proveedorBDSICER = new ProveedorBC().ObtenerProveedor(0, 1, txtProveedor.Text);
+                if (proveedorBDSICER != null)
                 {
-                    cardName = proveedorBDSICER.CardName;
+                    if (!string.IsNullOrEmpty(proveedorBDSICER.CardName))
+                    {
+                        cardName = proveedorBDSICER.CardName;
+                    }
                 }
             }
-        }
-        if (string.IsNullOrEmpty(cardName))
-        {
-            lblProveedor.Text = "Proveedor no existe en SAP.";
+            if (string.IsNullOrEmpty(cardName))
+            {
+                lblProveedor.Text = string.Empty;
+                lblProveedor.Text = "Proveedor no existe en SAP.";
 
+            }
+            else
+            {
+                lblProveedor.Text = string.Empty;
+                lblProveedor.Text = cardName;
+            }
         }
-        else
-            lblProveedor.Text = cardName;
+        catch (Exception ex)
+        {
+            Mensaje(ex.Message);
+        }
     }
 
     protected void ValidarImporte_Click(object sender, EventArgs e)

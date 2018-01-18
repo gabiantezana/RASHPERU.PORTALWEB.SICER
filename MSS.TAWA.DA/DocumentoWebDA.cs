@@ -594,7 +594,11 @@ namespace MSS.TAWA.DA
                     .AccountCode;
 
             var _Etapa = 1;
-            var _DocRate = new UtilDA().GetRate(documentoWeb.Moneda.Descripcion);
+
+            var _DocRate = 1M;
+            var monedasNacionales = new[] { "SOL", "S/", "S/.", "PEN", "SOLES" };
+            if (!monedasNacionales.Contains(documentoWeb.Moneda.Descripcion))
+                _DocRate = new UtilDA().GetRate(documentoWeb.Moneda.Descripcion);
 
             string _MetodoPago = null;
             if (documentoWeb.IdMetodoPago != null)
@@ -660,14 +664,18 @@ namespace MSS.TAWA.DA
 
             string _AccountCode = null;
             if ((TipoDocumentoSunat)documentoWebRendicion.IdTipoDocSunat == TipoDocumentoSunat.Devolucion)
-                _AccountCode =  new UtilDA().GetAccountCode(documentoWebRendicion.SAPCodigoCuentaContableRendicion, true);
+                _AccountCode = new UtilDA().GetAccountCode(documentoWebRendicion.SAPCodigoCuentaContableRendicion, true);
             else
                 _AccountCode = new UtilDA().GetAccountCode(documentoWebRendicion.SAPCodigoConcepto);
 
             var _TaxCode = documentoWebRendicion.MontoIGV == 0 ? IGVCode.IGV_EXO.GetIGVCode() : IGVCode.IGV.GetIGVCode();
             var _Etapa = 2;
             var _DocCurrency = documentoWebRendicion.Moneda.Descripcion;
-            var _DocRate = new UtilDA().GetRate(_DocCurrency);
+            var _DocRate = 1M;
+            var monedasNacionales = new[] { "SOL", "S/", "S/.", "PEN", "SOLES" };
+            if (!monedasNacionales.Contains(documentoWebRendicion.Moneda.Descripcion))
+                _DocRate = new UtilDA().GetRate(documentoWebRendicion.Moneda.Descripcion);
+
             var _intNumber =
                 Convert.ToInt32(documentoWebRendicion.DocumentoWeb.Codigo.Substring(2,
                     documentoWebRendicion.DocumentoWeb.Codigo.Length - 2));

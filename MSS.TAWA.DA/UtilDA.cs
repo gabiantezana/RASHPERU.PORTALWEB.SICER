@@ -1,6 +1,16 @@
 ﻿using System;
+using System.CodeDom;
+using System.Collections;
+using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Xml.XPath;
+using MSS.TAWA.BE;
 using MSS.TAWA.HP;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MSS.TAWA.DA
 {
@@ -44,20 +54,14 @@ namespace MSS.TAWA.DA
                     break;
             }
 
-            var queryControlAccount = "EXEC MSS_SP_SICER_GETACCOUNTFROMCONFIG '" + tipoDocumentoWeb.GetPrefix() +
-                                      "' , '" + U_codigo + "'";
-            var strSP = "MSS_SP_SICER_GETACCOUNTFROMCONFIG";
-            var controlAccount = string.Empty;
+            var url = "controlaccounts/getcontrolaccounts.xsjs?document=" + tipoDocumentoWeb.GetPrefix() + "&code=" + U_codigo;
 
-            var rs = new SQLConnectionHelper().DoQuery(ConfigurationManager.ConnectionStrings["SICER"].ConnectionString,
-                queryControlAccount);
-            while (!rs.EOF)
-            {
-                controlAccount = rs.Fields.Item("U_CuentaContable").Value.ToString();
-                return controlAccount;
-            }
+            //recover field cuenta contable
+            var response = GetJsonResponse(url, null, "U_CuentaContable");
+            if (string.IsNullOrEmpty(response))
+                throw new Exception("ControlAccount not found. Query: " + url);
 
-            throw new Exception("ControlAccount not found. Query: " + strSP);
+            return response;
         }
 
         //RENDICIÓN CABECERA
@@ -81,6 +85,7 @@ namespace MSS.TAWA.DA
                             U_codigo = "REDPRMN";
                             break;
                     }
+
                     break;
                 default:
                     switch (tipoDocumentoWeb)
@@ -95,23 +100,18 @@ namespace MSS.TAWA.DA
                             U_codigo = "REDPRME";
                             break;
                     }
+
                     break;
             }
 
-            var queryControlAccount = "EXEC MSS_SP_SICER_GETACCOUNTFROMCONFIG '" + tipoDocumentoWeb.GetPrefix() +
-                                      "' , '" + U_codigo + "'";
-            var strSP = "MSS_SP_SICER_GETACCOUNTFROMCONFIG";
-            var controlAccount = string.Empty;
+            var url = "controlaccounts/getcontrolaccounts.xsjs?document=" + tipoDocumentoWeb.GetPrefix() + "&code=" + U_codigo;
 
-            var rs = new SQLConnectionHelper().DoQuery(ConfigurationManager.ConnectionStrings["SICER"].ConnectionString,
-                queryControlAccount);
-            while (!rs.EOF)
-            {
-                controlAccount = rs.Fields.Item("U_CuentaContable").Value.ToString();
-                return controlAccount;
-            }
+            //recover field cuenta contable
+            var response = GetJsonResponse(url, null, "U_CuentaContable");
+            if (string.IsNullOrEmpty(response))
+                throw new Exception("ControlAccount not found. Query: " + url);
 
-            throw new Exception("ControlAccount not found. Query: " + strSP);
+            return response;
         }
 
         //APERTURA DETALLE
@@ -152,81 +152,54 @@ namespace MSS.TAWA.DA
                     break;
             }
 
-            var queryControlAccount = "EXEC MSS_SP_SICER_GETACCOUNTFROMCONFIG '" + tipoDocumentoWeb.GetPrefix() +
-                                      "' , '" + U_codigo + "'";
-            var strSP = "MSS_SP_SICER_GETACCOUNTFROMCONFIG";
-            var controlAccount = string.Empty;
+            var url = "controlaccounts/getcontrolaccounts.xsjs?document=" + tipoDocumentoWeb.GetPrefix() + "&code=" + U_codigo;
 
-            var rs = new SQLConnectionHelper().DoQuery(ConfigurationManager.ConnectionStrings["SICER"].ConnectionString,
-                queryControlAccount);
-            while (!rs.EOF)
-            {
-                controlAccount = rs.Fields.Item("U_CuentaContable").Value.ToString();
-                return controlAccount;
-            }
+            //recover field cuenta contable
+            var response = GetJsonResponse(url, null, "U_CuentaContable");
+            if (string.IsNullOrEmpty(response))
+                throw new Exception("ControlAccount not found. Query: " + url);
 
-            throw new Exception("ControlAccount not found. Query: " + strSP);
+            return response;
         }
 
         //RENDICIÓN DETALLE
         public string GetAccountCode(string CodigoConceptoSAP)
         {
-            var strSP = "EXEC MSS_WEB_ConceptoObtener '" + CodigoConceptoSAP + "'";
-            var accountCode = string.Empty;
+            //column: U_CuentaContable
+            var url = "concepts/getconcepts.xsjs?code=" + CodigoConceptoSAP;
 
-            var rs = new SQLConnectionHelper().DoQuery(ConfigurationManager.ConnectionStrings["SICER"].ConnectionString,
-                strSP);
-            while (!rs.EOF)
-            {
-                accountCode = rs.Fields.Item("U_CuentaContable").Value.ToString();
-                return accountCode;
-            }
+            //recover field cuenta contable
+            var response = GetJsonResponse(url, null, "U_CuentaContable");
+            if (string.IsNullOrEmpty(response))
+                throw new Exception("ControlAccount not found. Query: " + url);
 
-            throw new Exception("ControlAccount not found. Query: " + strSP);
+            return response;
         }
 
         //RENDICIÓN DETALLE
         public string GetAccountCode(string codigoCuenta, bool esDevolucion)
         {
-            var strSP = "EXEC MSS_WEB_CuentaContableDevolucionObtener '" + codigoCuenta + "'";
-            var ControlAccount = string.Empty;
-            try
-            {
-                var rs = new SQLConnectionHelper().DoQuery(
-                    ConfigurationManager.ConnectionStrings["SICER"].ConnectionString, strSP);
-                while (!rs.EOF)
-                {
-                    ControlAccount = rs.Fields.Item("U_CuentaContable").Value.ToString();
-                    return ControlAccount;
-                }
+            //get column U_CuentaContable
+            var url = "returnaccounts/getreturnaccount.xsjs?code=" + codigoCuenta;
 
-                throw new Exception("Control Account does not found. Query: " + strSP);
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            //recover field cuenta contable
+            var response = GetJsonResponse(url, null, "U_CuentaContable");
+            if (string.IsNullOrEmpty(response))
+                throw new Exception("ControlAccount not found. Query: " + url);
+
+            return response;
         }
 
         public decimal GetRate(string docCurrency)
         {
-            var strSP = "EXEC MSS_WEB_TIPOCAMBIO_GET '" + docCurrency + "'";
-            decimal Rate = 1;
-            try
-            {
-                var rs = new SQLConnectionHelper().DoQuery(
-                    ConfigurationManager.ConnectionStrings["SICER"].ConnectionString, strSP);
-                while (!rs.EOF)
-                {
-                    Rate = Convert.ToDecimal(rs.Fields.Item("Rate").Value.ToString());
-                    return Rate;
-                }
-                return Rate;
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            //column:Rate
+            var url = "rates/getrate.xsjs?code=" + docCurrency;
+            //recover field cuenta contable
+            var response = GetJsonResponse(url, null, "Rate");
+            if (string.IsNullOrEmpty(response))
+                throw new Exception("GetRate not found. Query: " + url);
+
+            return response;
         }
 
         public int GetSeries(TipoDocumentoSunat tipoDocumentoSunat)
@@ -255,45 +228,98 @@ namespace MSS.TAWA.DA
                     throw new NotImplementedException();
             }
 
-            var strSP = "EXEC MSS_WEB_GETSERIES '" + prefix + "'";
-            var Series = 0;
-            try
-            {
-                var rs = new SQLConnectionHelper().DoQuery(
-                    ConfigurationManager.ConnectionStrings["SICER"].ConnectionString, strSP);
-                while (!rs.EOF)
-                {
-                    Series = Convert.ToInt32(rs.Fields.Item("Series").Value.ToString());
-                    return Series;
-                }
-                throw new Exception("Series does not found. Query: " + strSP);
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            //COLUMN: Series
+            var url = "series/getseries.xsjs?code=" + prefix;
+            var response = GetJsonResponse(url, null, "Series");
+            return response;
         }
 
         public string GetPartidaPresupuestal(string U_MSSP_NIV)
         {
-            var strSP = "EXEC MSS_WEB_PARTIDAPRESUPUESTAL_GET '" + U_MSSP_NIV + "'";
-            var partidaPresupuestal = string.Empty;
-            try
+            return string.Empty;
+        }
+
+
+        #region GetJson From Url
+
+        private static string GetUrlPath()
+        {
+            var ip = ConfigurationManager.AppSettings["XSJSPath"];
+            return ip;
+        }
+
+        public static dynamic GetJsonResponse(string path, Type deserealizeType = null, string propertyName = null)
+        {
+            var url = GetUrlPath() + path;
+            var webrequest = (HttpWebRequest)System.Net.WebRequest.Create(url);
+
+            using (var response = webrequest.GetResponse())
+            using (var reader = new StreamReader(response.GetResponseStream() ?? throw new InvalidOperationException()))
             {
-                var rs = new SQLConnectionHelper().DoQuery(
-                    ConfigurationManager.ConnectionStrings["SICER"].ConnectionString, strSP);
-                while (!rs.EOF)
+                var respuesta = reader.ReadToEnd();
+                if ((JsonConvert.DeserializeObject(respuesta) as dynamic).ResponseStatus == "Error")
+                    throw new Exception("Internal error: " +
+                                        (JsonConvert.DeserializeObject(respuesta) as dynamic).Response.message.value);
+
+                var responseProperty = (JsonConvert.DeserializeObject(respuesta) as dynamic).Response;
+
+                if (deserealizeType != null)
                 {
-                    partidaPresupuestal = rs.Fields.Item("U_MSSP_NIV").Value.ToString();
-                    return partidaPresupuestal;
+                    if (deserealizeType.IsGenericType && deserealizeType.Name == "List`1")
+                    {
+                        var itemType = deserealizeType.GetGenericArguments().Single();
+                        return ParseJsonToList(responseProperty.ToString(), itemType);
+                    }
+                    return JsonConvert.DeserializeObject(responseProperty["0"].ToString(), deserealizeType);
                 }
 
-                throw new Exception("Partida presupuestal does not found. Query: " + strSP);
-            }
-            catch (Exception ex)
-            {
-                throw;
+                if (propertyName != null)
+                {
+                    try
+                    {
+                        return responseProperty["0"][propertyName].ToString();
+                    }
+                    catch (Exception ex)
+                    {
+                        
+                    }
+                    try
+                    {
+                        return responseProperty["0"][propertyName.Replace("U_","")].ToString();
+                    }
+                    catch (Exception ex)
+                    {
+                        return string.Empty;
+                    }
+                }
+
+                return responseProperty.ToString();
             }
         }
+
+        private static dynamic ParseJsonToList(dynamic jsonString, Type itemType)
+        {
+            var listType = typeof(List<>).MakeGenericType(new[] { itemType });
+            var list = (IList)Activator.CreateInstance(listType);
+            var parsedJson = JObject.Parse(jsonString);
+            foreach (var jProperty in parsedJson.Properties())
+            {
+                var item = JsonConvert.DeserializeObject(jProperty.Value.ToString(), itemType);
+                list.Add(item);
+            }
+
+            return list;
+            /*
+            string json = "{a: 10, b: 'aaaaaa', c: 1502}";
+
+            var parsedJson = JObject.Parse(json);
+            foreach (var jProperty in parsedJson.Properties())
+            {
+                Console.WriteLine(string.Format("Name: [{0}], Value: [{1}].", jProperty.Name, jProperty.Value));
+                list.Add(jProperty.Value);
+            }*/
+        }
+
+        #endregion
     }
 }

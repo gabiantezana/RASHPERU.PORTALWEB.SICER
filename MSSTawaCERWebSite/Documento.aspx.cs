@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Microsoft.Ajax.Utilities;
 
 public partial class Documento : System.Web.UI.Page
 {
@@ -304,35 +305,39 @@ public partial class Documento : System.Web.UI.Page
 
     private void ListarCentroCostos(int idEmpresa)
     {
+        var listCentroCostos = new CentroCostosBC().ListarCentroCostos(0);
+
+
+
         CentroCostosBC objCentroCostosBC = new CentroCostosBC();
-        ddlCentroCostos1.DataSource = objCentroCostosBC.ListarCentroCostos(1);
+        ddlCentroCostos1.DataSource = listCentroCostos.Where(x => x.Nivel == 1).ToList();
         ddlCentroCostos1.DataTextField = "Descripcion";
         ddlCentroCostos1.DataValueField = "IdCentroCostos";
         ddlCentroCostos1.DataBind();
         ddlCentroCostos1.Enabled = true;
 
-        ddlCentroCostos2.DataSource = objCentroCostosBC.ListarCentroCostos(2);
+        ddlCentroCostos2.DataSource = listCentroCostos.Where(x => x.Nivel == 2).ToList();
         ddlCentroCostos2.DataTextField = "Descripcion";
         ddlCentroCostos2.DataValueField = "IdCentroCostos";
         ddlCentroCostos2.DataBind();
         ddlCentroCostos2.Enabled = true;
 
         objCentroCostosBC = new CentroCostosBC();
-        ddlCentroCostos3.DataSource = objCentroCostosBC.ListarCentroCostos(3);
+        ddlCentroCostos3.DataSource = listCentroCostos.Where(x => x.Nivel == 3).ToList();
         ddlCentroCostos3.DataTextField = "Descripcion";
         ddlCentroCostos3.DataValueField = "IdCentroCostos";
         ddlCentroCostos3.DataBind();
         ddlCentroCostos3.Enabled = true;
 
         objCentroCostosBC = new CentroCostosBC();
-        ddlCentroCostos4.DataSource = objCentroCostosBC.ListarCentroCostos(4);
+        ddlCentroCostos4.DataSource = listCentroCostos.Where(x => x.Nivel == 4).ToList();
         ddlCentroCostos4.DataTextField = "Descripcion";
         ddlCentroCostos4.DataValueField = "IdCentroCostos";
         ddlCentroCostos4.DataBind();
         ddlCentroCostos4.Enabled = true;
 
         objCentroCostosBC = new CentroCostosBC();
-        ddlCentroCostos5.DataSource = objCentroCostosBC.ListarCentroCostos(5);
+        ddlCentroCostos5.DataSource = listCentroCostos.Where(x => x.Nivel == 5).ToList();
         ddlCentroCostos5.DataTextField = "Descripcion";
         ddlCentroCostos5.DataValueField = "IdCentroCostos";
         ddlCentroCostos5.DataBind();
@@ -423,7 +428,7 @@ public partial class Documento : System.Web.UI.Page
             objDocumentoBE.IdCentroCostos3 = ddlCentroCostos3.SelectedItem.Value.ToString();
             objDocumentoBE.IdCentroCostos4 = ddlCentroCostos4.SelectedItem.Value.ToString();
             objDocumentoBE.IdCentroCostos5 = ddlCentroCostos5.SelectedItem.Value.ToString();
-            objDocumentoBE.IdMetodoPago = Convert.ToInt32(ddlIdMetodoPago.SelectedItem.Value);
+            objDocumentoBE.IdMetodoPago = 0;
             objDocumentoBE.IdArea = 0;
             objDocumentoBE.Asunto = txtAsunto.Text;
             objDocumentoBE.MontoInicial = Convert.ToDecimal(txtMontoInicial.Text);
@@ -483,37 +488,6 @@ public partial class Documento : System.Web.UI.Page
 
             new DocumentoWebBC().AprobarDocumento(cambioEstadoBE);
 
-            /*
-            Int32 idUsuario = ((UsuarioBE)Session["Usuario"]).IdUsuario;
-
-            bAprobar.Enabled = false;
-
-            DocumentBE objDocumentoBE = new DocumentoWebBC().GetDocument(_IdDocumento);
-
-            String estado = String.Empty;
-            if (objDocumentoBE.Estado == EstadoDocumento.ObservacionNivel1.IdToString()
-            || objDocumentoBE.Estado == EstadoDocumento.ObservacionNivel2.IdToString()
-            || objDocumentoBE.Estado == EstadoDocumento.ObservacionNivel3.IdToString())
-            {
-                estado = objDocumentoBE.Estado;
-                objDocumentoBE.Estado = Convert.ToString(Convert.ToInt32(objDocumentoBE.Estado) - 7);
-            }
-            else
-            {
-                switch ((EstadoDocumento)Enum.Parse(typeof(EstadoDocumento), objDocumentoBE.Estado))
-                {
-                    case EstadoDocumento.PorAprobarNivel1:
-                        objDocumentoBE.Estado = EstadoDocumento.PorAprobarNivel2.IdToString();
-                        break;
-                    case EstadoDocumento.PorAprobarNivel2:
-                        objDocumentoBE.Estado = EstadoDocumento.Aprobado.IdToString();
-                        break;
-                }
-            }
-
-            new DocumentoWebBC().AddUpdateDocumento(objDocumentoBE);
-            EnviarMensajeParaAprobar(objDocumentoBE.IdDocumento, _TipoDocumentoWeb.GetName(), objDocumentoBE.MontoGastado, txtAsunto.Text, objDocumentoBE.CodigoDocumento, ddlIdUsuarioSolicitante.SelectedItem.Text, objDocumentoBE.Estado, objDocumentoBE.IdEmpresa);
-            */
             Response.Redirect("~/ListadoDocumentos.aspx?TipoDocumentoWeb=" + (Int32)_TipoDocumentoWeb);
 
         }

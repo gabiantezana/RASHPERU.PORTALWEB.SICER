@@ -48,6 +48,8 @@ namespace MSS.TAWA.BE
             get { return _Concepto; }
             set { _Concepto = value; }
         }
+
+        /*
         public String UserCreate
         {
             get { return _UserCreate; }
@@ -67,6 +69,6 @@ namespace MSS.TAWA.BE
         {
             get { return _UpdateDate; }
             set { _UpdateDate = value; }
-        }
+        }*/
     }
 }
