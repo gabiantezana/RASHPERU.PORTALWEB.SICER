@@ -21,43 +21,149 @@ namespace MSS.TAWA.DA
             SqlParameter pCardCode;
             SqlParameter pPass;
 
-            try
+            strConn = ConfigurationManager.ConnectionStrings["SICER"].ConnectionString;
+            sqlConn = new SqlConnection(strConn);
+
+            strSP = "MSS_WEB_UsuarioLogin";
+            sqlCmd = new SqlCommand(strSP, sqlConn);
+            sqlCmd.CommandType = CommandType.StoredProcedure;
+
+            pCardCode = new SqlParameter();
+            pCardCode.ParameterName = "@CardCode";
+            pCardCode.SqlDbType = SqlDbType.VarChar;
+            pCardCode.Size = 20;
+            pCardCode.Value = Username;
+
+            pPass = new SqlParameter();
+            pPass.ParameterName = "@Pass";
+            pPass.SqlDbType = SqlDbType.VarChar;
+            pPass.Size = 200;
+            pPass.Value = Password;
+
+            sqlCmd.Parameters.Add(pCardCode);
+            sqlCmd.Parameters.Add(pPass);
+
+            sqlCmd.Connection.Open();
+            sqlDR = sqlCmd.ExecuteReader();
+
+            UsuarioBE objUsuarioBE;
+
+            objUsuarioBE = null;
+
+            while (sqlDR.Read())
             {
-                strConn = ConfigurationManager.ConnectionStrings["SICER"].ConnectionString;
-                sqlConn = new SqlConnection(strConn);
+                objUsuarioBE = new UsuarioBE();
+                objUsuarioBE.IdUsuario = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuario"));
+                objUsuarioBE.CardCode = sqlDR.GetString(sqlDR.GetOrdinal("CardCode"));
+                objUsuarioBE.Pass = sqlDR.GetString(sqlDR.GetOrdinal("Pass"));
+                objUsuarioBE.CardName = sqlDR.GetString(sqlDR.GetOrdinal("CardName"));
+                objUsuarioBE.Tipo = sqlDR.GetString(sqlDR.GetOrdinal("Tipo"));
+                objUsuarioBE.Phone = sqlDR.GetString(sqlDR.GetOrdinal("Phone"));
+                objUsuarioBE.Mail = sqlDR.GetString(sqlDR.GetOrdinal("Mail"));
+                objUsuarioBE.CantMaxCC = sqlDR.GetString(sqlDR.GetOrdinal("CantMaxCC"));
+                objUsuarioBE.CantMaxER = sqlDR.GetString(sqlDR.GetOrdinal("CantMaxER"));
+                objUsuarioBE.CantMaxRE = sqlDR.GetString(sqlDR.GetOrdinal("CantMaxRE"));
+                objUsuarioBE.IdPerfilUsuario = sqlDR.GetInt32(sqlDR.GetOrdinal("IdPerfilUsuario"));
+                objUsuarioBE.IdArea1 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdArea1"));
+                objUsuarioBE.IdArea2 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdArea2"));
+                objUsuarioBE.IdArea3 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdArea3"));
+                objUsuarioBE.IdArea4 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdArea4"));
+                objUsuarioBE.IdArea5 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdArea5"));
+                objUsuarioBE.IdCentroCostos1 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos1"));
+                objUsuarioBE.IdCentroCostos2 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos2"));
+                objUsuarioBE.IdCentroCostos3 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos3"));
+                objUsuarioBE.IdCentroCostos4 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos4"));
+                objUsuarioBE.IdCentroCostos5 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos5"));
+                objUsuarioBE.IdCentroCostos6 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos6"));
+                objUsuarioBE.IdCentroCostos7 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos7"));
+                objUsuarioBE.IdCentroCostos8 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos8"));
+                objUsuarioBE.IdCentroCostos9 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos9"));
+                objUsuarioBE.IdCentroCostos10 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos10"));
+                objUsuarioBE.IdCentroCostos11 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos11"));
+                objUsuarioBE.IdCentroCostos12 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos12"));
+                objUsuarioBE.IdCentroCostos13 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos13"));
+                objUsuarioBE.IdCentroCostos14 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos14"));
+                objUsuarioBE.IdCentroCostos15 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos15"));
+                objUsuarioBE.IdUsuarioCC1 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioCC1"));
+                objUsuarioBE.IdUsuarioCC2 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioCC2"));
+                objUsuarioBE.IdUsuarioCC3 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioCC3"));
+                objUsuarioBE.IdUsuarioER1 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioER1"));
+                objUsuarioBE.IdUsuarioER2 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioER2"));
+                objUsuarioBE.IdUsuarioER3 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioER3"));
+                objUsuarioBE.IdUsuarioRE1 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioRE1"));
+                objUsuarioBE.IdUsuarioRE2 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioRE2"));
+                objUsuarioBE.IdUsuarioRE3 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioRE3"));
+                objUsuarioBE.Comentario = sqlDR.GetString(sqlDR.GetOrdinal("Comentario"));
+                objUsuarioBE.Estado = sqlDR.GetString(sqlDR.GetOrdinal("Estado"));
+                objUsuarioBE.IntentoLogin = sqlDR.GetString(sqlDR.GetOrdinal("IntentoLogin"));
+                objUsuarioBE.HoraMinutoLogin = sqlDR.GetDateTime(sqlDR.GetOrdinal("HoraMinutoLogin"));
+                objUsuarioBE.UserCreate = sqlDR.GetString(sqlDR.GetOrdinal("UserCreate"));
+                objUsuarioBE.CreateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("CreateDate"));
+                objUsuarioBE.UserUpdate = sqlDR.GetString(sqlDR.GetOrdinal("UserUpdate"));
+                objUsuarioBE.UpdateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("UpdateDate"));
+            }
+            sqlDR.Close();
+            sqlDR.Dispose();
+            sqlCmd.Connection.Close();
+            sqlCmd.Dispose();
+            sqlConn.Dispose();
+            return objUsuarioBE;
 
-                strSP = "MSS_WEB_UsuarioLogin";
-                sqlCmd = new SqlCommand(strSP, sqlConn);
-                sqlCmd.CommandType = CommandType.StoredProcedure;
+        }
 
-                pCardCode = new SqlParameter();
-                pCardCode.ParameterName = "@CardCode";
-                pCardCode.SqlDbType = SqlDbType.VarChar;
-                pCardCode.Size = 20;
-                pCardCode.Value = Username;
+        // Listar Usuario
+        public List<UsuarioBE> ListarUsuario(int Tipo2, int IdUsuario2, int Tipo3)
+        {
+            SqlConnection sqlConn;
+            string strConn;
+            SqlCommand sqlCmd;
+            string strSP;
+            SqlDataReader sqlDR;
 
-                pPass = new SqlParameter();
-                pPass.ParameterName = "@Pass";
-                pPass.SqlDbType = SqlDbType.VarChar;
-                pPass.Size = 200;
-                pPass.Value = Password;
+            SqlParameter pTipo2;
+            SqlParameter pIdUsuario2;
+            SqlParameter pTipo3;
 
-                sqlCmd.Parameters.Add(pCardCode);
-                sqlCmd.Parameters.Add(pPass);
+            strConn = ConfigurationManager.ConnectionStrings["SICER"].ConnectionString;
+            sqlConn = new SqlConnection(strConn);
+            strSP = "MSS_WEB_UsuarioListar";
+            sqlCmd = new SqlCommand(strSP, sqlConn);
 
-                sqlCmd.Connection.Open();
-                sqlDR = sqlCmd.ExecuteReader();
+            sqlCmd.CommandType = CommandType.StoredProcedure;
 
-                UsuarioBE objUsuarioBE;
+            pTipo2 = new SqlParameter();
+            pTipo2.ParameterName = "@Tipo2";
+            pTipo2.SqlDbType = SqlDbType.Int;
+            pTipo2.Value = Tipo2;
 
-                objUsuarioBE = null;
+            pIdUsuario2 = new SqlParameter();
+            pIdUsuario2.ParameterName = "@IdUsuario2";
+            pIdUsuario2.SqlDbType = SqlDbType.Int;
+            pIdUsuario2.Value = IdUsuario2;
 
-                while (sqlDR.Read())
+            pTipo3 = new SqlParameter();
+            pTipo3.ParameterName = "@Tipo3";
+            pTipo3.SqlDbType = SqlDbType.Int;
+            pTipo3.Value = Tipo3;
+
+            sqlCmd.Parameters.Add(pTipo2);
+            sqlCmd.Parameters.Add(pIdUsuario2);
+            sqlCmd.Parameters.Add(pTipo3);
+
+            sqlCmd.Connection.Open();
+            sqlDR = sqlCmd.ExecuteReader();
+
+            List<UsuarioBE> lstUsuarioBE;
+            UsuarioBE objUsuarioBE;
+            lstUsuarioBE = new List<UsuarioBE>();
+
+            while (sqlDR.Read())
+                try
                 {
                     objUsuarioBE = new UsuarioBE();
                     objUsuarioBE.IdUsuario = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuario"));
                     objUsuarioBE.CardCode = sqlDR.GetString(sqlDR.GetOrdinal("CardCode"));
-                    objUsuarioBE.Pass = sqlDR.GetString(sqlDR.GetOrdinal("Pass"));
+                    //objUsuarioBE.Pass = sqlDR.GetString(sqlDR.GetOrdinal("Pass"));
                     objUsuarioBE.CardName = sqlDR.GetString(sqlDR.GetOrdinal("CardName"));
                     objUsuarioBE.Tipo = sqlDR.GetString(sqlDR.GetOrdinal("Tipo"));
                     objUsuarioBE.Phone = sqlDR.GetString(sqlDR.GetOrdinal("Phone"));
@@ -97,144 +203,25 @@ namespace MSS.TAWA.DA
                     objUsuarioBE.IdUsuarioRE3 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioRE3"));
                     objUsuarioBE.Comentario = sqlDR.GetString(sqlDR.GetOrdinal("Comentario"));
                     objUsuarioBE.Estado = sqlDR.GetString(sqlDR.GetOrdinal("Estado"));
-                    objUsuarioBE.IntentoLogin = sqlDR.GetString(sqlDR.GetOrdinal("IntentoLogin"));
-                    objUsuarioBE.HoraMinutoLogin = sqlDR.GetDateTime(sqlDR.GetOrdinal("HoraMinutoLogin"));
+                    //objUsuarioBE.IntentoLogin = sqlDR.GetString(sqlDR.GetOrdinal("IntentoLogin"));
+                    //objUsuarioBE.HoraMinutoLogin = sqlDR.GetDateTime(sqlDR.GetOrdinal("HoraMinutoLogin"));
                     objUsuarioBE.UserCreate = sqlDR.GetString(sqlDR.GetOrdinal("UserCreate"));
                     objUsuarioBE.CreateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("CreateDate"));
                     objUsuarioBE.UserUpdate = sqlDR.GetString(sqlDR.GetOrdinal("UserUpdate"));
                     objUsuarioBE.UpdateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("UpdateDate"));
+                    lstUsuarioBE.Add(objUsuarioBE);
                 }
-                sqlDR.Close();
-                sqlDR.Dispose();
-                sqlCmd.Connection.Close();
-                sqlCmd.Dispose();
-                sqlConn.Dispose();
-                return objUsuarioBE;
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-        }
+                catch (Exception ex)
+                {
+                }
 
-        // Listar Usuario
-        public List<UsuarioBE> ListarUsuario(int Tipo2, int IdUsuario2, int Tipo3)
-        {
-            SqlConnection sqlConn;
-            string strConn;
-            SqlCommand sqlCmd;
-            string strSP;
-            SqlDataReader sqlDR;
+            sqlCmd.Connection.Close();
+            sqlCmd.Dispose();
 
-            SqlParameter pTipo2;
-            SqlParameter pIdUsuario2;
-            SqlParameter pTipo3;
+            sqlConn.Close();
+            sqlConn.Dispose();
 
-            try
-            {
-                strConn = ConfigurationManager.ConnectionStrings["SICER"].ConnectionString;
-                sqlConn = new SqlConnection(strConn);
-                strSP = "MSS_WEB_UsuarioListar";
-                sqlCmd = new SqlCommand(strSP, sqlConn);
-
-                sqlCmd.CommandType = CommandType.StoredProcedure;
-
-                pTipo2 = new SqlParameter();
-                pTipo2.ParameterName = "@Tipo2";
-                pTipo2.SqlDbType = SqlDbType.Int;
-                pTipo2.Value = Tipo2;
-
-                pIdUsuario2 = new SqlParameter();
-                pIdUsuario2.ParameterName = "@IdUsuario2";
-                pIdUsuario2.SqlDbType = SqlDbType.Int;
-                pIdUsuario2.Value = IdUsuario2;
-
-                pTipo3 = new SqlParameter();
-                pTipo3.ParameterName = "@Tipo3";
-                pTipo3.SqlDbType = SqlDbType.Int;
-                pTipo3.Value = Tipo3;
-
-                sqlCmd.Parameters.Add(pTipo2);
-                sqlCmd.Parameters.Add(pIdUsuario2);
-                sqlCmd.Parameters.Add(pTipo3);
-
-                sqlCmd.Connection.Open();
-                sqlDR = sqlCmd.ExecuteReader();
-
-                List<UsuarioBE> lstUsuarioBE;
-                UsuarioBE objUsuarioBE;
-                lstUsuarioBE = new List<UsuarioBE>();
-
-                while (sqlDR.Read())
-                    try
-                    {
-                        objUsuarioBE = new UsuarioBE();
-                        objUsuarioBE.IdUsuario = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuario"));
-                        objUsuarioBE.CardCode = sqlDR.GetString(sqlDR.GetOrdinal("CardCode"));
-                        //objUsuarioBE.Pass = sqlDR.GetString(sqlDR.GetOrdinal("Pass"));
-                        objUsuarioBE.CardName = sqlDR.GetString(sqlDR.GetOrdinal("CardName"));
-                        objUsuarioBE.Tipo = sqlDR.GetString(sqlDR.GetOrdinal("Tipo"));
-                        objUsuarioBE.Phone = sqlDR.GetString(sqlDR.GetOrdinal("Phone"));
-                        objUsuarioBE.Mail = sqlDR.GetString(sqlDR.GetOrdinal("Mail"));
-                        objUsuarioBE.CantMaxCC = sqlDR.GetString(sqlDR.GetOrdinal("CantMaxCC"));
-                        objUsuarioBE.CantMaxER = sqlDR.GetString(sqlDR.GetOrdinal("CantMaxER"));
-                        objUsuarioBE.CantMaxRE = sqlDR.GetString(sqlDR.GetOrdinal("CantMaxRE"));
-                        objUsuarioBE.IdPerfilUsuario = sqlDR.GetInt32(sqlDR.GetOrdinal("IdPerfilUsuario"));
-                        objUsuarioBE.IdArea1 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdArea1"));
-                        objUsuarioBE.IdArea2 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdArea2"));
-                        objUsuarioBE.IdArea3 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdArea3"));
-                        objUsuarioBE.IdArea4 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdArea4"));
-                        objUsuarioBE.IdArea5 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdArea5"));
-                        objUsuarioBE.IdCentroCostos1 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos1"));
-                        objUsuarioBE.IdCentroCostos2 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos2"));
-                        objUsuarioBE.IdCentroCostos3 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos3"));
-                        objUsuarioBE.IdCentroCostos4 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos4"));
-                        objUsuarioBE.IdCentroCostos5 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos5"));
-                        objUsuarioBE.IdCentroCostos6 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos6"));
-                        objUsuarioBE.IdCentroCostos7 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos7"));
-                        objUsuarioBE.IdCentroCostos8 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos8"));
-                        objUsuarioBE.IdCentroCostos9 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos9"));
-                        objUsuarioBE.IdCentroCostos10 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos10"));
-                        objUsuarioBE.IdCentroCostos11 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos11"));
-                        objUsuarioBE.IdCentroCostos12 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos12"));
-                        objUsuarioBE.IdCentroCostos13 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos13"));
-                        objUsuarioBE.IdCentroCostos14 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos14"));
-                        objUsuarioBE.IdCentroCostos15 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdCentroCostos15"));
-                        objUsuarioBE.IdUsuarioCC1 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioCC1"));
-                        objUsuarioBE.IdUsuarioCC2 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioCC2"));
-                        objUsuarioBE.IdUsuarioCC3 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioCC3"));
-                        objUsuarioBE.IdUsuarioER1 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioER1"));
-                        objUsuarioBE.IdUsuarioER2 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioER2"));
-                        objUsuarioBE.IdUsuarioER3 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioER3"));
-                        objUsuarioBE.IdUsuarioRE1 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioRE1"));
-                        objUsuarioBE.IdUsuarioRE2 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioRE2"));
-                        objUsuarioBE.IdUsuarioRE3 = sqlDR.GetInt32(sqlDR.GetOrdinal("IdUsuarioRE3"));
-                        objUsuarioBE.Comentario = sqlDR.GetString(sqlDR.GetOrdinal("Comentario"));
-                        objUsuarioBE.Estado = sqlDR.GetString(sqlDR.GetOrdinal("Estado"));
-                        //objUsuarioBE.IntentoLogin = sqlDR.GetString(sqlDR.GetOrdinal("IntentoLogin"));
-                        //objUsuarioBE.HoraMinutoLogin = sqlDR.GetDateTime(sqlDR.GetOrdinal("HoraMinutoLogin"));
-                        objUsuarioBE.UserCreate = sqlDR.GetString(sqlDR.GetOrdinal("UserCreate"));
-                        objUsuarioBE.CreateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("CreateDate"));
-                        objUsuarioBE.UserUpdate = sqlDR.GetString(sqlDR.GetOrdinal("UserUpdate"));
-                        objUsuarioBE.UpdateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("UpdateDate"));
-                        lstUsuarioBE.Add(objUsuarioBE);
-                    }
-                    catch (Exception ex)
-                    {
-                    }
-
-                sqlCmd.Connection.Close();
-                sqlCmd.Dispose();
-
-                sqlConn.Close();
-                sqlConn.Dispose();
-
-                return lstUsuarioBE;
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            return lstUsuarioBE;
         }
 
         // Listar Usuario 2

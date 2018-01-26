@@ -81,6 +81,12 @@ namespace MSS.TAWA.DA
             }
         }
 
+        public List<ProveedorBE> ListarProveedoresDeSAP()
+        {
+            var url = "businesspartners/getbusinesspartnerlist.xsjs";
+            var response = UtilDA.GetJsonResponse(url, typeof(List<ProveedorBE>));
+            return response;
+        }
         // Obtener Proveedor
         public ProveedorBE ObtenerProveedor(int Id, int Tipo, string Nombre)
         {
@@ -164,6 +170,13 @@ namespace MSS.TAWA.DA
         {
             var url = "businesspartners/getbusinesspartner.xsjs?cardCode=" + cardCode;
             var response = UtilDA.GetJsonResponse(url, null, "CardName");
+            return response;
+        }
+
+        public string GetCardCodeProveedorSAP(string ruc)
+        {
+            var url = "businesspartners/getbusinesspartner.xsjs?cardCode=" + ruc;
+            var response = UtilDA.GetJsonResponse(url, null, "CardCode");
             return response;
         }
 

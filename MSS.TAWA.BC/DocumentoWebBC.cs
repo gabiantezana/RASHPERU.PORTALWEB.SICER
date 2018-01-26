@@ -50,7 +50,7 @@ namespace MSS.TAWA.BC
             try
             {
                 var item = new DocumentoWebDA().GetDocumentoWeb(IdDocumento);
-                var documentoBE = new DocumentoWebBE((TipoDocumentoWeb) item.TipoDocumentoWeb);
+                var documentoBE = new DocumentoWebBE((TipoDocumentoWeb)item.TipoDocumentoWeb);
                 documentoBE.IdDocumentoWeb = item.IdDocumentoWeb;
                 documentoBE.Asunto = item.Asunto;
                 documentoBE.CodigoDocumento = item.Codigo;
@@ -121,22 +121,31 @@ namespace MSS.TAWA.BC
 
         public List<DocumentoWebRendicionBE> GetList(int idDocumentoWeb, bool ListarSoloEstadoGuardado)
         {
-            try
-            {
-                var _list = new DocumentoWebDA().GetListDocumentoWebRendicion(idDocumentoWeb);
-                if (ListarSoloEstadoGuardado)
-                    _list = _list.Where(x => x.EstadoRendicion == (int) EstadoDocumentoRendicion.Guardado).ToList();
+            var _list = new DocumentoWebDA().GetListDocumentoWebRendicion(idDocumentoWeb);
+            if (ListarSoloEstadoGuardado)
+                _list = _list.Where(x => x.EstadoRendicion == (int)EstadoDocumentoRendicion.Guardado).ToList();
 
-                var list = new List<DocumentoWebRendicionBE>();
+            if (!_list.Any()) return new List<DocumentoWebRendicionBE>();
 
-                foreach (var doc in _list)
-                    list.Add(GetDocumentoWebRendicion(doc.IdDocumentoWebRendicion, idDocumentoWeb));
-                return list;
-            }
-            catch (Exception ex)
+            var list = new List<DocumentoWebRendicionBE>();
+            var listaProveedoresSAP = new ProveedorBC().ListarProveedoresDeSAP();
+            var listaProveedoresLocal = new ProveedorBC().ListarProveedor(idDocumentoWeb, 2);
+
+            var listaProveedoresLocalYSAP = listaProveedoresSAP.Concat(listaProveedoresLocal).ToList();
+            var listaCentrosDeCosto = new CentroCostosBC().ListarCentroCostos(0);
+
+            foreach (var doc in _list)
             {
-                throw;
+                var documentoWebRendicionBE = GetDocumentoWebRendicion(doc.IdDocumentoWebRendicion, idDocumentoWeb);
+
+                documentoWebRendicionBE.SAPProveedor = listaProveedoresLocalYSAP.FirstOrDefault(x => x.CardCode == documentoWebRendicionBE.SAPProveedor)?.CardName;
+                documentoWebRendicionBE.IdCentroCostos1 = listaCentrosDeCosto.FirstOrDefault(x => x.CodigoSAP == documentoWebRendicionBE.IdCentroCostos1)?.Descripcion;
+                documentoWebRendicionBE.IdCentroCostos2 = listaCentrosDeCosto.FirstOrDefault(x => x.CodigoSAP == documentoWebRendicionBE.IdCentroCostos2)?.Descripcion;
+                documentoWebRendicionBE.IdCentroCostos3 = listaCentrosDeCosto.FirstOrDefault(x => x.CodigoSAP == documentoWebRendicionBE.IdCentroCostos3)?.Descripcion;
+
+                list.Add(documentoWebRendicionBE);
             }
+            return list;
         }
 
         public DocumentoWebRendicionBE GetDocumentoWebRendicion(int? IdDocumentoWebRendicion,
@@ -163,7 +172,7 @@ namespace MSS.TAWA.BC
                     documentoBE.IdConcepto = item.SAPCodigoConcepto;
                     documentoBE.IdDocumentoWeb = item.IdDocumentoWeb;
                     documentoBE.IdDocumentoWebRendicion = item.IdDocumentoWebRendicion;
-                    documentoBE.IdMonedaDoc = item.IdMonedaDoc;
+                    documentoBE.IdMonedaDoc = item.Moneda1.IdMoneda;
                     documentoBE.IdMonedaOriginal = item.DocumentoWeb.IdMoneda;
                     documentoBE.SAPProveedor = item.SAPProveedor;
                     documentoBE.MontoAfecto = item.MontoAfecto;
@@ -175,7 +184,7 @@ namespace MSS.TAWA.BC
                     documentoBE.Rendicion = item.NumeroRendicion;
                     documentoBE.SerieDoc = item.SerieDoc;
                     documentoBE.TasaCambio = item.MontoTasaCambio;
-                    documentoBE.TipoDoc = item.IdTipoDocSunat.ToString();
+                    documentoBE.TipoDoc = item.Documento?.Descripcion;
                     documentoBE.UpdateDate = DateTime.Now; //TODO:
                     documentoBE.UserCreate = item.IdUsuarioCreacion;
                     documentoBE.UserUpdate = item.IdUsuarioModificacion;
@@ -207,10 +216,10 @@ namespace MSS.TAWA.BC
                 var documentoWeb = new DocumentoWebDA().GetDocumentoWeb(objBE.IdDocumentoWeb);
 
                 //Valida si rendición excede el monto inicial del documento principal.
-                if ((TipoDocumentoWeb) documentoWeb.TipoDocumentoWeb == TipoDocumentoWeb.EntregaRendir
-                    && objBE.TipoDoc == ((int) TipoDocumentoSunat.Devolucion).ToString()
-                    || (TipoDocumentoWeb) documentoWeb.TipoDocumentoWeb == TipoDocumentoWeb.CajaChica
-                    || (TipoDocumentoWeb) documentoWeb.TipoDocumentoWeb == TipoDocumentoWeb.Reembolso
+                if ((TipoDocumentoWeb)documentoWeb.TipoDocumentoWeb == TipoDocumentoWeb.EntregaRendir
+                    && objBE.TipoDoc == ((int)TipoDocumentoSunat.Devolucion).ToString()
+                    || (TipoDocumentoWeb)documentoWeb.TipoDocumentoWeb == TipoDocumentoWeb.CajaChica
+                    || (TipoDocumentoWeb)documentoWeb.TipoDocumentoWeb == TipoDocumentoWeb.Reembolso
                 )
                 {
                     var montoGastadoTotal = documentoWeb.DocumentoWebRendicion

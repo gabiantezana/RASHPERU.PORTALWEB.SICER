@@ -120,6 +120,9 @@
     <Compile Include="MSS_SP_SICER_FACTURASRENDIDASER_Result.cs">
       <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="MSS_SP_SICER_GETFACTURASWEBMIGRACION_Result.cs">
+      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="MSS_SP_SICER_JOURNALENTRIESHEADER_Result.cs">
       <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
     </Compile>
@@ -234,6 +237,9 @@
     <Compile Include="NivelAprobacion.cs">
       <DependentUpon>SICER_WEBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="OBTENERPROVEEDORDESAP_Result.cs">
+      <DependentUpon>TestModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="PerfilUsuario.cs">
       <DependentUpon>SICER_WEBModel.tt</DependentUpon>
     </Compile>
@@ -279,6 +285,21 @@
     </Compile>
     <Compile Include="TD_DOCU_RETE.cs">
       <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TestModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TestModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TestModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TestModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TestModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TestModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="USP_SEL_BUSQUEDA_001_Result.cs">
       <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
@@ -346,6 +367,21 @@
     <Compile Include="UsuarioAreaNivel.cs">
       <DependentUpon>SICER_WEBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="VW_EMPR_RETE.cs">
+      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VW_TIPO_DOCU.cs">
+      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VW_TIPO_IDEN.cs">
+      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VW_TIPO_MONE.cs">
+      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VW_VERS.cs">
+      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
@@ -363,6 +399,13 @@
     </None>
     <None Include="SICER_WEBModel.edmx.diagram">
       <DependentUpon>SICER_WEBModel.edmx</DependentUpon>
+    </None>
+    <EntityDeploy Include="TestModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>TestModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="TestModel.edmx.diagram">
+      <DependentUpon>TestModel.edmx</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -388,6 +431,16 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>SICER_WEBModel.edmx</DependentUpon>
       <LastGenOutput>SICER_WEBModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="TestModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TestModel.edmx</DependentUpon>
+      <LastGenOutput>TestModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="TestModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TestModel.edmx</DependentUpon>
+      <LastGenOutput>TestModel.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

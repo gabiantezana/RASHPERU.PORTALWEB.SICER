@@ -199,7 +199,7 @@ namespace MSS.TAWA.DA
             if (string.IsNullOrEmpty(response))
                 throw new Exception("GetRate not found. Query: " + url);
 
-            return response;
+            return Convert.ToDecimal(response);
         }
 
         public int GetSeries(TipoDocumentoSunat tipoDocumentoSunat)
@@ -281,11 +281,11 @@ namespace MSS.TAWA.DA
                     }
                     catch (Exception ex)
                     {
-                        
+
                     }
                     try
                     {
-                        return responseProperty["0"][propertyName.Replace("U_","")].ToString();
+                        return responseProperty["0"][propertyName.Replace("U_", "")].ToString();
                     }
                     catch (Exception ex)
                     {

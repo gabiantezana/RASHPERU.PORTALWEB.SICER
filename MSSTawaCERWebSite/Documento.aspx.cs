@@ -372,18 +372,18 @@ public partial class Documento : System.Web.UI.Page
 
     public Boolean CamposSonValidos(out String errorMessage)
     {
-        Int32[] indexNoValidos = { 0, -1 };
+        var indexNoValidos = new [] { "0", "-1" };
         errorMessage = String.Empty;
 
-        if (indexNoValidos.Contains(ddlIdEmpresa.SelectedIndex))
+        if (indexNoValidos.Contains(ddlIdEmpresa.SelectedValue))
             errorMessage = "Debe ingresar la empresa";
-        else if (indexNoValidos.Contains(ddlMoneda.SelectedIndex))
+        else if (indexNoValidos.Contains(ddlMoneda.SelectedValue))
             errorMessage = "Debe ingresar la  moneda";
         else if (String.IsNullOrWhiteSpace(txtMontoInicial.Text))
             errorMessage = "Debe ingresar el monto inicial";
         else if (!txtMontoInicial.Text.IsNumeric())
             errorMessage = "El importe inicial no es válido";
-        else if (indexNoValidos.Contains(ddlCentroCostos1.SelectedIndex))
+        else if (indexNoValidos.Contains(ddlCentroCostos1.SelectedValue))
             errorMessage = "Debe ingresar el centro de costo nivel 1";
         else if (String.IsNullOrWhiteSpace(txtAsunto.Text))
             errorMessage = "Debe ingresar el asunto.";

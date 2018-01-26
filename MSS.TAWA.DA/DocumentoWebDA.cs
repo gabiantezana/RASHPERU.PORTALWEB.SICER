@@ -241,6 +241,7 @@ namespace MSS.TAWA.DA
                 documentoWeb.EstadoDocumento = (int)EstadoDocumento.PorAprobarNivel1;
                 documentoWeb.NumeroRendicion = 1;
                 documentoWeb.CreateDate = DateTime.Now;
+                documentoWeb.UpdateDate = DateTime.Now;
                 documentoWeb.IdUsuarioCreacion = Convert.ToInt32(documentoWebBE.IdUsuarioCreador);
                 documentoWeb.IdUsuarioSolicitante = documentoWebBE.IdUsuarioSolicitante;
                 documentoWeb.IdUsuarioModificacion = documentoWeb.IdUsuarioCreacion;
@@ -532,7 +533,7 @@ namespace MSS.TAWA.DA
             documentoWebRendicion.FechaDoc = documentoRendicionBE.FechaDoc;
             documentoWebRendicion.IdMonedaDoc = documentoRendicionBE.IdMonedaDoc;
             if (string.IsNullOrEmpty(documentoRendicionBE.SAPProveedor))
-                throw new Exception("Error al obtener el proveedor de SAP");
+                throw new Exception("El proveedor de SAP se está enviando nulo. Contacte a su administrador");
             documentoWebRendicion.SAPProveedor = documentoRendicionBE.SAPProveedor;
             documentoWebRendicion.IdTipoDocSunat = Convert.ToInt32(documentoRendicionBE.TipoDoc);
             documentoWebRendicion.MontoAfecto = documentoRendicionBE.MontoAfecto;
@@ -563,6 +564,10 @@ namespace MSS.TAWA.DA
         {
             var dataContext = new SICER_WEBEntities1();
             var document = dataContext.DocumentoWebRendicion.Find(idDocumentoRendicion);
+            if (document == null)
+                throw new Exception("No se encontró ningún documento con id de Rendición: " + idDocumentoRendicion);
+
+
             dataContext.DocumentoWebRendicion.Remove(document);
             dataContext.SaveChanges();
         }

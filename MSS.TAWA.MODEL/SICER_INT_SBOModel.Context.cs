@@ -31,6 +31,11 @@ namespace MSS.TAWA.MODEL
         public virtual DbSet<MaestroTrabajadores> MaestroTrabajadores { get; set; }
         public virtual DbSet<DetalleAsientos> DetalleAsientos { get; set; }
         public virtual DbSet<TD_DOCU_RETE> TD_DOCU_RETE { get; set; }
+        public virtual DbSet<VW_EMPR_RETE> VW_EMPR_RETE { get; set; }
+        public virtual DbSet<VW_TIPO_DOCU> VW_TIPO_DOCU { get; set; }
+        public virtual DbSet<VW_TIPO_IDEN> VW_TIPO_IDEN { get; set; }
+        public virtual DbSet<VW_TIPO_MONE> VW_TIPO_MONE { get; set; }
+        public virtual DbSet<VW_VERS> VW_VERS { get; set; }
     
         public virtual ObjectResult<MSS_SP_SICER_ACCOUNTINFO_Result> MSS_SP_SICER_ACCOUNTINFO(string curr, Nullable<System.DateTime> date, string cC5)
         {
@@ -976,6 +981,11 @@ namespace MSS.TAWA.MODEL
                 new ObjectParameter("DE_OBSE", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("USP_UPD_TD_DOCU_SUNA_002", nU_RUCSParameter, cO_TIPO_DOCUParameter, cO_SERIParameter, nU_CORRParameter, cO_ESTAParameter, dE_OBSEParameter);
+        }
+    
+        public virtual ObjectResult<MSS_SP_SICER_GETFACTURASWEBMIGRACION_Result> MSS_SP_SICER_GETFACTURASWEBMIGRACION()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MSS_SP_SICER_GETFACTURASWEBMIGRACION_Result>("MSS_SP_SICER_GETFACTURASWEBMIGRACION");
         }
     }
 }

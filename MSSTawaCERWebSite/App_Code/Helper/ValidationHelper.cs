@@ -14,6 +14,18 @@ public class ValidationHelper
     public ValidationHelper()
     {
     }
+
+    public Boolean ProveedorExisteEnBDIOSAP(string ruc)
+    {
+        var cardNameFromSap = new ProveedorBC().GetCardNameProveedorSAP(ruc);
+
+        if (!string.IsNullOrEmpty(cardNameFromSap))
+            return true;
+
+        return ProveedorExiste(ruc);
+    }
+
+
     public Boolean ProveedorExiste(String nombreProveedor)
     {
         var objProveedorBE = new ProveedorBC().ObtenerProveedor(0, 1, nombreProveedor);

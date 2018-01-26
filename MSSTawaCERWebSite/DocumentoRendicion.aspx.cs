@@ -481,7 +481,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         gvDocumentos.PageIndex = e.NewPageIndex;
         ListarRendicion();
     }
-
+    
     private void LlenarCabecera()
     {
         Int32 idDocumentoWeb = Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumentoWeb].ToString());
@@ -566,116 +566,6 @@ public partial class DocumentoRendicion : System.Web.UI.Page
             new DocumentoWebBC().AddUpdateDocumentoWebRendicion(objDetalleDocumentoBE);
             LlenarCabecera();
         }
-    }
-
-    #endregion
-
-    #region Listado Helpers
-
-    public String SetearTipo(Int32 idTipoDoc)
-    {
-        DocumentoBC objDocumentoBC = new DocumentoBC();
-        DocumentobBE objDocumentoBE = new DocumentobBE();
-
-        objDocumentoBE = objDocumentoBC.ObtenerDocumento(idTipoDoc);
-        if (objDocumentoBE != null) return objDocumentoBE.Descripcion;
-        else return "";
-    }
-
-    public String SetearProveedorRUC(String sIdProveedor)
-    {
-        ProveedorBC objProveedorBC = new ProveedorBC();
-        ProveedorBE objProveedorBE = new ProveedorBE();
-        objProveedorBE = objProveedorBC.ObtenerProveedor(Convert.ToInt32(sIdProveedor), 0, "");
-        if (objProveedorBE != null) return objProveedorBE.Documento;
-        else return "";
-    }
-
-    public String SetearProveedor(String sId)
-    {
-        ProveedorBC objProveedorBC = new ProveedorBC();
-        ProveedorBE objProveedorBE = new ProveedorBE();
-        //BUSCA PROVEEDOR EN SAP:
-        string cardName = objProveedorBC.GetCardNameProveedorSAP(sId);
-        if (!string.IsNullOrEmpty(cardName))
-        {
-            return cardName;
-        }
-        //BUSCA PROVEEDOR EN BASE DE DATOS SICER:
-        else
-        {
-            var proveedorFromSICER = objProveedorBC.ObtenerProveedor(0, 1, sId);
-            if (proveedorFromSICER != null)
-                if (!string.IsNullOrEmpty(proveedorFromSICER.CardName))
-                    return proveedorFromSICER.CardName;
-        }
-        return string.Empty;
-
-        /*
-        objProveedorBE = objProveedorBC.ObtenerProveedor(Convert.ToInt32(sId), 0, "");
-        if (objProveedorBE != null) return objProveedorBE.CardName;
-        else return "";*/
-    }
-
-    public String SetearConcepto(String sId)
-    {
-        ConceptoBC objConceptoBC = new ConceptoBC();
-        ConceptoBE objConceptoBE = new ConceptoBE();
-        objConceptoBE = objConceptoBC.ObtenerConcepto(sId);
-        if (objConceptoBE != null) return objConceptoBE.Descripcion;
-        else return "";
-    }
-
-    public String SetearCentroCostos(String sId)
-    {
-        CentroCostosBC objCentroCostosBC = new CentroCostosBC();
-        CentroCostosBE objCentroCostosBE = new CentroCostosBE();
-        objCentroCostosBE = objCentroCostosBC.ObtenerCentroCostos(sId);
-        if (objCentroCostosBE != null) return objCentroCostosBE.Descripcion;
-        else return "";
-    }
-
-    public String SetearMoneda(Int32 idMoneda)
-    {
-        MonedaBC objMonedaBC = new MonedaBC();
-        MonedaBE objMonedaBE = new MonedaBE();
-        objMonedaBE = objMonedaBC.ObtenerMoneda(idMoneda);
-        if (objMonedaBE != null) return objMonedaBE.Descripcion;
-        else return "";
-    }
-
-    public String SetearPartidaPresupuestal(String U_MSSP_NIV)
-    {
-        Int32 IdEmpresaEnterna = Convert.ToInt32(ConfigurationManager.AppSettings[ConstantHelper.Keys.IdEmpresaInterna].ToString());
-        if ((EmpresaInterna)IdEmpresaEnterna == EmpresaInterna.IIMP)
-        {
-
-            PartidaPresupuestalBC bc = new PartidaPresupuestalBC();
-            PartidaPresupuestalBE be = new PartidaPresupuestalBE();
-            be = bc.GetPartidaPresupuestal(U_MSSP_NIV);
-            if (be != null)
-                return be.U_MSSP_NIV;
-            else
-                return "";
-        }
-        return "";
-    }
-
-    public String SetearCuentaContableDevolucion(String code)
-    {
-        CuentaContableBC bc = new CuentaContableBC();
-        CuentaContableDevolucionBE be = new CuentaContableDevolucionBE();
-        be = bc.GetCuentaContable(code);
-        if (be != null)
-            return be.U_Descripcion;
-        else
-            return "";
-    }
-
-    public bool SetearCheck(String sId)
-    {
-        if (sId == "1") return true;
-        else return false;
     }
 
     #endregion
@@ -1248,6 +1138,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
     {
         _IdDocumentoWeb = Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumentoWeb]);
         String errorMessage;
+
         CamposSonValidos(out errorMessage);
         if (!String.IsNullOrEmpty(errorMessage))
         {
@@ -1272,7 +1163,10 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         documentDetailBE.SerieDoc = txtSerie.Text;
         documentDetailBE.CorrelativoDoc = Convert.ToInt32(txtNumero.Text);
         documentDetailBE.FechaDoc = DateTime.ParseExact(txtFecha.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-        documentDetailBE.SAPProveedor = txtProveedor.Text;
+        var cardCodeSAP = new ProveedorBC().GetCardCodeProveedorSAP(txtProveedor.Text);
+        if (string.IsNullOrEmpty(cardCodeSAP))
+            throw new Exception("No se encontró el CardCode en SAP para: " + txtProveedor.Text);
+        documentDetailBE.SAPProveedor = cardCodeSAP;
         documentDetailBE.IdConcepto = ddlConcepto.SelectedItem.Value;
         if (ddlPartidaPresupuestal.SelectedItem != null)
             documentDetailBE.CodigoPartidaPresupuestal = ddlPartidaPresupuestal.SelectedItem.Value;
@@ -1339,7 +1233,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
     {
         /*---------------------------------------VALIDA CAMPOS REQUERIDOS------------------------------------------------*/
         errorMessage = String.Empty;
-        var indexNoValidos = new []{ "0", "-1" };
+        var indexNoValidos = new[] { "0", "-1" };
         if (indexNoValidos.Contains(ddlTipoDocumentoWeb.SelectedValue))
             errorMessage = "Debe ingresar el Tipo.";
         else if (String.IsNullOrWhiteSpace(txtSerie.Text))
@@ -1351,9 +1245,9 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         else if ((TipoDocumentoSunat)Convert.ToInt32(ddlTipoDocumentoWeb.SelectedValue) != TipoDocumentoSunat.Devolucion
               && String.IsNullOrWhiteSpace(txtProveedor.Text))
             errorMessage = "Debe ingresar el RUC.";
-        //else if ((TipoDocumentoSunat)Convert.ToInt32(ddlTipoDocumentoWeb.SelectedValue) != TipoDocumentoSunat.Devolucion
-        //        && !new ValidationHelper().ProveedorExiste(txtProveedor.Text))
-        //    errorMessage = "El proveedor no existe";
+        else if ((TipoDocumentoSunat)Convert.ToInt32(ddlTipoDocumentoWeb.SelectedValue) != TipoDocumentoSunat.Devolucion
+                && !new ValidationHelper().ProveedorExisteEnBDIOSAP(txtProveedor.Text))
+            errorMessage = "El proveedor no existe";
         else if ((TipoDocumentoSunat)Convert.ToInt32(ddlTipoDocumentoWeb.SelectedValue) != TipoDocumentoSunat.Devolucion
                 && indexNoValidos.Contains(ddlConcepto.SelectedValue))
             errorMessage = "Debe ingresar concepto.";

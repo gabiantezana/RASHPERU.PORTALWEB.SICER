@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="SICER_INT_SBOModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SICER_INT_SBOModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <!--Errors Found During Generation:
 warning 6013: The table/view 'SICER_INT_SBO.dbo.Bancos' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
         <EntityType Name="Bancos">
@@ -18,9 +18,9 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.CabeceraAsientos' does not have 
           <Property Name="Code" Type="nvarchar" MaxLength="10" />
           <Property Name="IdAsiento" Type="int" />
           <Property Name="IdEmpresa" Type="int" />
-          <Property Name="TaxDate" Type="date" />
-          <Property Name="ReferenceDate" Type="date" />
-          <Property Name="DueDate" Type="date" />
+          <Property Name="TaxDate" Type="datetime" />
+          <Property Name="ReferenceDate" Type="datetime" />
+          <Property Name="DueDate" Type="datetime" />
           <Property Name="Ref1" Type="nvarchar" MaxLength="100" />
           <Property Name="Ref2" Type="nvarchar" MaxLength="100" />
           <Property Name="Ref3" Type="nvarchar" MaxLength="27" />
@@ -44,9 +44,9 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.CabeceraFacturas' does not have 
           <Property Name="Series" Type="int" />
           <Property Name="CntPerson" Type="nvarchar" MaxLength="200" />
           <Property Name="DocCurrency" Type="char" MaxLength="3" />
-          <Property Name="DocDate" Type="date" />
-          <Property Name="DocDueDate" Type="date" />
-          <Property Name="TaxDate" Type="date" />
+          <Property Name="DocDate" Type="datetime" />
+          <Property Name="DocDueDate" Type="datetime" />
+          <Property Name="TaxDate" Type="datetime" />
           <Property Name="JournalMemo" Type="nvarchar" MaxLength="50" />
           <Property Name="MetodoPago" Type="nvarchar" MaxLength="10" />
           <Property Name="NumAtCard" Type="nvarchar" MaxLength="100" />
@@ -72,8 +72,8 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.Clientes' does not have a primar
           <Property Name="CardCode" Type="nvarchar" MaxLength="15" />
           <Property Name="CardName" Type="nvarchar" MaxLength="100" />
           <Property Name="LicTradNum" Type="nvarchar" MaxLength="32" />
-          <Property Name="FechaIngreso" Type="date" />
-          <Property Name="FechaBaja" Type="date" />
+          <Property Name="FechaIngreso" Type="datetime" />
+          <Property Name="FechaBaja" Type="datetime" />
           <Property Name="GroupNum" Type="nvarchar" MaxLength="50" />
           <Property Name="Status" Type="char" MaxLength="1" />
           <Property Name="Address" Type="nvarchar" MaxLength="150" />
@@ -180,12 +180,12 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.FacturasAprobacion' does not hav
           <Property Name="IM_BRUT_IGV" Type="numeric" Precision="18" Scale="2" />
           <Property Name="SAP_IMPREFAC" Type="numeric" Precision="18" Scale="2" />
           <Property Name="TI_SITU" Type="nvarchar" MaxLength="8" />
-          <Property Name="FE_APRO" Type="date" />
+          <Property Name="FE_APRO" Type="datetime" />
           <Property Name="TipoFacturacion" Type="nvarchar" MaxLength="50" />
           <Property Name="INT_Estado" Type="char" MaxLength="1" />
-          <Property Name="INT_Fecha" Type="date" />
+          <Property Name="INT_Fecha" Type="datetime" />
           <Property Name="AccountCode" Type="nvarchar" MaxLength="20" />
-          <Property Name="DocDate" Type="date" />
+          <Property Name="DocDate" Type="datetime" />
           <Property Name="DocType" Type="nvarchar" MaxLength="20" />
           <Property Name="Code" Type="nvarchar" MaxLength="4" />
           <Property Name="INT_Error" Type="nvarchar" MaxLength="200" />
@@ -219,9 +219,9 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.FacturasCabecera' does not have 
           <Property Name="Series" Type="int" />
           <Property Name="CntPerson" Type="nvarchar" MaxLength="100" />
           <Property Name="DocCurrency" Type="char" MaxLength="3" />
-          <Property Name="DocDate" Type="date" />
-          <Property Name="DocDueDate" Type="date" />
-          <Property Name="TaxDate" Type="date" />
+          <Property Name="DocDate" Type="datetime" />
+          <Property Name="DocDueDate" Type="datetime" />
+          <Property Name="TaxDate" Type="datetime" />
           <Property Name="JournalMemo" Type="nvarchar" MaxLength="50" />
           <Property Name="MetodoPago" Type="varchar" MaxLength="50" />
           <Property Name="NumAtCard" Type="nvarchar" MaxLength="32" />
@@ -288,12 +288,12 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.FacturasPayroll' does not have a
           <Property Name="IM_BRUT_IGV" Type="numeric" Precision="18" Scale="2" />
           <Property Name="SAP_IMPREFAC" Type="numeric" Precision="18" Scale="2" />
           <Property Name="TI_SITU" Type="nvarchar" MaxLength="8" />
-          <Property Name="FE_APRO" Type="date" />
+          <Property Name="FE_APRO" Type="datetime" />
           <Property Name="TipoFacturacion" Type="nvarchar" MaxLength="50" />
           <Property Name="INT_Estado" Type="char" MaxLength="1" />
-          <Property Name="INT_Fecha" Type="date" />
+          <Property Name="INT_Fecha" Type="datetime" />
           <Property Name="AccountCode" Type="nvarchar" MaxLength="20" />
-          <Property Name="DocDate" Type="date" />
+          <Property Name="DocDate" Type="datetime" />
           <Property Name="DocType" Type="nvarchar" MaxLength="20" />
           <Property Name="Code" Type="nvarchar" MaxLength="4" />
           <Property Name="INT_Error" Type="nvarchar" MaxLength="200" />
@@ -326,9 +326,9 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.FacturasWeb' does not have a pri
           <Property Name="Series" Type="int" />
           <Property Name="CntPerson" Type="nvarchar" MaxLength="100" />
           <Property Name="DocCurrency" Type="char" MaxLength="3" />
-          <Property Name="DocDate" Type="date" />
-          <Property Name="DocDueDate" Type="date" />
-          <Property Name="TaxDate" Type="date" />
+          <Property Name="DocDate" Type="datetime" />
+          <Property Name="DocDueDate" Type="datetime" />
+          <Property Name="TaxDate" Type="datetime" />
           <Property Name="JournalMemo" Type="nvarchar" MaxLength="50" />
           <Property Name="MetodoPago" Type="nvarchar" MaxLength="20" />
           <Property Name="NumAtCard" Type="nvarchar" MaxLength="32" />
@@ -363,9 +363,9 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.FacturasWeb' does not have a pri
           <Property Name="Series" Type="int" />
           <Property Name="CntPerson" Type="nvarchar(max)" />
           <Property Name="DocCurrency" Type="nvarchar(max)" />
-          <Property Name="DocDate" Type="date" />
-          <Property Name="DocDueDate" Type="date" />
-          <Property Name="TaxDate" Type="date" />
+          <Property Name="DocDate" Type="datetime" />
+          <Property Name="DocDueDate" Type="datetime" />
+          <Property Name="TaxDate" Type="datetime" />
           <Property Name="JournalMemo" Type="nvarchar(max)" />
           <Property Name="NumAtCard" Type="nvarchar(max)" />
           <Property Name="ControlAccount" Type="nvarchar(max)" />
@@ -438,8 +438,8 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.Impuestos' does not have a prima
           <Property Name="U_BankAcct" Type="nvarchar" MaxLength="50" />
           <Property Name="U_BankCodeCTS" Type="nvarchar" MaxLength="30" />
           <Property Name="U_BankAcctCTS" Type="nvarchar" MaxLength="50" />
-          <Property Name="U_DateIn" Type="date" />
-          <Property Name="U_DateCe" Type="date" />
+          <Property Name="U_DateIn" Type="datetime" />
+          <Property Name="U_DateCe" Type="datetime" />
           <Property Name="INT_Estado" Type="char" MaxLength="1" />
           <Property Name="INT_Error" Type="nvarchar" MaxLength="200" />
         </EntityType>
@@ -499,7 +499,7 @@ warning 6002: The table/view 'SICER_INT_SBO.dbo.TD_DOCU_RETE' does not have a pr
           <Property Name="DE_DIST_DEST" Type="nvarchar" MaxLength="200" />
           <Property Name="CO_PAIS_DEST" Type="nvarchar" MaxLength="200" />
           <Property Name="DE_EMAI_DEST" Type="nvarchar" MaxLength="200" />
-          <Property Name="FE_EMIS" Type="date" />
+          <Property Name="FE_EMIS" Type="datetime" />
           <Property Name="DE_MOTI" Type="nchar" MaxLength="200" />
           <Property Name="CO_TIPO_DOCU" Type="nvarchar" MaxLength="200" />
           <Property Name="CO_SERI" Type="nvarchar" MaxLength="200" />
@@ -523,22 +523,22 @@ warning 6002: The table/view 'SICER_INT_SBO.dbo.TD_DOCU_RETE' does not have a pr
           <Property Name="CO_MONE_PAGA" Type="nvarchar" MaxLength="200" />
           <Property Name="TI_DREL_RETE" Type="nvarchar" MaxLength="200" />
           <Property Name="NU_DREL_RETE" Type="nvarchar" MaxLength="200" />
-          <Property Name="FE_EMIS_RETE" Type="date" />
+          <Property Name="FE_EMIS_RETE" Type="datetime" />
           <Property Name="NU_TOTA_DREL" Type="decimal" Precision="12" Scale="2" />
           <Property Name="CO_MONE_DREL" Type="nvarchar" MaxLength="200" />
-          <Property Name="FE_PAGO" Type="date" />
+          <Property Name="FE_PAGO" Type="datetime" />
           <Property Name="NU_PAGO" Type="nvarchar" MaxLength="200" />
           <Property Name="NU_PAGO_SRET" Type="decimal" Precision="12" Scale="2" />
           <Property Name="CO_MONE_PAGO" Type="nvarchar" MaxLength="200" />
           <Property Name="NU_IMPO_RETE" Type="decimal" Precision="12" Scale="2" />
           <Property Name="CO_MONE_IMPR" Type="nvarchar" MaxLength="200" />
-          <Property Name="FE_RETE" Type="date" />
+          <Property Name="FE_RETE" Type="datetime" />
           <Property Name="NU_IMPO_PAGO" Type="decimal" Precision="12" Scale="2" />
           <Property Name="CO_MONE_MNPA" Type="nvarchar" MaxLength="200" />
           <Property Name="CO_MONE_TCAM" Type="nvarchar" MaxLength="200" />
           <Property Name="CO_MONE_OBJE" Type="nvarchar" MaxLength="200" />
           <Property Name="NU_FACT_MONE" Type="decimal" Precision="16" Scale="4" />
-          <Property Name="FE_CAMB" Type="date" />
+          <Property Name="FE_CAMB" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6013: The table/view 'SICER_INT_SBO.dbo.TD_DOCU_SUNA' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
@@ -567,8 +567,8 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.TD_DOCU_SUNA' does not have a pr
           <Property Name="CO_TIPO_PAGO" Type="varchar" MaxLength="4" />
           <Property Name="DE_TIPO_PAGO" Type="varchar" MaxLength="100" />
           <Property Name="NU_ORDE_COMP" Type="varchar" MaxLength="20" />
-          <Property Name="FE_EMIS" Type="date" />
-          <Property Name="FE_VENC" Type="date" />
+          <Property Name="FE_EMIS" Type="datetime" />
+          <Property Name="FE_VENC" Type="datetime" />
           <Property Name="NU_SERI_NOTA" Type="varchar" MaxLength="20" />
           <Property Name="CO_TIPO_NOTA" Type="varchar" MaxLength="3" />
           <Property Name="DE_MOTI" Type="varchar" MaxLength="200" />
@@ -588,7 +588,7 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.TD_DOCU_SUNA' does not have a pr
           <Property Name="DE_ISC" Type="varchar" MaxLength="50" />
           <Property Name="CO_TIPO_ISC" Type="varchar" MaxLength="4" />
           <Property Name="ID_COMU" Type="varchar" MaxLength="50" />
-          <Property Name="FE_GENE_COMU" Type="date" />
+          <Property Name="FE_GENE_COMU" Type="datetime" />
           <Property Name="DE_OBSE" Type="varchar" MaxLength="200" />
           <Property Name="CO_ESTA" Type="varchar" MaxLength="2" />
           <Property Name="CO_ESTA_DETR" Type="varchar" MaxLength="2" />
@@ -616,8 +616,8 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.TD_DOCU_SUNA' does not have a pr
           <Property Name="NU_CORR_DREL" Type="varchar" MaxLength="10" />
           <Property Name="NU_CORR_FINA" Type="varchar" MaxLength="10" />
           <Property Name="CO_TIPO_DREL" Type="varchar" MaxLength="3" />
-          <Property Name="FE_EMIS_DREL" Type="date" />
-          <Property Name="FE_GENE_DBAJ" Type="date" />
+          <Property Name="FE_EMIS_DREL" Type="datetime" />
+          <Property Name="FE_GENE_DBAJ" Type="datetime" />
           <Property Name="CO_PROD" Type="varchar" MaxLength="20" />
           <Property Name="NU_CANT" Type="int" />
           <Property Name="DE_ITEM" Type="varchar" MaxLength="200" />
@@ -680,11 +680,63 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.TipoCambio' does not have a prim
           <Property Name="CurrCode" Type="char" MaxLength="10" />
           <Property Name="ExchangeRate" Type="numeric" Precision="19" Scale="2" />
           <Property Name="CustomExRate" Type="numeric" Precision="19" Scale="2" />
-          <Property Name="Date" Type="date" />
+          <Property Name="Date" Type="datetime" />
         </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SICER_INT_SBO.dbo.VW_EMPR_RETE' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VW_EMPR_RETE">
+          <Key>
+            <PropertyRef Name="NU_RUCS" />
+            <PropertyRef Name="DE_EMPR" />
+          </Key>
+          <Property Name="NU_RUCS" Type="varchar" MaxLength="11" Nullable="false" />
+          <Property Name="DE_EMPR" Type="varchar" MaxLength="22" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SICER_INT_SBO.dbo.VW_TIPO_DOCU' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VW_TIPO_DOCU">
+          <Key>
+            <PropertyRef Name="CO_TIPO_DOCU" />
+            <PropertyRef Name="DE_TIPO_DOCU" />
+          </Key>
+          <Property Name="CO_TIPO_DOCU" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="DE_TIPO_DOCU" Type="varchar" MaxLength="24" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SICER_INT_SBO.dbo.VW_TIPO_IDEN' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VW_TIPO_IDEN">
+          <Key>
+            <PropertyRef Name="CO_TIPO_IDEN" />
+            <PropertyRef Name="DE_TIPO_IDEN" />
+          </Key>
+          <Property Name="CO_TIPO_IDEN" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="DE_TIPO_IDEN" Type="varchar" MaxLength="6" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SICER_INT_SBO.dbo.VW_TIPO_MONE' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VW_TIPO_MONE">
+          <Key>
+            <PropertyRef Name="CO_TIPO_MONE" />
+            <PropertyRef Name="DE_SIGN_MONE" />
+            <PropertyRef Name="DE_TIPO_MONE" />
+          </Key>
+          <Property Name="CO_TIPO_MONE" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="DE_SIGN_MONE" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="DE_TIPO_MONE" Type="varchar" MaxLength="18" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SICER_INT_SBO.dbo.VW_VERS' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VW_VERS">
+          <Key>
+            <PropertyRef Name="CO_VERS_UBL" />
+            <PropertyRef Name="CO_VERS_ESTR" />
+          </Key>
+          <Property Name="CO_VERS_UBL" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="CO_VERS_ESTR" Type="varchar" MaxLength="3" Nullable="false" />
+        </EntityType>
         <Function Name="MSS_SP_SICER_ACCOUNTINFO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Curr" Type="nvarchar" Mode="In" />
-          <Parameter Name="Date" Type="date" Mode="In" />
+          <Parameter Name="Date" Type="datetime" Mode="In" />
           <Parameter Name="CC5" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="MSS_SP_SICER_ACCOUNTPAYMENTS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
@@ -707,10 +759,7 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.TipoCambio' does not have a prim
           <Parameter Name="ExCode" Type="int" Mode="In" />
           <Parameter Name="Curr" Type="char" Mode="In" />
         </Function>
-        <Function Name="MSS_SP_SICER_GETACCOUNTFROMCONFIG" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="U_Documento" Type="nvarchar(max)" Mode="In" />
-          <Parameter Name="U_codigo" Type="nvarchar(max)" Mode="In" />
-        </Function>
+        <Function Name="MSS_SP_SICER_GETFACTURASWEBMIGRACION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="MSS_SP_SICER_GRUPOSFACTURACION" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="MSS_SP_SICER_JOURNALENTRIESHEADER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="MSS_SP_SICER_JOURNALENTRIESLINES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -756,11 +805,7 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.TipoCambio' does not have a prim
             </CollectionType>
           </ReturnType>
         </Function>
-        <Function Name="UpdateCostingCodes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="UpdateCurrency" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="UpdateGroups" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="UpdatePaymentGroup" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="UpdatePayMethods" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="UpdateRefIndex" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="USP_INS_COMP_RETE_005" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CO_IDEN" Type="varchar" Mode="In" />
@@ -770,7 +815,7 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.TipoCambio' does not have a prim
           <Parameter Name="DE_DPTO" Type="varchar" Mode="In" />
           <Parameter Name="DE_PROV" Type="varchar" Mode="In" />
           <Parameter Name="DE_DIST" Type="varchar" Mode="In" />
-          <Parameter Name="FE_EMIS" Type="date" Mode="In" />
+          <Parameter Name="FE_EMIS" Type="datetime" Mode="In" />
           <Parameter Name="DE_MOTI" Type="varchar" Mode="In" />
           <Parameter Name="CO_TIPO_DOCU" Type="varchar" Mode="In" />
           <Parameter Name="CO_SERI" Type="varchar" Mode="In" />
@@ -782,7 +827,7 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.TipoCambio' does not have a prim
           <Parameter Name="CO_SERI_DREL" Type="varchar" Mode="In" />
           <Parameter Name="NU_CORR_DREL" Type="varchar" Mode="In" />
           <Parameter Name="CO_TIPO_DREL" Type="varchar" Mode="In" />
-          <Parameter Name="FE_EMIS_DREL" Type="date" Mode="In" />
+          <Parameter Name="FE_EMIS_DREL" Type="datetime" Mode="In" />
         </Function>
         <Function Name="USP_INS_TD_DOCU_SUNA_001" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CO_IDEN" Type="varchar" Mode="In" />
@@ -794,7 +839,7 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.TipoCambio' does not have a prim
           <Parameter Name="DE_DIST" Type="varchar" Mode="In" />
           <Parameter Name="CO_IDEN_DEST" Type="varchar" Mode="In" />
           <Parameter Name="NU_RUCS_DEST" Type="varchar" Mode="In" />
-          <Parameter Name="FE_EMIS" Type="date" Mode="In" />
+          <Parameter Name="FE_EMIS" Type="datetime" Mode="In" />
           <Parameter Name="DE_MOTI_BAJA" Type="varchar" Mode="In" />
           <Parameter Name="CO_TIPO_DOCU" Type="varchar" Mode="In" />
           <Parameter Name="CO_SERI" Type="varchar" Mode="In" />
@@ -811,7 +856,7 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.TipoCambio' does not have a prim
           <Parameter Name="NU_CORR_DREL" Type="varchar" Mode="In" />
           <Parameter Name="NU_CORR_FINA" Type="varchar" Mode="In" />
           <Parameter Name="CO_TIPO_DREL" Type="varchar" Mode="In" />
-          <Parameter Name="FE_EMIS_DREL" Type="date" Mode="In" />
+          <Parameter Name="FE_EMIS_DREL" Type="datetime" Mode="In" />
           <Parameter Name="NU_DIGV" Type="decimal" Mode="In" />
           <Parameter Name="CO_IDEN_DIGV" Type="varchar" Mode="In" />
           <Parameter Name="DE_DIGV" Type="varchar" Mode="In" />
@@ -841,8 +886,8 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.TipoCambio' does not have a prim
           <Parameter Name="CO_ESTA" Type="varchar" Mode="In" />
           <Parameter Name="NU_RUCS" Type="varchar" Mode="In" />
           <Parameter Name="NU_RUCS_DEST" Type="varchar" Mode="In" />
-          <Parameter Name="FE_EMIS_INIC" Type="date" Mode="In" />
-          <Parameter Name="FE_EMIS_FINA" Type="date" Mode="In" />
+          <Parameter Name="FE_EMIS_INIC" Type="datetime" Mode="In" />
+          <Parameter Name="FE_EMIS_FINA" Type="datetime" Mode="In" />
         </Function>
         <Function Name="USP_SEL_COMP_RETE_001" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="NU_RUCS" Type="varchar" Mode="In" />
@@ -915,15 +960,15 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.TipoCambio' does not have a prim
           <Parameter Name="CO_ESTA" Type="varchar" Mode="In" />
           <Parameter Name="NU_RUCS" Type="varchar" Mode="In" />
           <Parameter Name="NU_RUCS_DEST" Type="varchar" Mode="In" />
-          <Parameter Name="FE_EMIS_INIC" Type="date" Mode="In" />
-          <Parameter Name="FE_EMIS_FINA" Type="date" Mode="In" />
+          <Parameter Name="FE_EMIS_INIC" Type="datetime" Mode="In" />
+          <Parameter Name="FE_EMIS_FINA" Type="datetime" Mode="In" />
         </Function>
         <Function Name="USP_SEL_TD_DOCU_SUNA_001" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="NU_RUCS" Type="varchar" Mode="In" />
           <Parameter Name="CO_TIPO_DOCU" Type="varchar" Mode="In" />
           <Parameter Name="CO_SERI" Type="varchar" Mode="In" />
           <Parameter Name="NU_CORR" Type="varchar" Mode="In" />
-          <Parameter Name="FE_EMIS" Type="date" Mode="In" />
+          <Parameter Name="FE_EMIS" Type="datetime" Mode="In" />
           <Parameter Name="NU_IMPO_TOTA" Type="decimal" Mode="In" />
         </Function>
         <Function Name="USP_SEL_TD_DOCU_SUNA_009" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
@@ -1041,6 +1086,37 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.TipoCambio' does not have a prim
     [TD_DOCU_RETE].[FE_CAMB] AS [FE_CAMB]
     FROM [dbo].[TD_DOCU_RETE] AS [TD_DOCU_RETE]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="VW_EMPR_RETE" EntityType="Self.VW_EMPR_RETE" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [VW_EMPR_RETE].[NU_RUCS] AS [NU_RUCS], 
+    [VW_EMPR_RETE].[DE_EMPR] AS [DE_EMPR]
+    FROM [dbo].[VW_EMPR_RETE] AS [VW_EMPR_RETE]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VW_TIPO_DOCU" EntityType="Self.VW_TIPO_DOCU" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [VW_TIPO_DOCU].[CO_TIPO_DOCU] AS [CO_TIPO_DOCU], 
+    [VW_TIPO_DOCU].[DE_TIPO_DOCU] AS [DE_TIPO_DOCU]
+    FROM [dbo].[VW_TIPO_DOCU] AS [VW_TIPO_DOCU]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VW_TIPO_IDEN" EntityType="Self.VW_TIPO_IDEN" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [VW_TIPO_IDEN].[CO_TIPO_IDEN] AS [CO_TIPO_IDEN], 
+    [VW_TIPO_IDEN].[DE_TIPO_IDEN] AS [DE_TIPO_IDEN]
+    FROM [dbo].[VW_TIPO_IDEN] AS [VW_TIPO_IDEN]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VW_TIPO_MONE" EntityType="Self.VW_TIPO_MONE" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [VW_TIPO_MONE].[CO_TIPO_MONE] AS [CO_TIPO_MONE], 
+    [VW_TIPO_MONE].[DE_SIGN_MONE] AS [DE_SIGN_MONE], 
+    [VW_TIPO_MONE].[DE_TIPO_MONE] AS [DE_TIPO_MONE]
+    FROM [dbo].[VW_TIPO_MONE] AS [VW_TIPO_MONE]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VW_VERS" EntityType="Self.VW_VERS" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [VW_VERS].[CO_VERS_UBL] AS [CO_VERS_UBL], 
+    [VW_VERS].[CO_VERS_ESTR] AS [CO_VERS_ESTR]
+    FROM [dbo].[VW_VERS] AS [VW_VERS]</DefiningQuery>
+          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -1055,7 +1131,7 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.TipoCambio' does not have a prim
           <FunctionImport Name="MSS_SP_SICER_ACCOUNTPAYMENTS" ReturnType="Collection(SICER_INT_SBOModel.MSS_SP_SICER_ACCOUNTPAYMENTS_Result)" />
           <FunctionImport Name="MSS_SP_SICER_BUSINESSPARTNERS" ReturnType="Collection(SICER_INT_SBOModel.MSS_SP_SICER_BUSINESSPARTNERS_Result)" />
           <FunctionImport Name="MSS_SP_SICER_CUENTASPAGO" ReturnType="Collection(SICER_INT_SBOModel.MSS_SP_SICER_CUENTASPAGO_Result)">
-            <Parameter Name="Code" Mode="In" Type="String" />
+          <Parameter Name="Code" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="MSS_SP_SICER_CUENTASVALIDAS" />
           <FunctionImport Name="MSS_SP_SICER_DATOSERETAPA1" ReturnType="Collection(SICER_INT_SBOModel.MSS_SP_SICER_DATOSERETAPA1_Result)">
@@ -1304,6 +1380,12 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.TipoCambio' does not have a prim
           <EntitySet Name="MaestroTrabajadores" EntityType="SICER_INT_SBOModel.MaestroTrabajadores" />
           <EntitySet Name="DetalleAsientos" EntityType="SICER_INT_SBOModel.DetalleAsientos" />
           <EntitySet Name="TD_DOCU_RETE" EntityType="SICER_INT_SBOModel.TD_DOCU_RETE" />
+          <EntitySet Name="VW_EMPR_RETE" EntityType="SICER_INT_SBOModel.VW_EMPR_RETE" />
+          <EntitySet Name="VW_TIPO_DOCU" EntityType="SICER_INT_SBOModel.VW_TIPO_DOCU" />
+          <EntitySet Name="VW_TIPO_IDEN" EntityType="SICER_INT_SBOModel.VW_TIPO_IDEN" />
+          <EntitySet Name="VW_TIPO_MONE" EntityType="SICER_INT_SBOModel.VW_TIPO_MONE" />
+          <EntitySet Name="VW_VERS" EntityType="SICER_INT_SBOModel.VW_VERS" />
+          <FunctionImport Name="MSS_SP_SICER_GETFACTURASWEBMIGRACION" ReturnType="Collection(SICER_INT_SBOModel.MSS_SP_SICER_GETFACTURASWEBMIGRACION_Result)" />
           </EntityContainer>
         <ComplexType Name="MSS_SP_SICER_ACCOUNTINFO_Result">
           <Property Type="String" Name="U_Asociada" Nullable="true" MaxLength="15" />
@@ -2154,9 +2236,9 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.TipoCambio' does not have a prim
           <Property Name="Series" Type="Int32" />
           <Property Name="CntPerson" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="DocCurrency" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DocDate" Type="DateTime" Precision="0" />
-          <Property Name="DocDueDate" Type="DateTime" Precision="0" />
-          <Property Name="TaxDate" Type="DateTime" Precision="0" />
+          <Property Name="DocDate" Type="DateTime" Precision="3" />
+          <Property Name="DocDueDate" Type="DateTime" Precision="3" />
+          <Property Name="TaxDate" Type="DateTime" Precision="3" />
           <Property Name="JournalMemo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="NumAtCard" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ControlAccount" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -2213,8 +2295,8 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.TipoCambio' does not have a prim
           <Property Name="U_BankAcct" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="U_BankCodeCTS" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="U_BankAcctCTS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="U_DateIn" Type="DateTime" Precision="0" />
-          <Property Name="U_DateCe" Type="DateTime" Precision="0" />
+          <Property Name="U_DateIn" Type="DateTime" Precision="3" />
+          <Property Name="U_DateCe" Type="DateTime" Precision="3" />
           <Property Name="INT_Estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="INT_Error" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
@@ -2270,7 +2352,7 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.TipoCambio' does not have a prim
           <Property Name="DE_DIST_DEST" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="CO_PAIS_DEST" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="DE_EMAI_DEST" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="FE_EMIS" Type="DateTime" Precision="0" />
+          <Property Name="FE_EMIS" Type="DateTime" Precision="3" />
           <Property Name="DE_MOTI" Type="String" MaxLength="200" FixedLength="true" Unicode="true" />
           <Property Name="CO_TIPO_DOCU" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="CO_SERI" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
@@ -2294,23 +2376,107 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.TipoCambio' does not have a prim
           <Property Name="CO_MONE_PAGA" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="TI_DREL_RETE" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="NU_DREL_RETE" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="FE_EMIS_RETE" Type="DateTime" Precision="0" />
+          <Property Name="FE_EMIS_RETE" Type="DateTime" Precision="3" />
           <Property Name="NU_TOTA_DREL" Type="Decimal" Precision="12" Scale="2" />
           <Property Name="CO_MONE_DREL" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="FE_PAGO" Type="DateTime" Precision="0" />
+          <Property Name="FE_PAGO" Type="DateTime" Precision="3" />
           <Property Name="NU_PAGO" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="NU_PAGO_SRET" Type="Decimal" Precision="12" Scale="2" />
           <Property Name="CO_MONE_PAGO" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="NU_IMPO_RETE" Type="Decimal" Precision="12" Scale="2" />
           <Property Name="CO_MONE_IMPR" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="FE_RETE" Type="DateTime" Precision="0" />
+          <Property Name="FE_RETE" Type="DateTime" Precision="3" />
           <Property Name="NU_IMPO_PAGO" Type="Decimal" Precision="12" Scale="2" />
           <Property Name="CO_MONE_MNPA" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="CO_MONE_TCAM" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="CO_MONE_OBJE" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="NU_FACT_MONE" Type="Decimal" Precision="16" Scale="4" />
-          <Property Name="FE_CAMB" Type="DateTime" Precision="0" />
+          <Property Name="FE_CAMB" Type="DateTime" Precision="3" />
         </EntityType>
+        <EntityType Name="VW_EMPR_RETE">
+          <Key>
+            <PropertyRef Name="NU_RUCS" />
+            <PropertyRef Name="DE_EMPR" />
+          </Key>
+          <Property Name="NU_RUCS" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="DE_EMPR" Type="String" Nullable="false" MaxLength="22" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="VW_TIPO_DOCU">
+          <Key>
+            <PropertyRef Name="CO_TIPO_DOCU" />
+            <PropertyRef Name="DE_TIPO_DOCU" />
+          </Key>
+          <Property Name="CO_TIPO_DOCU" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="DE_TIPO_DOCU" Type="String" Nullable="false" MaxLength="24" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="VW_TIPO_IDEN">
+          <Key>
+            <PropertyRef Name="CO_TIPO_IDEN" />
+            <PropertyRef Name="DE_TIPO_IDEN" />
+          </Key>
+          <Property Name="CO_TIPO_IDEN" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="DE_TIPO_IDEN" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="VW_TIPO_MONE">
+          <Key>
+            <PropertyRef Name="CO_TIPO_MONE" />
+            <PropertyRef Name="DE_SIGN_MONE" />
+            <PropertyRef Name="DE_TIPO_MONE" />
+          </Key>
+          <Property Name="CO_TIPO_MONE" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="DE_SIGN_MONE" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="DE_TIPO_MONE" Type="String" Nullable="false" MaxLength="18" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="VW_VERS">
+          <Key>
+            <PropertyRef Name="CO_VERS_UBL" />
+            <PropertyRef Name="CO_VERS_ESTR" />
+          </Key>
+          <Property Name="CO_VERS_UBL" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="CO_VERS_ESTR" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="MSS_SP_SICER_GETFACTURASWEBMIGRACION_Result">
+          <Property Type="Int32" Name="IdFacturaWebMigracion" Nullable="false" />
+          <Property Type="Int32" Name="IdFacturaWeb" Nullable="true" />
+          <Property Type="Int32" Name="Etapa" Nullable="true" />
+          <Property Type="Int32" Name="TipoDocumento" Nullable="true" />
+          <Property Type="String" Name="Code" Nullable="true" />
+          <Property Type="Int32" Name="ExCode" Nullable="true" />
+          <Property Type="String" Name="CardCode" Nullable="true" />
+          <Property Type="String" Name="CardName" Nullable="true" />
+          <Property Type="Int32" Name="Series" Nullable="true" />
+          <Property Type="String" Name="CntPerson" Nullable="true" />
+          <Property Type="String" Name="DocCurrency" Nullable="true" />
+          <Property Type="DateTime" Name="DocDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="DocDueDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="TaxDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="JournalMemo" Nullable="true" />
+          <Property Type="String" Name="NumAtCard" Nullable="true" />
+          <Property Type="String" Name="ControlAccount" Nullable="true" />
+          <Property Type="Int32" Name="DocEntry" Nullable="true" />
+          <Property Type="String" Name="INT_Estado" Nullable="true" />
+          <Property Type="String" Name="INT_Error" Nullable="true" />
+          <Property Type="String" Name="FolioPref" Nullable="true" />
+          <Property Type="Int32" Name="FolioNum" Nullable="true" />
+          <Property Type="String" Name="Asunto" Nullable="true" />
+          <Property Type="Decimal" Name="DocRate" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="RendicionesTotales" Nullable="true" />
+          <Property Type="Int32" Name="DocSubType" Nullable="true" />
+          <Property Type="String" Name="INT_Ref1" Nullable="true" />
+          <Property Type="String" Name="U_BPP_MDTD" Nullable="true" />
+          <Property Type="String" Name="AccountCode" Nullable="true" />
+          <Property Type="String" Name="TaxCode" Nullable="true" />
+          <Property Type="Decimal" Name="LineTotal" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="String" Name="CostingCode" Nullable="true" />
+          <Property Type="String" Name="CostingCode2" Nullable="true" />
+          <Property Type="String" Name="CostingCode3" Nullable="true" />
+          <Property Type="String" Name="CostingCode4" Nullable="true" />
+          <Property Type="String" Name="CostingCode5" Nullable="true" />
+          <Property Type="String" Name="Description" Nullable="true" />
+          <Property Type="String" Name="PaymentMethod" Nullable="true" />
+          <Property Type="Int32" Name="IdFacturaWebRendicion" Nullable="true" />
+          <Property Type="String" Name="U_MSS_ORD" Nullable="true" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2456,7 +2622,6 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.TipoCambio' does not have a prim
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="MSS_SP_SICER_GETACCOUNTFROMCONFIG" FunctionName="SICER_INT_SBOModel.Store.MSS_SP_SICER_GETACCOUNTFROMCONFIG" />
           <FunctionImportMapping FunctionImportName="MSS_SP_SICER_GRUPOSFACTURACION" FunctionName="SICER_INT_SBOModel.Store.MSS_SP_SICER_GRUPOSFACTURACION" />
           <FunctionImportMapping FunctionImportName="MSS_SP_SICER_JOURNALENTRIESHEADER" FunctionName="SICER_INT_SBOModel.Store.MSS_SP_SICER_JOURNALENTRIESHEADER">
             <ResultMapping>
@@ -2702,11 +2867,7 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.TipoCambio' does not have a prim
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="UpdateCostingCodes" FunctionName="SICER_INT_SBOModel.Store.UpdateCostingCodes" />
-          <FunctionImportMapping FunctionImportName="UpdateCurrency" FunctionName="SICER_INT_SBOModel.Store.UpdateCurrency" />
           <FunctionImportMapping FunctionImportName="UpdateGroups" FunctionName="SICER_INT_SBOModel.Store.UpdateGroups" />
-          <FunctionImportMapping FunctionImportName="UpdatePaymentGroup" FunctionName="SICER_INT_SBOModel.Store.UpdatePaymentGroup" />
-          <FunctionImportMapping FunctionImportName="UpdatePayMethods" FunctionName="SICER_INT_SBOModel.Store.UpdatePayMethods" />
           <FunctionImportMapping FunctionImportName="UpdateRefIndex" FunctionName="SICER_INT_SBOModel.Store.UpdateRefIndex" />
           <FunctionImportMapping FunctionImportName="USP_INS_COMP_RETE_005" FunctionName="SICER_INT_SBOModel.Store.USP_INS_COMP_RETE_005" />
           <FunctionImportMapping FunctionImportName="USP_INS_TD_DOCU_SUNA_001" FunctionName="SICER_INT_SBOModel.Store.USP_INS_TD_DOCU_SUNA_001" />
@@ -3496,6 +3657,93 @@ warning 6013: The table/view 'SICER_INT_SBO.dbo.TipoCambio' does not have a prim
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="VW_EMPR_RETE">
+            <EntityTypeMapping TypeName="SICER_INT_SBOModel.VW_EMPR_RETE">
+              <MappingFragment StoreEntitySet="VW_EMPR_RETE">
+                <ScalarProperty Name="DE_EMPR" ColumnName="DE_EMPR" />
+                <ScalarProperty Name="NU_RUCS" ColumnName="NU_RUCS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VW_TIPO_DOCU">
+            <EntityTypeMapping TypeName="SICER_INT_SBOModel.VW_TIPO_DOCU">
+              <MappingFragment StoreEntitySet="VW_TIPO_DOCU">
+                <ScalarProperty Name="DE_TIPO_DOCU" ColumnName="DE_TIPO_DOCU" />
+                <ScalarProperty Name="CO_TIPO_DOCU" ColumnName="CO_TIPO_DOCU" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VW_TIPO_IDEN">
+            <EntityTypeMapping TypeName="SICER_INT_SBOModel.VW_TIPO_IDEN">
+              <MappingFragment StoreEntitySet="VW_TIPO_IDEN">
+                <ScalarProperty Name="DE_TIPO_IDEN" ColumnName="DE_TIPO_IDEN" />
+                <ScalarProperty Name="CO_TIPO_IDEN" ColumnName="CO_TIPO_IDEN" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VW_TIPO_MONE">
+            <EntityTypeMapping TypeName="SICER_INT_SBOModel.VW_TIPO_MONE">
+              <MappingFragment StoreEntitySet="VW_TIPO_MONE">
+                <ScalarProperty Name="DE_TIPO_MONE" ColumnName="DE_TIPO_MONE" />
+                <ScalarProperty Name="DE_SIGN_MONE" ColumnName="DE_SIGN_MONE" />
+                <ScalarProperty Name="CO_TIPO_MONE" ColumnName="CO_TIPO_MONE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VW_VERS">
+            <EntityTypeMapping TypeName="SICER_INT_SBOModel.VW_VERS">
+              <MappingFragment StoreEntitySet="VW_VERS">
+                <ScalarProperty Name="CO_VERS_ESTR" ColumnName="CO_VERS_ESTR" />
+                <ScalarProperty Name="CO_VERS_UBL" ColumnName="CO_VERS_UBL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="MSS_SP_SICER_GETFACTURASWEBMIGRACION" FunctionName="SICER_INT_SBOModel.Store.MSS_SP_SICER_GETFACTURASWEBMIGRACION">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SICER_INT_SBOModel.MSS_SP_SICER_GETFACTURASWEBMIGRACION_Result">
+                <ScalarProperty Name="IdFacturaWebMigracion" ColumnName="IdFacturaWebMigracion" />
+                <ScalarProperty Name="IdFacturaWeb" ColumnName="IdFacturaWeb" />
+                <ScalarProperty Name="Etapa" ColumnName="Etapa" />
+                <ScalarProperty Name="TipoDocumento" ColumnName="TipoDocumento" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="ExCode" ColumnName="ExCode" />
+                <ScalarProperty Name="CardCode" ColumnName="CardCode" />
+                <ScalarProperty Name="CardName" ColumnName="CardName" />
+                <ScalarProperty Name="Series" ColumnName="Series" />
+                <ScalarProperty Name="CntPerson" ColumnName="CntPerson" />
+                <ScalarProperty Name="DocCurrency" ColumnName="DocCurrency" />
+                <ScalarProperty Name="DocDate" ColumnName="DocDate" />
+                <ScalarProperty Name="DocDueDate" ColumnName="DocDueDate" />
+                <ScalarProperty Name="TaxDate" ColumnName="TaxDate" />
+                <ScalarProperty Name="JournalMemo" ColumnName="JournalMemo" />
+                <ScalarProperty Name="NumAtCard" ColumnName="NumAtCard" />
+                <ScalarProperty Name="ControlAccount" ColumnName="ControlAccount" />
+                <ScalarProperty Name="DocEntry" ColumnName="DocEntry" />
+                <ScalarProperty Name="INT_Estado" ColumnName="INT_Estado" />
+                <ScalarProperty Name="INT_Error" ColumnName="INT_Error" />
+                <ScalarProperty Name="FolioPref" ColumnName="FolioPref" />
+                <ScalarProperty Name="FolioNum" ColumnName="FolioNum" />
+                <ScalarProperty Name="Asunto" ColumnName="Asunto" />
+                <ScalarProperty Name="DocRate" ColumnName="DocRate" />
+                <ScalarProperty Name="RendicionesTotales" ColumnName="RendicionesTotales" />
+                <ScalarProperty Name="DocSubType" ColumnName="DocSubType" />
+                <ScalarProperty Name="INT_Ref1" ColumnName="INT_Ref1" />
+                <ScalarProperty Name="U_BPP_MDTD" ColumnName="U_BPP_MDTD" />
+                <ScalarProperty Name="AccountCode" ColumnName="AccountCode" />
+                <ScalarProperty Name="TaxCode" ColumnName="TaxCode" />
+                <ScalarProperty Name="LineTotal" ColumnName="LineTotal" />
+                <ScalarProperty Name="CostingCode" ColumnName="CostingCode" />
+                <ScalarProperty Name="CostingCode2" ColumnName="CostingCode2" />
+                <ScalarProperty Name="CostingCode3" ColumnName="CostingCode3" />
+                <ScalarProperty Name="CostingCode4" ColumnName="CostingCode4" />
+                <ScalarProperty Name="CostingCode5" ColumnName="CostingCode5" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
+                <ScalarProperty Name="IdFacturaWebRendicion" ColumnName="IdFacturaWebRendicion" />
+                <ScalarProperty Name="U_MSS_ORD" ColumnName="U_MSS_ORD" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

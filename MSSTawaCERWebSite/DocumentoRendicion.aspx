@@ -434,12 +434,6 @@
                             OnRowCommand="gvDocumentos_RowCommand">
 
                             <Columns>
-
-                                <asp:TemplateField HeaderText="S/N" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
-                                    <ItemTemplate>
-                                        <asp:CheckBox ID="chkRow" runat="server" Checked='<%# SetearCheck(Convert.ToString(Eval("Estado")))%>' OnCheckedChanged="chkRow_OnCheckedChanged" AutoPostBack="true" />
-                                    </ItemTemplate>
-                                </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Editar" ItemStyle-HorizontalAlign="Center">
                                     <ItemTemplate>
                                         <asp:LinkButton ID="lnkEditar" runat="server" CommandName="Editar" CommandArgument='<%#Eval("IdDocumentoWebRendicion")%>'> <img src="img/edit.png" alt="Editar" width="20px" /></asp:LinkButton>
@@ -451,17 +445,32 @@
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="IdDocumentoWebRendicion" HeaderText="Id" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
-                                <asp:TemplateField HeaderText="Tipo" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
-                                    <ItemTemplate><%# SetearTipo(Convert.ToInt32(Eval("TipoDoc")))%></ItemTemplate>
-                                </asp:TemplateField>
+                                <asp:BoundField DataField="TipoDoc" HeaderText="Tipo Doc." HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="SerieDoc" HeaderText="Serie" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="CorrelativoDoc" HeaderText="Numero" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="FechaDoc" HeaderText="Fecha" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" DataFormatString="{0:dd/MM/yyyy}" />
-                                <asp:TemplateField HeaderText="Proveedor" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
+
+                                <asp:BoundField DataField="SAPProveedor" HeaderText="Proveedor" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left"/>
+                                <asp:BoundField DataField="IdConcepto" HeaderText="IdConcepto" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left"/>
+                                <asp:BoundField DataField="IdCentroCostos1" HeaderText="Centro de costos 1" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left"/>
+                                <asp:BoundField DataField="IdCentroCostos2" HeaderText="Centro de costos 2" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left"/>
+                                <asp:BoundField DataField="IdCentroCostos3" HeaderText="Centro de costos 3" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left"/>
+                                <asp:BoundField DataField="IdMonedaDoc" HeaderText="Moneda" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left"/>
+                                
+                                
+                                
+
+                             <%--   <asp:TemplateField HeaderText="Proveedor" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
                                     <ItemTemplate><%# SetearProveedor(Convert.ToString(Eval("SAPProveedor")))%></ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Concepto" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
                                     <ItemTemplate><%# SetearConcepto(Convert.ToString(Eval("IdConcepto")))%></ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Centro Costos 3" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
+                                    <ItemTemplate><%# SetearCentroCostos(Convert.ToString(Eval("IdCentroCostos1")))%></ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Centro Costos 3" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
+                                    <ItemTemplate><%# SetearCentroCostos(Convert.ToString(Eval("IdCentroCostos2")))%></ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Centro Costos 3" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
                                     <ItemTemplate><%# SetearCentroCostos(Convert.ToString(Eval("IdCentroCostos3")))%></ItemTemplate>
@@ -475,7 +484,7 @@
                                 <asp:BoundField DataField="MontoTotal" HeaderText="Total" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
                                 <asp:TemplateField HeaderText="Moneda" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
                                     <ItemTemplate><%# SetearMoneda(Convert.ToInt32(Eval("IdMonedaDoc")))%></ItemTemplate>
-                                </asp:TemplateField>
+                                </asp:TemplateField>--%>
                                 <asp:BoundField DataField="MontoNoAfecto" HeaderText="No Afecto" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="MontoAfecto" HeaderText="Afecto" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="MontoIGV" HeaderText="IGV" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
@@ -546,28 +555,11 @@
 
                 <Columns>
 
-                    <asp:TemplateField HeaderText="Tipo" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
-                        <ItemTemplate><%# SetearTipo(Convert.ToInt32(Eval("TipoDoc")))%></ItemTemplate>
-                    </asp:TemplateField>
+                    
                     <asp:BoundField DataField="SerieDoc" HeaderText="Serie" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
                     <asp:BoundField DataField="CorrelativoDoc" HeaderText="Numero" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
                     <asp:BoundField DataField="FechaDoc" HeaderText="Fecha" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" DataFormatString="{0:dd/MM/yyyy}" />
-                    <asp:TemplateField HeaderText="Razon Social" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
-                        <ItemTemplate><%# SetearProveedor(Convert.ToString(Eval("IdProveedor")))%></ItemTemplate>
-                    </asp:TemplateField>
-                    <asp:TemplateField HeaderText="RUC" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
-                        <ItemTemplate><%# SetearProveedorRUC(Convert.ToString(Eval("IdProveedor")))%></ItemTemplate>
-                    </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Concepto" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
-                        <ItemTemplate><%# SetearConcepto(Convert.ToString(Eval("IdConcepto")))%></ItemTemplate>
-                    </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Centro Costos 5" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
-                        <ItemTemplate><%# SetearCentroCostos(Convert.ToString(Eval("IdCentroCostos5")))%></ItemTemplate>
-                    </asp:TemplateField>
-                    <asp:BoundField DataField="MontoTotal" HeaderText="Total" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
-                    <asp:TemplateField HeaderText="Moneda" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
-                        <ItemTemplate><%# SetearMoneda(Convert.ToInt32(Eval("IdMonedaDoc")))%></ItemTemplate>
-                    </asp:TemplateField>
+                   
                     <asp:BoundField DataField="MontoNoAfecto" HeaderText="No Afecto" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
                     <asp:BoundField DataField="MontoAfecto" HeaderText="Afecto" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
                     <asp:BoundField DataField="MontoIGV" HeaderText="IGV" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
