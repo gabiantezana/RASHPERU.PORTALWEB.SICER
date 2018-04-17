@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.15
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSS.TAWA.BC", "MSS.TAWA.BC\MSS.TAWA.BC.csproj", "{3FC8535E-C4E6-49D7-B68C-62F1BCE977EF}"
 EndProject
