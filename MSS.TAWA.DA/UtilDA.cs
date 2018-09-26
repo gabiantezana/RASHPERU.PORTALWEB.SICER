@@ -24,6 +24,9 @@ namespace MSS.TAWA.DA
             {
                 case "SOL":
                 case "S/":
+                case "S /":
+                case "S/.":
+                case "S /.":
                 case "SOLES":
                     switch (tipoDocumentoWeb)
                     {
@@ -56,6 +59,7 @@ namespace MSS.TAWA.DA
 
             var url = "controlaccounts/getcontrolaccounts.xsjs?document=" + tipoDocumentoWeb.GetPrefix() + "&code=" + U_codigo;
 
+            ExceptionHelper.LogException(new Exception("----------------------------------------------------" + url));
             //recover field cuenta contable
             var response = GetJsonResponse(url, null, "U_CuentaContable");
             if (string.IsNullOrEmpty(response))
@@ -72,6 +76,9 @@ namespace MSS.TAWA.DA
             {
                 case "SOL":
                 case "S/":
+                case "S /":
+                case "S/.":
+                case "S /.":
                 case "SOLES":
                     switch (tipoDocumentoWeb)
                     {
@@ -122,6 +129,9 @@ namespace MSS.TAWA.DA
             {
                 case "SOL":
                 case "S/":
+                case "S /":
+                case "S/.":
+                case "S /.":
                 case "SOLES":
                     switch (tipoDocumentoWeb)
                     {
@@ -287,7 +297,7 @@ namespace MSS.TAWA.DA
                     {
                         return responseProperty["0"][propertyName.Replace("U_", "")].ToString();
                     }
-                    catch (Exception ex)
+                    catch (
                     {
                         return string.Empty;
                     }
