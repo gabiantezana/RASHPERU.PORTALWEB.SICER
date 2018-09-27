@@ -334,7 +334,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         ddlIdMonedaOriginal.DataBind();
         ddlIdMonedaOriginal.SelectedValue = new DocumentoWebBC().GetDocumentoWeb(_IdDocumentoWeb).Moneda.ToString();
 
-        ddlIdMonedaDoc.DataSource = objMonedaBC.ListarMoneda();
+        ddlIdMonedaDoc.DataSource = objMonedaBC.ListarMoneda().Where(x => x.IdMoneda.ToString() == ddlIdMonedaOriginal.Text).ToList();
         ddlIdMonedaDoc.DataTextField = "Descripcion";
         ddlIdMonedaDoc.DataValueField = "IdMoneda";
         ddlIdMonedaDoc.DataBind();
@@ -481,7 +481,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         gvDocumentos.PageIndex = e.NewPageIndex;
         ListarRendicion();
     }
-    
+
     private void LlenarCabecera()
     {
         Int32 idDocumentoWeb = Convert.ToInt32(ViewState[ConstantHelper.Keys.IdDocumentoWeb].ToString());
@@ -494,7 +494,8 @@ public partial class DocumentoRendicion : System.Web.UI.Page
 
         lblCabezera.Text = _TipoDocumentoWeb.GetName() + ": "
                             + objDocumentoBE.CodigoDocumento
-                            + " - Monto: " + new MonedaBC().ObtenerMoneda(objDocumentoBE.Moneda).Descripcion + " " + objDocumentoBE.MontoActual.ToString("0.00")
+                            + " - " + objDocumentoBE.Asunto
+                            + " <br> Monto: " + new MonedaBC().ObtenerMoneda(objDocumentoBE.Moneda).Descripcion + " " + objDocumentoBE.MontoActual.ToString("0.00")
                             + "/" + Convert.ToDouble(objDocumentoBE.MontoInicial).ToString("0.00");
 
         if (objDocumentoBE.Estado == "19")
@@ -660,6 +661,36 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         finally
         {
             bAgregar.Enabled = true;
+        }
+    }
+
+    protected void Rechazar_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            _TipoDocumentoWeb = (TipoDocumentoWeb)ViewState[ConstantHelper.Keys.TipoDocumentoWeb];
+            _Modo = (Modo)ViewState[ConstantHelper.Keys.Modo];
+            _IdDocumentoWeb = (Int32)base.ViewState[ConstantHelper.Keys.IdDocumentoWeb];
+            Int32 idUsuario = ((UsuarioBE)Session["Usuario"]).IdUsuario;
+
+            CambioEstadoBE cambioEstadoBE = new CambioEstadoBE()
+            {
+                IdDocumentoWeb = _IdDocumentoWeb,
+                Comentario = txtComentario.Text,
+                IdUsuario = idUsuario
+            };
+            new DocumentoWebBC().RechazarDocumento(cambioEstadoBE);
+
+            Response.Redirect("~/ListadoDocumentos.aspx?TipoDocumentoWeb=" + (Int32)_TipoDocumentoWeb);
+        }
+        catch (Exception ex)
+        {
+            Mensaje("Ocurrió un error: " + ex.Message);
+            ExceptionHelper.LogException(ex);
+        }
+        finally
+        {
+            //bRechazar.Enabled = true;
         }
     }
 
@@ -1163,9 +1194,15 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         documentDetailBE.SerieDoc = txtSerie.Text;
         documentDetailBE.CorrelativoDoc = Convert.ToInt32(txtNumero.Text);
         documentDetailBE.FechaDoc = DateTime.ParseExact(txtFecha.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
         var cardCodeSAP = new ProveedorBC().GetCardCodeProveedorSAP(txtProveedor.Text);
         if (string.IsNullOrEmpty(cardCodeSAP))
-            throw new Exception("No se encontró el CardCode en SAP para: " + txtProveedor.Text);
+        {
+            cardCodeSAP = new ProveedorBC().ObtenerProveedorPorDocumento(txtProveedor.Text).CardCode;
+            if (string.IsNullOrEmpty(cardCodeSAP))
+                throw new Exception("No se encontró el proveedor en la base de datos interna ni en SAP.");
+        }
+
         documentDetailBE.SAPProveedor = cardCodeSAP;
         documentDetailBE.IdConcepto = ddlConcepto.SelectedItem.Value;
         if (ddlPartidaPresupuestal.SelectedItem != null)

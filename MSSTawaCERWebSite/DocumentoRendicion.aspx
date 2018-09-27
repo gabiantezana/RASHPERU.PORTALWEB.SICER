@@ -276,7 +276,7 @@
 
                 </tr>
             </table>
-            par
+            
             <!-- DivTable.com -->
             <br />
             <table width="1008px">

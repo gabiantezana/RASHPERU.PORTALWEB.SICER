@@ -49,6 +49,19 @@ namespace MSS.TAWA.BC
             }
         }
 
+        public ProveedorBE ObtenerProveedorPorDocumento(string documento)
+        {
+            try
+            {
+                var objDA = new ProveedorDA();
+                return objDA.ObtenerProveedorPorDocumento(documento);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         public int InsertarProveedor(ProveedorBE objBE)
         {
             try

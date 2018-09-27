@@ -222,7 +222,6 @@ public partial class ListadoDocumentos : System.Web.UI.Page
 
             if (e.CommandName.Equals("Aprobacion"))
             {
-
                 DocumentoWebBE documentBE = documentBC.GetDocumentoWeb(IdDocumentoWeb);
                 EstadoDocumento estadoDocumento = (EstadoDocumento)Convert.ToInt32(documentBE.Estado);
 
@@ -261,7 +260,7 @@ public partial class ListadoDocumentos : System.Web.UI.Page
                     Context.Items.Add(ConstantHelper.Keys.Modo, Modo.Crear);
                     Server.Transfer("~/DocumentoRendicion.aspx");
                 }
-                else
+                else 
                     Mensaje("El documento aún no ha sido aprobado.");
             }
             if (e.CommandName.Equals("Historial"))

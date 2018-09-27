@@ -72,7 +72,7 @@ namespace MSS.TAWA.BC
                 documentoBE.Moneda = item.IdMoneda;
                 documentoBE.MontoInicial = item.MontoInicial;
                 documentoBE.MontoGastado = item.DocumentoWebRendicion
-                    .Where(x => x.NumeroRendicion == item.NumeroRendicion).ToList().Sum(x => x.MontoTotal);
+                    .Where(x => x.NumeroRendicion == item.NumeroRendicion).ToList().Sum(x => x.MontoDoc);
                 documentoBE.MontoActual = documentoBE.MontoInicial - documentoBE.MontoGastado;
                 documentoBE.MotivoDetalle = item.MotivoDetalle;
                 documentoBE.UpdateDate = item.UpdateDate ?? DateTime.Now;
@@ -223,7 +223,7 @@ namespace MSS.TAWA.BC
                 )
                 {
                     var montoGastadoTotal = documentoWeb.DocumentoWebRendicion
-                        .Where(x => x.NumeroRendicion == documentoWeb.NumeroRendicion).ToList().Sum(x => x.MontoTotal);
+                        .FirstOrDefault(x => x.NumeroRendicion == documentoWeb.NumeroRendicion)?.MontoDoc;
                     if (montoGastadoTotal > documentoWeb.MontoInicial)
                         throw new Exception("El monto que desea agregar supera al monto inicial del documento");
                 }
@@ -237,5 +237,7 @@ namespace MSS.TAWA.BC
         }
 
         #endregion
+
+
     }
 }

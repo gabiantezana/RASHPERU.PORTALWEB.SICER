@@ -6,6 +6,8 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Xml.XPath;
 using MSS.TAWA.BE;
 using MSS.TAWA.HP;
@@ -260,6 +262,7 @@ namespace MSS.TAWA.DA
 
         public static dynamic GetJsonResponse(string path, Type deserealizeType = null, string propertyName = null)
         {
+            ServicePointManager.ServerCertificateValidationCallback = delegate (object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) { return true; };
             var url = GetUrlPath() + path;
             var webrequest = (HttpWebRequest)System.Net.WebRequest.Create(url);
 
@@ -297,7 +300,7 @@ namespace MSS.TAWA.DA
                     {
                         return responseProperty["0"][propertyName.Replace("U_", "")].ToString();
                     }
-                    catch (
+                    catch (Exception ex)
                     {
                         return string.Empty;
                     }

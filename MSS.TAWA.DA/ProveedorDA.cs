@@ -165,6 +165,72 @@ namespace MSS.TAWA.DA
             }
         }
 
+        // Obtener Proveedor
+        public ProveedorBE ObtenerProveedorPorDocumento(string documento)
+        {
+            SqlConnection sqlConn;
+            string strConn;
+            SqlCommand sqlCmd;
+            string strSP;
+            SqlDataReader sqlDR;
+
+            SqlParameter pId;
+            SqlParameter pTipo;
+            SqlParameter pNombre;
+
+            try
+            {
+                strConn = ConfigurationManager.ConnectionStrings["SICER"].ConnectionString;
+                sqlConn = new SqlConnection(strConn);
+                strSP = "MSS_WEB_ProveedorObtenerPorDocumento";
+                sqlCmd = new SqlCommand(strSP, sqlConn);
+                sqlCmd.CommandType = CommandType.StoredProcedure;
+
+                pNombre = new SqlParameter();
+                pNombre.ParameterName = "@Documento";
+                pNombre.SqlDbType = SqlDbType.VarChar;
+                pNombre.Size = 100;
+                pNombre.Value = documento;
+
+                sqlCmd.Parameters.Add(pNombre);
+
+                sqlCmd.Connection.Open();
+                sqlDR = sqlCmd.ExecuteReader();
+
+                ProveedorBE objProveedorBE;
+                objProveedorBE = null;
+
+                while (sqlDR.Read())
+                {
+                    objProveedorBE = new ProveedorBE();
+                    objProveedorBE.IdProveedor = sqlDR.GetInt32(sqlDR.GetOrdinal("IdProveedor"));
+                    objProveedorBE.CardCode = sqlDR.GetString(sqlDR.GetOrdinal("CardCode"));
+                    objProveedorBE.CardName = sqlDR.GetString(sqlDR.GetOrdinal("CardName"));
+                    objProveedorBE.TipoDocumento = sqlDR.GetString(sqlDR.GetOrdinal("TipoDocumento"));
+                    objProveedorBE.Documento = sqlDR.GetString(sqlDR.GetOrdinal("Documento"));
+                    objProveedorBE.Proceso = sqlDR.GetInt32(sqlDR.GetOrdinal("Proceso"));
+                    objProveedorBE.IdProceso = sqlDR.GetInt32(sqlDR.GetOrdinal("IdProceso"));
+                    objProveedorBE.Estado = sqlDR.GetInt32(sqlDR.GetOrdinal("Estado"));
+                    objProveedorBE.UserCreate = sqlDR.GetString(sqlDR.GetOrdinal("UserCreate"));
+                    objProveedorBE.CreateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("CreateDate"));
+                    objProveedorBE.UserUpdate = sqlDR.GetString(sqlDR.GetOrdinal("UserUpdate"));
+                    objProveedorBE.UpdateDate = sqlDR.GetDateTime(sqlDR.GetOrdinal("UpdateDate"));
+                }
+
+                sqlCmd.Connection.Close();
+                sqlCmd.Dispose();
+
+                sqlConn.Close();
+                sqlConn.Dispose();
+
+                return objProveedorBE;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         //OBTENER PROVEEDOR DE SAP
         public string ObtenerProveedorDeSAP(string cardCode)
         {

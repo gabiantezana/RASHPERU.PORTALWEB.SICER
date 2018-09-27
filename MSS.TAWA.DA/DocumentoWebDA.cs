@@ -383,16 +383,17 @@ namespace MSS.TAWA.DA
         {
             var datacontext = new SICER_WEBEntities1();
             var documentoWeb = datacontext.DocumentoWeb.Find(cambioEstadoBE.IdDocumentoWeb);
+
             switch ((EstadoDocumento)documentoWeb.EstadoDocumento)
             {
                 case EstadoDocumento.Aprobado:
                 case EstadoDocumento.Liquidado:
                 case EstadoDocumento.Rechazado:
                 case EstadoDocumento.RendirAprobado:
-                case EstadoDocumento.RendirPorAprobarContabilidad:
-                case EstadoDocumento.RendirPorAprobarJefeArea:
                     throw new Exception("El documento no se puede rechazar. El estado actual del documento es: " +
                                         (EstadoDocumento)documentoWeb.EstadoDocumento);
+                case EstadoDocumento.RendirPorAprobarContabilidad:
+                case EstadoDocumento.RendirPorAprobarJefeArea:
                 default:
                     break;
             }
@@ -748,8 +749,6 @@ namespace MSS.TAWA.DA
             dataContext.FacturasWebMigracion.Add(facturasWebMigracion);
             dataContext.SaveChanges();
         }
-
         #endregion
-
     }
 }

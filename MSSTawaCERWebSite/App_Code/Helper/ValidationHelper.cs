@@ -116,7 +116,7 @@ public class ValidationHelper
         Int32[] estadosEnLosQueSepuedeRendirDocumento = {
                                                         (Int32)EstadoDocumento.Aprobado
                                                         ,(Int32)EstadoDocumento.RendirAprobado
-        };
+                                                        };
         Int32 _estadoDocumento = (Int32)estadoDocumento;
         if (estadosEnLosQueSepuedeRendirDocumento.ToList().Contains(_estadoDocumento))
             return true;
