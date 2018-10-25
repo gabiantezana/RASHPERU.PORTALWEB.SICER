@@ -14,6 +14,14 @@ namespace MSS.TAWA.MODEL
     
     public partial class Proveedor
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Proveedor()
+        {
+            this.DocumentoWebRendicion = new HashSet<DocumentoWebRendicion>();
+            this.DocumentoWebRendicion1 = new HashSet<DocumentoWebRendicion>();
+            this.DocumentoWebRendicion2 = new HashSet<DocumentoWebRendicion>();
+        }
+    
         public int IdProveedor { get; set; }
         public string CardCode { get; set; }
         public string CardName { get; set; }
@@ -26,5 +34,12 @@ namespace MSS.TAWA.MODEL
         public Nullable<System.DateTime> CreateDate { get; set; }
         public string UserUpdate { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DocumentoWebRendicion> DocumentoWebRendicion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DocumentoWebRendicion> DocumentoWebRendicion1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DocumentoWebRendicion> DocumentoWebRendicion2 { get; set; }
     }
 }

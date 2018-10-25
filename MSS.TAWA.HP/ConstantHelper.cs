@@ -18,4 +18,17 @@ public static class ConstantHelper
     }
 
     public const string SELECCIONE = "Seleccione...";
+
+    public static class CONFIGKEYS
+    {
+        public const string Company_Server = "Company.Server";
+        public const string Company_DBCompany = "Company.DBCompany";
+        public const string Company_DBUser = "Company.DBUser";
+        public const string Company_DBPassword = "Company.DBPassword";
+        public const string Company_SBOUser = "Company.SBOUser";
+        public const string Company_SBOPassword = "Company.SBOPassword";
+        public const string Company_DbServerType = "Company.DbServerType";
+
+        
+    }
 }

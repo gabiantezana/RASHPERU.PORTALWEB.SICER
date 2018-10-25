@@ -52,4 +52,5 @@ namespace MSS.TAWA.HP
             sw.Close();
         }
     }
+    public class SapException : Exception { }
 }

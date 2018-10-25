@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using MSS.TAWA.BE;
+using MSS.TAWA.MIGRATIONTOSAP;
 using MSS.TAWA.MODEL;
-using EmpresasSICER = MSS.TAWA.MODEL.EmpresasSICER;
 
 namespace MSS.TAWA.DA
 {
@@ -12,7 +12,7 @@ namespace MSS.TAWA.DA
     {
         public List<DocumentoWeb> GetListRendicionesPendientesReembolso(int idUsuario, string moneda)
         {
-            var dataContext = new SICER_WEBEntities1();
+            var dataContext = new SICER_WEBEntities();
             var DocumentosWebQueSePuedenReembolsar = new List<DocumentoWeb>();
 
             var documentosDeUsuario = GetListDocumentoWeb(idUsuario, TipoDocumentoWeb.EntregaRendir)
@@ -35,7 +35,7 @@ namespace MSS.TAWA.DA
 
         public List<DocumentoWeb> GetListDocumentoWeb(int IdUsuario, TipoDocumentoWeb tipoDocumentoWeb)
         {
-            var dataContext = new SICER_WEBEntities1();
+            var dataContext = new SICER_WEBEntities();
             var usuario = dataContext.Usuario.Where(x => x.IdUsuario == IdUsuario).FirstOrDefault();
 
             if (usuario.IdPerfilUsuario == null)
@@ -192,7 +192,7 @@ namespace MSS.TAWA.DA
             var initialCode = 100000;
             var finalCode = string.Empty;
 
-            var lastCode = new SICER_WEBEntities1().DocumentoWeb
+            var lastCode = new SICER_WEBEntities().DocumentoWeb
                 .Where(x => x.TipoDocumentoWeb == (int)tipoDocumentoWeb).OrderByDescending(y => y.IdDocumentoWeb)
                 .FirstOrDefault()?.Codigo;
 
@@ -224,13 +224,13 @@ namespace MSS.TAWA.DA
 
         public DocumentoWeb GetDocumentoWeb(int? idDocumentoWeb)
         {
-            var item = new SICER_WEBEntities1().DocumentoWeb.Find(idDocumentoWeb);
+            var item = new SICER_WEBEntities().DocumentoWeb.Find(idDocumentoWeb);
             return item;
         }
 
         public void AddUpdateDocumentoWeb(DocumentoWebBE documentoWebBE)
         {
-            var dataContext = new SICER_WEBEntities1();
+            var dataContext = new SICER_WEBEntities();
             DocumentoWeb documentoWeb;
             var isUpdate = dataContext.DocumentoWeb.Find(documentoWebBE.IdDocumentoWeb) == null ? false : true;
 
@@ -279,7 +279,7 @@ namespace MSS.TAWA.DA
 
         public void AprobarDocumento(CambioEstadoBE cambioEstadoBE)
         {
-            var datacontext = new SICER_WEBEntities1();
+            var datacontext = new SICER_WEBEntities();
             using (var trx = datacontext.Database.BeginTransaction())
             {
                 try
@@ -345,18 +345,23 @@ namespace MSS.TAWA.DA
                             datacontext.SaveChanges();
                         }
 
-                        MigrateToInterDB(documentoWeb);
+                        MigrateToInterDB(documentoWeb, out FacturasWebMigracion facturaWebMigrada);
+                        new PublishToSap().PublishRendicionesToSap(facturaWebMigrada);
+
                     }
 
                     //SI LAS RENDICIONES SON APROBADAS, SE MIGRAN LAS RENDICIONES A LA BD INTERMEDIA.
                     else if (nuevoEstado == EstadoDocumento.RendirAprobado)
                     {
                         //MIGRA BUSINESS PARTNERS
-                        MigrateBusinessPartner(documentoWeb.IdDocumentoWeb);
+                        var list = new SICER_WEBEntities().Proveedor.Where(x => x.IdProceso == documentoWeb.IdDocumentoWeb).ToList();
+
+                        MigrateBusinessPartner(list, out List<MaestroTrabajadores> businessPartnerMigratedList);
 
                         var ListDocumentosGuardados = documentoWeb.DocumentoWebRendicion.Where(x =>
                             x.NumeroRendicion == documentoWeb.NumeroRendicion
                             && x.EstadoRendicion == (int)EstadoDocumentoRendicion.Guardado).ToList();
+                        var documentsMigratedList = new List<FacturasWebMigracion>();
                         foreach (var documentoWebRendicion in ListDocumentosGuardados)
                         {
                             documentoWebRendicion.EstadoRendicion = (int)EstadoDocumentoRendicion.Rendido;
@@ -364,8 +369,10 @@ namespace MSS.TAWA.DA
                             datacontext.SaveChanges();
 
                             //MIGRA RENDICIONES
-                            MigrateToInterDB(documentoWebRendicion);
+                            MigrateToInterDB(documentoWebRendicion, out FacturasWebMigracion facturasWebMigracion);
+                            documentsMigratedList.Add(facturasWebMigracion);
                         }
+                        new PublishToSap().PublishRendicionesToSap(businessPartnerMigratedList, documentsMigratedList);
                     }
 
                     trx.Commit();
@@ -381,7 +388,7 @@ namespace MSS.TAWA.DA
 
         public void RechazarDocumento(CambioEstadoBE cambioEstadoBE)
         {
-            var datacontext = new SICER_WEBEntities1();
+            var datacontext = new SICER_WEBEntities();
             var documentoWeb = datacontext.DocumentoWeb.Find(cambioEstadoBE.IdDocumentoWeb);
 
             switch ((EstadoDocumento)documentoWeb.EstadoDocumento)
@@ -425,7 +432,7 @@ namespace MSS.TAWA.DA
 
         public void EnviarRendicion(int idDocumentoWeb)
         {
-            var dataContext = new SICER_WEBEntities1();
+            var dataContext = new SICER_WEBEntities();
             var documentoWeb = dataContext.DocumentoWeb.Find(idDocumentoWeb);
 
             //Cambia estado a pendiente de rendición
@@ -435,14 +442,13 @@ namespace MSS.TAWA.DA
             dataContext.SaveChanges();
         }
 
-        public void MigrateBusinessPartner(int idDocumentoWeb)
+        public void MigrateBusinessPartner(List<Proveedor> list, out List<MaestroTrabajadores> outList)
         {
-            var list = new SICER_WEBEntities1().Proveedor.Where(x => x.IdProceso == idDocumentoWeb).ToList();
-
+            outList = new List<MaestroTrabajadores>();
             foreach (var item in list)
             {
                 var maestroTrabajadores = new MaestroTrabajadores();
-                var proveedor = new SICER_WEBEntities1().Proveedor
+                var proveedor = new SICER_WEBEntities().Proveedor
                     .Where(x => x.CardCode == item.Documento && x.CardName == item.CardName).FirstOrDefault();
                 if (proveedor == null)
                 {
@@ -456,16 +462,18 @@ namespace MSS.TAWA.DA
                     maestroTrabajadores.U_BPP_BPTD = "6";
                     maestroTrabajadores.INT_Estado = "A";
 
-                    var datacontext = new SICER_INT_SBOEntities();
+                    var datacontext = new SICER_WEBEntities();
                     datacontext.MaestroTrabajadores.Add(maestroTrabajadores);
                     datacontext.SaveChanges();
+
+                    outList.Add(maestroTrabajadores);
                 }
             }
         }
 
         public void AprobarYLiquidarDocumento(CambioEstadoBE cambioEstadoBE)
         {
-            var dataContext = new SICER_WEBEntities1();
+            var dataContext = new SICER_WEBEntities();
             AprobarDocumento(cambioEstadoBE);
 
             //Liquida documento
@@ -493,19 +501,19 @@ namespace MSS.TAWA.DA
 
         public List<DocumentoWebRendicion> GetListDocumentoWebRendicion(int IdDocumentoWeb)
         {
-            var list = new SICER_WEBEntities1().DocumentoWebRendicion.Where(x =>
+            var list = new SICER_WEBEntities().DocumentoWebRendicion.Where(x =>
                 x.IdDocumentoWeb == IdDocumentoWeb && x.DocumentoWeb.NumeroRendicion == x.NumeroRendicion).ToList();
             return list;
         }
 
         public DocumentoWebRendicion GetDocumentoWebRendicion(int? idDocumentoWebRendicion)
         {
-            return new SICER_WEBEntities1().DocumentoWebRendicion.Find(idDocumentoWebRendicion);
+            return new SICER_WEBEntities().DocumentoWebRendicion.Find(idDocumentoWebRendicion);
         }
 
         public void AddUpdateDocumentoRendicion(DocumentoWebRendicionBE documentoRendicionBE)
         {
-            var dataContext = new SICER_WEBEntities1();
+            var dataContext = new SICER_WEBEntities();
             DocumentoWebRendicion documentoWebRendicion;
             var isUpdate = dataContext.DocumentoWebRendicion.Find(documentoRendicionBE.IdDocumentoWebRendicion) == null
                 ? false
@@ -563,7 +571,7 @@ namespace MSS.TAWA.DA
 
         public void DeleteDocumentoRendicion(int idDocumentoRendicion)
         {
-            var dataContext = new SICER_WEBEntities1();
+            var dataContext = new SICER_WEBEntities();
             var document = dataContext.DocumentoWebRendicion.Find(idDocumentoRendicion);
             if (document == null)
                 throw new Exception("No se encontró ningún documento con id de Rendición: " + idDocumentoRendicion);
@@ -575,7 +583,7 @@ namespace MSS.TAWA.DA
 
         public void ChangeStateDocumentoWebRendicion(int idDocumentoWebRendicion, EstadoDocumentoRendicion newState)
         {
-            var dataContext = new SICER_WEBEntities1();
+            var dataContext = new SICER_WEBEntities();
             var documentoWebRendicion = dataContext.DocumentoWebRendicion.Find(idDocumentoWebRendicion);
             documentoWebRendicion.EstadoRendicion = (int)newState;
             dataContext.Entry(documentoWebRendicion);
@@ -586,7 +594,7 @@ namespace MSS.TAWA.DA
 
         #region MigrateDocument
 
-        public void MigrateToInterDB(DocumentoWeb documentoWeb)
+        public void MigrateToInterDB(DocumentoWeb documentoWeb, out FacturasWebMigracion facturasWebMigracion)
         {
             //Migrate Proveedores que estén agregados en el documento
             var _ControlAccount = new UtilDA().GetControlAccount((TipoDocumentoWeb)documentoWeb.TipoDocumentoWeb,
@@ -595,7 +603,7 @@ namespace MSS.TAWA.DA
                 documentoWeb.Moneda.Descripcion);
 
             if ((TipoDocumentoWeb)documentoWeb.TipoDocumentoWeb == TipoDocumentoWeb.Reembolso)
-                _AccountCode = new SICER_INT_SBOEntities().FacturasWebMigracion
+                _AccountCode = new SICER_WEBEntities().FacturasWebMigracion
                     .Where(x => x.IdFacturaWeb == documentoWeb.IdDocumentoWebRendicionReferencia).FirstOrDefault()
                     .AccountCode;
 
@@ -614,7 +622,7 @@ namespace MSS.TAWA.DA
             var _intNumber = Convert.ToInt32(documentoWeb.Codigo.Substring(2, documentoWeb.Codigo.Length - 2));
 
 
-            var facturasWebMigracion = new FacturasWebMigracion();
+            facturasWebMigracion = new FacturasWebMigracion();
             facturasWebMigracion.AccountCode = _AccountCode;
             facturasWebMigracion.Asunto = documentoWeb.Asunto;
             facturasWebMigracion.CardCode = documentoWeb.Usuario2.CardCode;
@@ -657,12 +665,13 @@ namespace MSS.TAWA.DA
             if ((EmpresaInterna)Convert.ToInt32(ConfigurationManager.AppSettings[ConstantHelper.Keys.IdEmpresaInterna]) == EmpresaInterna.IIMP)
                 facturasWebMigracion.Series = new UtilDA().GetSeries(TipoDocumentoSunat.ReciboInterno);
 
-            var dataContext = new SICER_INT_SBOEntities();
+            var dataContext = new SICER_WEBEntities();
             dataContext.FacturasWebMigracion.Add(facturasWebMigracion);
             dataContext.SaveChanges();
+
         }
 
-        public void MigrateToInterDB(DocumentoWebRendicion documentoWebRendicion)
+        public void MigrateToInterDB(DocumentoWebRendicion documentoWebRendicion, out FacturasWebMigracion outFacturaWebMigracion)
         {
             var _ControlAccount = new UtilDA().GetControlAccount(
                 (TipoDocumentoWeb)documentoWebRendicion.DocumentoWeb.TipoDocumentoWeb,
@@ -745,9 +754,11 @@ namespace MSS.TAWA.DA
             }
 
 
-            var dataContext = new SICER_INT_SBOEntities();
+            var dataContext = new SICER_WEBEntities();
             dataContext.FacturasWebMigracion.Add(facturasWebMigracion);
             dataContext.SaveChanges();
+
+            outFacturaWebMigracion = facturasWebMigracion;
         }
         #endregion
     }

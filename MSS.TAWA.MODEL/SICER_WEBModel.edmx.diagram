@@ -4,47 +4,43 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="3ac0ff1327a34059bc9c74f705800e3a" Name="Diagram1" ZoomLevel="48">
-        <EntityTypeShape EntityType="SICER_WEBModel.Documento" Width="1.5" PointX="3" PointY="0.75" />
-        <EntityTypeShape EntityType="SICER_WEBModel.DocumentoWeb" Width="1.5" PointX="3" PointY="5.375" />
-        <EntityTypeShape EntityType="SICER_WEBModel.DocumentoWebAuditoria" Width="1.5" PointX="8.25" PointY="8" />
-        <EntityTypeShape EntityType="SICER_WEBModel.DocumentoWebRendicion" Width="1.5" PointX="5.25" PointY="4.625" />
-        <EntityTypeShape EntityType="SICER_WEBModel.Empresa" Width="1.5" PointX="0.75" PointY="24.5" />
-        <EntityTypeShape EntityType="SICER_WEBModel.EmpresasSICER" Width="1.5" PointX="7.75" PointY="2.25" />
-        <EntityTypeShape EntityType="SICER_WEBModel.MetodoPago" Width="1.5" PointX="0.75" PointY="16.25" />
-        <EntityTypeShape EntityType="SICER_WEBModel.Moneda" Width="1.5" PointX="0.75" PointY="19.75" />
-        <EntityTypeShape EntityType="SICER_WEBModel.Proveedor" Width="1.5" PointX="9.75" PointY="2.25" />
-        <EntityTypeShape EntityType="SICER_WEBModel.Usuario" Width="1.5" PointX="0.75" PointY="3" />
-        <EntityTypeShape EntityType="SICER_WEBModel.Acceso" Width="1.5" PointX="10.75" PointY="7.25" />
-        <EntityTypeShape EntityType="SICER_WEBModel.Aprobacion" Width="1.5" PointX="7.75" PointY="12.25" />
-        <EntityTypeShape EntityType="SICER_WEBModel.Concepto" Width="1.5" PointX="10.75" PointY="10.25" />
-        <EntityTypeShape EntityType="SICER_WEBModel.Estado" Width="1.5" PointX="11.75" PointY="2.25" />
-        <EntityTypeShape EntityType="SICER_WEBModel.NivelAprobacion" Width="1.5" PointX="12.75" PointY="5.25" />
-        <EntityTypeShape EntityType="SICER_WEBModel.PerfilUsuario" Width="1.5" PointX="12.75" PointY="9.25" />
-        <EntityTypeShape EntityType="SICER_WEBModel.UsuarioAreaNivel" Width="1.5" PointX="9.75" PointY="14.25" />
-        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdTip__6A30C649" />
-        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdTip__6B24EA82" />
-        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdTip__6C190EBB" />
-        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdDoc__5FB337D6" />
-        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdDoc__619B8048" />
-        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdDoc__628FA481" />
-        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdDoc__6383C8BA" />
-        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdEmp__59FA5E80" />
-        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdMet__5AEE82B9" />
-        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdMon__5BE2A6F2" />
-        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdUsu__5CD6CB2B" />
-        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdUsu__5DCAEF64" />
-        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdUsu__5EBF139D" />
-        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdUsu__60A75C0F" />
-        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdMon__6477ECF3" />
-        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdMon__656C112C" />
-        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdMon__66603565" />
-        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdUsu__6D0D32F4" />
-        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdUsu__6E01572D" />
-        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdUsu__6EF57B66" />
-        <AssociationConnector Association="SICER_WEBModel.FK__Documento__UserU__6FE99F9F" />
-        <AssociationConnector Association="SICER_WEBModel.FK__Documento__UserU__70DDC3D8" />
-        <AssociationConnector Association="SICER_WEBModel.FK__Documento__UserU__71D1E811" />
+      <Diagram DiagramId="be01b22125c0482585df7d54a4ddaad1" Name="Diagram1">
+        <EntityTypeShape EntityType="SICER_WEBModel.CONFIG" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SICER_WEBModel.DocumentoWeb" Width="1.5" PointX="3" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SICER_WEBModel.DocumentoWebAuditoria" Width="1.5" PointX="5.25" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SICER_WEBModel.DocumentoWebRendicion" Width="1.5" PointX="8.25" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SICER_WEBModel.FacturasWebMigracion" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SICER_WEBModel.MaestroTrabajadores" Width="1.5" PointX="2.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SICER_WEBModel.Usuario" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SICER_WEBModel.NivelAprobacion" Width="1.5" PointX="4.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SICER_WEBModel.PerfilUsuario" Width="1.5" PointX="10.75" PointY="9.75" IsExpanded="true" />
+        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdDoc__31EC6D26" ManuallyRouted="false" />
+        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdDoc__33D4B598" ManuallyRouted="false" />
+        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdDoc__34C8D9D1" ManuallyRouted="false" />
+        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdDoc__35BCFE0A" ManuallyRouted="false" />
+        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdUsu__2F10007B" ManuallyRouted="false" />
+        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdUsu__300424B4" ManuallyRouted="false" />
+        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdUsu__30F848ED" ManuallyRouted="false" />
+        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdUsu__32E0915F" ManuallyRouted="false" />
+        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdUsu__3F466844" ManuallyRouted="false" />
+        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdUsu__403A8C7D" ManuallyRouted="false" />
+        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdUsu__412EB0B6" ManuallyRouted="false" />
+        <AssociationConnector Association="SICER_WEBModel.FK__Documento__UserU__4222D4EF" ManuallyRouted="false" />
+        <AssociationConnector Association="SICER_WEBModel.FK__Documento__UserU__4316F928" ManuallyRouted="false" />
+        <AssociationConnector Association="SICER_WEBModel.FK__Documento__UserU__440B1D61" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SICER_WEBModel.Moneda" Width="1.5" PointX="7.375" PointY="13.25" />
+        <EntityTypeShape EntityType="SICER_WEBModel.Proveedor" Width="1.5" PointX="6" PointY="0.75" />
+        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdMon__2E1BDC42" />
+        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdMon__36B12243" />
+        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdMon__37A5467C" />
+        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdMon__38996AB5" />
+        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdPro__398D8EEE" />
+        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdPro__3A81B327" />
+        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdPro__3B75D760" />
+        <EntityTypeShape EntityType="SICER_WEBModel.Documento" Width="1.5" PointX="13.375" PointY="1" />
+        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdTip__3C69FB99" />
+        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdTip__3D5E1FD2" />
+        <AssociationConnector Association="SICER_WEBModel.FK__Documento__IdTip__3E52440B" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

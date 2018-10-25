@@ -25,6 +25,7 @@ public partial class Documento : System.Web.UI.Page
         {
             if (!this.IsPostBack)
             {
+                
                 //Get from context
                 _TipoDocumentoWeb = (TipoDocumentoWeb)Context.Items[ConstantHelper.Keys.TipoDocumentoWeb];
                 _Modo = (Modo)Context.Items[ConstantHelper.Keys.Modo];
@@ -474,6 +475,8 @@ public partial class Documento : System.Web.UI.Page
 
         try
         {
+            Mensaje("Se están creando documentos en SAP. Espere, por favor.");
+
             _TipoDocumentoWeb = (TipoDocumentoWeb)ViewState[ConstantHelper.Keys.TipoDocumentoWeb];
             _Modo = (Modo)ViewState[ConstantHelper.Keys.Modo];
             _IdDocumentoWeb = (Int32)base.ViewState[ConstantHelper.Keys.IdDocumentoWeb];
@@ -485,6 +488,7 @@ public partial class Documento : System.Web.UI.Page
                 Comentario = txtComentario.Text,
                 IdUsuario = idUsuario
             };
+            
 
             new DocumentoWebBC().AprobarDocumento(cambioEstadoBE);
 
@@ -534,6 +538,7 @@ public partial class Documento : System.Web.UI.Page
 
     private void Mensaje(String mensaje)
     {
+        mensaje = mensaje.Replace("'", "");
         ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "MessageBox", "alert('" + mensaje + "')", true);
     }
 

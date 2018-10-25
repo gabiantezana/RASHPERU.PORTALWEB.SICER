@@ -601,33 +601,6 @@ public partial class DocumentoRendicion : System.Web.UI.Page
             };
 
             new DocumentoWebBC().AprobarDocumento(cambioEstadoBE);
-
-            //DocumentoWebBE objDocumentoBE = new DocumentoWebBC().GetDocument(idDocumento);
-            //String estado = objDocumentoBE.Estado;
-            //EstadoDocumento _estado = (EstadoDocumento)Enum.Parse(typeof(EstadoDocumento), objDocumentoBE.Estado);
-
-
-            //if (_estado == EstadoDocumento.RendirPorAprobarJefeArea)
-            //{
-            //    objDocumentoBE.Estado = EstadoDocumento.RendirPorAprobarContabilidad.IdToString();
-            //    objDocumentoBE.Comentario = String.Empty;
-            //    new DocumentoWebBC().AddUpdateDocumento(objDocumentoBE);
-            //}
-
-            //else if (_estado == EstadoDocumento.RendirPorAprobarContabilidad)
-            //{
-            //    objDocumentoBE.FechaContabilizacion = DateTime.ParseExact(txtFechaContabilizacion.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            //    objDocumentoBE.Estado = EstadoDocumento.RendirAprobado.IdToString();
-
-            //    DocumentoWebRendicionBE objDocumentoDetalleBE = new DocumentoWebBC().GetDocumentRendicion(idDocumento);
-            //    objDocumentoBE.MontoGastado = objDocumentoDetalleBE.MontoTotal;
-            //    objDocumentoBE.MontoActual = (objDocumentoBE.MontoInicial - objDocumentoDetalleBE.MontoTotal);
-            //    objDocumentoBE.Comentario = String.Empty;
-            //    new DocumentoWebBC().AddUpdateDocumento(objDocumentoBE);
-            //}
-
-            //EnviarMensajeAprobado(objDocumentoBE.IdDocumentoWeb, _TipoDocumentoWeb.GetName(), "Rendicion " + _TipoDocumentoWeb.GetName() + objDocumentoBE.CodigoDocumento, objDocumentoBE.CodigoDocumento, new UsuarioBC().ObtenerUsuario(objDocumentoBE.IdUsuarioSolicitante, 0).CardName, estado, objDocumentoBE.IdUsuarioSolicitante);
-
         }
 
         catch (Exception ex)

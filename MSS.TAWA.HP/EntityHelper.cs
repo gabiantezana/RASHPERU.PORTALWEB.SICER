@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace MSS.TAWA.MODEL
+namespace MSS.TAWA.HP
 {
-    public class Class1
-    {
-    }
+    class EntityHelper
+    { }
 }

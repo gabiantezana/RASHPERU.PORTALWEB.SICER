@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MSS.TAWA.MODEL</RootNamespace>
     <AssemblyName>MSS.TAWA.MODEL</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -50,18 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Acceso.cs">
+    <Compile Include="CONFIG.cs">
       <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Aprobacion.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Class1.cs" />
-    <Compile Include="Concepto.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DetalleAsientos.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Documento.cs">
       <DependentUpon>SICER_WEBModel.tt</DependentUpon>
@@ -75,170 +65,17 @@
     <Compile Include="DocumentoWebRendicion.cs">
       <DependentUpon>SICER_WEBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Empresa.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EmpresasSICER.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Estado.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="FacturasWebMigracion.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
+      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="MaestroTrabajadores.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MetodoPago.cs">
       <DependentUpon>SICER_WEBModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Moneda.cs">
       <DependentUpon>SICER_WEBModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="MSS_SP_SICER_ACCOUNTINFO_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_SP_SICER_ACCOUNTPAYMENTS_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_SP_SICER_BUSINESSPARTNERS_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_SP_SICER_CUENTASPAGO_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_SP_SICER_DATOSERETAPA1_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_SP_SICER_FACTURACIONWEBDETALLE_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_SP_SICER_FACTURACIONWEB_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_SP_SICER_FACTURASRENDIDASER_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_SP_SICER_GETFACTURASWEBMIGRACION_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_SP_SICER_JOURNALENTRIESHEADER_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_SP_SICER_JOURNALENTRIESLINES_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_SP_SICER_PAYROLLINVOICES_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_SP_SICER_PENDINGINVOICES_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_SP_SICER_PURCHASEINVOICESLINES_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_SP_SICER_PURCHASEINVOICES_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_SP_SICER_REFACTURABLES_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_SP_SICER_RENDICIONESSEGUNDAETAPA_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_SP_SICER_WEBUDOINVOICES_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_WEB_CentroCostosListar_Result.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_WEB_CentroCostosObtener_Result.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_WEB_ConceptoListar_Result.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_WEB_ConceptoObtener_Result.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_WEB_CuentaContableDevolucionObtener_Result.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_WEB_CuentasContablesDevolucionListar_Result.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_WEB_DocumentoListar_Result.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_WEB_DocumentoObtener_Result.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_WEB_EmpresaListar_Result.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_WEB_EmpresaObtener_Result.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_WEB_MetodoPagoListar_Result.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_WEB_MetodoPagoObtener_Result.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_WEB_MonedaListar_Result.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_WEB_MonedaObtener_Result.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_WEB_NivelAprobacionListar_Result.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_WEB_NivelAprobacionObtenerV2_Result.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_WEB_NivelAprobacionObtener_Result.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_WEB_NivelSeguridadContraseña_Result.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_WEB_PARTIDAPRESUPUESTAL_GETLIST_Result.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_WEB_PARTIDAPRESUPUESTAL_GET_Result.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_WEB_PerfilUsuarioListar_Result.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_WEB_PerfilUsuarioObtener_Result.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_WEB_ProveedorListar_Result.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_WEB_ProveedorObtener_Result.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_WEB_UsuarioListar2_Result.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_WEB_UsuarioListar_Result.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_WEB_UsuarioLogin_Result.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MSS_WEB_UsuarioObtener_Result.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="NivelAprobacion.cs">
       <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="OBTENERPROVEEDORDESAP_Result.cs">
-      <DependentUpon>TestModel.tt</DependentUpon>
     </Compile>
     <Compile Include="PerfilUsuario.cs">
       <DependentUpon>SICER_WEBModel.tt</DependentUpon>
@@ -246,21 +83,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Proveedor.cs">
       <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SICER_INT_SBOModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SICER_INT_SBOModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SICER_INT_SBOModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SICER_INT_SBOModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SICER_INT_SBOModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="SICER_WEBModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -277,151 +99,25 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SICER_WEBModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="SplitString_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Split_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="TD_DOCU_RETE.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="TestModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TestModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="TestModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TestModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="TestModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TestModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="USP_SEL_BUSQUEDA_001_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="USP_SEL_COMP_RETE_001_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="USP_SEL_COMP_RETE_002_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="USP_SEL_COMP_RETE_003_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="USP_SEL_COMP_RETE_004_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="USP_SEL_COMP_RETE_005_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="USP_SEL_FACTURA_001_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="USP_SEL_FACTURA_002_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="USP_SEL_FACTURA_003_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="USP_SEL_FACTURA_005_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="USP_SEL_FACTURA_006_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="USP_SEL_LISTA_BUSQUEDA_001_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="USP_SEL_M_DOCU_MASI_002_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="USP_SEL_M_DOCU_MASI_003_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="USP_SEL_TD_DOCU_RETE_001_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="USP_SEL_TD_DOCU_RETE_002_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="USP_SEL_TD_DOCU_SUNA_001_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="USP_SEL_TD_DOCU_SUNA_009_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="USP_SEL_vwM_EMPR_RETE_001_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="USP_SEL_VW_TIPO_DOCU_001_Result.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Usuario.cs">
       <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="UsuarioAreaNivel.cs">
-      <DependentUpon>SICER_WEBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="VW_EMPR_RETE.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="VW_TIPO_DOCU.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="VW_TIPO_IDEN.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="VW_TIPO_MONE.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="VW_VERS.cs">
-      <DependentUpon>SICER_INT_SBOModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
+    <None Include="packages.config" />
     <EntityDeploy Include="SICER_WEBModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>SICER_WEBModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <EntityDeploy Include="SICER_INT_SBOModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>SICER_INT_SBOModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="packages.config" />
-    <None Include="SICER_INT_SBOModel.edmx.diagram">
-      <DependentUpon>SICER_INT_SBOModel.edmx</DependentUpon>
-    </None>
     <None Include="SICER_WEBModel.edmx.diagram">
       <DependentUpon>SICER_WEBModel.edmx</DependentUpon>
-    </None>
-    <EntityDeploy Include="TestModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>TestModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="TestModel.edmx.diagram">
-      <DependentUpon>TestModel.edmx</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SICER_INT_SBOModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>SICER_INT_SBOModel.edmx</DependentUpon>
-      <LastGenOutput>SICER_INT_SBOModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="SICER_INT_SBOModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>SICER_INT_SBOModel.edmx</DependentUpon>
-      <LastGenOutput>SICER_INT_SBOModel.cs</LastGenOutput>
-    </Content>
     <Content Include="SICER_WEBModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>SICER_WEBModel.edmx</DependentUpon>
@@ -431,16 +127,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>SICER_WEBModel.edmx</DependentUpon>
       <LastGenOutput>SICER_WEBModel.cs</LastGenOutput>
-    </Content>
-    <Content Include="TestModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>TestModel.edmx</DependentUpon>
-      <LastGenOutput>TestModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="TestModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>TestModel.edmx</DependentUpon>
-      <LastGenOutput>TestModel.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -12,10 +12,10 @@ namespace MSS.TAWA.MODEL
     using System;
     using System.Collections.Generic;
     
-    public partial class VW_TIPO_MONE
+    public partial class CONFIG
     {
-        public string CO_TIPO_MONE { get; set; }
-        public string DE_SIGN_MONE { get; set; }
-        public string DE_TIPO_MONE { get; set; }
+        public int ConfigId { get; set; }
+        public string Llave { get; set; }
+        public string Valor { get; set; }
     }
 }
