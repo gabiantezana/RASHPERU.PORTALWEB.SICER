@@ -108,9 +108,9 @@
                         <asp:TemplateField HeaderText="Empresa" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
                             <ItemTemplate><%# SetearIdEmpresa(Convert.ToString(Eval("IdEmpresa")))%></ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Usuario Creador" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
+                  <%--      <asp:TemplateField HeaderText="Usuario Creador" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
                             <ItemTemplate><%# SetearIdUsuarioSolicitante(Convert.ToString(Eval("IdUsuarioCreador")))%></ItemTemplate>
-                        </asp:TemplateField>
+                        </asp:TemplateField>--%>
                         <asp:TemplateField HeaderText="Usuario Solicitante" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
                             <ItemTemplate><%# SetearIdUsuarioSolicitante(Convert.ToString(Eval("IdUsuarioSolicitante")))%></ItemTemplate>
                         </asp:TemplateField>
@@ -124,6 +124,7 @@
                         <asp:TemplateField HeaderText="Estado" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
                             <ItemTemplate><%# SetearEstado(Convert.ToString(Eval("Estado")))%></ItemTemplate>
                         </asp:TemplateField>
+                        <asp:BoundField DataField="Comentario" HeaderText="Comentario" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
                         <asp:TemplateField HeaderText="Solicitud" ItemStyle-HorizontalAlign="Center">
                             <ItemTemplate>
                                 <asp:LinkButton ID="lnkSolicitud" runat="server" CommandName="Solicitud"  CommandArgument='<% #Eval("IdDocumentoWeb")%>'>

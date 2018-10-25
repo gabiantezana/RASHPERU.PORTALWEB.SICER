@@ -184,7 +184,7 @@ namespace MSS.TAWA.DA
             listDocumentoWeb = listDocumentoWeb.Where(x => x.TipoDocumentoWeb == (int)tipoDocumentoWeb).Distinct()
                 .ToList();
 
-            return listDocumentoWeb?.ToList() ?? new List<DocumentoWeb>();
+            return listDocumentoWeb?.ToList().OrderByDescending(x => x.Codigo).ToList() ?? new List<DocumentoWeb>();
         }
 
         private string GenerateDocumentCode(TipoDocumentoWeb tipoDocumentoWeb)
@@ -238,7 +238,6 @@ namespace MSS.TAWA.DA
             {
                 documentoWeb = new DocumentoWeb();
                 documentoWeb.Codigo = GenerateDocumentCode(documentoWebBE.TipoDocumentoWeb);
-                documentoWeb.EstadoDocumento = (int)EstadoDocumento.PorAprobarNivel1;
                 documentoWeb.NumeroRendicion = 1;
                 documentoWeb.CreateDate = DateTime.Now;
                 documentoWeb.UpdateDate = DateTime.Now;
@@ -252,6 +251,7 @@ namespace MSS.TAWA.DA
                 documentoWeb = dataContext.DocumentoWeb.Find(documentoWebBE.IdDocumentoWeb);
             }
 
+            documentoWeb.EstadoDocumento = (int)EstadoDocumento.PorAprobarNivel1;
             documentoWeb.Asunto = documentoWebBE.Asunto;
             documentoWeb.Comentario = documentoWebBE.Comentario;
             documentoWeb.IdEmpresa = documentoWebBE.IdEmpresa;
@@ -360,7 +360,8 @@ namespace MSS.TAWA.DA
 
                         var ListDocumentosGuardados = documentoWeb.DocumentoWebRendicion.Where(x =>
                             x.NumeroRendicion == documentoWeb.NumeroRendicion
-                            && x.EstadoRendicion == (int)EstadoDocumentoRendicion.Guardado).ToList();
+                            && x.EstadoRendicion == (int)EstadoDocumentoRendicion.Guardado
+                            || x.EstadoRendicion == (int)EstadoDocumentoRendicion.Rechazado).ToList();
                         var documentsMigratedList = new List<FacturasWebMigracion>();
                         foreach (var documentoWebRendicion in ListDocumentosGuardados)
                         {
@@ -405,7 +406,12 @@ namespace MSS.TAWA.DA
                     break;
             }
 
-            documentoWeb.EstadoDocumento = (int)EstadoDocumento.Rechazado;
+            if (cambioEstadoBE.TipoDocumentoOrigen == 1)
+                documentoWeb.EstadoDocumento = (int)EstadoDocumento.Rechazado;
+            else if (cambioEstadoBE.TipoDocumentoOrigen == 2)
+                documentoWeb.EstadoDocumento = (int)EstadoDocumento.RendirRechazado;
+
+            documentoWeb.Comentario = cambioEstadoBE.Comentario;
             var rendicionesARechazar = documentoWeb.DocumentoWebRendicion.Where(x =>
                 x.NumeroRendicion == documentoWeb.NumeroRendicion &&
                 x.EstadoRendicion == (int)EstadoDocumentoRendicion.Guardado).ToList();

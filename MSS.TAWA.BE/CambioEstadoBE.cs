@@ -11,5 +11,6 @@ namespace MSS.TAWA.BE
         public Int32 IdUsuario { get; set; }
         public Int32 IdDocumentoWeb { get; set; }
         public String Comentario { get; set; }
+        public int TipoDocumentoOrigen { get; set; }//1:APERTURA,2:RENDICIÓN
     }
 }

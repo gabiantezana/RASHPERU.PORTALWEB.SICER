@@ -234,8 +234,9 @@ public partial class ListadoDocumentos : System.Web.UI.Page
                         Server.Transfer("~/Documento.aspx");
                         break;
                     case EstadoDocumento.Rechazado:
+                        throw new Exception("El documento se encuentra rechazado");
                     case EstadoDocumento.Liquidado:
-                        throw new NotImplementedException();
+                        throw new Exception("El documento se encuentra liquidado");
                     case EstadoDocumento.Aprobado:
                     case EstadoDocumento.RendirPorAprobarJefeArea:
                     case EstadoDocumento.RendirPorAprobarContabilidad:
@@ -378,6 +379,7 @@ public partial class ListadoDocumentos : System.Web.UI.Page
             case "14": texto = "Rendir: Observaciones Contabilidad"; break;
             case "15": texto = "Rendir: Aprobado"; break;
             case "16": texto = "Liquidado"; break;
+            case "17": texto = "Rendir: Rechazado"; break;
         }
         return texto;
     }

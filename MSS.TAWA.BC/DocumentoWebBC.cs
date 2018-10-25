@@ -123,7 +123,10 @@ namespace MSS.TAWA.BC
         {
             var _list = new DocumentoWebDA().GetListDocumentoWebRendicion(idDocumentoWeb);
             if (ListarSoloEstadoGuardado)
-                _list = _list.Where(x => x.EstadoRendicion == (int)EstadoDocumentoRendicion.Guardado).ToList();
+            {
+
+                _list = _list.Where(x => x.EstadoRendicion == (int)EstadoDocumentoRendicion.Guardado || x.EstadoRendicion == (int)EstadoDocumentoRendicion.Rechazado).ToList();
+            }
 
             if (!_list.Any()) return new List<DocumentoWebRendicionBE>();
 

@@ -70,6 +70,7 @@ public enum EstadoDocumento
     //RendirObservacionContabilidad = 14,
     RendirAprobado = 15,
     Liquidado = 16,
+    RendirRechazado = 17,
 }
 
 public enum EstadoDocumentoRendicion

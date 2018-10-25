@@ -33,6 +33,7 @@
             return seleccion;
 
         }
+           
 
         function ConfirmacionContabilizacion() {
 

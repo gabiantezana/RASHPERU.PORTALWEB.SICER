@@ -11,7 +11,7 @@
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent" EnableEventValidation="false">
 
-    <ajaxtoolkit:toolkitscriptmanager ID="ToolkitScriptManager1" runat="server"></ajaxtoolkit:toolkitscriptmanager>
+    <ajaxToolkit:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server"></ajaxToolkit:ToolkitScriptManager>
 
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>
@@ -34,7 +34,7 @@
                                 <td>
                                     <label>Tipo</label></td>
                                 <td width="140px">
-                                    <asp:DropDownList ID="ddlTipoDocumentoWeb" runat="server" Width="95%" OnSelectedIndexChanged="ddlTipoDocumentoWeb_SelectedIndexChanged"  AutoPostBack="true"></asp:DropDownList>
+                                    <asp:DropDownList ID="ddlTipoDocumentoWeb" runat="server" Width="95%" OnSelectedIndexChanged="ddlTipoDocumentoWeb_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
                                 </td>
                             </tr>
                             <%-- SERIE  --%>
@@ -263,12 +263,12 @@
                                 </td>
                             </tr>
                             <%-- PARTIDA PRESUPUESTAL --%>
-                            <tr id ="TrPartidaPresupuestal"  style="display:normal" runat="server">
+                            <tr id="TrPartidaPresupuestal" style="display: normal" runat="server">
                                 <td>
                                     <label>Partida pres.</label>
                                 </td>
                                 <td>
-                                    <asp:DropDownList ID="ddlPartidaPresupuestal" runat="server" Width="95%" ></asp:DropDownList>
+                                    <asp:DropDownList ID="ddlPartidaPresupuestal" runat="server" Width="95%"></asp:DropDownList>
                                 </td>
                             </tr>
                         </table>
@@ -276,7 +276,7 @@
 
                 </tr>
             </table>
-            
+
             <!-- DivTable.com -->
             <br />
             <table width="1008px">
@@ -318,8 +318,8 @@
                             <br />
                             <asp:Label ID="blbResultadoMasivo" runat="server"></asp:Label>
                             <br />
-                            <asp:Button ID="bMasivo" runat="server" OnClientClick="this.disabled = true; this.value = 'Procesando...';" UseSubmitBehavior="false" Text="Subir Masivamente" CssClass="button"  />
-                            <asp:Button ID="bPreliminar4" runat="server" Visible="false" OnClientClick="this.disabled = true; this.value = 'Procesando...';" UseSubmitBehavior="false" Text="Vista Preliminar" CssClass="button"  />
+                            <asp:Button ID="bMasivo" runat="server" OnClientClick="this.disabled = true; this.value = 'Procesando...';" UseSubmitBehavior="false" Text="Subir Masivamente" CssClass="button" />
+                            <asp:Button ID="bPreliminar4" runat="server" Visible="false" OnClientClick="this.disabled = true; this.value = 'Procesando...';" UseSubmitBehavior="false" Text="Vista Preliminar" CssClass="button" />
                             <asp:Button ID="bAgregar4" runat="server" Visible="false" OnClientClick="this.disabled = true; this.value = 'Procesando...';" UseSubmitBehavior="false" Text="Agregar" CssClass="button" />
                             <asp:Button ID="bCancelar4" runat="server" Visible="false" Text="Cancelar" CssClass="button" OnClick="Cancelar4_Click" />
                         </td>
@@ -450,17 +450,17 @@
                                 <asp:BoundField DataField="CorrelativoDoc" HeaderText="Numero" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="FechaDoc" HeaderText="Fecha" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" DataFormatString="{0:dd/MM/yyyy}" />
 
-                                <asp:BoundField DataField="SAPProveedor" HeaderText="Proveedor" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left"/>
-                                <asp:BoundField DataField="IdConcepto" HeaderText="IdConcepto" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left"/>
-                                <asp:BoundField DataField="IdCentroCostos1" HeaderText="Centro de costos 1" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left"/>
-                                <asp:BoundField DataField="IdCentroCostos2" HeaderText="Centro de costos 2" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left"/>
-                                <asp:BoundField DataField="IdCentroCostos3" HeaderText="Centro de costos 3" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left"/>
-                                <asp:BoundField DataField="IdMonedaDoc" HeaderText="Moneda" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left"/>
-                                
-                                
-                                
+                                <asp:BoundField DataField="SAPProveedor" HeaderText="Proveedor" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
+                                <asp:BoundField DataField="IdConcepto" HeaderText="IdConcepto" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
+                                <asp:BoundField DataField="IdCentroCostos1" HeaderText="Centro de costos 1" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
+                                <asp:BoundField DataField="IdCentroCostos2" HeaderText="Centro de costos 2" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
+                                <asp:BoundField DataField="IdCentroCostos3" HeaderText="Centro de costos 3" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
+                                <asp:BoundField DataField="IdMonedaDoc" HeaderText="Moneda" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
 
-                             <%--   <asp:TemplateField HeaderText="Proveedor" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
+
+
+
+                                <%--   <asp:TemplateField HeaderText="Proveedor" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
                                     <ItemTemplate><%# SetearProveedor(Convert.ToString(Eval("SAPProveedor")))%></ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Concepto" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left">
@@ -524,6 +524,7 @@
                         <asp:Button ID="bAprobar" runat="server" OnClick="Aprobar_Click" OnClientClick="javascript: return ConfirmacionContabilizacion();" Text="Aprobar" CssClass="button" />
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <asp:Button ID="bLiquidar" runat="server" OnClick="bLiquidar_Click" OnClientClick="javascript: return ConfirmacionLiquidarCC();" Text="Aprobar y Liquidar" CssClass="button" />
+                        <asp:Button ID="bRechazar" runat="server" OnClick="Rechazar_Click" Text="Rechazar" CssClass="button" />
                     </td>
                 </tr>
             </table>
@@ -555,11 +556,11 @@
 
                 <Columns>
 
-                    
+
                     <asp:BoundField DataField="SerieDoc" HeaderText="Serie" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
                     <asp:BoundField DataField="CorrelativoDoc" HeaderText="Numero" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
                     <asp:BoundField DataField="FechaDoc" HeaderText="Fecha" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" DataFormatString="{0:dd/MM/yyyy}" />
-                   
+
                     <asp:BoundField DataField="MontoNoAfecto" HeaderText="No Afecto" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
                     <asp:BoundField DataField="MontoAfecto" HeaderText="Afecto" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
                     <asp:BoundField DataField="MontoIGV" HeaderText="IGV" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />

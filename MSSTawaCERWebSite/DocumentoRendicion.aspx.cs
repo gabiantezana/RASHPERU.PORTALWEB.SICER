@@ -125,11 +125,13 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         Boolean setAsCreation = false;
         Boolean setAsAprobar = false;
         Boolean setAsContabilidad = false;
+        bool setAsUpdate = false;
 
         switch (EstadoDocumento)
         {
             case EstadoDocumento.Aprobado:
             case EstadoDocumento.RendirAprobado:
+            case EstadoDocumento.Rechazado:
                 switch (TipoAprobador)
                 {
                     case TipoAprobador.Creador:
@@ -158,6 +160,10 @@ public partial class DocumentoRendicion : System.Web.UI.Page
                         break;
                 }
                 break;
+            case EstadoDocumento.RendirRechazado:
+                if (objUsuarioSolicitanteBE.IdUsuario == objUsuarioSesionBE.IdUsuario)
+                    setAsUpdate = true;
+                break;
             default:
                 break;
         }
@@ -177,10 +183,22 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         bEnviar.Visible = false;
         bAprobar.Visible = false;
         bLiquidar.Visible = false;
+        bRechazar.Visible = false;
 
         if (setAsCreation)
         {
 
+            gvDocumentos.Columns[1].Visible = true;
+            gvDocumentos.Columns[2].Visible = true;
+            bAgregar.Visible = true;
+            bCancelar.Visible = true;
+            bMasivo.Visible = true;
+            bAgregar2.Visible = true;
+            bEnviar.Visible = true;
+        }
+
+        if (setAsUpdate)
+        {
             gvDocumentos.Columns[1].Visible = true;
             gvDocumentos.Columns[2].Visible = true;
             bAgregar.Visible = true;
@@ -199,6 +217,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
             bMasivo.Visible = true;
             bAgregar2.Visible = true;
             bAprobar.Visible = true;
+            bRechazar.Visible = true;
         }
 
         if (setAsContabilidad)
@@ -213,6 +232,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
             bAprobar.Visible = true;
             bLiquidar.Visible = true;
             txtFechaContabilizacion.Enabled = true;
+            bRechazar.Visible = true;
         }
     }
 
@@ -641,6 +661,9 @@ public partial class DocumentoRendicion : System.Web.UI.Page
     {
         try
         {
+            if (string.IsNullOrEmpty(txtComentario.Text))
+                throw new Exception("Ingrese un comentario indicando la rendición que está rechazando");
+
             _TipoDocumentoWeb = (TipoDocumentoWeb)ViewState[ConstantHelper.Keys.TipoDocumentoWeb];
             _Modo = (Modo)ViewState[ConstantHelper.Keys.Modo];
             _IdDocumentoWeb = (Int32)base.ViewState[ConstantHelper.Keys.IdDocumentoWeb];
@@ -650,7 +673,8 @@ public partial class DocumentoRendicion : System.Web.UI.Page
             {
                 IdDocumentoWeb = _IdDocumentoWeb,
                 Comentario = txtComentario.Text,
-                IdUsuario = idUsuario
+                IdUsuario = idUsuario,
+                TipoDocumentoOrigen = 2,
             };
             new DocumentoWebBC().RechazarDocumento(cambioEstadoBE);
 

@@ -25,7 +25,7 @@ public partial class Documento : System.Web.UI.Page
         {
             if (!this.IsPostBack)
             {
-                
+
                 //Get from context
                 _TipoDocumentoWeb = (TipoDocumentoWeb)Context.Items[ConstantHelper.Keys.TipoDocumentoWeb];
                 _Modo = (Modo)Context.Items[ConstantHelper.Keys.Modo];
@@ -83,18 +83,17 @@ public partial class Documento : System.Web.UI.Page
                     switch (_TipoDocumentoWeb)
                     {
                         case TipoDocumentoWeb.CajaChica:
-                            lblCabezera.Text = "Caja Chica";
+                            lblCabezera.Text = "Modificar Caja Chica";
                             break;
                         case TipoDocumentoWeb.EntregaRendir:
-                            lblCabezera.Text = "Entrega Rendir";
+                            lblCabezera.Text = "Modificar Entrega Rendir";
                             break;
                         case TipoDocumentoWeb.Reembolso:
-                            lblCabezera.Text = "Reembolso";
+                            lblCabezera.Text = "Modificar Reembolso";
                             break;
                         default:
                             throw new NotImplementedException();
                     }
-                    bCrear.Text = "Guardar";
                     EditarDocumento_Fill();
                     break;
             }
@@ -135,7 +134,7 @@ public partial class Documento : System.Web.UI.Page
                     objUsuarioSesionBE = new UsuarioBC().ObtenerUsuario(objUsuarioSesionBE.IdUsuario, 0);
 
                     Boolean habilitarBotonesDeAprobacion = false;
-                    Boolean habilitarOBservacion = false;
+                    Boolean habilitarBotonesDeGuardado = false;
 
                     DocumentoWebBE objDocumentoBE = new DocumentoWebBC().GetDocumentoWeb(_IdDocumentoWeb);
                     UsuarioBE objUsuarioSolicitanteBE = new UsuarioBC().ObtenerUsuario(objDocumentoBE.IdUsuarioSolicitante, 0);
@@ -145,6 +144,7 @@ public partial class Documento : System.Web.UI.Page
                     TipoAprobador tipoAprobador = (TipoAprobador)Enum.Parse(typeof(TipoAprobador), objPerfilUsuarioBE.TipoAprobador);
                     switch (estadoDocumento)
                     {
+                        //TODO: FALTA CONTEMPLAR NIVEL CONTADOR
                         case EstadoDocumento.PorAprobarNivel1:
                         case EstadoDocumento.PorAprobarNivel2:
                         case EstadoDocumento.PorAprobarNivel3:
@@ -156,24 +156,29 @@ public partial class Documento : System.Web.UI.Page
                                     break;
                             }
                             break;
+                        case EstadoDocumento.Rechazado:
+                            if (ddlIdUsuarioSolicitante.SelectedValue == objUsuarioSesionBE.IdUsuario.ToString())//Solo si el usuario ha creado el documento, puede modificarlo.
+                                habilitarBotonesDeGuardado = true;
+                            break;
                     }
 
                     bCrear.Visible = false;
                     bCancelar.Visible = false;
                     bAprobar.Visible = false;
                     bRechazar.Visible = false;
-                    bCancelar2.Visible = true;
-                    txtComentario.Enabled = true;
+                    bCancelar2.Visible = false;
+                    txtComentario.Enabled = false;
 
                     if (habilitarBotonesDeAprobacion)
                     {
+                        txtComentario.Enabled = true;
                         bAprobar.Visible = true;
                         bRechazar.Visible = true;
                     }
-                    if (habilitarOBservacion)
+                    if (habilitarBotonesDeGuardado)
                     {
-                        bAprobar.Text = "Enviar";
-                        bAprobar.Visible = true;
+                        bCrear.Visible = true;
+                        bCrear.Text = "Guardar y enviar";
                     }
                     break;
             }
@@ -205,6 +210,7 @@ public partial class Documento : System.Web.UI.Page
 
         ddlIdEmpresa.SelectedValue = objDocumentoBE.IdEmpresa.ToString();
         ddlIdUsuarioSolicitante.SelectedValue = objDocumentoBE.IdUsuarioSolicitante.ToString();
+        ddlIdUsuarioSolicitante.Enabled = false;
         ddlMoneda.SelectedValue = objDocumentoBE.Moneda.ToString();
 
         if (objDocumentoBE.IdCentroCostos1 != null)
@@ -373,7 +379,7 @@ public partial class Documento : System.Web.UI.Page
 
     public Boolean CamposSonValidos(out String errorMessage)
     {
-        var indexNoValidos = new [] { "0", "-1" };
+        var indexNoValidos = new[] { "0", "-1" };
         errorMessage = String.Empty;
 
         if (indexNoValidos.Contains(ddlIdEmpresa.SelectedValue))
@@ -421,6 +427,7 @@ public partial class Documento : System.Web.UI.Page
             }
 
             DocumentoWebBE objDocumentoBE = new DocumentoWebBE(_TipoDocumentoWeb);
+            objDocumentoBE.IdDocumentoWeb = _IdDocumentoWeb;
             objDocumentoBE.CodigoDocumento = String.Empty;
             objDocumentoBE.IdUsuarioSolicitante = Convert.ToInt32(ddlIdUsuarioSolicitante.SelectedItem.Value);
             objDocumentoBE.IdEmpresa = Convert.ToInt32(ddlIdEmpresa.SelectedItem.Value);
@@ -448,7 +455,7 @@ public partial class Documento : System.Web.UI.Page
             objDocumentoBE.UpdateDate = DateTime.Now;
             objDocumentoBE.Comentario = txtComentario.Text;
 
-            if (ddlEntregaRendir.SelectedValue != null && ddlEntregaRendir.SelectedValue != "0" && ddlEntregaRendir.SelectedValue != "-1")
+            if (ddlEntregaRendir.SelectedValue != null && ddlEntregaRendir.SelectedValue != "0" && ddlEntregaRendir.SelectedValue != "-1" && !string.IsNullOrEmpty(ddlEntregaRendir.SelectedValue))
                 objDocumentoBE.IdDocumentoWebRendicionReferencia = Convert.ToInt32(ddlEntregaRendir.SelectedValue);
 
             new DocumentoWebBC().AddUpdateDocumento(objDocumentoBE);
@@ -475,8 +482,6 @@ public partial class Documento : System.Web.UI.Page
 
         try
         {
-            Mensaje("Se están creando documentos en SAP. Espere, por favor.");
-
             _TipoDocumentoWeb = (TipoDocumentoWeb)ViewState[ConstantHelper.Keys.TipoDocumentoWeb];
             _Modo = (Modo)ViewState[ConstantHelper.Keys.Modo];
             _IdDocumentoWeb = (Int32)base.ViewState[ConstantHelper.Keys.IdDocumentoWeb];
@@ -488,7 +493,7 @@ public partial class Documento : System.Web.UI.Page
                 Comentario = txtComentario.Text,
                 IdUsuario = idUsuario
             };
-            
+
 
             new DocumentoWebBC().AprobarDocumento(cambioEstadoBE);
 
@@ -510,6 +515,8 @@ public partial class Documento : System.Web.UI.Page
     {
         try
         {
+            if (string.IsNullOrEmpty(txtComentario.Text) || string.IsNullOrWhiteSpace(txtComentario.Text)) throw new Exception("Ingrese un comentario indicando el motivo de rechazo.");
+
             _TipoDocumentoWeb = (TipoDocumentoWeb)ViewState[ConstantHelper.Keys.TipoDocumentoWeb];
             _Modo = (Modo)ViewState[ConstantHelper.Keys.Modo];
             _IdDocumentoWeb = (Int32)base.ViewState[ConstantHelper.Keys.IdDocumentoWeb];
@@ -519,7 +526,8 @@ public partial class Documento : System.Web.UI.Page
             {
                 IdDocumentoWeb = _IdDocumentoWeb,
                 Comentario = txtComentario.Text,
-                IdUsuario = idUsuario
+                IdUsuario = idUsuario,
+                TipoDocumentoOrigen = 1,
             };
             new DocumentoWebBC().RechazarDocumento(cambioEstadoBE);
 
