@@ -319,6 +319,7 @@ namespace MSS.TAWA.DA
                     }
 
                     documentoWeb.EstadoDocumento = (int)nuevoEstado;
+                    documentoWeb.Comentario = null;
                     datacontext.Entry(documentoWeb);
                     datacontext.SaveChanges();
 
