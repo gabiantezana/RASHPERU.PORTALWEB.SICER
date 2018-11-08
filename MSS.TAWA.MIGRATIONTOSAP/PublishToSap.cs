@@ -12,6 +12,7 @@ namespace MSS.TAWA.MIGRATIONTOSAP
 {
     public class PublishToSap
     {
+        public PublishToSap() { }
         public void PublishRendicionesToSap(FacturasWebMigracion facturasWebMigracion)
         {
             var company = new SAPbobsCOM.Company();
@@ -57,7 +58,7 @@ namespace MSS.TAWA.MIGRATIONTOSAP
             }
             catch (SapException sapException)
             {
-                var error = company.GetLastErrorDescription() + sapException.ToString();
+                var error = "Mensaje SAP: " + company.GetLastErrorCode() + "- " + company.GetLastErrorDescription();
                 throw new Exception(error);
             }
             catch (Exception ex)

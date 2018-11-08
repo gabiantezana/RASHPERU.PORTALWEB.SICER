@@ -1113,46 +1113,12 @@ public partial class DocumentoRendicion : System.Web.UI.Page
 
             new DocumentoWebBC().AprobarYLiquidarDocumento(cambioEstadoBE);
             Response.Redirect("~/ListadoDocumentos.aspx?TipoDocumentoWeb=" + (Int32)_TipoDocumentoWeb);
-
-            //DocumentoWebBE ojbDocumentoBE = new DocumentoWebBC().GetDocumentoWeb(idDocumento);
-            //String estado = ojbDocumentoBE.Estado;
-            //EstadoDocumento _estado = (EstadoDocumento)Enum.Parse(typeof(EstadoDocumento), ojbDocumentoBE.Estado);
-
-            //if (ojbDocumentoBE.Estado == EstadoDocumento.RendirPorAprobarJefeArea.IdToString())
-            //    ojbDocumentoBE.Estado = EstadoDocumento.RendirPorAprobarContabilidad.IdToString();
-
-            //else if (ojbDocumentoBE.Estado == EstadoDocumento.RendirPorAprobarJefeArea.IdToString())
-            //{
-            //    DocumentoWebRendicionBE objDocumentoDetalle = new DocumentoWebBC().GetDocumentRendicion(idDocumento);
-            //    if (ojbDocumentoBE.MontoInicial == objDocumentoDetalle.MontoTotal)
-            //    {
-            //        ojbDocumentoBE.FechaContabilizacion = DateTime.ParseExact(txtFechaContabilizacion.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            //        ojbDocumentoBE.Estado = EstadoDocumento.RendirAprobado.IdToString();
-            //        ojbDocumentoBE.MontoGastado = objDocumentoDetalle.MontoTotal;
-            //        ojbDocumentoBE.MontoActual = ojbDocumentoBE.MontoInicial - objDocumentoDetalle.MontoTotal;
-            //    }
-            //    else
-            //    {
-            //        Mensaje("El documento aún cuenta con saldo.");
-            //        return;
-            //    }
-            //}
-
-            //ojbDocumentoBE.Comentario = String.Empty;
-            //new DocumentoWebBC().AddUpdateDocumento(ojbDocumentoBE);
-
-            //if (estado == EstadoDocumento.RendirPorAprobarContabilidad.IdToString())
-            //{
-            //    ojbDocumentoBE.Estado = EstadoDocumento.Liquidado.IdToString(); //setear estado a liquidada
-            //    new DocumentoWebBC().AddUpdateDocumento(ojbDocumentoBE);
-            //}
         }
-
-
         catch (Exception ex)
         {
-            ExceptionHelper.LogException(ex);
             Mensaje("Ocurrió un error: " + ex.Message);
+            ExceptionHelper.LogMessage(ex.Message);
+            ExceptionHelper.LogException(ex);
         }
         finally
         {
@@ -1243,8 +1209,8 @@ public partial class DocumentoRendicion : System.Web.UI.Page
 
     private void Mensaje(String mensaje)
     {
-        var message = mensaje.Replace("'", " \"\"");
-        ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "MessageBox", "alert('" + mensaje + "')", true);
+        var message = mensaje.Replace("'", "");
+        ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "MessageBox", "alert('" + message + "')", true);
     }
 
     #endregion

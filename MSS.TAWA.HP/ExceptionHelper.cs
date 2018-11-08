@@ -9,6 +9,22 @@ namespace MSS.TAWA.HP
     {
         private ExceptionHelper() { }
 
+        public static void LogMessage(string message)
+        {
+            String fileName = DateTime.Now.ToString("yyyy-MM-dd") + ".txt";
+            //String logFile = @"D:\" + fileName;
+            String logFile = @"C:\LOG\" + fileName;
+
+            if (!System.IO.File.Exists(logFile))
+                System.IO.File.Create(logFile).Close();
+
+            System.IO.StreamWriter sw = new System.IO.StreamWriter(logFile, true);
+            sw.WriteLine("********** {0} **********", DateTime.Now);
+            sw.Write("LOG MESSAGE: " + message);
+            sw.Close();
+        }
+
+
         public static void LogException(Exception exc)
         {
 
