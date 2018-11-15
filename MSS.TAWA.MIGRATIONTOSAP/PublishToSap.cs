@@ -18,7 +18,7 @@ namespace MSS.TAWA.MIGRATIONTOSAP
             var company = new SAPbobsCOM.Company();
             try
             {
-                company = GetAndConnectCompany();
+                GetAndConnectCompany(out company);
                 company.StartTransaction();
                 PublishDocumentToSAP(company, facturasWebMigracion);
 
@@ -44,12 +44,18 @@ namespace MSS.TAWA.MIGRATIONTOSAP
         public void PublishRendicionesToSap(List<MaestroTrabajadores> businessPartnerList, List<FacturasWebMigracion> facturasWebMigracions)
         {
             var company = new SAPbobsCOM.Company();
+            int i = 0;
             try
             {
-                company = GetAndConnectCompany();
-                company.StartTransaction();
+                GetAndConnectCompany(out company);
                 businessPartnerList.ForEach(x => PublishBusinessPartnerToSAP(company, x));
-                facturasWebMigracions.ForEach(x => PublishDocumentToSAP(company, x));
+
+                company.StartTransaction();
+                for (i = 0; i < facturasWebMigracions.Count; i++)
+                {
+                    PublishDocumentToSAP(company, facturasWebMigracions[i]);
+                }
+                //facturasWebMigracions.ForEach(x => PublishDocumentToSAP(company, x));
 
                 if (company.InTransaction)
                     company.EndTransaction(BoWfTransOpt.wf_Commit);
@@ -58,7 +64,9 @@ namespace MSS.TAWA.MIGRATIONTOSAP
             }
             catch (SapException sapException)
             {
-                var error = "Mensaje SAP: " + company.GetLastErrorCode() + "- " + company.GetLastErrorDescription();
+                var error = "Mensaje SAP: Línea " + (i + 1) + ": " + company.GetLastErrorCode() + "- " + company.GetLastErrorDescription();
+                if (company.InTransaction)
+                    company.EndTransaction(BoWfTransOpt.wf_RollBack);
                 throw new Exception(error);
             }
             catch (Exception ex)
@@ -131,7 +139,7 @@ namespace MSS.TAWA.MIGRATIONTOSAP
             invoice.NumAtCard = facturaMigrada.NumAtCard;
             invoice.FolioPrefixString = facturaMigrada.FolioPref;
             invoice.FolioNumber = facturaMigrada.FolioNum ?? 0;
-            invoice.DocDate = facturaMigrada.DocDate ?? throw new Exception();
+            invoice.DocDate = DateTime.Now;
             invoice.DocDueDate = facturaMigrada.DocDueDate ?? throw new Exception();
             invoice.TaxDate = facturaMigrada.TaxDate ?? throw new Exception();
 
@@ -234,10 +242,10 @@ namespace MSS.TAWA.MIGRATIONTOSAP
                 throw new SapException();
         }
 
-        private Company GetAndConnectCompany()
+        private void GetAndConnectCompany(out Company company)
         {
             var configValues = new SICER_WEBEntities().CONFIG;
-            SAPbobsCOM.Company company = new SAPbobsCOM.Company();
+            company = new SAPbobsCOM.Company();
             company.CompanyDB = configValues.FirstOrDefault(x => x.Llave == ConstantHelper.CONFIGKEYS.Company_DBCompany)?.Valor;
             company.Server = configValues.FirstOrDefault(x => x.Llave == ConstantHelper.CONFIGKEYS.Company_Server)?.Valor;
             company.DbUserName = configValues.FirstOrDefault(x => x.Llave == ConstantHelper.CONFIGKEYS.Company_DBUser)?.Valor;
@@ -246,9 +254,7 @@ namespace MSS.TAWA.MIGRATIONTOSAP
             company.Password = configValues.FirstOrDefault(x => x.Llave == ConstantHelper.CONFIGKEYS.Company_SBOPassword)?.Valor;
             company.language = SAPbobsCOM.BoSuppLangs.ln_Spanish;
             company.DbServerType = (SAPbobsCOM.BoDataServerTypes)Enum.Parse(typeof(SAPbobsCOM.BoDataServerTypes), configValues.FirstOrDefault(x => x.Llave == ConstantHelper.CONFIGKEYS.Company_DbServerType)?.Valor);
-            if (company.Connect() == 0)
-                return company;
-            else
+            if (company.Connect() != 0)
                 throw new SapException();
         }
 

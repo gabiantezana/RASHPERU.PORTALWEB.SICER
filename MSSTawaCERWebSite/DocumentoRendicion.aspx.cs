@@ -631,7 +631,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         finally
         {
             bAprobar.Enabled = true;
-            Response.Redirect("~/ListadoDocumentos.aspx?TipoDocumentoWeb=" + (Int32)_TipoDocumentoWeb);
+            //Response.Redirect("~/ListadoDocumentos.aspx?TipoDocumentoWeb=" + (Int32)_TipoDocumentoWeb);
 
         }
     }
@@ -1210,7 +1210,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
     private void Mensaje(String mensaje)
     {
         var message = mensaje.Replace("'", "");
-        ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "MessageBox", "alert('" + message + "')", true);
+        ScriptManager.RegisterStartupScript(Page, this.GetType(), "MessageBox", "alert('" + message + "')", true);
     }
 
     #endregion
