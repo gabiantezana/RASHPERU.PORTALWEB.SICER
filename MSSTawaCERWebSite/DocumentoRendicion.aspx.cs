@@ -354,7 +354,7 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         ddlIdMonedaOriginal.DataBind();
         ddlIdMonedaOriginal.SelectedValue = new DocumentoWebBC().GetDocumentoWeb(_IdDocumentoWeb).Moneda.ToString();
 
-        ddlIdMonedaDoc.DataSource = objMonedaBC.ListarMoneda().Where(x => x.IdMoneda.ToString() == ddlIdMonedaOriginal.Text).ToList();
+        ddlIdMonedaDoc.DataSource = objMonedaBC.ListarMoneda();//.Where(x => x.IdMoneda.ToString() == ddlIdMonedaOriginal.Text).ToList();
         ddlIdMonedaDoc.DataTextField = "Descripcion";
         ddlIdMonedaDoc.DataValueField = "IdMoneda";
         ddlIdMonedaDoc.DataBind();
@@ -512,10 +512,13 @@ public partial class DocumentoRendicion : System.Web.UI.Page
         if (objDocumentoDetalleBE != null)
             montoCCD = objDocumentoDetalleBE.MontoTotal.ToString();
 
+
+
         lblCabezera.Text = _TipoDocumentoWeb.GetName() + ": "
                             + objDocumentoBE.CodigoDocumento
                             + " - " + objDocumentoBE.Asunto
-                            + " <br> Monto: " + new MonedaBC().ObtenerMoneda(objDocumentoBE.Moneda).Descripcion + " " + objDocumentoBE.MontoActual.ToString("0.00")
+                            + " <br> Monto: " + new MonedaBC().ObtenerMoneda(objDocumentoBE.Moneda).Descripcion + " " 
+                            +    objDocumentoBE.MontoActual.ToString("0.00")
                             + "/" + Convert.ToDouble(objDocumentoBE.MontoInicial).ToString("0.00");
 
         if (objDocumentoBE.Estado == "19")
@@ -621,6 +624,8 @@ public partial class DocumentoRendicion : System.Web.UI.Page
             };
 
             new DocumentoWebBC().AprobarDocumento(cambioEstadoBE);
+            
+            Response.Redirect("~/ListadoDocumentos.aspx?TipoDocumentoWeb=" + (Int32)_TipoDocumentoWeb);
         }
 
         catch (Exception ex)

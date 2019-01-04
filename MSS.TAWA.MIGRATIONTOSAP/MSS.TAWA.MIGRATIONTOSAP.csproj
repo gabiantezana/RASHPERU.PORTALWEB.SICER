@@ -75,7 +75,7 @@
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Interop.SAPbobsCOM">
-      <HintPath>..\packages\SAP DIAPI\Interop.SAPbobsCOM.dll</HintPath>
+      <HintPath>..\packages\sapb1\Interop.SAPbobsCOM.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -97,6 +97,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MSS.TAWA.BE\MSS.TAWA.BE.csproj">
+      <Project>{91059CA6-2597-4D91-AEBB-7F458A803388}</Project>
+      <Name>MSS.TAWA.BE</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MSS.TAWA.HP\MSS.TAWA.HP.csproj">
       <Project>{B1805497-4160-424A-8CB5-DDDE29A6A820}</Project>
       <Name>MSS.TAWA.HP</Name>

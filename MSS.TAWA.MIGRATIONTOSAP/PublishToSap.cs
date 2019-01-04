@@ -1,4 +1,5 @@
-﻿using MSS.TAWA.HP;
+﻿using MSS.TAWA.BE;
+using MSS.TAWA.HP;
 using MSS.TAWA.MODEL;
 using Newtonsoft.Json;
 using SAPbobsCOM;
@@ -41,7 +42,7 @@ namespace MSS.TAWA.MIGRATIONTOSAP
             }
         }
 
-        public void PublishRendicionesToSap(List<MaestroTrabajadores> businessPartnerList, List<FacturasWebMigracion> facturasWebMigracions)
+        public void PublishRendicionesToSap(List<MaestroTrabajadores> businessPartnerList, List<FacturasWebMigracion> facturasWebMigracions, string accountCodeApertura)
         {
             var company = new SAPbobsCOM.Company();
             int i = 0;
@@ -51,9 +52,10 @@ namespace MSS.TAWA.MIGRATIONTOSAP
                 businessPartnerList.ForEach(x => PublishBusinessPartnerToSAP(company, x));
 
                 company.StartTransaction();
+
                 for (i = 0; i < facturasWebMigracions.Count; i++)
                 {
-                    PublishDocumentToSAP(company, facturasWebMigracions[i]);
+                    PublishDocumentToSAP(company, facturasWebMigracions[i], accountCodeApertura);
                 }
                 //facturasWebMigracions.ForEach(x => PublishDocumentToSAP(company, x));
 
@@ -108,7 +110,7 @@ namespace MSS.TAWA.MIGRATIONTOSAP
             return businessPartner.Add() == 0;
         }
 
-        private void PublishDocumentToSAP(Company company, FacturasWebMigracion facturaMigrada)
+        private void PublishDocumentToSAP(Company company, FacturasWebMigracion facturaMigrada, string accountCodeApetura = null)
         {
             int etapa = facturaMigrada.Etapa ?? 0;
 
@@ -162,6 +164,19 @@ namespace MSS.TAWA.MIGRATIONTOSAP
             try { if (facturaMigrada.FolioPref == TipoDocumentoSunat.ReciboDeHonorarios.GetCodigoSunat()) invoice.UserFields.Fields.Item("U_MSSL_TBI").Value = "R"; }
             catch (Exception ex) { ExceptionHelper.LogException(ex); }
 
+            //BD pruebas
+            try { invoice.UserFields.Fields.Item("U_BPP_MDTD").Value = facturaMigrada.U_BPP_MDTD; }
+            catch (Exception ex) { ExceptionHelper.LogException(ex); }
+
+            try { invoice.UserFields.Fields.Item("U_BPP_MDSD").Value = facturaMigrada.FolioPref; }
+            catch (Exception ex) { ExceptionHelper.LogException(ex); }
+
+            try { invoice.UserFields.Fields.Item("U_BPP_MDCD").Value = facturaMigrada.FolioNum; }
+            catch (Exception ex) { ExceptionHelper.LogException(ex); }
+
+            try { invoice.UserFields.Fields.Item("U_BPP_OPER").Value = "5"; }
+            catch (Exception ex) { ExceptionHelper.LogException(ex); }
+
 
             //DOCUMENT LINES
             invoice.Lines.AccountCode = facturaMigrada.AccountCode;
@@ -188,7 +203,7 @@ namespace MSS.TAWA.MIGRATIONTOSAP
                 bool isInvoice = (docSubType != 19);
 
                 if (etapa == 2)
-                    PayInvoice(company, newDocEntry, isInvoice, facturaMigrada.Code, facturaMigrada.AccountCode);
+                    PayInvoice(company, newDocEntry, isInvoice, facturaMigrada.Code, accountCodeApetura);
             }
             else
                 throw new SapException();

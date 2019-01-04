@@ -42,6 +42,14 @@ namespace MSS.TAWA.BE
         DateTime _UpdateDate;
         String _CodigoCuentaContableDevolucion;
 
+        #region 20181912
+
+        public string ConceptoDescripcion { get; set; }
+        public string ConceptoCuentaContable { get; set; }
+        public string MonedaDescripcion { get; set; }
+
+        #endregion
+
         public string SAPProveedor
         {
             get { return _SAPProveedor; }

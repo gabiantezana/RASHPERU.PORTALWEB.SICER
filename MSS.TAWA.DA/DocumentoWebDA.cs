@@ -374,7 +374,12 @@ namespace MSS.TAWA.DA
                             MigrateToInterDB(documentoWebRendicion, out FacturasWebMigracion facturasWebMigracion);
                             documentsMigratedList.Add(facturasWebMigracion);
                         }
-                        new PublishToSap().PublishRendicionesToSap(businessPartnerMigratedList, documentsMigratedList);
+
+                        var accountCodeApertura = datacontext.FacturasWebMigracion.FirstOrDefault(x => x.Code == documentoWeb.Codigo)?.AccountCode;
+                        if (string.IsNullOrEmpty(accountCodeApertura))
+                            throw new Exception("No se encontró AccountCode en la apertura(FacturasWebMigracion). Code = " + documentoWeb.Codigo);
+
+                        new PublishToSap().PublishRendicionesToSap(businessPartnerMigratedList, documentsMigratedList, accountCodeApertura);
                     }
 
                     trx.Commit();

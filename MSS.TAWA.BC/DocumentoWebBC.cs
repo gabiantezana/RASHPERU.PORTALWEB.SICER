@@ -71,8 +71,12 @@ namespace MSS.TAWA.BC
                 documentoBE.IdUsuarioSolicitante = item.IdUsuarioSolicitante;
                 documentoBE.Moneda = item.IdMoneda;
                 documentoBE.MontoInicial = item.MontoInicial;
-                documentoBE.MontoGastado = item.DocumentoWebRendicion
-                    .Where(x => x.NumeroRendicion == item.NumeroRendicion).ToList().Sum(x => x.MontoDoc);
+                documentoBE.MontoGastado = item.DocumentoWebRendicion   
+                    .Where(x => x.NumeroRendicion == item.NumeroRendicion).ToList().Sum(x => x.MontoDoc * x.MontoTasaCambio);
+
+                var montoGastado = item.DocumentoWebRendicion
+                    .Where(x => x.NumeroRendicion == item.NumeroRendicion).ToList().Sum(x => x.MontoDoc * x.MontoTasaCambio);
+
                 documentoBE.MontoActual = documentoBE.MontoInicial - documentoBE.MontoGastado;
                 documentoBE.MotivoDetalle = item.MotivoDetalle;
                 documentoBE.UpdateDate = item.UpdateDate ?? DateTime.Now;
@@ -136,6 +140,7 @@ namespace MSS.TAWA.BC
 
             var listaProveedoresLocalYSAP = listaProveedoresSAP.Concat(listaProveedoresLocal).ToList();
             var listaCentrosDeCosto = new CentroCostosBC().ListarCentroCostos(0);
+            var listaConceptos = new ConceptoBC().ListarConcepto();
 
             foreach (var doc in _list)
             {
@@ -145,6 +150,9 @@ namespace MSS.TAWA.BC
                 documentoWebRendicionBE.IdCentroCostos1 = listaCentrosDeCosto.FirstOrDefault(x => x.CodigoSAP == documentoWebRendicionBE.IdCentroCostos1)?.Descripcion;
                 documentoWebRendicionBE.IdCentroCostos2 = listaCentrosDeCosto.FirstOrDefault(x => x.CodigoSAP == documentoWebRendicionBE.IdCentroCostos2)?.Descripcion;
                 documentoWebRendicionBE.IdCentroCostos3 = listaCentrosDeCosto.FirstOrDefault(x => x.CodigoSAP == documentoWebRendicionBE.IdCentroCostos3)?.Descripcion;
+                documentoWebRendicionBE.ConceptoDescripcion = listaConceptos.FirstOrDefault(x => x.IdConcepto == documentoWebRendicionBE.IdConcepto).Descripcion;
+                documentoWebRendicionBE.ConceptoCuentaContable = listaConceptos.FirstOrDefault(x => x.IdConcepto == documentoWebRendicionBE.IdConcepto).CuentaContable;
+                documentoWebRendicionBE.MonedaDescripcion = new MonedaBC().ListarMoneda().FirstOrDefault(x => x.IdMoneda == documentoWebRendicionBE.IdMonedaDoc).Descripcion;
 
                 list.Add(documentoWebRendicionBE);
             }

@@ -451,11 +451,13 @@
                                 <asp:BoundField DataField="FechaDoc" HeaderText="Fecha" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" DataFormatString="{0:dd/MM/yyyy}" />
 
                                 <asp:BoundField DataField="SAPProveedor" HeaderText="Proveedor" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
-                                <asp:BoundField DataField="IdConcepto" HeaderText="IdConcepto" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
+                                <%--<asp:BoundField DataField="IdConcepto" HeaderText="IdConcepto" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />--%>
+                                <asp:BoundField DataField="ConceptoDescripcion" HeaderText="Concepto" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
+                                <asp:BoundField DataField="ConceptoCuentaContable" HeaderText="Cuenta" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="IdCentroCostos1" HeaderText="Centro de costos 1" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="IdCentroCostos2" HeaderText="Centro de costos 2" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
                                 <asp:BoundField DataField="IdCentroCostos3" HeaderText="Centro de costos 3" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
-                                <asp:BoundField DataField="IdMonedaDoc" HeaderText="Moneda" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
+                                <asp:BoundField DataField="MonedaDescripcion" HeaderText="Moneda" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Left" />
 
 
 
